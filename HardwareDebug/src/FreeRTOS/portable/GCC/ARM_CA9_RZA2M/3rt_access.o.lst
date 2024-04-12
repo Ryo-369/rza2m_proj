@@ -1,0 +1,81 @@
+   1              	# 1 "../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/3rt_access.S"
+   1              	/*******************************************************************************
+   0              	
+   0              	
+   0              	
+   2              	* DISCLAIMER
+   3              	* This software is supplied by Renesas Electronics Corporation and is only
+   4              	* intended for use with Renesas products. No other uses are authorized. This
+   5              	* software is owned by Renesas Electronics Corporation and is protected under
+   6              	* all applicable laws, including copyright laws.
+   7              	* THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8              	* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9              	* LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10              	* AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11              	* TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12              	* ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13              	* FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14              	* ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15              	* BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16              	* Renesas reserves the right, without notice, to make changes to this software
+  17              	* and to discontinue the availability of this software. By using this software,
+  18              	* you agree to the additional terms and conditions found by accessing the
+  19              	* following link:
+  20              	* http://www.renesas.com/disclaimer
+  21              	*
+  22              	* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+  23              	*******************************************************************************/
+  24              	/*******************************************************************************
+  25              	* File Name     : access.S
+  26              	* Device(s)     : RZ/A2M
+  27              	* Tool-Chain    : GNUARM-RZv13.01-EABI
+  28              	* H/W Platform  : RZ/A2M EBK CPU Board
+  29              	* Description   : This is the code provides access to the co-processors
+  30              	*******************************************************************************/
+  31              	/*******************************************************************************
+  32              	* History       : DD.MM.YYYY Version Description
+  33              	*               : 18.06.2013 1.00
+  34              	*               : 21.03.2014 2.00
+  35              	*               : 08.04.2019 3.00 RZA2M version 
+  36              	*******************************************************************************/
+  37              	
+  38              	    .text
+  39              	    .code 32
+  40              	
+  41              	        .global get_apsr
+  42              	        .global set_fpscr
+  43              	
+  44              	/* ========================================================================== */
+  45              	/* getAPSR                                                                   */
+  46              	/* ========================================================================== */
+  47              		.func get_apsr
+  48              	get_apsr:
+  49              	/* ========================================================================== */
+  50              	/* Get Application Program Status Register contents                           */
+  51              	/* ========================================================================== */
+  52 0000 00000FE1 		MRS  r0, APSR
+  53 0004 6FF07FF5 		ISB
+  54 0008 1EFF2FE1 		BX		lr
+  55              		.endfunc
+  56 000c 00F020E3 		.align 4
+  57              	
+  58              	/* ========================================================================== */
+  59              	/* setFPSCR                                                                   */
+  60              	/* ========================================================================== */
+  61              		.func set_fpscr
+  62              	set_fpscr:
+  63              	/* ========================================================================== */
+  64              	/* Set Floating Point Status and Control Register contents                    */
+  65              	/* ========================================================================== */
+  66 0010 100AE1EE 		FMXR 	FPSCR, r0
+  67 0014 6FF07FF5 		ISB
+  68 0018 1EFF2FE1 		BX		lr
+  69              		.endfunc
+  70 001c 00F020E3 		.align 4
+  71              		.end
+DEFINED SYMBOLS
+../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/3rt_access.S:48     .text:00000000 get_apsr
+../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/3rt_access.S:62     .text:00000010 set_fpscr
+../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/3rt_access.S:52     .text:00000000 $a
+
+NO UNDEFINED SYMBOLS

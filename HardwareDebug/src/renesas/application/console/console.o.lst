@@ -1,0 +1,2684 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"console.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.con_split_line,"ax",%progbits
+  17              		.align	2
+  18              		.arch armv7-a
+  19              		.arch_extension mp
+  20              		.arch_extension sec
+  21              		.syntax unified
+  22              		.arm
+  23              		.fpu neon
+  25              	con_split_line:
+  26              	.LVL0:
+  27              	.LFB14:
+  28              		.file 1 "../src/renesas/application/console/console.c"
+   1:../src/renesas/application/console/console.c **** /**************************************************************************************************
+   2:../src/renesas/application/console/console.c ****  * DISCLAIMER
+   3:../src/renesas/application/console/console.c ****  * This software is supplied by Renesas Electronics Corporation and is only
+   4:../src/renesas/application/console/console.c ****  * intended for use with Renesas products. No other uses are authorized. This
+   5:../src/renesas/application/console/console.c ****  * software is owned by Renesas Electronics Corporation and is protected under
+   6:../src/renesas/application/console/console.c ****  * all applicable laws, including copyright laws.
+   7:../src/renesas/application/console/console.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:../src/renesas/application/console/console.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:../src/renesas/application/console/console.c ****  * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:../src/renesas/application/console/console.c ****  * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:../src/renesas/application/console/console.c ****  * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:../src/renesas/application/console/console.c ****  * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:../src/renesas/application/console/console.c ****  * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:../src/renesas/application/console/console.c ****  * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:../src/renesas/application/console/console.c ****  * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:../src/renesas/application/console/console.c ****  * Renesas reserves the right, without notice, to make changes to this software
+  17:../src/renesas/application/console/console.c ****  * and to discontinue the availability of this software. By using this software,
+  18:../src/renesas/application/console/console.c ****  * you agree to the additional terms and conditions found by accessing the
+  19:../src/renesas/application/console/console.c ****  * following link:
+  20:../src/renesas/application/console/console.c ****  * http://www.renesas.com/disclaimer
+  21:../src/renesas/application/console/console.c ****  **************************************************************************************************
+  22:../src/renesas/application/console/console.c ****  * Copyright (C) 2012 Renesas Electronics Corporation. All rights reserved.
+  23:../src/renesas/application/console/console.c ****  **************************************************************************************************
+  24:../src/renesas/application/console/console.c ****  * File Name    : console.c
+  25:../src/renesas/application/console/console.c ****  * Version      : 1.01
+  26:../src/renesas/application/console/console.c ****  * Device(s)    : Renesas
+  27:../src/renesas/application/console/console.c ****  * Tool-Chain   : N/A
+  28:../src/renesas/application/console/console.c ****  * OS           : N/A
+  29:../src/renesas/application/console/console.c ****  * H/W Platform : EBK
+  30:../src/renesas/application/console/console.c ****  * Description  : Simple command line console implementation
+  31:../src/renesas/application/console/console.c ****  **************************************************************************************************
+  32:../src/renesas/application/console/console.c ****  * History      : DD.MM.YYYY Version Description
+  33:../src/renesas/application/console/console.c ****  *              : 04.02.2010 1.00    First Release
+  34:../src/renesas/application/console/console.c ****  *              : 10.06.2010 1.01    Updated type definitions
+  35:../src/renesas/application/console/console.c ****  **************************************************************************************************
+  36:../src/renesas/application/console/console.c **** 
+  37:../src/renesas/application/console/console.c **** /**************************************************************************************************
+  38:../src/renesas/application/console/console.c ****  Includes   <System Includes> , "Project Includes"
+  39:../src/renesas/application/console/console.c ****  **************************************************************************************************
+  40:../src/renesas/application/console/console.c **** 
+  41:../src/renesas/application/console/console.c **** #include <stdio.h>
+  42:../src/renesas/application/console/console.c **** #include <string.h>
+  43:../src/renesas/application/console/console.c **** #include <ctype.h>
+  44:../src/renesas/application/console/console.c **** 
+  45:../src/renesas/application/console/console.c **** #include "wild_compare.h"
+  46:../src/renesas/application/console/console.c **** 
+  47:../src/renesas/application/console/console.c **** #include "compiler_settings.h"
+  48:../src/renesas/application/console/console.c **** #include "r_os_abstraction_api.h"
+  49:../src/renesas/application/console/console.c **** 
+  50:../src/renesas/application/console/console.c **** #include "console.h"
+  51:../src/renesas/application/console/console.c **** #include "driver.h"
+  52:../src/renesas/application/console/console.c **** #include "version.h"
+  53:../src/renesas/application/console/console.c **** 
+  54:../src/renesas/application/console/console.c **** /**************************************************************************************************
+  55:../src/renesas/application/console/console.c ****  Typedef definitions
+  56:../src/renesas/application/console/console.c ****  **************************************************************************************************
+  57:../src/renesas/application/console/console.c **** 
+  58:../src/renesas/application/console/console.c **** /**************************************************************************************************
+  59:../src/renesas/application/console/console.c ****  Macro definitions
+  60:../src/renesas/application/console/console.c ****  **************************************************************************************************
+  61:../src/renesas/application/console/console.c **** 
+  62:../src/renesas/application/console/console.c **** /**************************************************************************************************
+  63:../src/renesas/application/console/console.c ****  Imported global variables and functions (from other files)
+  64:../src/renesas/application/console/console.c ****  **************************************************************************************************
+  65:../src/renesas/application/console/console.c **** 
+  66:../src/renesas/application/console/console.c **** /**************************************************************************************************
+  67:../src/renesas/application/console/console.c ****  Exported global variables and functions (to be accessed by other files)
+  68:../src/renesas/application/console/console.c ****  **************************************************************************************************
+  69:../src/renesas/application/console/console.c **** 
+  70:../src/renesas/application/console/console.c **** /**************************************************************************************************
+  71:../src/renesas/application/console/console.c ****  Private global variables and functions
+  72:../src/renesas/application/console/console.c ****  **************************************************************************************************
+  73:../src/renesas/application/console/console.c **** 
+  74:../src/renesas/application/console/console.c **** static int16_t con_print_prompt(pst_comset_t pCom);
+  75:../src/renesas/application/console/console.c **** static e_cmderr_t con_parse_command(pst_comset_t pCom);
+  76:../src/renesas/application/console/console.c **** static e_cmderr_t process_ordinary_char(pst_comset_t pCom, char chChar, _Bool *pbfCommand);
+  77:../src/renesas/application/console/console.c **** 
+  78:../src/renesas/application/console/console.c **** /* Terminal window escape sequences */
+  79:../src/renesas/application/console/console.c **** static const char * const gsp_clear_screen = "\x1b[2J";
+  80:../src/renesas/application/console/console.c **** static const char * const gsp_cursor_home = "\x1b[H";
+  81:../src/renesas/application/console/console.c **** 
+  82:../src/renesas/application/console/console.c **** /**************************************************************************************************
+  83:../src/renesas/application/console/console.c ****  Public Functions
+  84:../src/renesas/application/console/console.c ****  **************************************************************************************************
+  85:../src/renesas/application/console/console.c **** 
+  86:../src/renesas/application/console/console.c **** /**************************************************************************************************
+  87:../src/renesas/application/console/console.c ****  * Function Name: show_welcome_msg
+  88:../src/renesas/application/console/console.c ****  * Description  : Function to display initial welcome message
+  89:../src/renesas/application/console/console.c ****  * Arguments    : IN  pCom - Pointer to the command object data
+  90:../src/renesas/application/console/console.c ****  *              : IN  clear_screen - clear screen before message  true/false
+  91:../src/renesas/application/console/console.c ****  * Return Value : None
+  92:../src/renesas/application/console/console.c ****  **************************************************************************************************
+  93:../src/renesas/application/console/console.c **** void show_welcome_msg (FILE *p_out, bool_t clear_screen)
+  94:../src/renesas/application/console/console.c **** {
+  95:../src/renesas/application/console/console.c ****     if (clear_screen)
+  96:../src/renesas/application/console/console.c ****     {
+  97:../src/renesas/application/console/console.c ****         fprintf(p_out,
+  98:../src/renesas/application/console/console.c ****                 "%s%s"
+  99:../src/renesas/application/console/console.c ****                 "RZ/A2M "
+ 100:../src/renesas/application/console/console.c ****                 "SSIF Sample Program\r\n"
+ 101:../src/renesas/application/console/console.c ****                 "Copyright (C) Renesas Electronics Europe.\r\n",
+ 102:../src/renesas/application/console/console.c ****                 gsp_clear_screen,
+ 103:../src/renesas/application/console/console.c ****                 gsp_cursor_home);
+ 104:../src/renesas/application/console/console.c ****     }
+ 105:../src/renesas/application/console/console.c ****     else
+ 106:../src/renesas/application/console/console.c ****     {
+ 107:../src/renesas/application/console/console.c ****         fprintf(p_out,
+ 108:../src/renesas/application/console/console.c ****                 "RZ/A2M "
+ 109:../src/renesas/application/console/console.c ****                 "SSIF Sample Program\r\n"
+ 110:../src/renesas/application/console/console.c ****                 "Copyright (C) Renesas Electronics Europe.\r\n");
+ 111:../src/renesas/application/console/console.c ****     }
+ 112:../src/renesas/application/console/console.c **** 
+ 113:../src/renesas/application/console/console.c ****     fflush(p_out);
+ 114:../src/renesas/application/console/console.c **** }
+ 115:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 116:../src/renesas/application/console/console.c ****  End of function show_welcome_msg
+ 117:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 118:../src/renesas/application/console/console.c **** 
+ 119:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 120:../src/renesas/application/console/console.c ****  Function Name: console
+ 121:../src/renesas/application/console/console.c ****  Description:   Function to implement a simple command console using the ANSI C
+ 122:../src/renesas/application/console/console.c ****                 run time library IO functions
+ 123:../src/renesas/application/console/console.c ****  Arguments:     IN  pCom - Pointer to the command object data
+ 124:../src/renesas/application/console/console.c ****                 IN  pCmdFunctions - Pointer to a table of command tables
+ 125:../src/renesas/application/console/console.c ****                 IN  pIn - Pointer to the file stream for input
+ 126:../src/renesas/application/console/console.c ****                 IN  pOut - Pointer to the file stream for output
+ 127:../src/renesas/application/console/console.c ****                 IN  pszPrompt - Pointer to the prompt string
+ 128:../src/renesas/application/console/console.c ****  Return value:  0 for success otherwise error code
+ 129:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 130:../src/renesas/application/console/console.c **** e_cmderr_t console(pst_comset_t pCom, cpst_command_table_t *ppComFunctions, int32_t iNumTables, FIL
+ 131:../src/renesas/application/console/console.c ****         char *pszPrompt)
+ 132:../src/renesas/application/console/console.c **** {
+ 133:../src/renesas/application/console/console.c ****     /* Initialise our variables */
+ 134:../src/renesas/application/console/console.c ****     memset(pCom, 0, sizeof(st_comset_t));
+ 135:../src/renesas/application/console/console.c ****     pCom->p_in = pIn;
+ 136:../src/renesas/application/console/console.c ****     pCom->p_out = pOut;
+ 137:../src/renesas/application/console/console.c ****     pCom->p_function = ppComFunctions;
+ 138:../src/renesas/application/console/console.c **** 
+ 139:../src/renesas/application/console/console.c ****     /* cast to int16_t */
+ 140:../src/renesas/application/console/console.c ****     pCom->num_tables = (int16_t) iNumTables;
+ 141:../src/renesas/application/console/console.c ****     pCom->p_prompt = pszPrompt;
+ 142:../src/renesas/application/console/console.c ****     pCom->p_default_prompt = pszPrompt;
+ 143:../src/renesas/application/console/console.c ****     pCom->working_drive = -1;
+ 144:../src/renesas/application/console/console.c **** 
+ 145:../src/renesas/application/console/console.c ****     /* Initialise the last command with the help string */
+ 146:../src/renesas/application/console/console.c ****     strcpy(pCom->va.command, "?");
+ 147:../src/renesas/application/console/console.c **** 
+ 148:../src/renesas/application/console/console.c ****     /* Print a prompt */
+ 149:../src/renesas/application/console/console.c ****     con_print_prompt(pCom);
+ 150:../src/renesas/application/console/console.c ****     fflush(pOut);
+ 151:../src/renesas/application/console/console.c **** 
+ 152:../src/renesas/application/console/console.c ****     /* Disable buffering for single character input */
+ 153:../src/renesas/application/console/console.c ****     setvbuf(pIn, NULL, _IONBF, 0);
+ 154:../src/renesas/application/console/console.c **** 
+ 155:../src/renesas/application/console/console.c ****     /* Until there is an error */
+ 156:../src/renesas/application/console/console.c ****     while (true)
+ 157:../src/renesas/application/console/console.c ****     {
+ 158:../src/renesas/application/console/console.c ****         _Bool bf_command = false;
+ 159:../src/renesas/application/console/console.c **** 
+ 160:../src/renesas/application/console/console.c ****         /* cast 0 to CMDERR */
+ 161:../src/renesas/application/console/console.c ****         e_cmderr_t error_code = (e_cmderr_t) 0;
+ 162:../src/renesas/application/console/console.c ****         int_t data;
+ 163:../src/renesas/application/console/console.c **** 
+ 164:../src/renesas/application/console/console.c ****         /* Read a character from the input stream */
+ 165:../src/renesas/application/console/console.c ****         data = fgetc(pIn);
+ 166:../src/renesas/application/console/console.c ****         if (EOF == data)
+ 167:../src/renesas/application/console/console.c ****         {
+ 168:../src/renesas/application/console/console.c ****             /* cast to void */
+ 169:../src/renesas/application/console/console.c ****             clearerr(pIn);
+ 170:../src/renesas/application/console/console.c ****             return (CMD_ERROR_IN_IO);
+ 171:../src/renesas/application/console/console.c ****         }
+ 172:../src/renesas/application/console/console.c **** 
+ 173:../src/renesas/application/console/console.c ****         /* cast to int16_t */
+ 174:../src/renesas/application/console/console.c ****         pCom->va.data = (int16_t) data;
+ 175:../src/renesas/application/console/console.c **** 
+ 176:../src/renesas/application/console/console.c ****         /* Bump the read count */
+ 177:../src/renesas/application/console/console.c ****         pCom->va.read_count++;
+ 178:../src/renesas/application/console/console.c **** 
+ 179:../src/renesas/application/console/console.c ****         /* Process the character */
+ 180:../src/renesas/application/console/console.c ****         fflush(pOut);
+ 181:../src/renesas/application/console/console.c **** 
+ 182:../src/renesas/application/console/console.c ****         /* cast integer to char */
+ 183:../src/renesas/application/console/console.c ****         error_code = con_process_char(pCom, (char) pCom->va.data, &bf_command);
+ 184:../src/renesas/application/console/console.c **** 
+ 185:../src/renesas/application/console/console.c ****         /* If an error occurs then return it */
+ 186:../src/renesas/application/console/console.c ****         if (error_code > CMD_UNKNOWN)
+ 187:../src/renesas/application/console/console.c ****         {
+ 188:../src/renesas/application/console/console.c ****             return (error_code);
+ 189:../src/renesas/application/console/console.c ****         }
+ 190:../src/renesas/application/console/console.c **** 
+ 191:../src/renesas/application/console/console.c ****         /* If a command has been received then print the prompt if required */
+ 192:../src/renesas/application/console/console.c ****         if ((bf_command) && (CMD_NO_PROMPT != error_code))
+ 193:../src/renesas/application/console/console.c ****         {
+ 194:../src/renesas/application/console/console.c ****             if (con_print_prompt(pCom) < 0)
+ 195:../src/renesas/application/console/console.c ****             {
+ 196:../src/renesas/application/console/console.c ****                 return (CMD_ERROR_IN_IO);
+ 197:../src/renesas/application/console/console.c ****             }
+ 198:../src/renesas/application/console/console.c ****         }
+ 199:../src/renesas/application/console/console.c **** 
+ 200:../src/renesas/application/console/console.c ****         fflush(pOut);
+ 201:../src/renesas/application/console/console.c ****     }
+ 202:../src/renesas/application/console/console.c **** 
+ 203:../src/renesas/application/console/console.c ****     return (CMD_OK);
+ 204:../src/renesas/application/console/console.c **** }
+ 205:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 206:../src/renesas/application/console/console.c ****  End of function console
+ 207:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 208:../src/renesas/application/console/console.c **** 
+ 209:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 210:../src/renesas/application/console/console.c ****  Function Name: con_get_last_command_line
+ 211:../src/renesas/application/console/console.c ****  Description:   Function to bring up the last command line for editing
+ 212:../src/renesas/application/console/console.c ****  Arguments:     IN  pCom - pointer to the command object
+ 213:../src/renesas/application/console/console.c ****  Return value:  0 for success otherwise error code
+ 214:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 215:../src/renesas/application/console/console.c **** void con_get_last_command_line(pst_comset_t pCom)
+ 216:../src/renesas/application/console/console.c **** {
+ 217:../src/renesas/application/console/console.c ****     strcpy(pCom->va.buffer, pCom->va.command);
+ 218:../src/renesas/application/console/console.c ****     fprintf(pCom->p_out, "%s", pCom->va.buffer);
+ 219:../src/renesas/application/console/console.c **** 
+ 220:../src/renesas/application/console/console.c ****     /* cast size_t to uint32_t */
+ 221:../src/renesas/application/console/console.c ****     pCom->va.buffer_index = (uint32_t) strlen(pCom->va.command);
+ 222:../src/renesas/application/console/console.c **** }
+ 223:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 224:../src/renesas/application/console/console.c ****  End of function con_get_last_command_line
+ 225:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 226:../src/renesas/application/console/console.c **** 
+ 227:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 228:../src/renesas/application/console/console.c ****  Function Name: con_do_last_command_line
+ 229:../src/renesas/application/console/console.c ****  Description  : Function to get do the last command again
+ 230:../src/renesas/application/console/console.c ****  Arguments    : IN  pCom - pointer to command table
+ 231:../src/renesas/application/console/console.c ****  Return Value : 0 for success otherwise error code
+ 232:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 233:../src/renesas/application/console/console.c **** e_cmderr_t con_do_last_command_line(pst_comset_t pCom)
+ 234:../src/renesas/application/console/console.c **** {
+ 235:../src/renesas/application/console/console.c ****     con_get_last_command_line(pCom);
+ 236:../src/renesas/application/console/console.c ****     fprintf(pCom->p_out, "\r\n");
+ 237:../src/renesas/application/console/console.c **** 
+ 238:../src/renesas/application/console/console.c ****     return (con_parse_command(pCom));
+ 239:../src/renesas/application/console/console.c **** }
+ 240:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 241:../src/renesas/application/console/console.c ****  End of function con_do_last_command_line
+ 242:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 243:../src/renesas/application/console/console.c **** 
+ 244:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 245:../src/renesas/application/console/console.c ****  Function Name: process_ordinary_char
+ 246:../src/renesas/application/console/console.c ****  Description:   Function to process an ordinary character
+ 247:../src/renesas/application/console/console.c ****  Arguments:     IN  pCom - pointer to the command object
+ 248:../src/renesas/application/console/console.c ****                 IN  chChar - The character to process
+ 249:../src/renesas/application/console/console.c ****                 IN  pbfCommand - Pointer to a flag that is set when a
+ 250:../src/renesas/application/console/console.c ****                                  command is received
+ 251:../src/renesas/application/console/console.c ****  Return value:  0 for success otherwise error code
+ 252:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 253:../src/renesas/application/console/console.c **** static e_cmderr_t process_ordinary_char(pst_comset_t pCom, char chChar, _Bool *pbfCommand)
+ 254:../src/renesas/application/console/console.c **** {
+ 255:../src/renesas/application/console/console.c ****     if (pCom->va.buffer_index < (CMD_READER_LINE_SIZE - 1))
+ 256:../src/renesas/application/console/console.c ****     {
+ 257:../src/renesas/application/console/console.c ****         /* buffer */
+ 258:../src/renesas/application/console/console.c ****         pCom->va.buffer[pCom->va.buffer_index++] = chChar;
+ 259:../src/renesas/application/console/console.c **** 
+ 260:../src/renesas/application/console/console.c ****         /* Two character escape sequence termination tests - F Keys */
+ 261:../src/renesas/application/console/console.c ****         if ((ESC_ESCAPE_SEQUENCE == pCom->va.escape_sequence) && (2 == pCom->va.buffer_index) &&
+ 262:../src/renesas/application/console/console.c ****                 ('O' == (*pCom->va.buffer)))
+ 263:../src/renesas/application/console/console.c ****         {
+ 264:../src/renesas/application/console/console.c ****             pCom->va.buffer[pCom->va.buffer_index] = '\0';
+ 265:../src/renesas/application/console/console.c ****             *pbfCommand = true;
+ 266:../src/renesas/application/console/console.c **** 
+ 267:../src/renesas/application/console/console.c ****             /* Parse the command line */
+ 268:../src/renesas/application/console/console.c ****             return (con_parse_command(pCom));
+ 269:../src/renesas/application/console/console.c ****         }
+ 270:../src/renesas/application/console/console.c ****         /* Arrow keys */
+ 271:../src/renesas/application/console/console.c ****         else if ((ESC_ESCAPE_SEQUENCE == pCom->va.escape_sequence) && (2 == pCom->va.buffer_index) 
+ 272:../src/renesas/application/console/console.c ****                 ('[' == (*pCom->va.buffer)) && ('1' != chChar))
+ 273:../src/renesas/application/console/console.c ****         {
+ 274:../src/renesas/application/console/console.c ****             pCom->va.buffer[pCom->va.buffer_index] = '\0';
+ 275:../src/renesas/application/console/console.c ****             *pbfCommand = 1;
+ 276:../src/renesas/application/console/console.c ****             return (con_parse_command(pCom));
+ 277:../src/renesas/application/console/console.c ****         }
+ 278:../src/renesas/application/console/console.c ****         else
+ 279:../src/renesas/application/console/console.c ****         {
+ 280:../src/renesas/application/console/console.c ****             /* do nothing */
+ 281:../src/renesas/application/console/console.c ****             R_COMPILER_Nop();
+ 282:../src/renesas/application/console/console.c ****         }
+ 283:../src/renesas/application/console/console.c ****     }
+ 284:../src/renesas/application/console/console.c ****     else
+ 285:../src/renesas/application/console/console.c ****     {
+ 286:../src/renesas/application/console/console.c ****         return (CMD_LINE_TOO_LONG);
+ 287:../src/renesas/application/console/console.c ****     }
+ 288:../src/renesas/application/console/console.c **** 
+ 289:../src/renesas/application/console/console.c **** #ifdef SERIAL
+ 290:../src/renesas/application/console/console.c ****     /* echo to console */
+ 291:../src/renesas/application/console/console.c ****     if ((ESC_NO_ESCAPE == pCom->va.escape_sequence) && ('@' != pCom->va.buffer[0]))
+ 292:../src/renesas/application/console/console.c ****     {
+ 293:../src/renesas/application/console/console.c ****         if (pCom->secrecy)
+ 294:../src/renesas/application/console/console.c ****         {
+ 295:../src/renesas/application/console/console.c ****             fputc('*', pCom->p_out);
+ 296:../src/renesas/application/console/console.c ****         }
+ 297:../src/renesas/application/console/console.c ****         else
+ 298:../src/renesas/application/console/console.c ****         {
+ 299:../src/renesas/application/console/console.c ****             fputc(chChar, pCom->p_out);
+ 300:../src/renesas/application/console/console.c ****         }
+ 301:../src/renesas/application/console/console.c ****     }
+ 302:../src/renesas/application/console/console.c **** #endif
+ 303:../src/renesas/application/console/console.c **** 
+ 304:../src/renesas/application/console/console.c ****     return (CMD_OK);
+ 305:../src/renesas/application/console/console.c **** }
+ 306:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 307:../src/renesas/application/console/console.c ****  End of function process_ordinary_char
+ 308:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 309:../src/renesas/application/console/console.c **** 
+ 310:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 311:../src/renesas/application/console/console.c ****  Function Name: terminate_command
+ 312:../src/renesas/application/console/console.c ****  Description:   Function to process an ordinary character
+ 313:../src/renesas/application/console/console.c ****  Arguments:     IN  pCom - pointer to the command object
+ 314:../src/renesas/application/console/console.c ****                 IN  chChar - The character to process
+ 315:../src/renesas/application/console/console.c ****                 IN  pbfCommand - Pointer to a flag that is set when a
+ 316:../src/renesas/application/console/console.c ****                                  command is received
+ 317:../src/renesas/application/console/console.c ****  Return value:  0 for success otherwise error code
+ 318:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 319:../src/renesas/application/console/console.c **** static e_cmderr_t terminate_command(pst_comset_t pCom, char chChar, _Bool *pbfCommand)
+ 320:../src/renesas/application/console/console.c **** {
+ 321:../src/renesas/application/console/console.c ****     UNUSED_PARAM(chChar);
+ 322:../src/renesas/application/console/console.c **** 
+ 323:../src/renesas/application/console/console.c ****     if ((ESC_NO_ESCAPE == pCom->va.escape_sequence) && ('@' != pCom->va.buffer[0]))
+ 324:../src/renesas/application/console/console.c ****     {
+ 325:../src/renesas/application/console/console.c ****         #ifdef SERIAL
+ 326:../src/renesas/application/console/console.c ****         fprintf(pCom->p_out, "\r\n");
+ 327:../src/renesas/application/console/console.c ****         #endif
+ 328:../src/renesas/application/console/console.c ****     }
+ 329:../src/renesas/application/console/console.c **** 
+ 330:../src/renesas/application/console/console.c ****     /* Terminate the string */
+ 331:../src/renesas/application/console/console.c ****     pCom->va.buffer[pCom->va.buffer_index] = (uint8_t) '\0';
+ 332:../src/renesas/application/console/console.c ****     *pbfCommand = true;
+ 333:../src/renesas/application/console/console.c **** 
+ 334:../src/renesas/application/console/console.c ****     /* Parse the command line */
+ 335:../src/renesas/application/console/console.c ****     return (con_parse_command(pCom));
+ 336:../src/renesas/application/console/console.c **** }
+ 337:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 338:../src/renesas/application/console/console.c ****  End of function terminate_command
+ 339:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 340:../src/renesas/application/console/console.c **** 
+ 341:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 342:../src/renesas/application/console/console.c ****  Function Name: con_process_char
+ 343:../src/renesas/application/console/console.c ****  Description:   Function to process a character
+ 344:../src/renesas/application/console/console.c ****  Arguments:     IN  pCom - pointer to the command object
+ 345:../src/renesas/application/console/console.c ****                 IN  chChar - The character to process
+ 346:../src/renesas/application/console/console.c ****                 IN  pbfCommand - Pointer to a flag that is set when a
+ 347:../src/renesas/application/console/console.c ****                                  command is received
+ 348:../src/renesas/application/console/console.c ****  Return value:  0 for success otherwise error code
+ 349:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 350:../src/renesas/application/console/console.c **** e_cmderr_t con_process_char(pst_comset_t pCom, char chChar, _Bool *pbfCommand)
+ 351:../src/renesas/application/console/console.c **** {
+ 352:../src/renesas/application/console/console.c ****     *pbfCommand = false;
+ 353:../src/renesas/application/console/console.c **** 
+ 354:../src/renesas/application/console/console.c ****     switch (chChar)
+ 355:../src/renesas/application/console/console.c ****     {
+ 356:../src/renesas/application/console/console.c ****         /* Ignore escape sequence start */
+ 357:../src/renesas/application/console/console.c ****         case CMD_ESCAPE_CHARACTER:
+ 358:../src/renesas/application/console/console.c ****         {
+ 359:../src/renesas/application/console/console.c ****             /* suppress echo */
+ 360:../src/renesas/application/console/console.c ****             pCom->va.escape_sequence = ESC_ESCAPE_SEQUENCE;
+ 361:../src/renesas/application/console/console.c ****             pCom->va.buffer_index = 0;
+ 362:../src/renesas/application/console/console.c ****             break;
+ 363:../src/renesas/application/console/console.c ****         }
+ 364:../src/renesas/application/console/console.c **** 
+ 365:../src/renesas/application/console/console.c ****         case '\b':                            /* White out on back space */
+ 366:../src/renesas/application/console/console.c ****         case 0x7F:                            /* PuTTY sends non-ASCII back space */
+ 367:../src/renesas/application/console/console.c ****         {
+ 368:../src/renesas/application/console/console.c ****             if (0 != pCom->va.buffer_index)
+ 369:../src/renesas/application/console/console.c ****             {
+ 370:../src/renesas/application/console/console.c ****                 #ifdef SERIAL
+ 371:../src/renesas/application/console/console.c ****                 fprintf(pCom->p_out, "\b \b");
+ 372:../src/renesas/application/console/console.c ****                 #endif
+ 373:../src/renesas/application/console/console.c ****                 pCom->va.buffer_index--;
+ 374:../src/renesas/application/console/console.c ****             }
+ 375:../src/renesas/application/console/console.c **** 
+ 376:../src/renesas/application/console/console.c ****             break;
+ 377:../src/renesas/application/console/console.c ****         }
+ 378:../src/renesas/application/console/console.c **** 
+ 379:../src/renesas/application/console/console.c ****         #ifdef SERIAL
+ 380:../src/renesas/application/console/console.c ****         case '\n':                            /* New line - ignore */
+ 381:../src/renesas/application/console/console.c ****         {
+ 382:../src/renesas/application/console/console.c ****             R_COMPILER_Nop();
+ 383:../src/renesas/application/console/console.c ****             break;
+ 384:../src/renesas/application/console/console.c ****         }
+ 385:../src/renesas/application/console/console.c ****         #endif
+ 386:../src/renesas/application/console/console.c **** 
+ 387:../src/renesas/application/console/console.c ****         /* End of escape sequence */
+ 388:../src/renesas/application/console/console.c ****         case ';':
+ 389:../src/renesas/application/console/console.c ****         {
+ 390:../src/renesas/application/console/console.c ****             if (ESC_NO_ESCAPE == pCom->va.escape_sequence)
+ 391:../src/renesas/application/console/console.c ****             {
+ 392:../src/renesas/application/console/console.c ****                 return (process_ordinary_char(pCom, chChar, pbfCommand));
+ 393:../src/renesas/application/console/console.c ****             }
+ 394:../src/renesas/application/console/console.c **** 
+ 395:../src/renesas/application/console/console.c ****             return (terminate_command(pCom, chChar, pbfCommand));
+ 396:../src/renesas/application/console/console.c ****         }
+ 397:../src/renesas/application/console/console.c **** 
+ 398:../src/renesas/application/console/console.c ****         case '~':
+ 399:../src/renesas/application/console/console.c ****         {
+ 400:../src/renesas/application/console/console.c ****             if (ESC_NO_ESCAPE == pCom->va.escape_sequence)
+ 401:../src/renesas/application/console/console.c ****             {
+ 402:../src/renesas/application/console/console.c ****                 return (process_ordinary_char(pCom, chChar, pbfCommand));
+ 403:../src/renesas/application/console/console.c ****             }
+ 404:../src/renesas/application/console/console.c **** 
+ 405:../src/renesas/application/console/console.c ****             return (terminate_command(pCom, chChar, pbfCommand));
+ 406:../src/renesas/application/console/console.c ****         }
+ 407:../src/renesas/application/console/console.c **** 
+ 408:../src/renesas/application/console/console.c ****         case 0:
+ 409:../src/renesas/application/console/console.c ****         {
+ 410:../src/renesas/application/console/console.c ****             if (ESC_NO_ESCAPE != pCom->va.escape_sequence)
+ 411:../src/renesas/application/console/console.c ****             {
+ 412:../src/renesas/application/console/console.c ****                 return (terminate_command(pCom, chChar, pbfCommand));
+ 413:../src/renesas/application/console/console.c ****             }
+ 414:../src/renesas/application/console/console.c **** 
+ 415:../src/renesas/application/console/console.c ****             break;
+ 416:../src/renesas/application/console/console.c ****         }
+ 417:../src/renesas/application/console/console.c **** 
+ 418:../src/renesas/application/console/console.c ****         #ifdef SERIAL
+ 419:../src/renesas/application/console/console.c ****         case '\r':                            /* return - do function */
+ 420:../src/renesas/application/console/console.c ****         #else
+ 421:../src/renesas/application/console/console.c ****         case '\n':
+ 422:../src/renesas/application/console/console.c ****         #endif
+ 423:../src/renesas/application/console/console.c ****         {
+ 424:../src/renesas/application/console/console.c ****             return (terminate_command(pCom, chChar, pbfCommand));
+ 425:../src/renesas/application/console/console.c ****         }
+ 426:../src/renesas/application/console/console.c **** 
+ 427:../src/renesas/application/console/console.c ****         /* All other characters */
+ 428:../src/renesas/application/console/console.c ****         default:
+ 429:../src/renesas/application/console/console.c ****         {
+ 430:../src/renesas/application/console/console.c ****             return (process_ordinary_char(pCom, chChar, pbfCommand));
+ 431:../src/renesas/application/console/console.c ****         }
+ 432:../src/renesas/application/console/console.c ****     }
+ 433:../src/renesas/application/console/console.c **** 
+ 434:../src/renesas/application/console/console.c ****     return (CMD_OK);
+ 435:../src/renesas/application/console/console.c **** }
+ 436:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 437:../src/renesas/application/console/console.c ****  End of function con_process_char
+ 438:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 439:../src/renesas/application/console/console.c **** 
+ 440:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 441:../src/renesas/application/console/console.c ****  Function Name: con_print_prompt
+ 442:../src/renesas/application/console/console.c ****  Description  : Function to print the command prompt
+ 443:../src/renesas/application/console/console.c ****  Arguments    : IN  pCom - pointer to the command object
+ 444:../src/renesas/application/console/console.c ****  Return Value : 0 for success otherwise error code
+ 445:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 446:../src/renesas/application/console/console.c **** static int16_t con_print_prompt(pst_comset_t pCom)
+ 447:../src/renesas/application/console/console.c **** {
+ 448:../src/renesas/application/console/console.c ****     int16_t result = 0;
+ 449:../src/renesas/application/console/console.c **** 
+ 450:../src/renesas/application/console/console.c ****     /* Don't print a NULL prompt */
+ 451:../src/renesas/application/console/console.c ****     if (pCom->p_prompt)
+ 452:../src/renesas/application/console/console.c ****     {
+ 453:../src/renesas/application/console/console.c ****         fflush(pCom->p_out);
+ 454:../src/renesas/application/console/console.c **** 
+ 455:../src/renesas/application/console/console.c ****         /* cast to int16_t */
+ 456:../src/renesas/application/console/console.c ****         result = (int16_t) fprintf(pCom->p_out, "\r\n%s ",  pCom->p_prompt);
+ 457:../src/renesas/application/console/console.c ****     }
+ 458:../src/renesas/application/console/console.c **** 
+ 459:../src/renesas/application/console/console.c ****     return (result);
+ 460:../src/renesas/application/console/console.c **** }
+ 461:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 462:../src/renesas/application/console/console.c ****  End of function con_print_prompt
+ 463:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 464:../src/renesas/application/console/console.c **** 
+ 465:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 466:../src/renesas/application/console/console.c ****  Function Name: con_split_line
+ 467:../src/renesas/application/console/console.c ****  Description  : Function to split the command line in to the argument array
+ 468:../src/renesas/application/console/console.c ****  Arguments    : IN  pszLine - Pointer to the command line
+ 469:../src/renesas/application/console/console.c ****                 IN  pszArguments - Pointer to the arguments
+ 470:../src/renesas/application/console/console.c ****  Return Value : The number of arguments split
+ 471:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 472:../src/renesas/application/console/console.c **** static int con_split_line(char *pszLine, char **pszArguments)
+ 473:../src/renesas/application/console/console.c **** {
+  29              		.loc 1 473 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 473 1 is_stmt 0 view .LVU1
+  34 0000 0030A0E1 		mov	r3, r0
+ 474:../src/renesas/application/console/console.c ****     int16_t arg_count;
+  35              		.loc 1 474 5 is_stmt 1 view .LVU2
+ 475:../src/renesas/application/console/console.c ****     int16_t count;
+  36              		.loc 1 475 5 view .LVU3
+ 476:../src/renesas/application/console/console.c ****     char * p_argument;
+  37              		.loc 1 476 5 view .LVU4
+ 477:../src/renesas/application/console/console.c **** 
+ 478:../src/renesas/application/console/console.c ****     for (arg_count = 0; (arg_count < CMD_MAX_ARG) && (*pszLine); arg_count++)
+  38              		.loc 1 478 5 view .LVU5
+  39              	.LVL1:
+  40              		.loc 1 478 20 is_stmt 0 view .LVU6
+  41 0004 0000A0E3 		mov	r0, #0
+  42              	.LVL2:
+  43              		.loc 1 478 25 is_stmt 1 view .LVU7
+  44              		.loc 1 478 5 is_stmt 0 view .LVU8
+  45 0008 070050E3 		cmp	r0, #7
+  46 000c 3E0000CA 		bgt	.L23
+  47              		.loc 1 478 55 view .LVU9
+  48 0010 0020D3E5 		ldrb	r2, [r3]	@ zero_extendqisi2
+  49              		.loc 1 478 51 view .LVU10
+  50 0014 000052E3 		cmp	r2, #0
+  51 0018 3B00000A 		beq	.L23
+ 473:../src/renesas/application/console/console.c ****     int16_t arg_count;
+  52              		.loc 1 473 1 view .LVU11
+  53 001c 10402DE9 		push	{r4, lr}
+  54              		.cfi_def_cfa_offset 8
+  55              		.cfi_offset 4, -8
+  56              		.cfi_offset 14, -4
+  57 0020 2B0000EA 		b	.L16
+  58              	.LVL3:
+  59              	.L4:
+ 479:../src/renesas/application/console/console.c ****     {
+ 480:../src/renesas/application/console/console.c ****         p_argument = pszArguments[arg_count];
+ 481:../src/renesas/application/console/console.c **** 
+ 482:../src/renesas/application/console/console.c ****         /* Look for the first white space */
+ 483:../src/renesas/application/console/console.c ****         while ((*pszLine) && (isspace(*pszLine)))
+ 484:../src/renesas/application/console/console.c ****         {
+ 485:../src/renesas/application/console/console.c ****             pszLine++;
+ 486:../src/renesas/application/console/console.c ****         }
+ 487:../src/renesas/application/console/console.c **** 
+ 488:../src/renesas/application/console/console.c ****         /* Initialise the argument length counter */
+ 489:../src/renesas/application/console/console.c ****         count = 0;
+  60              		.loc 1 489 9 is_stmt 1 view .LVU12
+ 490:../src/renesas/application/console/console.c **** 
+ 491:../src/renesas/application/console/console.c ****         /* Allow inverted commas to specify file names with spaces in */
+ 492:../src/renesas/application/console/console.c ****         if ('\"' == (*pszLine))
+  61              		.loc 1 492 9 view .LVU13
+  62              		.loc 1 492 12 is_stmt 0 view .LVU14
+  63 0024 220052E3 		cmp	r2, #34
+ 489:../src/renesas/application/console/console.c **** 
+  64              		.loc 1 489 15 view .LVU15
+  65 0028 0020A013 		movne	r2, #0
+  66 002c 1400001A 		bne	.L13
+  67              	.L27:
+ 493:../src/renesas/application/console/console.c ****         {
+ 494:../src/renesas/application/console/console.c ****             pszLine++;
+  68              		.loc 1 494 13 is_stmt 1 view .LVU16
+  69              		.loc 1 494 20 is_stmt 0 view .LVU17
+  70 0030 013083E2 		add	r3, r3, #1
+  71              	.LVL4:
+ 495:../src/renesas/application/console/console.c **** 
+ 496:../src/renesas/application/console/console.c ****             /* Copy the string until the next inverted comma or end of line */
+ 497:../src/renesas/application/console/console.c ****             while ((*pszLine) && ('\"' != (*pszLine)))
+  72              		.loc 1 497 13 is_stmt 1 view .LVU18
+ 489:../src/renesas/application/console/console.c **** 
+  73              		.loc 1 489 15 is_stmt 0 view .LVU19
+  74 0034 0020A0E3 		mov	r2, #0
+  75              	.LVL5:
+  76              	.L7:
+  77              		.loc 1 497 19 is_stmt 1 view .LVU20
+  78              		.loc 1 497 21 is_stmt 0 view .LVU21
+  79 0038 0040D3E5 		ldrb	r4, [r3]	@ zero_extendqisi2
+  80              		.loc 1 497 31 view .LVU22
+  81 003c 22C054E2 		subs	ip, r4, #34
+  82 0040 01C0A013 		movne	ip, #1
+  83 0044 000054E3 		cmp	r4, #0
+  84 0048 00C0A003 		moveq	ip, #0
+  85              		.loc 1 497 19 view .LVU23
+  86 004c 00005CE3 		cmp	ip, #0
+  87 0050 0700000A 		beq	.L9
+ 498:../src/renesas/application/console/console.c ****             {
+ 499:../src/renesas/application/console/console.c ****                 count++;
+  88              		.loc 1 499 17 is_stmt 1 view .LVU24
+  89              		.loc 1 499 22 is_stmt 0 view .LVU25
+  90 0054 012082E2 		add	r2, r2, #1
+  91              	.LVL6:
+  92              		.loc 1 499 22 view .LVU26
+  93 0058 7220BFE6 		sxth	r2, r2
+  94              	.LVL7:
+ 500:../src/renesas/application/console/console.c ****                 if (count >= CMD_MAX_ARG_LENGTH)
+  95              		.loc 1 500 17 is_stmt 1 view .LVU27
+  96              		.loc 1 500 20 is_stmt 0 view .LVU28
+  97 005c 7F0052E3 		cmp	r2, #127
+ 501:../src/renesas/application/console/console.c ****                 {
+ 502:../src/renesas/application/console/console.c ****                     *p_argument = '\0';
+ 503:../src/renesas/application/console/console.c ****                     break;
+ 504:../src/renesas/application/console/console.c ****                 }
+ 505:../src/renesas/application/console/console.c **** 
+ 506:../src/renesas/application/console/console.c ****                 *p_argument++ = *pszLine++;
+  98              		.loc 1 506 17 is_stmt 1 view .LVU29
+  99              		.loc 1 506 41 is_stmt 0 view .LVU30
+ 100 0060 013083D2 		addle	r3, r3, #1
+ 101              	.LVL8:
+ 102              		.loc 1 506 31 view .LVU31
+ 103 0064 0140CED4 		strble	r4, [lr], #1
+ 104              	.LVL9:
+ 105              		.loc 1 506 31 view .LVU32
+ 106 0068 F2FFFFDA 		ble	.L7
+ 107              	.L28:
+ 502:../src/renesas/application/console/console.c ****                     break;
+ 108              		.loc 1 502 21 is_stmt 1 view .LVU33
+ 502:../src/renesas/application/console/console.c ****                     break;
+ 109              		.loc 1 502 33 is_stmt 0 view .LVU34
+ 110 006c 00C0A0E3 		mov	ip, #0
+ 111 0070 00C0CEE5 		strb	ip, [lr]
+ 503:../src/renesas/application/console/console.c ****                 }
+ 112              		.loc 1 503 21 is_stmt 1 view .LVU35
+ 113              	.L9:
+ 507:../src/renesas/application/console/console.c ****             }
+ 508:../src/renesas/application/console/console.c **** 
+ 509:../src/renesas/application/console/console.c ****             /* Skip the " character */
+ 510:../src/renesas/application/console/console.c ****             pszLine++;
+ 114              		.loc 1 510 13 view .LVU36
+ 115              		.loc 1 510 20 is_stmt 0 view .LVU37
+ 116 0074 013083E2 		add	r3, r3, #1
+ 117              	.LVL10:
+ 118              		.loc 1 510 20 view .LVU38
+ 119 0078 010000EA 		b	.L13
+ 120              	.L11:
+ 511:../src/renesas/application/console/console.c ****         }
+ 512:../src/renesas/application/console/console.c **** 
+ 513:../src/renesas/application/console/console.c ****         /* Copy and argument until the end of the line or the next space */
+ 514:../src/renesas/application/console/console.c ****         while ((*pszLine) && (!isspace(*pszLine)))
+ 515:../src/renesas/application/console/console.c ****         {
+ 516:../src/renesas/application/console/console.c ****             count++;
+ 517:../src/renesas/application/console/console.c ****             if (count >= CMD_MAX_ARG_LENGTH)
+ 518:../src/renesas/application/console/console.c ****             {
+ 519:../src/renesas/application/console/console.c ****                 *p_argument = '\0';
+ 520:../src/renesas/application/console/console.c ****                 break;
+ 521:../src/renesas/application/console/console.c ****             }
+ 522:../src/renesas/application/console/console.c **** 
+ 523:../src/renesas/application/console/console.c ****             *p_argument++ = *pszLine++;
+ 121              		.loc 1 523 13 is_stmt 1 view .LVU39
+ 122              		.loc 1 523 37 is_stmt 0 view .LVU40
+ 123 007c 013083E2 		add	r3, r3, #1
+ 124              	.LVL11:
+ 125              		.loc 1 523 27 view .LVU41
+ 126 0080 01C0CEE4 		strb	ip, [lr], #1
+ 127              	.LVL12:
+ 128              	.L13:
+ 514:../src/renesas/application/console/console.c ****         {
+ 129              		.loc 1 514 15 is_stmt 1 view .LVU42
+ 514:../src/renesas/application/console/console.c ****         {
+ 130              		.loc 1 514 17 is_stmt 0 view .LVU43
+ 131 0084 00C0D3E5 		ldrb	ip, [r3]	@ zero_extendqisi2
+ 514:../src/renesas/application/console/console.c ****         {
+ 132              		.loc 1 514 15 view .LVU44
+ 133 0088 00005CE3 		cmp	ip, #0
+ 134 008c 0900000A 		beq	.L12
+ 514:../src/renesas/application/console/console.c ****         {
+ 135              		.loc 1 514 32 discriminator 1 view .LVU45
+ 136 0090 84409FE5 		ldr	r4, .L29
+ 137 0094 0440DCE7 		ldrb	r4, [ip, r4]	@ zero_extendqisi2
+ 514:../src/renesas/application/console/console.c ****         {
+ 138              		.loc 1 514 27 discriminator 1 view .LVU46
+ 139 0098 080014E3 		tst	r4, #8
+ 140 009c 0500001A 		bne	.L12
+ 516:../src/renesas/application/console/console.c ****             if (count >= CMD_MAX_ARG_LENGTH)
+ 141              		.loc 1 516 13 is_stmt 1 view .LVU47
+ 516:../src/renesas/application/console/console.c ****             if (count >= CMD_MAX_ARG_LENGTH)
+ 142              		.loc 1 516 18 is_stmt 0 view .LVU48
+ 143 00a0 012082E2 		add	r2, r2, #1
+ 144              	.LVL13:
+ 516:../src/renesas/application/console/console.c ****             if (count >= CMD_MAX_ARG_LENGTH)
+ 145              		.loc 1 516 18 view .LVU49
+ 146 00a4 7220BFE6 		sxth	r2, r2
+ 147              	.LVL14:
+ 517:../src/renesas/application/console/console.c ****             {
+ 148              		.loc 1 517 13 is_stmt 1 view .LVU50
+ 517:../src/renesas/application/console/console.c ****             {
+ 149              		.loc 1 517 16 is_stmt 0 view .LVU51
+ 150 00a8 7F0052E3 		cmp	r2, #127
+ 151 00ac F2FFFFDA 		ble	.L11
+ 519:../src/renesas/application/console/console.c ****                 break;
+ 152              		.loc 1 519 17 is_stmt 1 view .LVU52
+ 519:../src/renesas/application/console/console.c ****                 break;
+ 153              		.loc 1 519 29 is_stmt 0 view .LVU53
+ 154 00b0 0020A0E3 		mov	r2, #0
+ 155              	.LVL15:
+ 519:../src/renesas/application/console/console.c ****                 break;
+ 156              		.loc 1 519 29 view .LVU54
+ 157 00b4 0020CEE5 		strb	r2, [lr]
+ 520:../src/renesas/application/console/console.c ****             }
+ 158              		.loc 1 520 17 is_stmt 1 view .LVU55
+ 159              	.L12:
+ 478:../src/renesas/application/console/console.c ****     {
+ 160              		.loc 1 478 66 discriminator 2 view .LVU56
+ 478:../src/renesas/application/console/console.c ****     {
+ 161              		.loc 1 478 75 is_stmt 0 discriminator 2 view .LVU57
+ 162 00b8 010080E2 		add	r0, r0, #1
+ 163              	.LVL16:
+ 478:../src/renesas/application/console/console.c ****     {
+ 164              		.loc 1 478 75 discriminator 2 view .LVU58
+ 165 00bc 7000BFE6 		sxth	r0, r0
+ 166              	.LVL17:
+ 478:../src/renesas/application/console/console.c ****     {
+ 167              		.loc 1 478 25 is_stmt 1 discriminator 2 view .LVU59
+ 478:../src/renesas/application/console/console.c ****     {
+ 168              		.loc 1 478 5 is_stmt 0 discriminator 2 view .LVU60
+ 169 00c0 070050E3 		cmp	r0, #7
+ 170 00c4 0C0000CA 		bgt	.L15
+ 478:../src/renesas/application/console/console.c ****     {
+ 171              		.loc 1 478 55 discriminator 3 view .LVU61
+ 172 00c8 0020D3E5 		ldrb	r2, [r3]	@ zero_extendqisi2
+ 478:../src/renesas/application/console/console.c ****     {
+ 173              		.loc 1 478 51 discriminator 3 view .LVU62
+ 174 00cc 000052E3 		cmp	r2, #0
+ 175 00d0 0900000A 		beq	.L15
+ 176              	.LVL18:
+ 177              	.L16:
+ 480:../src/renesas/application/console/console.c **** 
+ 178              		.loc 1 480 9 is_stmt 1 view .LVU63
+ 480:../src/renesas/application/console/console.c **** 
+ 179              		.loc 1 480 20 is_stmt 0 view .LVU64
+ 180 00d4 00E191E7 		ldr	lr, [r1, r0, lsl #2]
+ 181              	.LVL19:
+ 483:../src/renesas/application/console/console.c ****         {
+ 182              		.loc 1 483 9 is_stmt 1 view .LVU65
+ 183              	.L3:
+ 483:../src/renesas/application/console/console.c ****         {
+ 184              		.loc 1 483 15 view .LVU66
+ 483:../src/renesas/application/console/console.c ****         {
+ 185              		.loc 1 483 17 is_stmt 0 view .LVU67
+ 186 00d8 0020D3E5 		ldrb	r2, [r3]	@ zero_extendqisi2
+ 483:../src/renesas/application/console/console.c ****         {
+ 187              		.loc 1 483 15 view .LVU68
+ 188 00dc 000052E3 		cmp	r2, #0
+ 189 00e0 CFFFFF0A 		beq	.L4
+ 483:../src/renesas/application/console/console.c ****         {
+ 190              		.loc 1 483 31 discriminator 1 view .LVU69
+ 191 00e4 30C09FE5 		ldr	ip, .L29
+ 192 00e8 0CC0D2E7 		ldrb	ip, [r2, ip]	@ zero_extendqisi2
+ 483:../src/renesas/application/console/console.c ****         {
+ 193              		.loc 1 483 27 discriminator 1 view .LVU70
+ 194 00ec 08001CE3 		tst	ip, #8
+ 195 00f0 CBFFFF0A 		beq	.L4
+ 485:../src/renesas/application/console/console.c ****         }
+ 196              		.loc 1 485 13 is_stmt 1 view .LVU71
+ 485:../src/renesas/application/console/console.c ****         }
+ 197              		.loc 1 485 20 is_stmt 0 view .LVU72
+ 198 00f4 013083E2 		add	r3, r3, #1
+ 199              	.LVL20:
+ 485:../src/renesas/application/console/console.c ****         }
+ 200              		.loc 1 485 20 view .LVU73
+ 201 00f8 F6FFFFEA 		b	.L3
+ 202              	.L15:
+ 524:../src/renesas/application/console/console.c ****         }
+ 525:../src/renesas/application/console/console.c ****     }
+ 526:../src/renesas/application/console/console.c **** 
+ 527:../src/renesas/application/console/console.c ****     if (arg_count > CMD_MAX_ARG)
+ 203              		.loc 1 527 5 is_stmt 1 view .LVU74
+ 204              		.loc 1 527 8 is_stmt 0 view .LVU75
+ 205 00fc 080050E3 		cmp	r0, #8
+ 206 0100 1080BDD8 		pople	{r4, pc}
+ 528:../src/renesas/application/console/console.c ****     {
+ 529:../src/renesas/application/console/console.c ****         arg_count = CMD_MAX_ARG;
+ 207              		.loc 1 529 19 view .LVU76
+ 208 0104 0800A0E3 		mov	r0, #8
+ 209              	.LVL21:
+ 530:../src/renesas/application/console/console.c ****     }
+ 531:../src/renesas/application/console/console.c **** 
+ 532:../src/renesas/application/console/console.c ****     return (arg_count);
+ 210              		.loc 1 532 5 is_stmt 1 view .LVU77
+ 533:../src/renesas/application/console/console.c **** }
+ 211              		.loc 1 533 1 is_stmt 0 view .LVU78
+ 212 0108 1080BDE8 		pop	{r4, pc}
+ 213              	.LVL22:
+ 214              	.L23:
+ 215              		.cfi_def_cfa_offset 0
+ 216              		.cfi_restore 4
+ 217              		.cfi_restore 14
+ 527:../src/renesas/application/console/console.c ****     {
+ 218              		.loc 1 527 5 is_stmt 1 view .LVU79
+ 527:../src/renesas/application/console/console.c ****     {
+ 219              		.loc 1 527 8 is_stmt 0 view .LVU80
+ 220 010c 080050E3 		cmp	r0, #8
+ 221 0110 1EFF2FD1 		bxle	lr
+ 529:../src/renesas/application/console/console.c ****     }
+ 222              		.loc 1 529 19 view .LVU81
+ 223 0114 0800A0E3 		mov	r0, #8
+ 224              	.LVL23:
+ 532:../src/renesas/application/console/console.c **** }
+ 225              		.loc 1 532 5 is_stmt 1 view .LVU82
+ 226              		.loc 1 533 1 is_stmt 0 view .LVU83
+ 227 0118 1EFF2FE1 		bx	lr
+ 228              	.L30:
+ 229              		.align	2
+ 230              	.L29:
+ 231 011c 01000000 		.word	_ctype_+1
+ 232              		.cfi_endproc
+ 233              	.LFE14:
+ 235              		.section	.rodata.con_print_prompt.str1.4,"aMS",%progbits,1
+ 236              		.align	2
+ 237              	.LC0:
+ 238 0000 0D0A2573 		.ascii	"\015\012%s \000"
+ 238      2000
+ 239              		.section	.text.con_print_prompt,"ax",%progbits
+ 240              		.align	2
+ 241              		.syntax unified
+ 242              		.arm
+ 243              		.fpu neon
+ 245              	con_print_prompt:
+ 246              	.LVL24:
+ 247              	.LFB13:
+ 447:../src/renesas/application/console/console.c ****     int16_t result = 0;
+ 248              		.loc 1 447 1 is_stmt 1 view -0
+ 249              		.cfi_startproc
+ 250              		@ args = 0, pretend = 0, frame = 0
+ 251              		@ frame_needed = 0, uses_anonymous_args = 0
+ 448:../src/renesas/application/console/console.c **** 
+ 252              		.loc 1 448 5 view .LVU85
+ 451:../src/renesas/application/console/console.c ****     {
+ 253              		.loc 1 451 5 view .LVU86
+ 451:../src/renesas/application/console/console.c ****     {
+ 254              		.loc 1 451 13 is_stmt 0 view .LVU87
+ 255 0000 303C90E5 		ldr	r3, [r0, #3120]
+ 451:../src/renesas/application/console/console.c ****     {
+ 256              		.loc 1 451 8 view .LVU88
+ 257 0004 000053E3 		cmp	r3, #0
+ 258 0008 0A00000A 		beq	.L33
+ 447:../src/renesas/application/console/console.c ****     int16_t result = 0;
+ 259              		.loc 1 447 1 view .LVU89
+ 260 000c 10402DE9 		push	{r4, lr}
+ 261              		.cfi_def_cfa_offset 8
+ 262              		.cfi_offset 4, -8
+ 263              		.cfi_offset 14, -4
+ 264 0010 0040A0E1 		mov	r4, r0
+ 453:../src/renesas/application/console/console.c **** 
+ 265              		.loc 1 453 9 is_stmt 1 view .LVU90
+ 266 0014 380C90E5 		ldr	r0, [r0, #3128]
+ 267              	.LVL25:
+ 453:../src/renesas/application/console/console.c **** 
+ 268              		.loc 1 453 9 is_stmt 0 view .LVU91
+ 269 0018 FEFFFFEB 		bl	fflush
+ 270              	.LVL26:
+ 456:../src/renesas/application/console/console.c ****     }
+ 271              		.loc 1 456 9 is_stmt 1 view .LVU92
+ 456:../src/renesas/application/console/console.c ****     }
+ 272              		.loc 1 456 28 is_stmt 0 view .LVU93
+ 273 001c 302C94E5 		ldr	r2, [r4, #3120]
+ 274 0020 001000E3 		movw	r1, #:lower16:.LC0
+ 275 0024 001040E3 		movt	r1, #:upper16:.LC0
+ 276 0028 380C94E5 		ldr	r0, [r4, #3128]
+ 277 002c FEFFFFEB 		bl	fprintf
+ 278              	.LVL27:
+ 456:../src/renesas/application/console/console.c ****     }
+ 279              		.loc 1 456 16 view .LVU94
+ 280 0030 7000BFE6 		sxth	r0, r0
+ 281              	.LVL28:
+ 459:../src/renesas/application/console/console.c **** }
+ 282              		.loc 1 459 5 is_stmt 1 view .LVU95
+ 460:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 283              		.loc 1 460 1 is_stmt 0 view .LVU96
+ 284 0034 1080BDE8 		pop	{r4, pc}
+ 285              	.LVL29:
+ 286              	.L33:
+ 287              		.cfi_def_cfa_offset 0
+ 288              		.cfi_restore 4
+ 289              		.cfi_restore 14
+ 448:../src/renesas/application/console/console.c **** 
+ 290              		.loc 1 448 13 view .LVU97
+ 291 0038 0000A0E3 		mov	r0, #0
+ 292              	.LVL30:
+ 459:../src/renesas/application/console/console.c **** }
+ 293              		.loc 1 459 5 is_stmt 1 view .LVU98
+ 460:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 294              		.loc 1 460 1 is_stmt 0 view .LVU99
+ 295 003c 1EFF2FE1 		bx	lr
+ 296              		.cfi_endproc
+ 297              	.LFE13:
+ 299              		.section	.text.con_init_arg_list,"ax",%progbits
+ 300              		.align	2
+ 301              		.syntax unified
+ 302              		.arm
+ 303              		.fpu neon
+ 305              	con_init_arg_list:
+ 306              	.LVL31:
+ 307              	.LFB15:
+ 534:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 535:../src/renesas/application/console/console.c ****  End of function con_split_line
+ 536:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 537:../src/renesas/application/console/console.c **** 
+ 538:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 539:../src/renesas/application/console/console.c ****  Function Name: con_init_arg_list
+ 540:../src/renesas/application/console/console.c ****  Description  : Function to initialise the argument list
+ 541:../src/renesas/application/console/console.c ****  Arguments    : IN  pCom - pointer to the command object
+ 542:../src/renesas/application/console/console.c ****  Return Value : none
+ 543:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 544:../src/renesas/application/console/console.c **** static void con_init_arg_list(pst_comset_t pCom)
+ 545:../src/renesas/application/console/console.c **** {
+ 308              		.loc 1 545 1 is_stmt 1 view -0
+ 309              		.cfi_startproc
+ 310              		@ args = 0, pretend = 0, frame = 0
+ 311              		@ frame_needed = 0, uses_anonymous_args = 0
+ 312              		.loc 1 545 1 is_stmt 0 view .LVU101
+ 313 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 314              		.cfi_def_cfa_offset 16
+ 315              		.cfi_offset 4, -16
+ 316              		.cfi_offset 5, -12
+ 317              		.cfi_offset 6, -8
+ 318              		.cfi_offset 14, -4
+ 546:../src/renesas/application/console/console.c ****     int8_t count = CMD_MAX_ARG;
+ 319              		.loc 1 546 5 is_stmt 1 view .LVU102
+ 320              	.LVL32:
+ 547:../src/renesas/application/console/console.c **** 
+ 548:../src/renesas/application/console/console.c ****     /* cast to char ** */
+ 549:../src/renesas/application/console/console.c ****     char **p_arguments = (char **) pCom->va.arguments;
+ 321              		.loc 1 549 5 view .LVU103
+ 322              		.loc 1 549 12 is_stmt 0 view .LVU104
+ 323 0004 824E80E2 		add	r4, r0, #2080
+ 324              	.LVL33:
+ 550:../src/renesas/application/console/console.c **** 
+ 551:../src/renesas/application/console/console.c ****     /* cast to char * */
+ 552:../src/renesas/application/console/console.c ****     char *p_argument = ((char *) pCom->va.arguments) + (CMD_MAX_ARG * sizeof(char *));
+ 325              		.loc 1 552 5 is_stmt 1 view .LVU105
+ 326              		.loc 1 552 11 is_stmt 0 view .LVU106
+ 327 0008 215D80E2 		add	r5, r0, #2112
+ 328              	.LVL34:
+ 553:../src/renesas/application/console/console.c **** 
+ 554:../src/renesas/application/console/console.c ****     /* Initialise all the data */
+ 555:../src/renesas/application/console/console.c ****     memset(pCom->va.arguments, 0, (CMD_MAX_ARG * CMD_MAX_ARG_LENGTH));
+ 329              		.loc 1 555 5 is_stmt 1 view .LVU107
+ 330 000c 012BA0E3 		mov	r2, #1024
+ 331 0010 0010A0E3 		mov	r1, #0
+ 332 0014 0400A0E1 		mov	r0, r4
+ 333              	.LVL35:
+ 334              		.loc 1 555 5 is_stmt 0 view .LVU108
+ 335 0018 FEFFFFEB 		bl	memset
+ 336              	.LVL36:
+ 556:../src/renesas/application/console/console.c **** 
+ 557:../src/renesas/application/console/console.c ****     /* Set the pointers to the strings */
+ 558:../src/renesas/application/console/console.c ****     while (count--)
+ 337              		.loc 1 558 5 is_stmt 1 view .LVU109
+ 546:../src/renesas/application/console/console.c **** 
+ 338              		.loc 1 546 12 is_stmt 0 view .LVU110
+ 339 001c 0820A0E3 		mov	r2, #8
+ 340              		.loc 1 558 11 view .LVU111
+ 341 0020 040000EA 		b	.L39
+ 342              	.LVL37:
+ 343              	.L43:
+ 559:../src/renesas/application/console/console.c ****     {
+ 560:../src/renesas/application/console/console.c ****         *p_arguments++ = p_argument;
+ 344              		.loc 1 560 9 is_stmt 1 view .LVU112
+ 345              		.loc 1 560 21 is_stmt 0 view .LVU113
+ 346 0024 0400A0E1 		mov	r0, r4
+ 347              	.LVL38:
+ 348              		.loc 1 560 24 view .LVU114
+ 349 0028 045080E4 		str	r5, [r0], #4
+ 350              	.LVL39:
+ 561:../src/renesas/application/console/console.c ****         p_argument += CMD_MAX_ARG_LENGTH;
+ 351              		.loc 1 561 9 is_stmt 1 view .LVU115
+ 352              		.loc 1 561 20 is_stmt 0 view .LVU116
+ 353 002c 805085E2 		add	r5, r5, #128
+ 354              	.LVL40:
+ 560:../src/renesas/application/console/console.c ****         p_argument += CMD_MAX_ARG_LENGTH;
+ 355              		.loc 1 560 21 view .LVU117
+ 356 0030 0040A0E1 		mov	r4, r0
+ 558:../src/renesas/application/console/console.c ****     {
+ 357              		.loc 1 558 17 view .LVU118
+ 358 0034 0320A0E1 		mov	r2, r3
+ 359              	.LVL41:
+ 360              	.L39:
+ 558:../src/renesas/application/console/console.c ****     {
+ 361              		.loc 1 558 11 is_stmt 1 view .LVU119
+ 558:../src/renesas/application/console/console.c ****     {
+ 362              		.loc 1 558 17 is_stmt 0 view .LVU120
+ 363 0038 013042E2 		sub	r3, r2, #1
+ 364 003c 7330AFE6 		sxtb	r3, r3
+ 365              	.LVL42:
+ 558:../src/renesas/application/console/console.c ****     {
+ 366              		.loc 1 558 11 view .LVU121
+ 367 0040 000052E3 		cmp	r2, #0
+ 368 0044 F6FFFF1A 		bne	.L43
+ 558:../src/renesas/application/console/console.c ****     {
+ 369              		.loc 1 558 11 view .LVU122
+ 370 0048 7080BDE8 		pop	{r4, r5, r6, pc}
+ 371              		.cfi_endproc
+ 372              	.LFE15:
+ 374              		.section	.text.con_execute,"ax",%progbits
+ 375              		.align	2
+ 376              		.syntax unified
+ 377              		.arm
+ 378              		.fpu neon
+ 380              	con_execute:
+ 381              	.LVL43:
+ 382              	.LFB16:
+ 562:../src/renesas/application/console/console.c ****     }
+ 563:../src/renesas/application/console/console.c **** }
+ 564:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 565:../src/renesas/application/console/console.c ****  End of function con_init_arg_list
+ 566:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 567:../src/renesas/application/console/console.c **** 
+ 568:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 569:../src/renesas/application/console/console.c ****  Function Name: con_execute
+ 570:../src/renesas/application/console/console.c ****  Description  : Function to execute the command function
+ 571:../src/renesas/application/console/console.c ****  Arguments    : IN  pCom - pointer to the command object
+ 572:../src/renesas/application/console/console.c ****                 IN  pCmdList - pointer to a list of commands to match against
+ 573:../src/renesas/application/console/console.c ****                 OUT pbfValidCommand - pointer to a flag set true when command
+ 574:../src/renesas/application/console/console.c ****                                       matched
+ 575:../src/renesas/application/console/console.c ****  Return Value : 0 for success otherwise error code
+ 576:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 577:../src/renesas/application/console/console.c **** static e_cmderr_t con_execute(pst_comset_t pCom, cpst_command_table_t pCmdList, _Bool *pbfValidComm
+ 578:../src/renesas/application/console/console.c **** {
+ 383              		.loc 1 578 1 is_stmt 1 view -0
+ 384              		.cfi_startproc
+ 385              		@ args = 0, pretend = 0, frame = 8
+ 386              		@ frame_needed = 0, uses_anonymous_args = 0
+ 387              		.loc 1 578 1 is_stmt 0 view .LVU124
+ 388 0000 F04F2DE9 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 389              		.cfi_def_cfa_offset 36
+ 390              		.cfi_offset 4, -36
+ 391              		.cfi_offset 5, -32
+ 392              		.cfi_offset 6, -28
+ 393              		.cfi_offset 7, -24
+ 394              		.cfi_offset 8, -20
+ 395              		.cfi_offset 9, -16
+ 396              		.cfi_offset 10, -12
+ 397              		.cfi_offset 11, -8
+ 398              		.cfi_offset 14, -4
+ 399 0004 0CD04DE2 		sub	sp, sp, #12
+ 400              		.cfi_def_cfa_offset 48
+ 401 0008 02A0A0E1 		mov	r10, r2
+ 579:../src/renesas/application/console/console.c ****     /* Check for a valid command list pointer */
+ 580:../src/renesas/application/console/console.c ****     if (NULL != pCmdList)
+ 402              		.loc 1 580 5 is_stmt 1 view .LVU125
+ 403              		.loc 1 580 8 is_stmt 0 view .LVU126
+ 404 000c 005051E2 		subs	r5, r1, #0
+ 405 0010 2A00000A 		beq	.L45
+ 406 0014 0090A0E1 		mov	r9, r0
+ 407              	.LBB6:
+ 581:../src/renesas/application/console/console.c ****     {
+ 582:../src/renesas/application/console/console.c ****         uint32_t cmd_len;
+ 408              		.loc 1 582 9 is_stmt 1 view .LVU127
+ 583:../src/renesas/application/console/console.c ****         uint32_t length;
+ 409              		.loc 1 583 9 view .LVU128
+ 584:../src/renesas/application/console/console.c ****         int16_t func_index;
+ 410              		.loc 1 584 9 view .LVU129
+ 585:../src/renesas/application/console/console.c ****         int8_t arg_count;
+ 411              		.loc 1 585 9 view .LVU130
+ 586:../src/renesas/application/console/console.c **** 
+ 587:../src/renesas/application/console/console.c ****         /* Initialise the argument list */
+ 588:../src/renesas/application/console/console.c ****         con_init_arg_list(pCom);
+ 412              		.loc 1 588 9 view .LVU131
+ 413 0018 FEFFFFEB 		bl	con_init_arg_list
+ 414              	.LVL44:
+ 589:../src/renesas/application/console/console.c **** 
+ 590:../src/renesas/application/console/console.c ****         /* Split the command line */
+ 591:../src/renesas/application/console/console.c ****         arg_count = (int8_t) con_split_line(pCom->va.buffer, (char **) pCom->va.arguments);
+ 415              		.loc 1 591 9 view .LVU132
+ 416              		.loc 1 591 72 is_stmt 0 view .LVU133
+ 417 001c 82BE89E2 		add	fp, r9, #2080
+ 418              		.loc 1 591 30 view .LVU134
+ 419 0020 0B10A0E1 		mov	r1, fp
+ 420 0024 0900A0E1 		mov	r0, r9
+ 421 0028 FEFFFFEB 		bl	con_split_line
+ 422              	.LVL45:
+ 423              		.loc 1 591 19 view .LVU135
+ 424 002c 7030AFE6 		sxtb	r3, r0
+ 425 0030 04308DE5 		str	r3, [sp, #4]
+ 426              	.LVL46:
+ 592:../src/renesas/application/console/console.c **** 
+ 593:../src/renesas/application/console/console.c ****         /* Get the length of the command */
+ 594:../src/renesas/application/console/console.c ****         cmd_len = (uint32_t) strlen((*(char **) pCom->va.arguments));
+ 427              		.loc 1 594 9 is_stmt 1 view .LVU136
+ 428              		.loc 1 594 30 is_stmt 0 view .LVU137
+ 429 0034 200899E5 		ldr	r0, [r9, #2080]
+ 430 0038 FEFFFFEB 		bl	strlen
+ 431              	.LVL47:
+ 432 003c 0070A0E1 		mov	r7, r0
+ 433              	.LVL48:
+ 595:../src/renesas/application/console/console.c **** 
+ 596:../src/renesas/application/console/console.c ****         /* check against list of command tokens */
+ 597:../src/renesas/application/console/console.c ****         for (func_index = 0; func_index < (int) pCmdList->number_of_commands; func_index++)
+ 434              		.loc 1 597 9 is_stmt 1 view .LVU138
+ 435              		.loc 1 597 25 is_stmt 0 view .LVU139
+ 436 0040 0040A0E3 		mov	r4, #0
+ 437              		.loc 1 597 9 view .LVU140
+ 438 0044 010000EA 		b	.L46
+ 439              	.LVL49:
+ 440              	.L47:
+ 441              		.loc 1 597 79 is_stmt 1 discriminator 2 view .LVU141
+ 442              		.loc 1 597 89 is_stmt 0 discriminator 2 view .LVU142
+ 443 0048 014084E2 		add	r4, r4, #1
+ 444              	.LVL50:
+ 445              		.loc 1 597 89 discriminator 2 view .LVU143
+ 446 004c 7440BFE6 		sxth	r4, r4
+ 447              	.LVL51:
+ 448              	.L46:
+ 449              		.loc 1 597 30 is_stmt 1 discriminator 1 view .LVU144
+ 450              		.loc 1 597 57 is_stmt 0 discriminator 1 view .LVU145
+ 451 0050 243095E5 		ldr	r3, [r5, #36]
+ 452              		.loc 1 597 9 discriminator 1 view .LVU146
+ 453 0054 030054E1 		cmp	r4, r3
+ 454 0058 180000AA 		bge	.L45
+ 455              	.LBB7:
+ 598:../src/renesas/application/console/console.c ****         {
+ 599:../src/renesas/application/console/console.c ****             /* Get pointer to the associated command */
+ 600:../src/renesas/application/console/console.c ****             char * p_string = pCmdList->command_list[func_index].p_command;
+ 456              		.loc 1 600 13 is_stmt 1 view .LVU147
+ 457              		.loc 1 600 39 is_stmt 0 view .LVU148
+ 458 005c 202095E5 		ldr	r2, [r5, #32]
+ 459              		.loc 1 600 53 view .LVU149
+ 460 0060 843084E0 		add	r3, r4, r4, lsl #1
+ 461 0064 0331A0E1 		lsl	r3, r3, #2
+ 462 0068 0380A0E1 		mov	r8, r3
+ 463              		.loc 1 600 20 view .LVU150
+ 464 006c 036092E7 		ldr	r6, [r2, r3]
+ 465              	.LVL52:
+ 601:../src/renesas/application/console/console.c **** 
+ 602:../src/renesas/application/console/console.c ****             /* Calculate command length */
+ 603:../src/renesas/application/console/console.c ****             length = (uint32_t) strlen(p_string);
+ 466              		.loc 1 603 13 is_stmt 1 view .LVU151
+ 467              		.loc 1 603 33 is_stmt 0 view .LVU152
+ 468 0070 0600A0E1 		mov	r0, r6
+ 469 0074 FEFFFFEB 		bl	strlen
+ 470              	.LVL53:
+ 604:../src/renesas/application/console/console.c **** 
+ 605:../src/renesas/application/console/console.c ****             /* Check the length of the command */
+ 606:../src/renesas/application/console/console.c ****             if (cmd_len == length)
+ 471              		.loc 1 606 13 is_stmt 1 view .LVU153
+ 472              		.loc 1 606 16 is_stmt 0 view .LVU154
+ 473 0078 000057E1 		cmp	r7, r0
+ 474 007c F1FFFF1A 		bne	.L47
+ 607:../src/renesas/application/console/console.c ****             {
+ 608:../src/renesas/application/console/console.c ****                 /* Command line has been matched */
+ 609:../src/renesas/application/console/console.c ****                 if (wild_compare(p_string, (*(char **) pCom->va.arguments)))
+ 475              		.loc 1 609 17 is_stmt 1 view .LVU155
+ 476              		.loc 1 609 21 is_stmt 0 view .LVU156
+ 477 0080 201899E5 		ldr	r1, [r9, #2080]
+ 478 0084 0600A0E1 		mov	r0, r6
+ 479              	.LVL54:
+ 480              		.loc 1 609 21 view .LVU157
+ 481 0088 FEFFFFEB 		bl	wild_compare
+ 482              	.LVL55:
+ 483              		.loc 1 609 20 view .LVU158
+ 484 008c 000050E3 		cmp	r0, #0
+ 485 0090 ECFFFF0A 		beq	.L47
+ 610:../src/renesas/application/console/console.c ****                 {
+ 611:../src/renesas/application/console/console.c ****                     /* Show that we are processing a valid command */
+ 612:../src/renesas/application/console/console.c ****                     *pbfValidCommand = true;
+ 486              		.loc 1 612 21 is_stmt 1 view .LVU159
+ 487              		.loc 1 612 38 is_stmt 0 view .LVU160
+ 488 0094 0130A0E3 		mov	r3, #1
+ 489 0098 0030CAE5 		strb	r3, [r10]
+ 613:../src/renesas/application/console/console.c **** 
+ 614:../src/renesas/application/console/console.c ****                     /* Execute the command */
+ 615:../src/renesas/application/console/console.c ****                     return ((e_cmderr_t) pCmdList->command_list[func_index].function(arg_count, (ch
+ 490              		.loc 1 615 21 is_stmt 1 view .LVU161
+ 491              		.loc 1 615 50 is_stmt 0 view .LVU162
+ 492 009c 203095E5 		ldr	r3, [r5, #32]
+ 493              		.loc 1 615 64 view .LVU163
+ 494 00a0 088083E0 		add	r8, r3, r8
+ 495              		.loc 1 615 76 view .LVU164
+ 496 00a4 043098E5 		ldr	r3, [r8, #4]
+ 497              		.loc 1 615 42 view .LVU165
+ 498 00a8 0920A0E1 		mov	r2, r9
+ 499 00ac 0B10A0E1 		mov	r1, fp
+ 500 00b0 04009DE5 		ldr	r0, [sp, #4]
+ 501 00b4 33FF2FE1 		blx	r3
+ 502              	.LVL56:
+ 503              		.loc 1 615 29 view .LVU166
+ 504 00b8 7000EFE6 		uxtb	r0, r0
+ 505 00bc 010000EA 		b	.L48
+ 506              	.LVL57:
+ 507              	.L45:
+ 508              		.loc 1 615 29 view .LVU167
+ 509              	.LBE7:
+ 510              	.LBE6:
+ 616:../src/renesas/application/console/console.c ****                             pCom->va.arguments, pCom));
+ 617:../src/renesas/application/console/console.c ****                 }
+ 618:../src/renesas/application/console/console.c ****             }
+ 619:../src/renesas/application/console/console.c ****         }
+ 620:../src/renesas/application/console/console.c ****     }
+ 621:../src/renesas/application/console/console.c **** 
+ 622:../src/renesas/application/console/console.c ****     /* No command matched */
+ 623:../src/renesas/application/console/console.c ****     *pbfValidCommand = false;
+ 511              		.loc 1 623 5 is_stmt 1 view .LVU168
+ 512              		.loc 1 623 22 is_stmt 0 view .LVU169
+ 513 00c0 0000A0E3 		mov	r0, #0
+ 514 00c4 0000CAE5 		strb	r0, [r10]
+ 624:../src/renesas/application/console/console.c **** 
+ 625:../src/renesas/application/console/console.c ****     return (CMD_OK);
+ 515              		.loc 1 625 5 is_stmt 1 view .LVU170
+ 516              	.L48:
+ 626:../src/renesas/application/console/console.c **** }
+ 517              		.loc 1 626 1 is_stmt 0 view .LVU171
+ 518 00c8 0CD08DE2 		add	sp, sp, #12
+ 519              		.cfi_def_cfa_offset 36
+ 520              		@ sp needed
+ 521 00cc F08FBDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 522              		.loc 1 626 1 view .LVU172
+ 523              		.cfi_endproc
+ 524              	.LFE16:
+ 526              		.section	.rodata.con_parse_command.str1.4,"aMS",%progbits,1
+ 527              		.align	2
+ 528              	.LC1:
+ 529 0000 0D0A2225 		.ascii	"\015\012\"%s\" Unknown command\015\012\000"
+ 529      73222055 
+ 529      6E6B6E6F 
+ 529      776E2063 
+ 529      6F6D6D61 
+ 530              		.section	.text.con_parse_command,"ax",%progbits
+ 531              		.align	2
+ 532              		.syntax unified
+ 533              		.arm
+ 534              		.fpu neon
+ 536              	con_parse_command:
+ 537              	.LVL58:
+ 538              	.LFB17:
+ 627:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 628:../src/renesas/application/console/console.c ****  End of function con_execute
+ 629:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 630:../src/renesas/application/console/console.c **** 
+ 631:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 632:../src/renesas/application/console/console.c ****  Function Name: con_parse_command
+ 633:../src/renesas/application/console/console.c ****  Description  : Function to pars the command and call the handling function
+ 634:../src/renesas/application/console/console.c ****  Arguments    : IN  pCom - pointer to command table
+ 635:../src/renesas/application/console/console.c ****  Return Value : 0 for success otherwise error code
+ 636:../src/renesas/application/console/console.c ****  **************************************************************************************************
+ 637:../src/renesas/application/console/console.c **** static e_cmderr_t con_parse_command(pst_comset_t pCom)
+ 638:../src/renesas/application/console/console.c **** {
+ 539              		.loc 1 638 1 is_stmt 1 view -0
+ 540              		.cfi_startproc
+ 541              		@ args = 0, pretend = 0, frame = 8
+ 542              		@ frame_needed = 0, uses_anonymous_args = 0
+ 543              		.loc 1 638 1 is_stmt 0 view .LVU174
+ 544 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 545              		.cfi_def_cfa_offset 16
+ 546              		.cfi_offset 4, -16
+ 547              		.cfi_offset 5, -12
+ 548              		.cfi_offset 6, -8
+ 549              		.cfi_offset 14, -4
+ 550 0004 08D04DE2 		sub	sp, sp, #8
+ 551              		.cfi_def_cfa_offset 24
+ 552 0008 0040A0E1 		mov	r4, r0
+ 639:../src/renesas/application/console/console.c ****     uint32_t eat_space_count = 0U;
+ 553              		.loc 1 639 5 is_stmt 1 view .LVU175
+ 554              	.LVL59:
+ 640:../src/renesas/application/console/console.c ****     uint32_t length;
+ 555              		.loc 1 640 5 view .LVU176
+ 641:../src/renesas/application/console/console.c ****     _Bool valid_command = false;
+ 556              		.loc 1 641 5 view .LVU177
+ 557              		.loc 1 641 11 is_stmt 0 view .LVU178
+ 558 000c 0020A0E3 		mov	r2, #0
+ 559 0010 0720CDE5 		strb	r2, [sp, #7]
+ 642:../src/renesas/application/console/console.c ****     int16_t count = 0;
+ 560              		.loc 1 642 5 is_stmt 1 view .LVU179
+ 561              	.LVL60:
+ 643:../src/renesas/application/console/console.c ****     e_cmderr_t error_code = CMD_OK;
+ 562              		.loc 1 643 5 view .LVU180
+ 644:../src/renesas/application/console/console.c **** 
+ 645:../src/renesas/application/console/console.c ****     /* Eat any white space before the command */
+ 646:../src/renesas/application/console/console.c ****     while ((' ' == pCom->va.buffer[eat_space_count]) || ('\t' == pCom->va.buffer[eat_space_count])
+ 563              		.loc 1 646 5 view .LVU181
+ 564              		.loc 1 646 11 is_stmt 0 view .LVU182
+ 565 0014 000000EA 		b	.L52
+ 566              	.LVL61:
+ 567              	.L53:
+ 647:../src/renesas/application/console/console.c ****             || ('@' == pCom->va.buffer[eat_space_count]))
+ 648:../src/renesas/application/console/console.c ****     {
+ 649:../src/renesas/application/console/console.c ****         eat_space_count++;
+ 568              		.loc 1 649 9 is_stmt 1 view .LVU183
+ 569              		.loc 1 649 24 is_stmt 0 view .LVU184
+ 570 0018 012082E2 		add	r2, r2, #1
+ 571              	.LVL62:
+ 572              	.L52:
+ 646:../src/renesas/application/console/console.c ****             || ('@' == pCom->va.buffer[eat_space_count]))
+ 573              		.loc 1 646 11 is_stmt 1 view .LVU185
+ 646:../src/renesas/application/console/console.c ****             || ('@' == pCom->va.buffer[eat_space_count]))
+ 574              		.loc 1 646 35 is_stmt 0 view .LVU186
+ 575 001c 0230D4E7 		ldrb	r3, [r4, r2]	@ zero_extendqisi2
+ 646:../src/renesas/application/console/console.c ****             || ('@' == pCom->va.buffer[eat_space_count]))
+ 576              		.loc 1 646 11 view .LVU187
+ 577 0020 090053E3 		cmp	r3, #9
+ 578 0024 20005313 		cmpne	r3, #32
+ 579 0028 FAFFFF0A 		beq	.L53
+ 647:../src/renesas/application/console/console.c ****             || ('@' == pCom->va.buffer[eat_space_count]))
+ 580              		.loc 1 647 13 view .LVU188
+ 581 002c 400053E3 		cmp	r3, #64
+ 582 0030 F8FFFF0A 		beq	.L53
+ 650:../src/renesas/application/console/console.c ****     }
+ 651:../src/renesas/application/console/console.c **** 
+ 652:../src/renesas/application/console/console.c ****     length = pCom->va.buffer_index - eat_space_count;
+ 583              		.loc 1 652 5 is_stmt 1 view .LVU189
+ 584              		.loc 1 652 22 is_stmt 0 view .LVU190
+ 585 0034 243C94E5 		ldr	r3, [r4, #3108]
+ 586              	.LVL63:
+ 653:../src/renesas/application/console/console.c ****     pCom->va.buffer_index = 0;
+ 587              		.loc 1 653 5 is_stmt 1 view .LVU191
+ 588              		.loc 1 653 27 is_stmt 0 view .LVU192
+ 589 0038 0010A0E3 		mov	r1, #0
+ 590 003c 241C84E5 		str	r1, [r4, #3108]
+ 654:../src/renesas/application/console/console.c **** 
+ 655:../src/renesas/application/console/console.c ****     /* Test for valid command or just CR */
+ 656:../src/renesas/application/console/console.c ****     if (length >= 1)
+ 591              		.loc 1 656 5 is_stmt 1 view .LVU193
+ 592              		.loc 1 656 8 is_stmt 0 view .LVU194
+ 593 0040 020053E1 		cmp	r3, r2
+ 594 0044 2600000A 		beq	.L60
+ 657:../src/renesas/application/console/console.c ****     {
+ 658:../src/renesas/application/console/console.c ****         /* If it is not an escape sequence */
+ 659:../src/renesas/application/console/console.c ****         if (ESC_NO_ESCAPE == pCom->va.escape_sequence)
+ 595              		.loc 1 659 9 is_stmt 1 view .LVU195
+ 596              		.loc 1 659 38 is_stmt 0 view .LVU196
+ 597 0048 203CD4E5 		ldrb	r3, [r4, #3104]	@ zero_extendqisi2
+ 598              	.LVL64:
+ 599              		.loc 1 659 12 view .LVU197
+ 600 004c 010053E1 		cmp	r3, r1
+ 601 0050 1300000A 		beq	.L62
+ 660:../src/renesas/application/console/console.c ****         {
+ 661:../src/renesas/application/console/console.c ****             /* Copy to last command buffer */
+ 662:../src/renesas/application/console/console.c ****             strcpy(pCom->va.command, pCom->va.buffer);
+ 663:../src/renesas/application/console/console.c ****         }
+ 664:../src/renesas/application/console/console.c ****         else
+ 665:../src/renesas/application/console/console.c ****         {
+ 666:../src/renesas/application/console/console.c ****             /* Cancel escape sequence */
+ 667:../src/renesas/application/console/console.c ****             pCom->va.escape_sequence = ESC_NO_ESCAPE;
+ 602              		.loc 1 667 13 is_stmt 1 view .LVU198
+ 603              		.loc 1 667 38 is_stmt 0 view .LVU199
+ 604 0054 0030A0E3 		mov	r3, #0
+ 605 0058 203CC4E5 		strb	r3, [r4, #3104]
+ 606              	.LVL65:
+ 607              	.L56:
+ 639:../src/renesas/application/console/console.c ****     uint32_t length;
+ 608              		.loc 1 639 14 view .LVU200
+ 609 005c 0060A0E3 		mov	r6, #0
+ 610 0060 0650A0E1 		mov	r5, r6
+ 611              	.LVL66:
+ 612              	.L58:
+ 668:../src/renesas/application/console/console.c ****         }
+ 669:../src/renesas/application/console/console.c **** 
+ 670:../src/renesas/application/console/console.c ****         /* Execute the command function */
+ 671:../src/renesas/application/console/console.c ****         while (count < pCom->num_tables)
+ 613              		.loc 1 671 15 is_stmt 1 view .LVU201
+ 614              		.loc 1 671 28 is_stmt 0 view .LVU202
+ 615 0064 443C00E3 		movw	r3, #3140
+ 616 0068 F33094E1 		ldrsh	r3, [r4, r3]
+ 617              		.loc 1 671 15 view .LVU203
+ 618 006c 050053E1 		cmp	r3, r5
+ 619 0070 0F0000DA 		ble	.L57
+ 672:../src/renesas/application/console/console.c ****         {
+ 673:../src/renesas/application/console/console.c ****             error_code = con_execute(pCom, pCom->p_function[count], &valid_command);
+ 620              		.loc 1 673 13 is_stmt 1 view .LVU204
+ 621              		.loc 1 673 48 is_stmt 0 view .LVU205
+ 622 0074 403C94E5 		ldr	r3, [r4, #3136]
+ 623              		.loc 1 673 26 view .LVU206
+ 624 0078 07208DE2 		add	r2, sp, #7
+ 625 007c 051193E7 		ldr	r1, [r3, r5, lsl #2]
+ 626 0080 0400A0E1 		mov	r0, r4
+ 627 0084 FEFFFFEB 		bl	con_execute
+ 628              	.LVL67:
+ 629 0088 0060A0E1 		mov	r6, r0
+ 630              	.LVL68:
+ 674:../src/renesas/application/console/console.c **** 
+ 675:../src/renesas/application/console/console.c ****             if (!valid_command)
+ 631              		.loc 1 675 13 is_stmt 1 view .LVU207
+ 632              		.loc 1 675 17 is_stmt 0 view .LVU208
+ 633 008c 0730DDE5 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 634              		.loc 1 675 16 view .LVU209
+ 635 0090 000053E3 		cmp	r3, #0
+ 636 0094 0600001A 		bne	.L57
+ 676:../src/renesas/application/console/console.c ****             {
+ 677:../src/renesas/application/console/console.c ****                 count++;
+ 637              		.loc 1 677 17 is_stmt 1 view .LVU210
+ 638              		.loc 1 677 22 is_stmt 0 view .LVU211
+ 639 0098 015085E2 		add	r5, r5, #1
+ 640              	.LVL69:
+ 641              		.loc 1 677 22 view .LVU212
+ 642 009c 7550BFE6 		sxth	r5, r5
+ 643              	.LVL70:
+ 644              		.loc 1 677 22 view .LVU213
+ 645 00a0 EFFFFFEA 		b	.L58
+ 646              	.LVL71:
+ 647              	.L62:
+ 662:../src/renesas/application/console/console.c ****         }
+ 648              		.loc 1 662 13 is_stmt 1 view .LVU214
+ 649 00a4 0410A0E1 		mov	r1, r4
+ 650 00a8 410E84E2 		add	r0, r4, #1040
+ 651              	.LVL72:
+ 662:../src/renesas/application/console/console.c ****         }
+ 652              		.loc 1 662 13 is_stmt 0 view .LVU215
+ 653 00ac FEFFFFEB 		bl	strcpy
+ 654              	.LVL73:
+ 662:../src/renesas/application/console/console.c ****         }
+ 655              		.loc 1 662 13 view .LVU216
+ 656 00b0 E9FFFFEA 		b	.L56
+ 657              	.LVL74:
+ 658              	.L57:
+ 678:../src/renesas/application/console/console.c ****             }
+ 679:../src/renesas/application/console/console.c ****             else
+ 680:../src/renesas/application/console/console.c ****             {
+ 681:../src/renesas/application/console/console.c ****                 break;
+ 682:../src/renesas/application/console/console.c ****             }
+ 683:../src/renesas/application/console/console.c ****         }
+ 684:../src/renesas/application/console/console.c **** 
+ 685:../src/renesas/application/console/console.c ****         /* Test to see if command is valid */
+ 686:../src/renesas/application/console/console.c ****         if (!valid_command)
+ 659              		.loc 1 686 9 is_stmt 1 view .LVU217
+ 660              		.loc 1 686 13 is_stmt 0 view .LVU218
+ 661 00b4 0730DDE5 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 662              		.loc 1 686 12 view .LVU219
+ 663 00b8 000053E3 		cmp	r3, #0
+ 664 00bc 0200000A 		beq	.L63
+ 665              	.LVL75:
+ 666              	.L54:
+ 687:../src/renesas/application/console/console.c ****         {
+ 688:../src/renesas/application/console/console.c ****             fprintf(pCom->p_out, "\r\n\"%s\" Unknown command\r\n", pCom->va.buffer);
+ 689:../src/renesas/application/console/console.c ****         }
+ 690:../src/renesas/application/console/console.c ****     }
+ 691:../src/renesas/application/console/console.c **** 
+ 692:../src/renesas/application/console/console.c ****     return (error_code);
+ 667              		.loc 1 692 5 is_stmt 1 view .LVU220
+ 693:../src/renesas/application/console/console.c **** }
+ 668              		.loc 1 693 1 is_stmt 0 view .LVU221
+ 669 00c0 0600A0E1 		mov	r0, r6
+ 670 00c4 08D08DE2 		add	sp, sp, #8
+ 671              		.cfi_remember_state
+ 672              		.cfi_def_cfa_offset 16
+ 673              		@ sp needed
+ 674 00c8 7080BDE8 		pop	{r4, r5, r6, pc}
+ 675              	.LVL76:
+ 676              	.L63:
+ 677              		.cfi_restore_state
+ 688:../src/renesas/application/console/console.c ****         }
+ 678              		.loc 1 688 13 is_stmt 1 view .LVU222
+ 679 00cc 0420A0E1 		mov	r2, r4
+ 680 00d0 001000E3 		movw	r1, #:lower16:.LC1
+ 681 00d4 001040E3 		movt	r1, #:upper16:.LC1
+ 682 00d8 380C94E5 		ldr	r0, [r4, #3128]
+ 683 00dc FEFFFFEB 		bl	fprintf
+ 684              	.LVL77:
+ 685 00e0 F6FFFFEA 		b	.L54
+ 686              	.LVL78:
+ 687              	.L60:
+ 643:../src/renesas/application/console/console.c **** 
+ 688              		.loc 1 643 16 is_stmt 0 view .LVU223
+ 689 00e4 0060A0E3 		mov	r6, #0
+ 690 00e8 F4FFFFEA 		b	.L54
+ 691              		.cfi_endproc
+ 692              	.LFE17:
+ 694              		.section	.rodata.terminate_command.str1.4,"aMS",%progbits,1
+ 695              		.align	2
+ 696              	.LC2:
+ 697 0000 0D0A00   		.ascii	"\015\012\000"
+ 698              		.section	.text.terminate_command,"ax",%progbits
+ 699              		.align	2
+ 700              		.syntax unified
+ 701              		.arm
+ 702              		.fpu neon
+ 704              	terminate_command:
+ 705              	.LVL79:
+ 706              	.LFB11:
+ 320:../src/renesas/application/console/console.c ****     UNUSED_PARAM(chChar);
+ 707              		.loc 1 320 1 is_stmt 1 view -0
+ 708              		.cfi_startproc
+ 709              		@ args = 0, pretend = 0, frame = 0
+ 710              		@ frame_needed = 0, uses_anonymous_args = 0
+ 320:../src/renesas/application/console/console.c ****     UNUSED_PARAM(chChar);
+ 711              		.loc 1 320 1 is_stmt 0 view .LVU225
+ 712 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 713              		.cfi_def_cfa_offset 16
+ 714              		.cfi_offset 4, -16
+ 715              		.cfi_offset 5, -12
+ 716              		.cfi_offset 6, -8
+ 717              		.cfi_offset 14, -4
+ 718 0004 0040A0E1 		mov	r4, r0
+ 719 0008 0250A0E1 		mov	r5, r2
+ 321:../src/renesas/application/console/console.c **** 
+ 720              		.loc 1 321 5 is_stmt 1 view .LVU226
+ 323:../src/renesas/application/console/console.c ****     {
+ 721              		.loc 1 323 5 view .LVU227
+ 323:../src/renesas/application/console/console.c ****     {
+ 722              		.loc 1 323 35 is_stmt 0 view .LVU228
+ 723 000c 203CD0E5 		ldrb	r3, [r0, #3104]	@ zero_extendqisi2
+ 323:../src/renesas/application/console/console.c ****     {
+ 724              		.loc 1 323 8 view .LVU229
+ 725 0010 000053E3 		cmp	r3, #0
+ 726 0014 0200001A 		bne	.L65
+ 323:../src/renesas/application/console/console.c ****     {
+ 727              		.loc 1 323 79 discriminator 1 view .LVU230
+ 728 0018 0030D0E5 		ldrb	r3, [r0]	@ zero_extendqisi2
+ 323:../src/renesas/application/console/console.c ****     {
+ 729              		.loc 1 323 53 discriminator 1 view .LVU231
+ 730 001c 400053E3 		cmp	r3, #64
+ 731 0020 0700001A 		bne	.L67
+ 732              	.LVL80:
+ 733              	.L65:
+ 331:../src/renesas/application/console/console.c ****     *pbfCommand = true;
+ 734              		.loc 1 331 5 is_stmt 1 view .LVU232
+ 331:../src/renesas/application/console/console.c ****     *pbfCommand = true;
+ 735              		.loc 1 331 29 is_stmt 0 view .LVU233
+ 736 0024 243C94E5 		ldr	r3, [r4, #3108]
+ 331:../src/renesas/application/console/console.c ****     *pbfCommand = true;
+ 737              		.loc 1 331 44 view .LVU234
+ 738 0028 0020A0E3 		mov	r2, #0
+ 739 002c 0320C4E7 		strb	r2, [r4, r3]
+ 332:../src/renesas/application/console/console.c **** 
+ 740              		.loc 1 332 5 is_stmt 1 view .LVU235
+ 332:../src/renesas/application/console/console.c **** 
+ 741              		.loc 1 332 17 is_stmt 0 view .LVU236
+ 742 0030 0130A0E3 		mov	r3, #1
+ 743 0034 0030C5E5 		strb	r3, [r5]
+ 335:../src/renesas/application/console/console.c **** }
+ 744              		.loc 1 335 5 is_stmt 1 view .LVU237
+ 335:../src/renesas/application/console/console.c **** }
+ 745              		.loc 1 335 13 is_stmt 0 view .LVU238
+ 746 0038 0400A0E1 		mov	r0, r4
+ 747 003c FEFFFFEB 		bl	con_parse_command
+ 748              	.LVL81:
+ 336:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 749              		.loc 1 336 1 view .LVU239
+ 750 0040 7080BDE8 		pop	{r4, r5, r6, pc}
+ 751              	.LVL82:
+ 752              	.L67:
+ 326:../src/renesas/application/console/console.c ****         #endif
+ 753              		.loc 1 326 9 is_stmt 1 view .LVU240
+ 754 0044 383C90E5 		ldr	r3, [r0, #3128]
+ 755 0048 0220A0E3 		mov	r2, #2
+ 756              	.LVL83:
+ 326:../src/renesas/application/console/console.c ****         #endif
+ 757              		.loc 1 326 9 is_stmt 0 view .LVU241
+ 758 004c 0110A0E3 		mov	r1, #1
+ 759              	.LVL84:
+ 326:../src/renesas/application/console/console.c ****         #endif
+ 760              		.loc 1 326 9 view .LVU242
+ 761 0050 000000E3 		movw	r0, #:lower16:.LC2
+ 762              	.LVL85:
+ 326:../src/renesas/application/console/console.c ****         #endif
+ 763              		.loc 1 326 9 view .LVU243
+ 764 0054 000040E3 		movt	r0, #:upper16:.LC2
+ 765 0058 FEFFFFEB 		bl	fwrite
+ 766              	.LVL86:
+ 767 005c F0FFFFEA 		b	.L65
+ 768              		.cfi_endproc
+ 769              	.LFE11:
+ 771              		.section	.text.process_ordinary_char,"ax",%progbits
+ 772              		.align	2
+ 773              		.syntax unified
+ 774              		.arm
+ 775              		.fpu neon
+ 777              	process_ordinary_char:
+ 778              	.LVL87:
+ 779              	.LFB10:
+ 254:../src/renesas/application/console/console.c ****     if (pCom->va.buffer_index < (CMD_READER_LINE_SIZE - 1))
+ 780              		.loc 1 254 1 is_stmt 1 view -0
+ 781              		.cfi_startproc
+ 782              		@ args = 0, pretend = 0, frame = 0
+ 783              		@ frame_needed = 0, uses_anonymous_args = 0
+ 254:../src/renesas/application/console/console.c ****     if (pCom->va.buffer_index < (CMD_READER_LINE_SIZE - 1))
+ 784              		.loc 1 254 1 is_stmt 0 view .LVU245
+ 785 0000 10402DE9 		push	{r4, lr}
+ 786              		.cfi_def_cfa_offset 8
+ 787              		.cfi_offset 4, -8
+ 788              		.cfi_offset 14, -4
+ 255:../src/renesas/application/console/console.c ****     {
+ 789              		.loc 1 255 5 is_stmt 1 view .LVU246
+ 255:../src/renesas/application/console/console.c ****     {
+ 790              		.loc 1 255 17 is_stmt 0 view .LVU247
+ 791 0004 243C90E5 		ldr	r3, [r0, #3108]
+ 255:../src/renesas/application/console/console.c ****     {
+ 792              		.loc 1 255 8 view .LVU248
+ 793 0008 0EC400E3 		movw	ip, #1038
+ 794 000c 0C0053E1 		cmp	r3, ip
+ 795 0010 3400008A 		bhi	.L73
+ 796 0014 01E0A0E1 		mov	lr, r1
+ 258:../src/renesas/application/console/console.c **** 
+ 797              		.loc 1 258 9 is_stmt 1 view .LVU249
+ 258:../src/renesas/application/console/console.c **** 
+ 798              		.loc 1 258 46 is_stmt 0 view .LVU250
+ 799 0018 01C083E2 		add	ip, r3, #1
+ 800 001c 24CC80E5 		str	ip, [r0, #3108]
+ 258:../src/renesas/application/console/console.c **** 
+ 801              		.loc 1 258 50 view .LVU251
+ 802 0020 0310C0E7 		strb	r1, [r0, r3]
+ 261:../src/renesas/application/console/console.c ****                 ('O' == (*pCom->va.buffer)))
+ 803              		.loc 1 261 9 is_stmt 1 view .LVU252
+ 261:../src/renesas/application/console/console.c ****                 ('O' == (*pCom->va.buffer)))
+ 804              		.loc 1 261 45 is_stmt 0 view .LVU253
+ 805 0024 203CD0E5 		ldrb	r3, [r0, #3104]	@ zero_extendqisi2
+ 261:../src/renesas/application/console/console.c ****                 ('O' == (*pCom->va.buffer)))
+ 806              		.loc 1 261 12 view .LVU254
+ 807 0028 010053E3 		cmp	r3, #1
+ 808 002c 0F00000A 		beq	.L76
+ 809              	.LVL88:
+ 810              	.L70:
+ 271:../src/renesas/application/console/console.c ****                 ('[' == (*pCom->va.buffer)) && ('1' != chChar))
+ 811              		.loc 1 271 14 is_stmt 1 view .LVU255
+ 271:../src/renesas/application/console/console.c ****                 ('[' == (*pCom->va.buffer)) && ('1' != chChar))
+ 812              		.loc 1 271 17 is_stmt 0 view .LVU256
+ 813 0030 010053E3 		cmp	r3, #1
+ 814 0034 1900000A 		beq	.L77
+ 815              	.L71:
+ 281:../src/renesas/application/console/console.c ****         }
+ 816              		.loc 1 281 13 is_stmt 1 view .LVU257
+ 817              	.LBB8:
+ 818              	.LBI8:
+ 819              		.file 2 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc/r
+   1:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** /**************************************************************************************************
+   2:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * DISCLAIMER
+   3:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * applicable laws, including copyright laws.
+   6:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES
+  12:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * following link:
+  15:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * http://www.renesas.com/disclaimer
+  16:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  *
+  17:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+  18:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  **************************************************************************************************
+  19:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** /**************************************************************************************************
+  20:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * File Name    : r_compiler_abstraction_api.h
+  21:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Description  : Provides a common API for frequently used compiler specific operations
+  22:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  **************************************************************************************************
+  23:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** #include  "r_typedefs.h"
+  24:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** 
+  25:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** #ifndef SRC_PRV_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_
+  26:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** #define SRC_PRV_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_
+  27:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** 
+  28:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** /* Macro is used to declare linkage to a function as weak so that it can be overridden by a normall
+  29:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Update this when using a different compiler. */
+  30:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** #define R_COMPILER_WEAK __attribute__((weak))
+  31:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** 
+  32:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** #define R_COMPILER_INLINE static inline
+  33:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** 
+  34:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** extern void __enable_irq (void);
+  35:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** extern uint32_t __disable_irq (void);
+  36:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** extern void __enable_fiq (void);
+  37:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** extern void __disable_fiq (void);
+  38:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** 
+  39:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** /**************************************************************************************************
+  40:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Function Name: R_COMPILER_Nop
+  41:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Description  : Abstracting a compiler No Operation opcode into a C function. Update this when us
+  42:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  *                compiler.
+  43:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Return Value : None.
+  44:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  **************************************************************************************************
+  45:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** R_COMPILER_INLINE void R_COMPILER_Nop (void)
+ 820              		.loc 2 45 24 view .LVU258
+ 821              	.LBB9:
+  46:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****     {
+  47:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****         __asm volatile ("nop");
+ 822              		.loc 2 47 9 view .LVU259
+ 823              		.syntax divided
+ 824              	@ 47 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc/r_com
+ 825 0038 00F020E3 		nop
+ 826              	@ 0 "" 2
+ 827              		.arm
+ 828              		.syntax unified
+ 829              	.LBE9:
+ 830              	.LBE8:
+ 291:../src/renesas/application/console/console.c ****     {
+ 831              		.loc 1 291 5 view .LVU260
+ 291:../src/renesas/application/console/console.c ****     {
+ 832              		.loc 1 291 35 is_stmt 0 view .LVU261
+ 833 003c 204CD0E5 		ldrb	r4, [r0, #3104]	@ zero_extendqisi2
+ 291:../src/renesas/application/console/console.c ****     {
+ 834              		.loc 1 291 8 view .LVU262
+ 835 0040 000054E3 		cmp	r4, #0
+ 836 0044 2900001A 		bne	.L74
+ 291:../src/renesas/application/console/console.c ****     {
+ 837              		.loc 1 291 79 discriminator 1 view .LVU263
+ 838 0048 0030D0E5 		ldrb	r3, [r0]	@ zero_extendqisi2
+ 291:../src/renesas/application/console/console.c ****     {
+ 839              		.loc 1 291 53 discriminator 1 view .LVU264
+ 840 004c 400053E3 		cmp	r3, #64
+ 841 0050 2700000A 		beq	.L69
+ 293:../src/renesas/application/console/console.c ****         {
+ 842              		.loc 1 293 9 is_stmt 1 view .LVU265
+ 293:../src/renesas/application/console/console.c ****         {
+ 843              		.loc 1 293 17 is_stmt 0 view .LVU266
+ 844 0054 3C3CD0E5 		ldrb	r3, [r0, #3132]	@ zero_extendqisi2
+ 293:../src/renesas/application/console/console.c ****         {
+ 845              		.loc 1 293 12 view .LVU267
+ 846 0058 000053E3 		cmp	r3, #0
+ 847 005c 1D00000A 		beq	.L72
+ 295:../src/renesas/application/console/console.c ****         }
+ 848              		.loc 1 295 13 is_stmt 1 view .LVU268
+ 849 0060 381C90E5 		ldr	r1, [r0, #3128]
+ 850 0064 2A00A0E3 		mov	r0, #42
+ 851              	.LVL89:
+ 295:../src/renesas/application/console/console.c ****         }
+ 852              		.loc 1 295 13 is_stmt 0 view .LVU269
+ 853 0068 FEFFFFEB 		bl	fputc
+ 854              	.LVL90:
+ 295:../src/renesas/application/console/console.c ****         }
+ 855              		.loc 1 295 13 view .LVU270
+ 856 006c 200000EA 		b	.L69
+ 857              	.LVL91:
+ 858              	.L76:
+ 261:../src/renesas/application/console/console.c ****                 ('O' == (*pCom->va.buffer)))
+ 859              		.loc 1 261 63 discriminator 1 view .LVU271
+ 860 0070 02005CE3 		cmp	ip, #2
+ 861 0074 EDFFFF1A 		bne	.L70
+ 262:../src/renesas/application/console/console.c ****         {
+ 862              		.loc 1 262 26 discriminator 2 view .LVU272
+ 863 0078 0010D0E5 		ldrb	r1, [r0]	@ zero_extendqisi2
+ 864              	.LVL92:
+ 261:../src/renesas/application/console/console.c ****                 ('O' == (*pCom->va.buffer)))
+ 865              		.loc 1 261 95 discriminator 2 view .LVU273
+ 866 007c 4F0051E3 		cmp	r1, #79
+ 867 0080 EAFFFF1A 		bne	.L70
+ 264:../src/renesas/application/console/console.c ****             *pbfCommand = true;
+ 868              		.loc 1 264 13 is_stmt 1 view .LVU274
+ 264:../src/renesas/application/console/console.c ****             *pbfCommand = true;
+ 869              		.loc 1 264 52 is_stmt 0 view .LVU275
+ 870 0084 0030A0E3 		mov	r3, #0
+ 871 0088 0C30C0E7 		strb	r3, [r0, ip]
+ 872              	.LVL93:
+ 265:../src/renesas/application/console/console.c **** 
+ 873              		.loc 1 265 13 is_stmt 1 view .LVU276
+ 265:../src/renesas/application/console/console.c **** 
+ 874              		.loc 1 265 25 is_stmt 0 view .LVU277
+ 875 008c 0130A0E3 		mov	r3, #1
+ 876 0090 0030C2E5 		strb	r3, [r2]
+ 268:../src/renesas/application/console/console.c ****         }
+ 877              		.loc 1 268 13 is_stmt 1 view .LVU278
+ 268:../src/renesas/application/console/console.c ****         }
+ 878              		.loc 1 268 21 is_stmt 0 view .LVU279
+ 879 0094 FEFFFFEB 		bl	con_parse_command
+ 880              	.LVL94:
+ 268:../src/renesas/application/console/console.c ****         }
+ 881              		.loc 1 268 21 view .LVU280
+ 882 0098 0040A0E1 		mov	r4, r0
+ 883 009c 140000EA 		b	.L69
+ 884              	.LVL95:
+ 885              	.L77:
+ 271:../src/renesas/application/console/console.c ****                 ('[' == (*pCom->va.buffer)) && ('1' != chChar))
+ 886              		.loc 1 271 68 discriminator 1 view .LVU281
+ 887 00a0 02005CE3 		cmp	ip, #2
+ 888 00a4 E3FFFF1A 		bne	.L71
+ 272:../src/renesas/application/console/console.c ****         {
+ 889              		.loc 1 272 26 discriminator 2 view .LVU282
+ 890 00a8 0030D0E5 		ldrb	r3, [r0]	@ zero_extendqisi2
+ 271:../src/renesas/application/console/console.c ****                 ('[' == (*pCom->va.buffer)) && ('1' != chChar))
+ 891              		.loc 1 271 100 discriminator 2 view .LVU283
+ 892 00ac 5B0053E3 		cmp	r3, #91
+ 893 00b0 E0FFFF1A 		bne	.L71
+ 272:../src/renesas/application/console/console.c ****         {
+ 894              		.loc 1 272 45 view .LVU284
+ 895 00b4 31005EE3 		cmp	lr, #49
+ 896 00b8 DEFFFF0A 		beq	.L71
+ 274:../src/renesas/application/console/console.c ****             *pbfCommand = 1;
+ 897              		.loc 1 274 13 is_stmt 1 view .LVU285
+ 274:../src/renesas/application/console/console.c ****             *pbfCommand = 1;
+ 898              		.loc 1 274 52 is_stmt 0 view .LVU286
+ 899 00bc 0030A0E3 		mov	r3, #0
+ 900 00c0 0C30C0E7 		strb	r3, [r0, ip]
+ 901              	.LVL96:
+ 275:../src/renesas/application/console/console.c ****             return (con_parse_command(pCom));
+ 902              		.loc 1 275 13 is_stmt 1 view .LVU287
+ 275:../src/renesas/application/console/console.c ****             return (con_parse_command(pCom));
+ 903              		.loc 1 275 25 is_stmt 0 view .LVU288
+ 904 00c4 0130A0E3 		mov	r3, #1
+ 905 00c8 0030C2E5 		strb	r3, [r2]
+ 276:../src/renesas/application/console/console.c ****         }
+ 906              		.loc 1 276 13 is_stmt 1 view .LVU289
+ 276:../src/renesas/application/console/console.c ****         }
+ 907              		.loc 1 276 21 is_stmt 0 view .LVU290
+ 908 00cc FEFFFFEB 		bl	con_parse_command
+ 909              	.LVL97:
+ 276:../src/renesas/application/console/console.c ****         }
+ 910              		.loc 1 276 21 view .LVU291
+ 911 00d0 0040A0E1 		mov	r4, r0
+ 912 00d4 060000EA 		b	.L69
+ 913              	.LVL98:
+ 914              	.L72:
+ 299:../src/renesas/application/console/console.c ****         }
+ 915              		.loc 1 299 13 is_stmt 1 view .LVU292
+ 916 00d8 381C90E5 		ldr	r1, [r0, #3128]
+ 917 00dc 0E00A0E1 		mov	r0, lr
+ 918              	.LVL99:
+ 299:../src/renesas/application/console/console.c ****         }
+ 919              		.loc 1 299 13 is_stmt 0 view .LVU293
+ 920 00e0 FEFFFFEB 		bl	fputc
+ 921              	.LVL100:
+ 299:../src/renesas/application/console/console.c ****         }
+ 922              		.loc 1 299 13 view .LVU294
+ 923 00e4 020000EA 		b	.L69
+ 924              	.LVL101:
+ 925              	.L73:
+ 286:../src/renesas/application/console/console.c ****     }
+ 926              		.loc 1 286 16 view .LVU295
+ 927 00e8 0240A0E3 		mov	r4, #2
+ 928 00ec 000000EA 		b	.L69
+ 929              	.LVL102:
+ 930              	.L74:
+ 304:../src/renesas/application/console/console.c **** }
+ 931              		.loc 1 304 12 view .LVU296
+ 932 00f0 0040A0E3 		mov	r4, #0
+ 933              	.LVL103:
+ 934              	.L69:
+ 305:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 935              		.loc 1 305 1 view .LVU297
+ 936 00f4 0400A0E1 		mov	r0, r4
+ 937 00f8 1080BDE8 		pop	{r4, pc}
+ 938              		.cfi_endproc
+ 939              	.LFE10:
+ 941              		.section	.rodata.show_welcome_msg.str1.4,"aMS",%progbits,1
+ 942              		.align	2
+ 943              	.LC3:
+ 944 0000 1B5B4800 		.ascii	"\033[H\000"
+ 945              		.align	2
+ 946              	.LC4:
+ 947 0004 1B5B324A 		.ascii	"\033[2J\000"
+ 947      00
+ 948 0009 000000   		.align	2
+ 949              	.LC5:
+ 950 000c 25732573 		.ascii	"%s%sRZ/A2M SSIF Sample Program\015\012Copyright (C)"
+ 950      525A2F41 
+ 950      324D2053 
+ 950      53494620 
+ 950      53616D70 
+ 951 0039 2052656E 		.ascii	" Renesas Electronics Europe.\015\012\000"
+ 951      65736173 
+ 951      20456C65 
+ 951      6374726F 
+ 951      6E696373 
+ 952              		.align	2
+ 953              	.LC6:
+ 954 0058 525A2F41 		.ascii	"RZ/A2M SSIF Sample Program\015\012Copyright (C) Ren"
+ 954      324D2053 
+ 954      53494620 
+ 954      53616D70 
+ 954      6C652050 
+ 955 0085 65736173 		.ascii	"esas Electronics Europe.\015\012\000"
+ 955      20456C65 
+ 955      6374726F 
+ 955      6E696373 
+ 955      20457572 
+ 956              		.section	.text.show_welcome_msg,"ax",%progbits
+ 957              		.align	2
+ 958              		.global	show_welcome_msg
+ 959              		.syntax unified
+ 960              		.arm
+ 961              		.fpu neon
+ 963              	show_welcome_msg:
+ 964              	.LVL104:
+ 965              	.LFB6:
+  94:../src/renesas/application/console/console.c ****     if (clear_screen)
+ 966              		.loc 1 94 1 is_stmt 1 view -0
+ 967              		.cfi_startproc
+ 968              		@ args = 0, pretend = 0, frame = 0
+ 969              		@ frame_needed = 0, uses_anonymous_args = 0
+  94:../src/renesas/application/console/console.c ****     if (clear_screen)
+ 970              		.loc 1 94 1 is_stmt 0 view .LVU299
+ 971 0000 10402DE9 		push	{r4, lr}
+ 972              		.cfi_def_cfa_offset 8
+ 973              		.cfi_offset 4, -8
+ 974              		.cfi_offset 14, -4
+ 975 0004 0040A0E1 		mov	r4, r0
+  95:../src/renesas/application/console/console.c ****     {
+ 976              		.loc 1 95 5 is_stmt 1 view .LVU300
+  95:../src/renesas/application/console/console.c ****     {
+ 977              		.loc 1 95 8 is_stmt 0 view .LVU301
+ 978 0008 000051E3 		cmp	r1, #0
+ 979 000c 0900000A 		beq	.L79
+  97:../src/renesas/application/console/console.c ****                 "%s%s"
+ 980              		.loc 1 97 9 is_stmt 1 view .LVU302
+ 981 0010 003000E3 		movw	r3, #:lower16:.LC3
+ 982 0014 003040E3 		movt	r3, #:upper16:.LC3
+ 983 0018 002000E3 		movw	r2, #:lower16:.LC4
+ 984 001c 002040E3 		movt	r2, #:upper16:.LC4
+ 985 0020 001000E3 		movw	r1, #:lower16:.LC5
+ 986              	.LVL105:
+  97:../src/renesas/application/console/console.c ****                 "%s%s"
+ 987              		.loc 1 97 9 is_stmt 0 view .LVU303
+ 988 0024 001040E3 		movt	r1, #:upper16:.LC5
+ 989 0028 FEFFFFEB 		bl	fprintf
+ 990              	.LVL106:
+ 991              	.L80:
+ 113:../src/renesas/application/console/console.c **** }
+ 992              		.loc 1 113 5 is_stmt 1 view .LVU304
+ 993 002c 0400A0E1 		mov	r0, r4
+ 994 0030 FEFFFFEB 		bl	fflush
+ 995              	.LVL107:
+ 114:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 996              		.loc 1 114 1 is_stmt 0 view .LVU305
+ 997 0034 1080BDE8 		pop	{r4, pc}
+ 998              	.LVL108:
+ 999              	.L79:
+ 107:../src/renesas/application/console/console.c ****                 "RZ/A2M "
+ 1000              		.loc 1 107 9 is_stmt 1 view .LVU306
+ 1001 0038 0030A0E1 		mov	r3, r0
+ 1002 003c 4720A0E3 		mov	r2, #71
+ 1003 0040 0110A0E3 		mov	r1, #1
+ 1004              	.LVL109:
+ 107:../src/renesas/application/console/console.c ****                 "RZ/A2M "
+ 1005              		.loc 1 107 9 is_stmt 0 view .LVU307
+ 1006 0044 000000E3 		movw	r0, #:lower16:.LC6
+ 1007              	.LVL110:
+ 107:../src/renesas/application/console/console.c ****                 "RZ/A2M "
+ 1008              		.loc 1 107 9 view .LVU308
+ 1009 0048 000040E3 		movt	r0, #:upper16:.LC6
+ 1010 004c FEFFFFEB 		bl	fwrite
+ 1011              	.LVL111:
+ 1012 0050 F5FFFFEA 		b	.L80
+ 1013              		.cfi_endproc
+ 1014              	.LFE6:
+ 1016              		.section	.text.con_get_last_command_line,"ax",%progbits
+ 1017              		.align	2
+ 1018              		.global	con_get_last_command_line
+ 1019              		.syntax unified
+ 1020              		.arm
+ 1021              		.fpu neon
+ 1023              	con_get_last_command_line:
+ 1024              	.LVL112:
+ 1025              	.LFB8:
+ 216:../src/renesas/application/console/console.c ****     strcpy(pCom->va.buffer, pCom->va.command);
+ 1026              		.loc 1 216 1 is_stmt 1 view -0
+ 1027              		.cfi_startproc
+ 1028              		@ args = 0, pretend = 0, frame = 0
+ 1029              		@ frame_needed = 0, uses_anonymous_args = 0
+ 216:../src/renesas/application/console/console.c ****     strcpy(pCom->va.buffer, pCom->va.command);
+ 1030              		.loc 1 216 1 is_stmt 0 view .LVU310
+ 1031 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 1032              		.cfi_def_cfa_offset 16
+ 1033              		.cfi_offset 4, -16
+ 1034              		.cfi_offset 5, -12
+ 1035              		.cfi_offset 6, -8
+ 1036              		.cfi_offset 14, -4
+ 1037 0004 0040A0E1 		mov	r4, r0
+ 217:../src/renesas/application/console/console.c ****     fprintf(pCom->p_out, "%s", pCom->va.buffer);
+ 1038              		.loc 1 217 5 is_stmt 1 view .LVU311
+ 217:../src/renesas/application/console/console.c ****     fprintf(pCom->p_out, "%s", pCom->va.buffer);
+ 1039              		.loc 1 217 37 is_stmt 0 view .LVU312
+ 1040 0008 415E80E2 		add	r5, r0, #1040
+ 217:../src/renesas/application/console/console.c ****     fprintf(pCom->p_out, "%s", pCom->va.buffer);
+ 1041              		.loc 1 217 5 view .LVU313
+ 1042 000c 0510A0E1 		mov	r1, r5
+ 1043 0010 FEFFFFEB 		bl	strcpy
+ 1044              	.LVL113:
+ 218:../src/renesas/application/console/console.c **** 
+ 1045              		.loc 1 218 5 is_stmt 1 view .LVU314
+ 1046 0014 381C94E5 		ldr	r1, [r4, #3128]
+ 1047 0018 0400A0E1 		mov	r0, r4
+ 1048 001c FEFFFFEB 		bl	fputs
+ 1049              	.LVL114:
+ 221:../src/renesas/application/console/console.c **** }
+ 1050              		.loc 1 221 5 view .LVU315
+ 221:../src/renesas/application/console/console.c **** }
+ 1051              		.loc 1 221 40 is_stmt 0 view .LVU316
+ 1052 0020 0500A0E1 		mov	r0, r5
+ 1053 0024 FEFFFFEB 		bl	strlen
+ 1054              	.LVL115:
+ 221:../src/renesas/application/console/console.c **** }
+ 1055              		.loc 1 221 27 view .LVU317
+ 1056 0028 240C84E5 		str	r0, [r4, #3108]
+ 222:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 1057              		.loc 1 222 1 view .LVU318
+ 1058 002c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 1059              		.cfi_endproc
+ 1060              	.LFE8:
+ 1062              		.section	.text.con_do_last_command_line,"ax",%progbits
+ 1063              		.align	2
+ 1064              		.global	con_do_last_command_line
+ 1065              		.syntax unified
+ 1066              		.arm
+ 1067              		.fpu neon
+ 1069              	con_do_last_command_line:
+ 1070              	.LVL116:
+ 1071              	.LFB9:
+ 234:../src/renesas/application/console/console.c ****     con_get_last_command_line(pCom);
+ 1072              		.loc 1 234 1 is_stmt 1 view -0
+ 1073              		.cfi_startproc
+ 1074              		@ args = 0, pretend = 0, frame = 0
+ 1075              		@ frame_needed = 0, uses_anonymous_args = 0
+ 234:../src/renesas/application/console/console.c ****     con_get_last_command_line(pCom);
+ 1076              		.loc 1 234 1 is_stmt 0 view .LVU320
+ 1077 0000 10402DE9 		push	{r4, lr}
+ 1078              		.cfi_def_cfa_offset 8
+ 1079              		.cfi_offset 4, -8
+ 1080              		.cfi_offset 14, -4
+ 1081 0004 0040A0E1 		mov	r4, r0
+ 235:../src/renesas/application/console/console.c ****     fprintf(pCom->p_out, "\r\n");
+ 1082              		.loc 1 235 5 is_stmt 1 view .LVU321
+ 1083 0008 FEFFFFEB 		bl	con_get_last_command_line
+ 1084              	.LVL117:
+ 236:../src/renesas/application/console/console.c **** 
+ 1085              		.loc 1 236 5 view .LVU322
+ 1086 000c 383C94E5 		ldr	r3, [r4, #3128]
+ 1087 0010 0220A0E3 		mov	r2, #2
+ 1088 0014 0110A0E3 		mov	r1, #1
+ 1089 0018 000000E3 		movw	r0, #:lower16:.LC2
+ 1090 001c 000040E3 		movt	r0, #:upper16:.LC2
+ 1091 0020 FEFFFFEB 		bl	fwrite
+ 1092              	.LVL118:
+ 238:../src/renesas/application/console/console.c **** }
+ 1093              		.loc 1 238 5 view .LVU323
+ 238:../src/renesas/application/console/console.c **** }
+ 1094              		.loc 1 238 13 is_stmt 0 view .LVU324
+ 1095 0024 0400A0E1 		mov	r0, r4
+ 1096 0028 FEFFFFEB 		bl	con_parse_command
+ 1097              	.LVL119:
+ 239:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 1098              		.loc 1 239 1 view .LVU325
+ 1099 002c 1080BDE8 		pop	{r4, pc}
+ 1100              		.cfi_endproc
+ 1101              	.LFE9:
+ 1103              		.section	.rodata.con_process_char.str1.4,"aMS",%progbits,1
+ 1104              		.align	2
+ 1105              	.LC7:
+ 1106 0000 08200800 		.ascii	"\010 \010\000"
+ 1107              		.section	.text.con_process_char,"ax",%progbits
+ 1108              		.align	2
+ 1109              		.global	con_process_char
+ 1110              		.syntax unified
+ 1111              		.arm
+ 1112              		.fpu neon
+ 1114              	con_process_char:
+ 1115              	.LVL120:
+ 1116              	.LFB12:
+ 351:../src/renesas/application/console/console.c ****     *pbfCommand = false;
+ 1117              		.loc 1 351 1 is_stmt 1 view -0
+ 1118              		.cfi_startproc
+ 1119              		@ args = 0, pretend = 0, frame = 0
+ 1120              		@ frame_needed = 0, uses_anonymous_args = 0
+ 351:../src/renesas/application/console/console.c ****     *pbfCommand = false;
+ 1121              		.loc 1 351 1 is_stmt 0 view .LVU327
+ 1122 0000 10402DE9 		push	{r4, lr}
+ 1123              		.cfi_def_cfa_offset 8
+ 1124              		.cfi_offset 4, -8
+ 1125              		.cfi_offset 14, -4
+ 1126 0004 0040A0E1 		mov	r4, r0
+ 352:../src/renesas/application/console/console.c **** 
+ 1127              		.loc 1 352 5 is_stmt 1 view .LVU328
+ 352:../src/renesas/application/console/console.c **** 
+ 1128              		.loc 1 352 17 is_stmt 0 view .LVU329
+ 1129 0008 0030A0E3 		mov	r3, #0
+ 1130 000c 0030C2E5 		strb	r3, [r2]
+ 354:../src/renesas/application/console/console.c ****     {
+ 1131              		.loc 1 354 5 is_stmt 1 view .LVU330
+ 1132 0010 1B0051E3 		cmp	r1, #27
+ 1133 0014 1E00008A 		bhi	.L87
+ 1134 0018 1B0051E3 		cmp	r1, #27
+ 1135 001c 01F19F97 		ldrls	pc, [pc, r1, asl #2]
+ 1136 0020 4F0000EA 		b	.L88
+ 1137              	.L90:
+ 1138 0024 44010000 		.word	.L94
+ 1139 0028 64010000 		.word	.L88
+ 1140 002c 64010000 		.word	.L88
+ 1141 0030 64010000 		.word	.L88
+ 1142 0034 64010000 		.word	.L88
+ 1143 0038 64010000 		.word	.L88
+ 1144 003c 64010000 		.word	.L88
+ 1145 0040 64010000 		.word	.L88
+ 1146 0044 A4000000 		.word	.L93
+ 1147 0048 64010000 		.word	.L88
+ 1148 004c 14010000 		.word	.L92
+ 1149 0050 64010000 		.word	.L88
+ 1150 0054 64010000 		.word	.L88
+ 1151 0058 5C010000 		.word	.L91
+ 1152 005c 64010000 		.word	.L88
+ 1153 0060 64010000 		.word	.L88
+ 1154 0064 64010000 		.word	.L88
+ 1155 0068 64010000 		.word	.L88
+ 1156 006c 64010000 		.word	.L88
+ 1157 0070 64010000 		.word	.L88
+ 1158 0074 64010000 		.word	.L88
+ 1159 0078 64010000 		.word	.L88
+ 1160 007c 64010000 		.word	.L88
+ 1161 0080 64010000 		.word	.L88
+ 1162 0084 64010000 		.word	.L88
+ 1163 0088 64010000 		.word	.L88
+ 1164 008c 64010000 		.word	.L88
+ 1165 0090 D4000000 		.word	.L89
+ 1166              	.L87:
+ 1167 0094 7E0051E3 		cmp	r1, #126
+ 1168 0098 2200000A 		beq	.L95
+ 1169 009c 7F0051E3 		cmp	r1, #127
+ 1170 00a0 0400001A 		bne	.L102
+ 1171              	.L93:
+ 368:../src/renesas/application/console/console.c ****             {
+ 1172              		.loc 1 368 13 view .LVU331
+ 368:../src/renesas/application/console/console.c ****             {
+ 1173              		.loc 1 368 30 is_stmt 0 view .LVU332
+ 1174 00a4 243C94E5 		ldr	r3, [r4, #3108]
+ 368:../src/renesas/application/console/console.c ****             {
+ 1175              		.loc 1 368 16 view .LVU333
+ 1176 00a8 000053E3 		cmp	r3, #0
+ 1177 00ac 0D00001A 		bne	.L103
+ 434:../src/renesas/application/console/console.c **** }
+ 1178              		.loc 1 434 12 view .LVU334
+ 1179 00b0 0000A0E3 		mov	r0, #0
+ 1180              	.LVL121:
+ 435:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 1181              		.loc 1 435 1 view .LVU335
+ 1182 00b4 1080BDE8 		pop	{r4, pc}
+ 1183              	.LVL122:
+ 1184              	.L102:
+ 354:../src/renesas/application/console/console.c ****     {
+ 1185              		.loc 1 354 5 view .LVU336
+ 1186 00b8 3B0051E3 		cmp	r1, #59
+ 1187 00bc 2800001A 		bne	.L88
+ 390:../src/renesas/application/console/console.c ****             {
+ 1188              		.loc 1 390 13 is_stmt 1 view .LVU337
+ 390:../src/renesas/application/console/console.c ****             {
+ 1189              		.loc 1 390 42 is_stmt 0 view .LVU338
+ 1190 00c0 203CD0E5 		ldrb	r3, [r0, #3104]	@ zero_extendqisi2
+ 390:../src/renesas/application/console/console.c ****             {
+ 1191              		.loc 1 390 16 view .LVU339
+ 1192 00c4 000053E3 		cmp	r3, #0
+ 1193 00c8 1400000A 		beq	.L104
+ 395:../src/renesas/application/console/console.c ****         }
+ 1194              		.loc 1 395 13 is_stmt 1 view .LVU340
+ 395:../src/renesas/application/console/console.c ****         }
+ 1195              		.loc 1 395 21 is_stmt 0 view .LVU341
+ 1196 00cc FEFFFFEB 		bl	terminate_command
+ 1197              	.LVL123:
+ 395:../src/renesas/application/console/console.c ****         }
+ 1198              		.loc 1 395 21 view .LVU342
+ 1199 00d0 1080BDE8 		pop	{r4, pc}
+ 1200              	.LVL124:
+ 1201              	.L89:
+ 360:../src/renesas/application/console/console.c ****             pCom->va.buffer_index = 0;
+ 1202              		.loc 1 360 13 is_stmt 1 view .LVU343
+ 360:../src/renesas/application/console/console.c ****             pCom->va.buffer_index = 0;
+ 1203              		.loc 1 360 38 is_stmt 0 view .LVU344
+ 1204 00d4 0130A0E3 		mov	r3, #1
+ 1205 00d8 203CC0E5 		strb	r3, [r0, #3104]
+ 361:../src/renesas/application/console/console.c ****             break;
+ 1206              		.loc 1 361 13 is_stmt 1 view .LVU345
+ 361:../src/renesas/application/console/console.c ****             break;
+ 1207              		.loc 1 361 35 is_stmt 0 view .LVU346
+ 1208 00dc 0000A0E3 		mov	r0, #0
+ 1209              	.LVL125:
+ 361:../src/renesas/application/console/console.c ****             break;
+ 1210              		.loc 1 361 35 view .LVU347
+ 1211 00e0 240C84E5 		str	r0, [r4, #3108]
+ 362:../src/renesas/application/console/console.c ****         }
+ 1212              		.loc 1 362 13 is_stmt 1 view .LVU348
+ 1213 00e4 1080BDE8 		pop	{r4, pc}
+ 1214              	.LVL126:
+ 1215              	.L103:
+ 371:../src/renesas/application/console/console.c ****                 #endif
+ 1216              		.loc 1 371 17 view .LVU349
+ 1217 00e8 383C94E5 		ldr	r3, [r4, #3128]
+ 1218 00ec 0320A0E3 		mov	r2, #3
+ 1219              	.LVL127:
+ 371:../src/renesas/application/console/console.c ****                 #endif
+ 1220              		.loc 1 371 17 is_stmt 0 view .LVU350
+ 1221 00f0 0110A0E3 		mov	r1, #1
+ 1222              	.LVL128:
+ 371:../src/renesas/application/console/console.c ****                 #endif
+ 1223              		.loc 1 371 17 view .LVU351
+ 1224 00f4 000000E3 		movw	r0, #:lower16:.LC7
+ 1225              	.LVL129:
+ 371:../src/renesas/application/console/console.c ****                 #endif
+ 1226              		.loc 1 371 17 view .LVU352
+ 1227 00f8 000040E3 		movt	r0, #:upper16:.LC7
+ 1228 00fc FEFFFFEB 		bl	fwrite
+ 1229              	.LVL130:
+ 373:../src/renesas/application/console/console.c ****             }
+ 1230              		.loc 1 373 17 is_stmt 1 view .LVU353
+ 373:../src/renesas/application/console/console.c ****             }
+ 1231              		.loc 1 373 25 is_stmt 0 view .LVU354
+ 1232 0100 243C94E5 		ldr	r3, [r4, #3108]
+ 373:../src/renesas/application/console/console.c ****             }
+ 1233              		.loc 1 373 38 view .LVU355
+ 1234 0104 013043E2 		sub	r3, r3, #1
+ 1235 0108 243C84E5 		str	r3, [r4, #3108]
+ 434:../src/renesas/application/console/console.c **** }
+ 1236              		.loc 1 434 12 view .LVU356
+ 1237 010c 0000A0E3 		mov	r0, #0
+ 1238 0110 1080BDE8 		pop	{r4, pc}
+ 1239              	.LVL131:
+ 1240              	.L92:
+ 382:../src/renesas/application/console/console.c ****             break;
+ 1241              		.loc 1 382 13 is_stmt 1 view .LVU357
+ 1242              	.LBB10:
+ 1243              	.LBI10:
+  45:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****     {
+ 1244              		.loc 2 45 24 view .LVU358
+ 1245              	.LBB11:
+ 1246              		.loc 2 47 9 view .LVU359
+ 1247              		.syntax divided
+ 1248              	@ 47 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc/r_com
+ 1249 0114 00F020E3 		nop
+ 1250              	@ 0 "" 2
+ 1251              		.arm
+ 1252              		.syntax unified
+ 1253              	.LBE11:
+ 1254              	.LBE10:
+ 434:../src/renesas/application/console/console.c **** }
+ 1255              		.loc 1 434 12 is_stmt 0 view .LVU360
+ 1256 0118 0000A0E3 		mov	r0, #0
+ 1257              	.LVL132:
+ 1258              	.LBB13:
+ 1259              	.LBB12:
+  48:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****     }
+ 1260              		.loc 2 48 5 view .LVU361
+ 1261 011c 1080BDE8 		pop	{r4, pc}
+ 1262              	.LVL133:
+ 1263              	.L104:
+ 1264              		.loc 2 48 5 view .LVU362
+ 1265              	.LBE12:
+ 1266              	.LBE13:
+ 392:../src/renesas/application/console/console.c ****             }
+ 1267              		.loc 1 392 17 is_stmt 1 view .LVU363
+ 392:../src/renesas/application/console/console.c ****             }
+ 1268              		.loc 1 392 25 is_stmt 0 view .LVU364
+ 1269 0120 FEFFFFEB 		bl	process_ordinary_char
+ 1270              	.LVL134:
+ 392:../src/renesas/application/console/console.c ****             }
+ 1271              		.loc 1 392 25 view .LVU365
+ 1272 0124 1080BDE8 		pop	{r4, pc}
+ 1273              	.LVL135:
+ 1274              	.L95:
+ 400:../src/renesas/application/console/console.c ****             {
+ 1275              		.loc 1 400 13 is_stmt 1 view .LVU366
+ 400:../src/renesas/application/console/console.c ****             {
+ 1276              		.loc 1 400 42 is_stmt 0 view .LVU367
+ 1277 0128 203CD0E5 		ldrb	r3, [r0, #3104]	@ zero_extendqisi2
+ 400:../src/renesas/application/console/console.c ****             {
+ 1278              		.loc 1 400 16 view .LVU368
+ 1279 012c 000053E3 		cmp	r3, #0
+ 1280 0130 0100000A 		beq	.L105
+ 405:../src/renesas/application/console/console.c ****         }
+ 1281              		.loc 1 405 13 is_stmt 1 view .LVU369
+ 405:../src/renesas/application/console/console.c ****         }
+ 1282              		.loc 1 405 21 is_stmt 0 view .LVU370
+ 1283 0134 FEFFFFEB 		bl	terminate_command
+ 1284              	.LVL136:
+ 405:../src/renesas/application/console/console.c ****         }
+ 1285              		.loc 1 405 21 view .LVU371
+ 1286 0138 1080BDE8 		pop	{r4, pc}
+ 1287              	.LVL137:
+ 1288              	.L105:
+ 402:../src/renesas/application/console/console.c ****             }
+ 1289              		.loc 1 402 17 is_stmt 1 view .LVU372
+ 402:../src/renesas/application/console/console.c ****             }
+ 1290              		.loc 1 402 25 is_stmt 0 view .LVU373
+ 1291 013c FEFFFFEB 		bl	process_ordinary_char
+ 1292              	.LVL138:
+ 402:../src/renesas/application/console/console.c ****             }
+ 1293              		.loc 1 402 25 view .LVU374
+ 1294 0140 1080BDE8 		pop	{r4, pc}
+ 1295              	.LVL139:
+ 1296              	.L94:
+ 410:../src/renesas/application/console/console.c ****             {
+ 1297              		.loc 1 410 13 is_stmt 1 view .LVU375
+ 410:../src/renesas/application/console/console.c ****             {
+ 1298              		.loc 1 410 42 is_stmt 0 view .LVU376
+ 1299 0144 200CD0E5 		ldrb	r0, [r0, #3104]	@ zero_extendqisi2
+ 1300              	.LVL140:
+ 410:../src/renesas/application/console/console.c ****             {
+ 1301              		.loc 1 410 16 view .LVU377
+ 1302 0148 000050E3 		cmp	r0, #0
+ 1303 014c 1080BD08 		popeq	{r4, pc}
+ 412:../src/renesas/application/console/console.c ****             }
+ 1304              		.loc 1 412 17 is_stmt 1 view .LVU378
+ 412:../src/renesas/application/console/console.c ****             }
+ 1305              		.loc 1 412 25 is_stmt 0 view .LVU379
+ 1306 0150 0400A0E1 		mov	r0, r4
+ 1307 0154 FEFFFFEB 		bl	terminate_command
+ 1308              	.LVL141:
+ 412:../src/renesas/application/console/console.c ****             }
+ 1309              		.loc 1 412 25 view .LVU380
+ 1310 0158 1080BDE8 		pop	{r4, pc}
+ 1311              	.LVL142:
+ 1312              	.L91:
+ 424:../src/renesas/application/console/console.c ****         }
+ 1313              		.loc 1 424 13 is_stmt 1 view .LVU381
+ 424:../src/renesas/application/console/console.c ****         }
+ 1314              		.loc 1 424 21 is_stmt 0 view .LVU382
+ 1315 015c FEFFFFEB 		bl	terminate_command
+ 1316              	.LVL143:
+ 424:../src/renesas/application/console/console.c ****         }
+ 1317              		.loc 1 424 21 view .LVU383
+ 1318 0160 1080BDE8 		pop	{r4, pc}
+ 1319              	.LVL144:
+ 1320              	.L88:
+ 430:../src/renesas/application/console/console.c ****         }
+ 1321              		.loc 1 430 13 is_stmt 1 view .LVU384
+ 430:../src/renesas/application/console/console.c ****         }
+ 1322              		.loc 1 430 21 is_stmt 0 view .LVU385
+ 1323 0164 0400A0E1 		mov	r0, r4
+ 1324              	.LVL145:
+ 430:../src/renesas/application/console/console.c ****         }
+ 1325              		.loc 1 430 21 view .LVU386
+ 1326 0168 FEFFFFEB 		bl	process_ordinary_char
+ 1327              	.LVL146:
+ 430:../src/renesas/application/console/console.c ****         }
+ 1328              		.loc 1 430 21 view .LVU387
+ 1329 016c 1080BDE8 		pop	{r4, pc}
+ 1330              		.cfi_endproc
+ 1331              	.LFE12:
+ 1333              		.section	.rodata.console.str1.4,"aMS",%progbits,1
+ 1334              		.align	2
+ 1335              	.LC8:
+ 1336 0000 3F00     		.ascii	"?\000"
+ 1337              		.section	.text.console,"ax",%progbits
+ 1338              		.align	2
+ 1339              		.global	console
+ 1340              		.syntax unified
+ 1341              		.arm
+ 1342              		.fpu neon
+ 1344              	console:
+ 1345              	.LVL147:
+ 1346              	.LFB7:
+ 132:../src/renesas/application/console/console.c ****     /* Initialise our variables */
+ 1347              		.loc 1 132 1 is_stmt 1 view -0
+ 1348              		.cfi_startproc
+ 1349              		@ args = 8, pretend = 0, frame = 8
+ 1350              		@ frame_needed = 0, uses_anonymous_args = 0
+ 132:../src/renesas/application/console/console.c ****     /* Initialise our variables */
+ 1351              		.loc 1 132 1 is_stmt 0 view .LVU389
+ 1352 0000 F0432DE9 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 1353              		.cfi_def_cfa_offset 28
+ 1354              		.cfi_offset 4, -28
+ 1355              		.cfi_offset 5, -24
+ 1356              		.cfi_offset 6, -20
+ 1357              		.cfi_offset 7, -16
+ 1358              		.cfi_offset 8, -12
+ 1359              		.cfi_offset 9, -8
+ 1360              		.cfi_offset 14, -4
+ 1361 0004 0CD04DE2 		sub	sp, sp, #12
+ 1362              		.cfi_def_cfa_offset 40
+ 1363 0008 0040A0E1 		mov	r4, r0
+ 1364 000c 0180A0E1 		mov	r8, r1
+ 1365 0010 0270A0E1 		mov	r7, r2
+ 1366 0014 0360A0E1 		mov	r6, r3
+ 1367 0018 28509DE5 		ldr	r5, [sp, #40]
+ 1368 001c 2C909DE5 		ldr	r9, [sp, #44]
+ 134:../src/renesas/application/console/console.c ****     pCom->p_in = pIn;
+ 1369              		.loc 1 134 5 is_stmt 1 view .LVU390
+ 1370 0020 EC2403E3 		movw	r2, #13548
+ 1371              	.LVL148:
+ 134:../src/renesas/application/console/console.c ****     pCom->p_in = pIn;
+ 1372              		.loc 1 134 5 is_stmt 0 view .LVU391
+ 1373 0024 0010A0E3 		mov	r1, #0
+ 1374              	.LVL149:
+ 134:../src/renesas/application/console/console.c ****     pCom->p_in = pIn;
+ 1375              		.loc 1 134 5 view .LVU392
+ 1376 0028 FEFFFFEB 		bl	memset
+ 1377              	.LVL150:
+ 135:../src/renesas/application/console/console.c ****     pCom->p_out = pOut;
+ 1378              		.loc 1 135 5 is_stmt 1 view .LVU393
+ 135:../src/renesas/application/console/console.c ****     pCom->p_out = pOut;
+ 1379              		.loc 1 135 16 is_stmt 0 view .LVU394
+ 1380 002c 346C84E5 		str	r6, [r4, #3124]
+ 136:../src/renesas/application/console/console.c ****     pCom->p_function = ppComFunctions;
+ 1381              		.loc 1 136 5 is_stmt 1 view .LVU395
+ 136:../src/renesas/application/console/console.c ****     pCom->p_function = ppComFunctions;
+ 1382              		.loc 1 136 17 is_stmt 0 view .LVU396
+ 1383 0030 385C84E5 		str	r5, [r4, #3128]
+ 137:../src/renesas/application/console/console.c **** 
+ 1384              		.loc 1 137 5 is_stmt 1 view .LVU397
+ 137:../src/renesas/application/console/console.c **** 
+ 1385              		.loc 1 137 22 is_stmt 0 view .LVU398
+ 1386 0034 408C84E5 		str	r8, [r4, #3136]
+ 140:../src/renesas/application/console/console.c ****     pCom->p_prompt = pszPrompt;
+ 1387              		.loc 1 140 5 is_stmt 1 view .LVU399
+ 140:../src/renesas/application/console/console.c ****     pCom->p_prompt = pszPrompt;
+ 1388              		.loc 1 140 22 is_stmt 0 view .LVU400
+ 1389 0038 443C00E3 		movw	r3, #3140
+ 1390 003c B37084E1 		strh	r7, [r4, r3]	@ movhi
+ 141:../src/renesas/application/console/console.c ****     pCom->p_default_prompt = pszPrompt;
+ 1391              		.loc 1 141 5 is_stmt 1 view .LVU401
+ 141:../src/renesas/application/console/console.c ****     pCom->p_default_prompt = pszPrompt;
+ 1392              		.loc 1 141 20 is_stmt 0 view .LVU402
+ 1393 0040 309C84E5 		str	r9, [r4, #3120]
+ 142:../src/renesas/application/console/console.c ****     pCom->working_drive = -1;
+ 1394              		.loc 1 142 5 is_stmt 1 view .LVU403
+ 142:../src/renesas/application/console/console.c ****     pCom->working_drive = -1;
+ 1395              		.loc 1 142 28 is_stmt 0 view .LVU404
+ 1396 0044 033A84E2 		add	r3, r4, #12288
+ 1397 0048 E89483E5 		str	r9, [r3, #1256]
+ 143:../src/renesas/application/console/console.c **** 
+ 1398              		.loc 1 143 5 is_stmt 1 view .LVU405
+ 143:../src/renesas/application/console/console.c **** 
+ 1399              		.loc 1 143 25 is_stmt 0 view .LVU406
+ 1400 004c 0030E0E3 		mvn	r3, #0
+ 1401 0050 463CC4E5 		strb	r3, [r4, #3142]
+ 146:../src/renesas/application/console/console.c **** 
+ 1402              		.loc 1 146 5 is_stmt 1 view .LVU407
+ 1403 0054 0270A0E3 		mov	r7, #2
+ 1404              	.LVL151:
+ 146:../src/renesas/application/console/console.c **** 
+ 1405              		.loc 1 146 5 is_stmt 0 view .LVU408
+ 1406 0058 0720A0E1 		mov	r2, r7
+ 1407 005c 001000E3 		movw	r1, #:lower16:.LC8
+ 1408 0060 001040E3 		movt	r1, #:upper16:.LC8
+ 1409 0064 410E84E2 		add	r0, r4, #1040
+ 1410 0068 FEFFFFEB 		bl	memcpy
+ 1411              	.LVL152:
+ 149:../src/renesas/application/console/console.c ****     fflush(pOut);
+ 1412              		.loc 1 149 5 is_stmt 1 view .LVU409
+ 1413 006c 0400A0E1 		mov	r0, r4
+ 1414 0070 FEFFFFEB 		bl	con_print_prompt
+ 1415              	.LVL153:
+ 150:../src/renesas/application/console/console.c **** 
+ 1416              		.loc 1 150 5 view .LVU410
+ 1417 0074 0500A0E1 		mov	r0, r5
+ 1418 0078 FEFFFFEB 		bl	fflush
+ 1419              	.LVL154:
+ 153:../src/renesas/application/console/console.c **** 
+ 1420              		.loc 1 153 5 view .LVU411
+ 1421 007c 0030A0E3 		mov	r3, #0
+ 1422 0080 0720A0E1 		mov	r2, r7
+ 1423 0084 0310A0E1 		mov	r1, r3
+ 1424 0088 0600A0E1 		mov	r0, r6
+ 1425 008c FEFFFFEB 		bl	setvbuf
+ 1426              	.LVL155:
+ 1427 0090 070000EA 		b	.L110
+ 1428              	.LVL156:
+ 1429              	.L113:
+ 1430              	.LBB14:
+ 169:../src/renesas/application/console/console.c ****             return (CMD_ERROR_IN_IO);
+ 1431              		.loc 1 169 13 view .LVU412
+ 1432 0094 BC30D6E1 		ldrh	r3, [r6, #12]
+ 1433 0098 6030C3E3 		bic	r3, r3, #96
+ 1434 009c BC30C6E1 		strh	r3, [r6, #12]	@ movhi
+ 170:../src/renesas/application/console/console.c ****         }
+ 1435              		.loc 1 170 13 view .LVU413
+ 170:../src/renesas/application/console/console.c ****         }
+ 1436              		.loc 1 170 20 is_stmt 0 view .LVU414
+ 1437 00a0 0700A0E3 		mov	r0, #7
+ 1438              	.LVL157:
+ 1439              	.L108:
+ 170:../src/renesas/application/console/console.c ****         }
+ 1440              		.loc 1 170 20 view .LVU415
+ 1441              	.LBE14:
+ 204:../src/renesas/application/console/console.c **** /**************************************************************************************************
+ 1442              		.loc 1 204 1 discriminator 1 view .LVU416
+ 1443 00a4 0CD08DE2 		add	sp, sp, #12
+ 1444              		.cfi_remember_state
+ 1445              		.cfi_def_cfa_offset 28
+ 1446              		@ sp needed
+ 1447 00a8 F083BDE8 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 1448              	.LVL158:
+ 1449              	.L109:
+ 1450              		.cfi_restore_state
+ 1451              	.LBB15:
+ 200:../src/renesas/application/console/console.c ****     }
+ 1452              		.loc 1 200 9 is_stmt 1 view .LVU417
+ 1453 00ac 0500A0E1 		mov	r0, r5
+ 1454 00b0 FEFFFFEB 		bl	fflush
+ 1455              	.LVL159:
+ 1456              	.LBE15:
+ 156:../src/renesas/application/console/console.c ****     {
+ 1457              		.loc 1 156 11 view .LVU418
+ 1458              	.L110:
+ 156:../src/renesas/application/console/console.c ****     {
+ 1459              		.loc 1 156 5 view .LVU419
+ 1460              	.LBB16:
+ 158:../src/renesas/application/console/console.c **** 
+ 1461              		.loc 1 158 9 view .LVU420
+ 158:../src/renesas/application/console/console.c **** 
+ 1462              		.loc 1 158 15 is_stmt 0 view .LVU421
+ 1463 00b4 0030A0E3 		mov	r3, #0
+ 1464 00b8 0730CDE5 		strb	r3, [sp, #7]
+ 161:../src/renesas/application/console/console.c ****         int_t data;
+ 1465              		.loc 1 161 9 is_stmt 1 view .LVU422
+ 1466              	.LVL160:
+ 162:../src/renesas/application/console/console.c **** 
+ 1467              		.loc 1 162 9 view .LVU423
+ 165:../src/renesas/application/console/console.c ****         if (EOF == data)
+ 1468              		.loc 1 165 9 view .LVU424
+ 165:../src/renesas/application/console/console.c ****         if (EOF == data)
+ 1469              		.loc 1 165 16 is_stmt 0 view .LVU425
+ 1470 00bc 0600A0E1 		mov	r0, r6
+ 1471 00c0 FEFFFFEB 		bl	fgetc
+ 1472              	.LVL161:
+ 166:../src/renesas/application/console/console.c ****         {
+ 1473              		.loc 1 166 9 is_stmt 1 view .LVU426
+ 166:../src/renesas/application/console/console.c ****         {
+ 1474              		.loc 1 166 12 is_stmt 0 view .LVU427
+ 1475 00c4 010070E3 		cmn	r0, #1
+ 1476 00c8 F1FFFF0A 		beq	.L113
+ 174:../src/renesas/application/console/console.c **** 
+ 1477              		.loc 1 174 9 is_stmt 1 view .LVU428
+ 174:../src/renesas/application/console/console.c **** 
+ 1478              		.loc 1 174 23 is_stmt 0 view .LVU429
+ 1479 00cc 287C00E3 		movw	r7, #3112
+ 1480 00d0 B70084E1 		strh	r0, [r4, r7]	@ movhi
+ 177:../src/renesas/application/console/console.c **** 
+ 1481              		.loc 1 177 9 is_stmt 1 view .LVU430
+ 177:../src/renesas/application/console/console.c **** 
+ 1482              		.loc 1 177 17 is_stmt 0 view .LVU431
+ 1483 00d4 2C2C94E5 		ldr	r2, [r4, #3116]
+ 177:../src/renesas/application/console/console.c **** 
+ 1484              		.loc 1 177 28 view .LVU432
+ 1485 00d8 012082E2 		add	r2, r2, #1
+ 1486 00dc 2C2C84E5 		str	r2, [r4, #3116]
+ 180:../src/renesas/application/console/console.c **** 
+ 1487              		.loc 1 180 9 is_stmt 1 view .LVU433
+ 1488 00e0 0500A0E1 		mov	r0, r5
+ 1489              	.LVL162:
+ 180:../src/renesas/application/console/console.c **** 
+ 1490              		.loc 1 180 9 is_stmt 0 view .LVU434
+ 1491 00e4 FEFFFFEB 		bl	fflush
+ 1492              	.LVL163:
+ 183:../src/renesas/application/console/console.c **** 
+ 1493              		.loc 1 183 9 is_stmt 1 view .LVU435
+ 183:../src/renesas/application/console/console.c **** 
+ 1494              		.loc 1 183 22 is_stmt 0 view .LVU436
+ 1495 00e8 07208DE2 		add	r2, sp, #7
+ 1496 00ec 0710D4E7 		ldrb	r1, [r4, r7]	@ zero_extendqisi2
+ 1497 00f0 0400A0E1 		mov	r0, r4
+ 1498 00f4 FEFFFFEB 		bl	con_process_char
+ 1499              	.LVL164:
+ 186:../src/renesas/application/console/console.c ****         {
+ 1500              		.loc 1 186 9 is_stmt 1 view .LVU437
+ 186:../src/renesas/application/console/console.c ****         {
+ 1501              		.loc 1 186 12 is_stmt 0 view .LVU438
+ 1502 00f8 040050E3 		cmp	r0, #4
+ 1503 00fc E8FFFF8A 		bhi	.L108
+ 192:../src/renesas/application/console/console.c ****         {
+ 1504              		.loc 1 192 9 is_stmt 1 view .LVU439
+ 192:../src/renesas/application/console/console.c ****         {
+ 1505              		.loc 1 192 13 is_stmt 0 view .LVU440
+ 1506 0100 0730DDE5 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 192:../src/renesas/application/console/console.c ****         {
+ 1507              		.loc 1 192 12 view .LVU441
+ 1508 0104 000053E3 		cmp	r3, #0
+ 1509 0108 E7FFFF0A 		beq	.L109
+ 192:../src/renesas/application/console/console.c ****         {
+ 1510              		.loc 1 192 26 discriminator 1 view .LVU442
+ 1511 010c 010050E3 		cmp	r0, #1
+ 1512 0110 E5FFFF0A 		beq	.L109
+ 194:../src/renesas/application/console/console.c ****             {
+ 1513              		.loc 1 194 13 is_stmt 1 view .LVU443
+ 194:../src/renesas/application/console/console.c ****             {
+ 1514              		.loc 1 194 17 is_stmt 0 view .LVU444
+ 1515 0114 0400A0E1 		mov	r0, r4
+ 1516              	.LVL165:
+ 194:../src/renesas/application/console/console.c ****             {
+ 1517              		.loc 1 194 17 view .LVU445
+ 1518 0118 FEFFFFEB 		bl	con_print_prompt
+ 1519              	.LVL166:
+ 194:../src/renesas/application/console/console.c ****             {
+ 1520              		.loc 1 194 16 view .LVU446
+ 1521 011c 000050E3 		cmp	r0, #0
+ 1522 0120 E1FFFFAA 		bge	.L109
+ 196:../src/renesas/application/console/console.c ****             }
+ 1523              		.loc 1 196 24 view .LVU447
+ 1524 0124 0700A0E3 		mov	r0, #7
+ 1525 0128 DDFFFFEA 		b	.L108
+ 1526              	.LBE16:
+ 1527              		.cfi_endproc
+ 1528              	.LFE7:
+ 1530              		.text
+ 1531              	.Letext0:
+ 1532              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1533              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 1534              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1535              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1536              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1537              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1538              		.file 9 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1539              		.file 10 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1540              		.file 11 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1541              		.file 12 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_
+ 1542              		.file 13 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/dr
+ 1543              		.file 14 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/os_abstractio
+ 1544              		.file 15 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/src/renesas/applicatio
+ 1545              		.file 16 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1546              		.file 17 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/src/renesas/applicatio
+ 1547              		.file 18 "<built-in>"
+DEFINED SYMBOLS
+                            *ABS*:00000000 console.c
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:17     .text.con_split_line:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:25     .text.con_split_line:00000000 con_split_line
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:231    .text.con_split_line:0000011c $d
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:236    .rodata.con_print_prompt.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:237    .rodata.con_print_prompt.str1.4:00000000 .LC0
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:240    .text.con_print_prompt:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:245    .text.con_print_prompt:00000000 con_print_prompt
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:300    .text.con_init_arg_list:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:305    .text.con_init_arg_list:00000000 con_init_arg_list
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:375    .text.con_execute:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:380    .text.con_execute:00000000 con_execute
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:527    .rodata.con_parse_command.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:528    .rodata.con_parse_command.str1.4:00000000 .LC1
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:531    .text.con_parse_command:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:536    .text.con_parse_command:00000000 con_parse_command
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:695    .rodata.terminate_command.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:696    .rodata.terminate_command.str1.4:00000000 .LC2
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:699    .text.terminate_command:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:704    .text.terminate_command:00000000 terminate_command
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:772    .text.process_ordinary_char:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:777    .text.process_ordinary_char:00000000 process_ordinary_char
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:942    .rodata.show_welcome_msg.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:943    .rodata.show_welcome_msg.str1.4:00000000 .LC3
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:946    .rodata.show_welcome_msg.str1.4:00000004 .LC4
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:949    .rodata.show_welcome_msg.str1.4:0000000c .LC5
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:953    .rodata.show_welcome_msg.str1.4:00000058 .LC6
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:957    .text.show_welcome_msg:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:963    .text.show_welcome_msg:00000000 show_welcome_msg
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1017   .text.con_get_last_command_line:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1023   .text.con_get_last_command_line:00000000 con_get_last_command_line
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1063   .text.con_do_last_command_line:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1069   .text.con_do_last_command_line:00000000 con_do_last_command_line
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1104   .rodata.con_process_char.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1105   .rodata.con_process_char.str1.4:00000000 .LC7
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1108   .text.con_process_char:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1114   .text.con_process_char:00000000 con_process_char
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1138   .text.con_process_char:00000024 $d
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1167   .text.con_process_char:00000094 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1334   .rodata.console.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1335   .rodata.console.str1.4:00000000 .LC8
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1338   .text.console:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc4WX9yp.s:1344   .text.console:00000000 console
+                           .group:00000000 wm4.0.3d5c910ebb40df6df78b28e37cd67f3d
+                           .group:00000000 wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d
+                           .group:00000000 wm4.newlib.h.18.1c9fedb6b3cd797cff253cc0fd593ef2
+                           .group:00000000 wm4.ieeefp.h.77.3f06799abf5dd88bdddee084775a1223
+                           .group:00000000 wm4.features.h.22.fad1cec3bc7ff06488171438dbdcfd02
+                           .group:00000000 wm4.config.h.224.c701144a7b0518c6ee9b9b5465b79f81
+                           .group:00000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:00000000 wm4.stdio.h.31.7c0e28c411445f3f9c5b11accf882760
+                           .group:00000000 wm4._default_types.h.6.959254cf5f09734ea7516c89e8bb21bd
+                           .group:00000000 wm4.stddef.h.181.c3f52a3b0f4c288bddb5dda1562858e2
+                           .group:00000000 wm4.cdefs.h.49.6260d97adb8d27534cbdc0f868b8ea87
+                           .group:00000000 wm4.stddef.h.39.b727a6c3269d9d6ef9fc646b721a8287
+                           .group:00000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.155.3588ebfdd1e8c7ede80509bb9c3b8009
+                           .group:00000000 wm4._types.h.127.34941de1b2539d59d5cac00e0dd27a45
+                           .group:00000000 wm4.reent.h.17.e292bf8b0bec6c96e131a54347145a30
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4.reent.h.77.dcd6129ff07fe81bd5636db29abe53b2
+                           .group:00000000 wm4.types.h.40.8b6acba56cefbb11746718204edc8f5e
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4._endian.h.31.65a10590763c3dde1ac4a7f66d7d4891
+                           .group:00000000 wm4.endian.h.9.49f3a4695c1b61e8a0808de3c4a106cb
+                           .group:00000000 wm4._timeval.h.32.bec3221fa7a9bb0bdde696c9c57e47d2
+                           .group:00000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:00000000 wm4.select.h.19.97ca6fd0c752a0f3b6719fd314d361e6
+                           .group:00000000 wm4.types.h.51.5571ec98f267d17d3c670b7a3ba33afa
+                           .group:00000000 wm4.sched.h.22.c60982713a5c428609783c78f9c78d95
+                           .group:00000000 wm4._pthreadtypes.h.36.fcee9961c35163dde6267ef772ad1972
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.81.932d0c162786b883f622b8d05c120c78
+                           .group:00000000 wm4.string.h.8.c4b8571ce60dff2817f43fec8b86aecd
+                           .group:00000000 wm4.stddef.h.155.ba788add86a0e365f264484f110c3c29
+                           .group:00000000 wm4.ctype.h.2.f79b44890b3502b730cce99e39252886
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.math.h.13.97100c05caf9f40dd9f5a3cda48ccc01
+                           .group:00000000 wm4.r_typedefs.h.38.e90d9de5300d9ae020e5db8c5af88b3e
+                           .group:00000000 wm4.r_startup_config.h.28.41a2bd9676f9208cac4163ceb2eb9006
+                           .group:00000000 wm4.r_compiler_abstraction_api.h.26.bb21b39b83806cb7bb8838b6f825dcff
+                           .group:00000000 wm4.driver.h.34.180df73e0731406f5e50150641059ede
+                           .group:00000000 wm4.r_os_abstraction_api.h.60.0331cc3a2f471de784d61b225d2e9127
+                           .group:00000000 wm4.compiler_settings.h.55.412db3588640e7e83336e77c1cd11233
+                           .group:00000000 wm4.console.h.56.f7177c8bb22e2442e73d175311cadce3
+                           .group:00000000 wm4.version.h.39.617ab76ce70239409ed607db621a7aff
+
+UNDEFINED SYMBOLS
+_ctype_
+fflush
+fprintf
+memset
+strlen
+wild_compare
+strcpy
+fwrite
+fputc
+fputs
+memcpy
+setvbuf
+fgetc

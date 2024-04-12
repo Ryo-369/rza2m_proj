@@ -1,0 +1,2140 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_riic_drv_api.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.riic_get_channel,"ax",%progbits
+  17              		.align	2
+  18              		.arch armv7-a
+  19              		.arch_extension mp
+  20              		.arch_extension sec
+  21              		.syntax unified
+  22              		.arm
+  23              		.fpu neon
+  25              	riic_get_channel:
+  26              	.LVL0:
+  27              	.LFB8:
+  28              		.file 1 "../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c"
+   1:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+   2:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * DISCLAIMER
+   3:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * This software is supplied by Renesas Electronics Corporation and is only
+   4:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * intended for use with Renesas products. No other uses are authorized. This
+   5:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * software is owned by Renesas Electronics Corporation and is protected under
+   6:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * all applicable laws, including copyright laws.
+   7:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * Renesas reserves the right, without notice, to make changes to this software
+  17:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * and to discontinue the availability of this software. By using this
+  18:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * software, you agree to the additional terms and conditions found by
+  19:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * accessing the following link:
+  20:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * http://www.renesas.com/disclaimer
+  21:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+  22:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *****************************************************************************/
+  23:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+  24:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * File Name    : r_riic_drv_api.c
+  25:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * Version      : See History
+  26:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * Description  : I2C high level device driver
+  27:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************
+  28:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * History      : DD.MM.YYYY Version Description
+  29:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *              : 06.02.2018 1.00    First Release
+  30:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *              : 08.05.2019 1.01    Fixed minor issue in riic_hld_open fn
+  31:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *              : 01.08.2019 1.03    Bump version number for V5 release
+  32:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *                                   Get clock speed from CPG driver
+  33:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *              : 30.06.2020 1.04    Fixed transfer end interrupt enable
+  34:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *****************************************************************************/
+  35:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  36:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+  37:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Includes   <System Includes> , "Project Includes"
+  38:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+  39:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  40:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** #include "r_riic_drv_api.h"
+  41:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** #include "r_riic_drv_sc_cfg.h"
+  42:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  43:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /* #include "trace.h" */
+  44:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** #include "r_riic_hld_prv.h"
+  45:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** #include "r_riic_drv_link.h"    /* Link include to low level driver */
+  46:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** #include "driver.h"
+  47:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** #include "r_os_abstraction_api.h"
+  48:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** #include "r_cpg_drv_api.h"
+  49:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  50:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+  51:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Macro definitions
+  52:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+  53:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  54:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /* Comment this line out to turn ON module trace in this file */
+  55:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /* #undef _TRACE_ON_
+  56:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  57:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  #ifndef _TRACE_ON_
+  58:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  #undef TRACE
+  59:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  #define TRACE(x)
+  60:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  #endif */
+  61:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  62:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*****************************************************************************
+  63:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Function Prototypes
+  64:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+  65:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  66:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t riic_hld_open (st_stream_ptr_t pStream);
+  67:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static void riic_hld_close (st_stream_ptr_t pStream);
+  68:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t riic_hld_control (st_stream_ptr_t pStream, uint32_t ctlCode, void *pCtlStruct);
+  69:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t riic_hld_get_version (st_stream_ptr_t stream_ptr, st_ver_info_t *pVerInfo);
+  70:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t riic_get_channel (st_stream_ptr_t stream_ptr);
+  71:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static void riic_reset (int_t channel);
+  72:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t riic_get_file_mode (st_stream_ptr_t stream_ptr);
+  73:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t validate_config_struct (st_riic_config_t *p_config_struct);
+  74:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  75:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*****************************************************************************
+  76:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Constant Data
+  77:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+  78:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  79:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static const st_drv_info_t gs_hld_info =
+  80:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** {
+  81:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+  82:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         ((STDIO_RIIC_HLD_VERSION_MAJOR << 16) + STDIO_RIIC_HLD_VERSION_MINOR)
+  83:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     },
+  84:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     STDIO_RIIC_HLD_BUILD_NUM,
+  85:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     STDIO_RIIC_HLD_DRV_NAME
+  86:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** };
+  87:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  88:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static bool_t gs_driver_open = false;
+  89:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static void *gsp_riic_control_mutex[RIIC_CFG_LLD_NUM_CHANNELS];
+  90:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static volatile int_t gs_channel_count[RIIC_CFG_LLD_NUM_CHANNELS];
+  91:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  92:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /* Define the driver function table for this implementation */
+  93:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** const st_r_driver_t g_riic_driver =
+  94:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** { "I2C Device Driver", riic_hld_open, riic_hld_close, no_dev_read, no_dev_write, riic_hld_control, 
+  95:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+  96:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+  97:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Private global variables
+  98:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+  99:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 100:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*****************************************************************************
+ 101:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Private Functions
+ 102:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 103:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 104:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /**
+ 105:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @fn             get_p1clk
+ 106:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @brief          Interrogate the CPG driver to get the P1 clock frequency
+ 107:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @param[out]     p1clk - the P1 clock frequency in KHz
+ 108:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @retval         DRV_ERROR or DRV_SUCCESS
+ 109:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  */
+ 110:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t get_p1clk(float64_t *p1clk)
+ 111:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** {
+ 112:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t cpg_handle;
+ 113:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t retval;
+ 114:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     st_r_drv_cpg_get_clk_t cpg_get_clock_t;
+ 115:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 116:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* open the CPG driver */
+ 117:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     cpg_handle = direct_open("cpg", O_RDWR);
+ 118:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if (cpg_handle < 0)
+ 119:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 120:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         return (DRV_ERROR);
+ 121:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 122:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 123:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* interrogate the CPG driver for the P1 clock frequency */
+ 124:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     cpg_get_clock_t.freq_src = CPG_FREQ_P1CLK;
+ 125:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     retval = control(cpg_handle, CTL_CPG_GET_CLK, &cpg_get_clock_t);
+ 126:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 127:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     *p1clk = cpg_get_clock_t.clk_frequency_khz;
+ 128:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 129:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* close the CPG driver */
+ 130:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     direct_close(cpg_handle);
+ 131:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 132:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     return (retval);
+ 133:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 134:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+ 135:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * End of function get_p1clk
+ 136:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 137:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 138:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+ 139:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Function Name: riic_hld_open
+ 140:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Description:   Function to open the I2C device driver
+ 141:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Arguments:     IN pStream - Pointer to the file stream
+ 142:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Return value:  0 for success otherwise -1
+ 143:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 144:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t riic_hld_open (st_stream_ptr_t p_stream)
+ 145:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** {
+ 146:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     float64_t p1clk;
+ 147:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t ret_value = DRV_ERROR;
+ 148:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 149:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* determine hardware channel number */
+ 150:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t channel = riic_get_channel(p_stream);
+ 151:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 152:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if (DRV_ERROR != channel)
+ 153:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 154:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         /* see if channel is supported */
+ 155:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         ret_value = validate_channel(channel);
+ 156:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 157:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         if (DRV_ERROR != ret_value)
+ 158:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 159:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             /* initialise if first entry */
+ 160:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             if (!gs_driver_open)
+ 161:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 162:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /* initialise channel status */
+ 163:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 uint32_t loop = 0u;
+ 164:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 for (loop = 0; loop < RIIC_CFG_LLD_NUM_CHANNELS; loop++)
+ 165:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 166:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     gs_channel_count[loop] = 0;
+ 167:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     gsp_riic_control_mutex[loop] = NULL;
+ 168:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 169:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 170:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 gs_driver_open = true;
+ 171:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 172:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 173:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             if (0 == gs_channel_count[channel])
+ 174:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 175:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /* Channel is not open. Implement SC configuration and open */
+ 176:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 177:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /* setup access mutex */
+ 178:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 R_OS_EnterCritical();
+ 179:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 gsp_riic_control_mutex[channel] = R_OS_MutexCreate();
+ 180:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 if (NULL == gsp_riic_control_mutex[channel])
+ 181:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 182:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     R_OS_ExitCritical();
+ 183:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     ret_value = DRV_ERROR;
+ 184:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 185:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 else
+ 186:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 187:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     R_OS_MutexAcquire(gsp_riic_control_mutex[channel]);
+ 188:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     R_OS_ExitCritical();
+ 189:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 190:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     if (DRV_SUCCESS == ret_value)
+ 191:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 192:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                         ret_value = get_p1clk(&p1clk);
+ 193:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 194:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 195:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     if (DRV_SUCCESS == ret_value)
+ 196:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 197:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                         /* apply SC configuration on open of channel */
+ 198:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                         ret_value = R_RIIC_ScInitChannel(p_stream->sc_config_index,
+ 199:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                                 (uint32_t) (p1clk * 1000));
+ 200:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 201:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 202:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     if (DRV_SUCCESS == ret_value)
+ 203:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 204:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                         /* open channel */
+ 205:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                         ret_value = open_channel(channel);
+ 206:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 207:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 208:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     if (DRV_SUCCESS == ret_value)
+ 209:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 210:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                         /* increment channel count */
+ 211:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                         gs_channel_count[channel]++;
+ 212:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 213:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 214:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     /* Release driver mutex*/
+ 215:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     R_OS_MutexRelease(gsp_riic_control_mutex[channel]);
+ 216:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 217:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 218:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             else
+ 219:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 220:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /* Already open. Increment channel open count */
+ 221:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 gs_channel_count[channel]++;
+ 222:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 223:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         }
+ 224:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 225:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 226:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* return status */
+ 227:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     return (ret_value);
+ 228:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 229:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+ 230:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  End of function riic_hld_open
+ 231:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 232:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 233:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+ 234:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Function Name: riic_hld_close
+ 235:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Description:   Function to close the I2C driver
+ 236:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Arguments:     IN pStream - Pointer to the file stream
+ 237:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Return value:  none
+ 238:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 239:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static void riic_hld_close (st_stream_ptr_t p_stream)
+ 240:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** {
+ 241:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* determine hardware channel number */
+ 242:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t channel = riic_get_channel(p_stream);
+ 243:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 244:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if ((DRV_ERROR != channel) && (NULL != gsp_riic_control_mutex[channel]))
+ 245:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 246:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         if (validate_channel(channel) == DRV_SUCCESS)
+ 247:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 248:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             /* decrease channel open count */
+ 249:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             gs_channel_count[channel]--;
+ 250:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 251:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             /* valid channel. Check it is open */
+ 252:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             if (0 == gs_channel_count[channel])
+ 253:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 254:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /* Ensure single task access to driver operations */
+ 255:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 R_OS_MutexAcquire(gsp_riic_control_mutex[channel]);
+ 256:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 257:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /* Close channel in low layer */
+ 258:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 R_RIIC_CloseChannel(channel);
+ 259:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 260:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /* As there are no more drivers open on this channel, close the mutex */
+ 261:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 R_OS_EnterCritical();
+ 262:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 R_OS_MutexDelete( &gsp_riic_control_mutex[channel]);
+ 263:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 gsp_riic_control_mutex[channel] = NULL;
+ 264:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 R_OS_ExitCritical();
+ 265:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 266:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         }
+ 267:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 268:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 269:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+ 270:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  End of function riic_hld_close
+ 271:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 272:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 273:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+ 274:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Function Name: riic_hld_control
+ 275:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Description:   Function to handle custom controls for the I2C device driver
+ 276:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Arguments:     IN  p_stream - Pointer to the file stream
+ 277:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  IN  ctl_code - The custom control code
+ 278:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  IN  p_ctl_struct - Pointer to the custom control structure
+ 279:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  Return value:  DRV_SUCCESS for success DRV_ERROR on error
+ 280:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 281:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t riic_hld_control (st_stream_ptr_t p_str, uint32_t ctl_code, void *p_ctl_struct)
+ 282:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** {
+ 283:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t ret_value = DRV_ERROR;
+ 284:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t file_mode;
+ 285:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 286:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* get channel number */
+ 287:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t channel = riic_get_channel(p_str);
+ 288:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 289:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* fail if pStream has wrong name */
+ 290:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if ((DRV_ERROR) == channel)
+ 291:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 292:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         return (ret_value);
+ 293:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 294:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 295:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* get R/W setting */
+ 296:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     file_mode = riic_get_file_mode(p_str);
+ 297:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 298:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* fail if the channel is not open */
+ 299:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if (0 >= gs_channel_count[channel])
+ 300:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 301:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         return (ret_value);
+ 302:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 303:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 304:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if (p_ctl_struct)
+ 305:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 306:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         /* Ensure single task access to driver operations */
+ 307:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         R_OS_MutexAcquire(gsp_riic_control_mutex[channel]);
+ 308:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 309:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         ret_value = DRV_ERROR;
+ 310:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 311:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         switch (ctl_code)
+ 312:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 313:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             case CTL_RIIC_SET_CONFIG:
+ 314:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 315:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /*!< Set channel configuration */
+ 316:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 317:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /* make sure that the parameters are valid */
+ 318:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 ret_value = validate_config_struct((st_riic_config_t *) p_ctl_struct);
+ 319:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 320:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 if (DRV_SUCCESS == ret_value)
+ 321:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 322:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     /* cast to configuration structure */
+ 323:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     ret_value = R_RIIC_SetConfig(channel, (st_riic_config_t *) p_ctl_struct);
+ 324:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 325:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 326:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             break;
+ 327:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 328:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             case CTL_RIIC_GET_CONFIG:
+ 329:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 330:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /*!< Get channel configuration */
+ 331:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 ret_value = R_RIIC_GetConfig(channel, (st_riic_config_t *) p_ctl_struct);
+ 332:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 333:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             break;
+ 334:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 335:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             case CTL_RIIC_READ:
+ 336:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 337:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /*!< Read from RIIC device */
+ 338:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 339:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /* Ensure correct access mode */
+ 340:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 if ((file_mode & __SRD) > 0)
+ 341:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 342:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     /* cast control pointer to control struct */
+ 343:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     ret_value = read_data(channel, (st_r_drv_riic_transfer_t *) p_ctl_struct);
+ 344:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 345:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     if (DRV_SUCCESS != ret_value)
+ 346:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 347:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                         riic_reset(channel);
+ 348:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 349:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 350:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 351:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             break;
+ 352:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 353:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             case CTL_RIIC_WRITE:
+ 354:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 355:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /*!< Write to IIC device */
+ 356:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 357:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /* Ensure correct access mode */
+ 358:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 if ((file_mode & __SWR) > 0)
+ 359:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 360:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     /* cast control pointer to control struct */
+ 361:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     ret_value = write_data(channel, (st_r_drv_riic_transfer_t *) p_ctl_struct);
+ 362:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 363:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     if (DRV_SUCCESS != ret_value)
+ 364:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 365:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                         riic_reset(channel);
+ 366:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 367:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 368:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 369:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             break;
+ 370:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 371:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             default:
+ 372:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 373:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 ret_value = DRV_ERROR;
+ 374:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 break;
+ 375:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 376:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         }
+ 377:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 378:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         /* Release driver */
+ 379:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         R_OS_MutexRelease(gsp_riic_control_mutex[channel]);
+ 380:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 381:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 382:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     return (ret_value);
+ 383:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 384:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+ 385:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  End of function  riic_hld_control
+ 386:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 387:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 388:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*******************************************************************************
+ 389:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * Function Name: riic_hld_get_version
+ 390:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * Description  : Provides build information even if driver fails to open
+ 391:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *                version information is updated by developer
+ 392:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * Arguments    : none
+ 393:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * Return Value : DRV_SUCCESS (never fails)
+ 394:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 395:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t riic_hld_get_version (st_stream_ptr_t stream_ptr, st_ver_info_t *p_ver_info)
+ 396:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** {
+ 397:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* Unused argument */
+ 398:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     (void) stream_ptr;
+ 399:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 400:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     p_ver_info->hld.version.sub.major = gs_hld_info.version.sub.major;
+ 401:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     p_ver_info->hld.version.sub.minor = gs_hld_info.version.sub.minor;
+ 402:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     p_ver_info->hld.build = gs_hld_info.build;
+ 403:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     p_ver_info->hld.p_szdriver_name = gs_hld_info.p_szdriver_name;
+ 404:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 405:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* Obtain version information from Low layer Driver */
+ 406:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     R_RIIC_GetVersion(p_ver_info);
+ 407:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 408:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     return (DRV_SUCCESS);
+ 409:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 410:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*******************************************************************************
+ 411:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  End of function riic_hld_get_version
+ 412:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 413:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 414:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*******************************************************************************
+ 415:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * Function Name: riic_get_channel
+ 416:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * Description  : Provides channel number written in stream_ptr
+ 417:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * Arguments    : IN pStream - Pointer to the file stream
+ 418:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * Return value:  0 to 3 for channel number -1 on error
+ 419:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 420:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t riic_get_channel (st_stream_ptr_t stream_ptr)
+ 421:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** {
+  29              		.loc 1 421 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+ 422:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t ret_value = DRV_ERROR;
+  34              		.loc 1 422 5 view .LVU1
+ 423:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t channel_id;
+  35              		.loc 1 423 5 view .LVU2
+ 424:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 425:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if (NULL != stream_ptr)
+  36              		.loc 1 425 5 view .LVU3
+  37              		.loc 1 425 8 is_stmt 0 view .LVU4
+  38 0000 000050E3 		cmp	r0, #0
+  39              		.loc 1 425 8 view .LVU5
+  40 0004 0C00000A 		beq	.L3
+ 426:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 427:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         /* cast channel id to an int_t */
+ 428:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         channel_id = (int_t) (RIIC_SC_TABLE[stream_ptr->sc_config_index].channel);
+  41              		.loc 1 428 9 is_stmt 1 view .LVU6
+  42              		.loc 1 428 55 is_stmt 0 view .LVU7
+  43 0008 1C30D0E5 		ldrb	r3, [r0, #28]	@ zero_extendqisi2
+  44              		.loc 1 428 20 view .LVU8
+  45 000c 002000E3 		movw	r2, #:lower16:.LANCHOR0
+  46 0010 002040E3 		movt	r2, #:upper16:.LANCHOR0
+  47 0014 033283E0 		add	r3, r3, r3, lsl #4
+  48 0018 030192E7 		ldr	r0, [r2, r3, lsl #2]
+  49              	.LVL1:
+ 429:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 430:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         /* verify that the channel is supported */
+ 431:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 432:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         /* look for channel in the conglomeration  of available channels from low level driver */
+ 433:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         /* (e_channel_id_t). This is a bitfield where the power of 2 is the available channel */
+ 434:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         if (((1 << channel_id) <= R_CH15))
+  50              		.loc 1 434 9 is_stmt 1 view .LVU9
+  51              		.loc 1 434 17 is_stmt 0 view .LVU10
+  52 001c 0130A0E3 		mov	r3, #1
+  53 0020 1330A0E1 		lsl	r3, r3, r0
+  54              		.loc 1 434 12 view .LVU11
+  55 0024 020953E3 		cmp	r3, #32768
+  56 0028 050000CA 		bgt	.L4
+  57              	.LBB2:
+ 435:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 436:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             /* set channel as bitfield where value is 2 << channel */
+ 437:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             int_t test1 = (1 << channel_id);
+  58              		.loc 1 437 13 is_stmt 1 view .LVU12
+  59              	.LVL2:
+ 438:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 439:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             /* get bitfield of supported channels */
+ 440:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             int_t test2 = RIIC_CFG_LLD_SUPPORTED_CHANNELS;
+  60              		.loc 1 440 13 view .LVU13
+ 441:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             if (0 != (test1 & test2))
+  61              		.loc 1 441 13 view .LVU14
+  62              		.loc 1 441 16 is_stmt 0 view .LVU15
+  63 002c 0F0013E3 		tst	r3, #15
+  64 0030 1EFF2F11 		bxne	lr
+ 442:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 443:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /* Channel is supported */
+ 444:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 ret_value = (int_t) channel_id;
+ 445:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 446:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             else
+ 447:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 448:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 /* Channel is supported */
+ 449:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 ret_value = DRV_ERROR;
+  65              		.loc 1 449 27 view .LVU16
+  66 0034 0000E0E3 		mvn	r0, #0
+  67              	.LVL3:
+  68              		.loc 1 449 27 view .LVU17
+  69              	.LBE2:
+ 450:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 451:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         }
+ 452:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 453:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 454:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* return status as error or channel number  */
+ 455:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     return (ret_value);
+  70              		.loc 1 455 5 is_stmt 1 view .LVU18
+ 456:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+  71              		.loc 1 456 1 is_stmt 0 view .LVU19
+  72 0038 1EFF2FE1 		bx	lr
+  73              	.LVL4:
+  74              	.L3:
+ 422:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t channel_id;
+  75              		.loc 1 422 11 view .LVU20
+  76 003c 0000E0E3 		mvn	r0, #0
+  77              	.LVL5:
+ 422:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t channel_id;
+  78              		.loc 1 422 11 view .LVU21
+  79 0040 1EFF2FE1 		bx	lr
+  80              	.LVL6:
+  81              	.L4:
+ 422:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t channel_id;
+  82              		.loc 1 422 11 view .LVU22
+  83 0044 0000E0E3 		mvn	r0, #0
+  84              	.LVL7:
+ 422:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t channel_id;
+  85              		.loc 1 422 11 view .LVU23
+  86 0048 1EFF2FE1 		bx	lr
+  87              		.cfi_endproc
+  88              	.LFE8:
+  90              		.section	.text.riic_get_file_mode,"ax",%progbits
+  91              		.align	2
+  92              		.syntax unified
+  93              		.arm
+  94              		.fpu neon
+  96              	riic_get_file_mode:
+  97              	.LVL8:
+  98              	.LFB11:
+ 457:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*******************************************************************************
+ 458:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  End of function riic_get_channel
+ 459:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 460:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 461:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /**
+ 462:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @brief Reset Driver Hardware configuration
+ 463:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @param[in] channel : the device specific channel number (in RIIC_CFG_LLD_SUPPORTED_CHANNELS)
+ 464:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  **/
+ 465:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static void riic_reset (int_t channel)
+ 466:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** {
+ 467:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     st_riic_config_t temp_cfg;
+ 468:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 469:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* Get current configuration. Ignore return status */
+ 470:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     R_RIIC_GetConfig(channel, &temp_cfg);
+ 471:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     R_RIIC_SetConfig(channel, &temp_cfg);
+ 472:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 473:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*******************************************************************************
+ 474:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  End of function riic_reset
+ 475:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 476:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 477:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /**
+ 478:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @brief Determine if the specified RIIC channel is valid
+ 479:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @param[in] channel : the device specific channel number (in RIIC_CFG_LLD_SUPPORTED_CHANNELS)
+ 480:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @return    DRV_SUCCESS       : Success of RIIC operation
+ 481:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *            DRV_ERROR         : Failure of RIIC operation
+ 482:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  **/
+ 483:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** int_t validate_channel (int_t channel)
+ 484:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** {
+ 485:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t ret_value = DRV_ERROR;
+ 486:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 487:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* test if the channel is present */
+ 488:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if (0 != ((1 << channel) & RIIC_CFG_LLD_SUPPORTED_CHANNELS))
+ 489:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 490:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         ret_value = DRV_SUCCESS;
+ 491:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 492:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 493:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* return status */
+ 494:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     return (ret_value);
+ 495:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 496:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*******************************************************************************
+ 497:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  End of function validate_channel
+ 498:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 499:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 500:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /**
+ 501:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @brief Acquires the file_mode from the given st_stream_ptr_t
+ 502:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *
+ 503:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * This function is particularly used in the open function,
+ 504:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * where we need to only read and/or write to configure the RIIC
+ 505:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * for reception and/or transmission.
+ 506:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *
+ 507:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @param stream_ptr Pointer to the file stream structure.
+ 508:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 509:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @retval  N Where N is the current file mode.
+ 510:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @retval -1 DRV_ERROR
+ 511:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  */
+ 512:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t riic_get_file_mode (st_stream_ptr_t stream_ptr)
+ 513:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** {
+  99              		.loc 1 513 1 is_stmt 1 view -0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103              		@ link register save eliminated.
+ 514:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t ret_value = DRV_ERROR;
+ 104              		.loc 1 514 5 view .LVU25
+ 515:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t file_mode;
+ 105              		.loc 1 515 5 view .LVU26
+ 516:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 517:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* If valid stream pointer */
+ 518:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if (NULL != stream_ptr)
+ 106              		.loc 1 518 5 view .LVU27
+ 107              		.loc 1 518 8 is_stmt 0 view .LVU28
+ 108 0000 000050E3 		cmp	r0, #0
+ 109              		.loc 1 518 8 view .LVU29
+ 110 0004 0400000A 		beq	.L8
+ 519:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 520:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         /* Get file mode */
+ 521:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         file_mode = stream_ptr->file_mode;
+ 111              		.loc 1 521 9 is_stmt 1 view .LVU30
+ 112              		.loc 1 521 19 is_stmt 0 view .LVU31
+ 113 0008 140090E5 		ldr	r0, [r0, #20]
+ 114              	.LVL9:
+ 522:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 523:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         /* Check access permissions */
+ 524:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         if ((file_mode & (__SRD | __SWR)) > 0)
+ 115              		.loc 1 524 9 is_stmt 1 view .LVU32
+ 116              		.loc 1 524 12 is_stmt 0 view .LVU33
+ 117 000c 0C0010E3 		tst	r0, #12
+ 118 0010 1EFF2F11 		bxne	lr
+ 514:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t file_mode;
+ 119              		.loc 1 514 11 view .LVU34
+ 120 0014 0000E0E3 		mvn	r0, #0
+ 121              	.LVL10:
+ 514:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t file_mode;
+ 122              		.loc 1 514 11 view .LVU35
+ 123 0018 1EFF2FE1 		bx	lr
+ 124              	.LVL11:
+ 125              	.L8:
+ 514:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t file_mode;
+ 126              		.loc 1 514 11 view .LVU36
+ 127 001c 0000E0E3 		mvn	r0, #0
+ 128              	.LVL12:
+ 525:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 526:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             ret_value = file_mode;
+ 527:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         }
+ 528:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 529:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 530:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     return (ret_value);
+ 129              		.loc 1 530 5 is_stmt 1 view .LVU37
+ 531:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 130              		.loc 1 531 1 is_stmt 0 view .LVU38
+ 131 0020 1EFF2FE1 		bx	lr
+ 132              		.cfi_endproc
+ 133              	.LFE11:
+ 135              		.section	.text.validate_config_struct,"ax",%progbits
+ 136              		.align	2
+ 137              		.syntax unified
+ 138              		.arm
+ 139              		.fpu neon
+ 141              	validate_config_struct:
+ 142              	.LVL13:
+ 143              	.LFB12:
+ 532:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+ 533:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * End of Function riic_get_file_mode
+ 534:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  ******************************************************************************/
+ 535:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 536:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /**
+ 537:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @brief validates configuration structure parameters
+ 538:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *
+ 539:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * This function validates the parameters in a configuration structure
+ 540:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  *
+ 541:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @param p_config_struct Pointer to the configuration structure.
+ 542:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 543:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @retval DRV_SUCCESS - valid
+ 544:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  * @retval DRV_ERROR - not valid
+ 545:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****  */
+ 546:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** static int_t validate_config_struct (st_riic_config_t *p_config_struct)
+ 547:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** {
+ 144              		.loc 1 547 1 is_stmt 1 view -0
+ 145              		.cfi_startproc
+ 146              		@ args = 0, pretend = 0, frame = 0
+ 147              		@ frame_needed = 0, uses_anonymous_args = 0
+ 148              		@ link register save eliminated.
+ 149              		.loc 1 547 1 is_stmt 0 view .LVU40
+ 150 0000 0020A0E1 		mov	r2, r0
+ 548:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t error = DRV_SUCCESS;
+ 151              		.loc 1 548 5 is_stmt 1 view .LVU41
+ 152              	.LVL14:
+ 549:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     uint32_t loop = 0u;
+ 153              		.loc 1 549 5 view .LVU42
+ 550:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 551:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if ((RIIC_MODE_MASTER > p_config_struct->riic_mode) || (RIIC_MODE_MAX <= p_config_struct->riic_
+ 154              		.loc 1 551 5 view .LVU43
+ 155              		.loc 1 551 93 is_stmt 0 view .LVU44
+ 156 0004 0030D0E5 		ldrb	r3, [r0]	@ zero_extendqisi2
+ 157              		.loc 1 551 8 view .LVU45
+ 158 0008 000053E3 		cmp	r3, #0
+ 159 000c 0200001A 		bne	.L21
+ 548:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     uint32_t loop = 0u;
+ 160              		.loc 1 548 11 view .LVU46
+ 161 0010 0000A0E3 		mov	r0, #0
+ 162              	.LVL15:
+ 163              	.L10:
+ 552:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 553:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         error = DRV_ERROR;
+ 554:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 555:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 556:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     for (loop = 0u; loop < RIIC_SLAVE_ADDR_NUM_MAX; loop++)
+ 557:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 558:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         if ((false != p_config_struct->slave_address_enable[loop])
+ 559:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 && (true != p_config_struct->slave_address_enable[loop]))
+ 560:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 561:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             error = DRV_ERROR;
+ 562:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         }
+ 563:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 564:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         if ((RIIC_DEVICE_ADDR_7 > p_config_struct->slave_address_length[loop])
+ 565:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 || (RIIC_DEVICE_ADDR_MAX <= p_config_struct->slave_address_length[loop]))
+ 566:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 567:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             error = DRV_ERROR;
+ 164              		.loc 1 567 19 discriminator 1 view .LVU47
+ 165 0014 0030A0E3 		mov	r3, #0
+ 166 0018 020000EA 		b	.L11
+ 167              	.LVL16:
+ 168              	.L21:
+ 553:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 169              		.loc 1 553 15 view .LVU48
+ 170 001c 0000E0E3 		mvn	r0, #0
+ 171              	.LVL17:
+ 553:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 172              		.loc 1 553 15 view .LVU49
+ 173 0020 FBFFFFEA 		b	.L10
+ 174              	.LVL18:
+ 175              	.L13:
+ 556:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 176              		.loc 1 556 53 is_stmt 1 discriminator 2 view .LVU50
+ 556:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 177              		.loc 1 556 57 is_stmt 0 discriminator 2 view .LVU51
+ 178 0024 013083E2 		add	r3, r3, #1
+ 179              	.LVL19:
+ 180              	.L11:
+ 556:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 181              		.loc 1 556 21 is_stmt 1 discriminator 1 view .LVU52
+ 556:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 182              		.loc 1 556 5 is_stmt 0 discriminator 1 view .LVU53
+ 183 0028 020053E3 		cmp	r3, #2
+ 184 002c 0800008A 		bhi	.L30
+ 558:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 && (true != p_config_struct->slave_address_enable[loop]))
+ 185              		.loc 1 558 9 is_stmt 1 view .LVU54
+ 558:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 && (true != p_config_struct->slave_address_enable[loop]))
+ 186              		.loc 1 558 60 is_stmt 0 view .LVU55
+ 187 0030 031182E0 		add	r1, r2, r3, lsl #2
+ 188 0034 041091E5 		ldr	r1, [r1, #4]
+ 558:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 && (true != p_config_struct->slave_address_enable[loop]))
+ 189              		.loc 1 558 12 view .LVU56
+ 190 0038 010051E3 		cmp	r1, #1
+ 561:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         }
+ 191              		.loc 1 561 19 view .LVU57
+ 192 003c 0000E083 		mvnhi	r0, #0
+ 193              	.LVL20:
+ 194              	.L12:
+ 564:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 || (RIIC_DEVICE_ADDR_MAX <= p_config_struct->slave_address_length[loop]))
+ 195              		.loc 1 564 9 is_stmt 1 view .LVU58
+ 565:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 196              		.loc 1 565 82 is_stmt 0 view .LVU59
+ 197 0040 031082E0 		add	r1, r2, r3
+ 198 0044 1610D1E5 		ldrb	r1, [r1, #22]	@ zero_extendqisi2
+ 564:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 || (RIIC_DEVICE_ADDR_MAX <= p_config_struct->slave_address_length[loop]))
+ 199              		.loc 1 564 12 view .LVU60
+ 200 0048 000051E3 		cmp	r1, #0
+ 201              		.loc 1 567 19 view .LVU61
+ 202 004c 0000E013 		mvnne	r0, #0
+ 203              	.LVL21:
+ 204              		.loc 1 567 19 view .LVU62
+ 205 0050 F3FFFFEA 		b	.L13
+ 206              	.LVL22:
+ 207              	.L30:
+ 568:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         }
+ 569:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 570:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 571:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if ((RIIC_FREQUENCY_100KHZ > p_config_struct->frequency) || (RIIC_FREQUENCY_MAX <= p_config_str
+ 208              		.loc 1 571 5 is_stmt 1 view .LVU63
+ 209              		.loc 1 571 103 is_stmt 0 view .LVU64
+ 210 0054 1930D2E5 		ldrb	r3, [r2, #25]	@ zero_extendqisi2
+ 211              	.LVL23:
+ 212              		.loc 1 571 8 view .LVU65
+ 213 0058 020053E3 		cmp	r3, #2
+ 572:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 573:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         error = DRV_ERROR;
+ 214              		.loc 1 573 15 view .LVU66
+ 215 005c 0000E083 		mvnhi	r0, #0
+ 216              	.LVL24:
+ 217              	.L15:
+ 574:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 575:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 576:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if ((RIIC_DUTY_10 > p_config_struct->duty) || (RIIC_DUTY_MAX <= p_config_struct->duty))
+ 218              		.loc 1 576 5 is_stmt 1 view .LVU67
+ 219              		.loc 1 576 84 is_stmt 0 view .LVU68
+ 220 0060 1A30D2E5 		ldrb	r3, [r2, #26]	@ zero_extendqisi2
+ 221              		.loc 1 576 8 view .LVU69
+ 222 0064 080053E3 		cmp	r3, #8
+ 577:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 578:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         error = DRV_ERROR;
+ 223              		.loc 1 578 15 view .LVU70
+ 224 0068 0000E083 		mvnhi	r0, #0
+ 225              	.LVL25:
+ 226              	.L16:
+ 579:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 580:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 581:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if ((RIIC_FILTER_NOT_USED > p_config_struct->noise_filter_stage)
+ 227              		.loc 1 581 5 is_stmt 1 view .LVU71
+ 582:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             || (RIIC_FILTER_STAGE_MAX <= p_config_struct->noise_filter_stage))
+ 228              		.loc 1 582 57 is_stmt 0 view .LVU72
+ 229 006c 2430D2E5 		ldrb	r3, [r2, #36]	@ zero_extendqisi2
+ 581:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             || (RIIC_FILTER_STAGE_MAX <= p_config_struct->noise_filter_stage))
+ 230              		.loc 1 581 8 view .LVU73
+ 231 0070 040053E3 		cmp	r3, #4
+ 583:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 584:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         error = DRV_ERROR;
+ 232              		.loc 1 584 15 view .LVU74
+ 233 0074 0000E083 		mvnhi	r0, #0
+ 234              	.LVL26:
+ 235              	.L17:
+ 585:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 586:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 587:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if ((RIIC_TIMEOUT_NOT_USED > p_config_struct->timeout) || (RIIC_TIMEOUT_MAX <= p_config_struct-
+ 236              		.loc 1 587 5 is_stmt 1 view .LVU75
+ 237              		.loc 1 587 99 is_stmt 0 view .LVU76
+ 238 0078 2530D2E5 		ldrb	r3, [r2, #37]	@ zero_extendqisi2
+ 239              		.loc 1 587 8 view .LVU77
+ 240 007c 020053E3 		cmp	r3, #2
+ 588:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 589:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         error = DRV_ERROR;
+ 241              		.loc 1 589 15 view .LVU78
+ 242 0080 0000E083 		mvnhi	r0, #0
+ 243              	.LVL27:
+ 244              	.L18:
+ 590:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 591:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 592:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if ((RIIC_FORMAT_I2C > p_config_struct->format) || (RIIC_FORMAT_MAX <= p_config_struct->format)
+ 245              		.loc 1 592 5 is_stmt 1 view .LVU79
+ 246              		.loc 1 592 91 is_stmt 0 view .LVU80
+ 247 0084 2630D2E5 		ldrb	r3, [r2, #38]	@ zero_extendqisi2
+ 248              		.loc 1 592 8 view .LVU81
+ 249 0088 010053E3 		cmp	r3, #1
+ 593:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 594:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         error = DRV_ERROR;
+ 250              		.loc 1 594 15 view .LVU82
+ 251 008c 0000E083 		mvnhi	r0, #0
+ 252              	.LVL28:
+ 253              	.L19:
+ 595:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 596:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 597:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if ((false != p_config_struct->host_address_enabled) && (true != p_config_struct->host_address_
+ 254              		.loc 1 597 5 is_stmt 1 view .LVU83
+ 255              		.loc 1 597 34 is_stmt 0 view .LVU84
+ 256 0090 283092E5 		ldr	r3, [r2, #40]
+ 257              		.loc 1 597 8 view .LVU85
+ 258 0094 010053E3 		cmp	r3, #1
+ 259 0098 1EFF2F91 		bxls	lr
+ 598:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 599:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         error = DRV_ERROR;
+ 260              		.loc 1 599 15 view .LVU86
+ 261 009c 0000E0E3 		mvn	r0, #0
+ 262              	.LVL29:
+ 600:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 601:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 602:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     return (error);
+ 263              		.loc 1 602 5 is_stmt 1 view .LVU87
+ 603:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 264              		.loc 1 603 1 is_stmt 0 view .LVU88
+ 265 00a0 1EFF2FE1 		bx	lr
+ 266              		.cfi_endproc
+ 267              	.LFE12:
+ 269              		.section	.rodata.riic_hld_get_version.str1.4,"aMS",%progbits,1
+ 270              		.align	2
+ 271              	.LC0:
+ 272 0000 484C4420 		.ascii	"HLD RIIC\000"
+ 272      52494943 
+ 272      00
+ 273              		.section	.text.riic_hld_get_version,"ax",%progbits
+ 274              		.align	2
+ 275              		.syntax unified
+ 276              		.arm
+ 277              		.fpu neon
+ 279              	riic_hld_get_version:
+ 280              	.LVL30:
+ 281              	.LFB7:
+ 396:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* Unused argument */
+ 282              		.loc 1 396 1 is_stmt 1 view -0
+ 283              		.cfi_startproc
+ 284              		@ args = 0, pretend = 0, frame = 0
+ 285              		@ frame_needed = 0, uses_anonymous_args = 0
+ 396:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* Unused argument */
+ 286              		.loc 1 396 1 is_stmt 0 view .LVU90
+ 287 0000 10402DE9 		push	{r4, lr}
+ 288              		.cfi_def_cfa_offset 8
+ 289              		.cfi_offset 4, -8
+ 290              		.cfi_offset 14, -4
+ 291 0004 0100A0E1 		mov	r0, r1
+ 292              	.LVL31:
+ 398:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 293              		.loc 1 398 5 is_stmt 1 view .LVU91
+ 400:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     p_ver_info->hld.version.sub.minor = gs_hld_info.version.sub.minor;
+ 294              		.loc 1 400 5 view .LVU92
+ 400:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     p_ver_info->hld.version.sub.minor = gs_hld_info.version.sub.minor;
+ 295              		.loc 1 400 39 is_stmt 0 view .LVU93
+ 296 0008 0130A0E3 		mov	r3, #1
+ 297 000c B230C1E1 		strh	r3, [r1, #2]	@ movhi
+ 401:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     p_ver_info->hld.build = gs_hld_info.build;
+ 298              		.loc 1 401 5 is_stmt 1 view .LVU94
+ 401:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     p_ver_info->hld.build = gs_hld_info.build;
+ 299              		.loc 1 401 39 is_stmt 0 view .LVU95
+ 300 0010 0430A0E3 		mov	r3, #4
+ 301 0014 B030C1E1 		strh	r3, [r1]	@ movhi
+ 402:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     p_ver_info->hld.p_szdriver_name = gs_hld_info.p_szdriver_name;
+ 302              		.loc 1 402 5 is_stmt 1 view .LVU96
+ 402:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     p_ver_info->hld.p_szdriver_name = gs_hld_info.p_szdriver_name;
+ 303              		.loc 1 402 27 is_stmt 0 view .LVU97
+ 304 0018 0040A0E3 		mov	r4, #0
+ 305 001c 044081E5 		str	r4, [r1, #4]
+ 403:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 306              		.loc 1 403 5 is_stmt 1 view .LVU98
+ 403:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 307              		.loc 1 403 37 is_stmt 0 view .LVU99
+ 308 0020 003000E3 		movw	r3, #:lower16:.LC0
+ 309 0024 003040E3 		movt	r3, #:upper16:.LC0
+ 310 0028 083081E5 		str	r3, [r1, #8]
+ 406:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 311              		.loc 1 406 5 is_stmt 1 view .LVU100
+ 312 002c FEFFFFEB 		bl	R_RIIC_GetVersion
+ 313              	.LVL32:
+ 408:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 314              		.loc 1 408 5 view .LVU101
+ 409:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*******************************************************************************
+ 315              		.loc 1 409 1 is_stmt 0 view .LVU102
+ 316 0030 0400A0E1 		mov	r0, r4
+ 317 0034 1080BDE8 		pop	{r4, pc}
+ 318              		.cfi_endproc
+ 319              	.LFE7:
+ 321              		.section	.text.riic_reset,"ax",%progbits
+ 322              		.align	2
+ 323              		.syntax unified
+ 324              		.arm
+ 325              		.fpu neon
+ 327              	riic_reset:
+ 328              	.LVL33:
+ 329              	.LFB9:
+ 466:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     st_riic_config_t temp_cfg;
+ 330              		.loc 1 466 1 is_stmt 1 view -0
+ 331              		.cfi_startproc
+ 332              		@ args = 0, pretend = 0, frame = 56
+ 333              		@ frame_needed = 0, uses_anonymous_args = 0
+ 466:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     st_riic_config_t temp_cfg;
+ 334              		.loc 1 466 1 is_stmt 0 view .LVU104
+ 335 0000 10402DE9 		push	{r4, lr}
+ 336              		.cfi_def_cfa_offset 8
+ 337              		.cfi_offset 4, -8
+ 338              		.cfi_offset 14, -4
+ 339 0004 38D04DE2 		sub	sp, sp, #56
+ 340              		.cfi_def_cfa_offset 64
+ 341 0008 0040A0E1 		mov	r4, r0
+ 467:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 342              		.loc 1 467 5 is_stmt 1 view .LVU105
+ 470:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     R_RIIC_SetConfig(channel, &temp_cfg);
+ 343              		.loc 1 470 5 view .LVU106
+ 344 000c 04108DE2 		add	r1, sp, #4
+ 345 0010 FEFFFFEB 		bl	R_RIIC_GetConfig
+ 346              	.LVL34:
+ 471:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 347              		.loc 1 471 5 view .LVU107
+ 348 0014 04108DE2 		add	r1, sp, #4
+ 349 0018 0400A0E1 		mov	r0, r4
+ 350 001c FEFFFFEB 		bl	R_RIIC_SetConfig
+ 351              	.LVL35:
+ 472:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*******************************************************************************
+ 352              		.loc 1 472 1 is_stmt 0 view .LVU108
+ 353 0020 38D08DE2 		add	sp, sp, #56
+ 354              		.cfi_def_cfa_offset 8
+ 355              		@ sp needed
+ 356 0024 1080BDE8 		pop	{r4, pc}
+ 472:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*******************************************************************************
+ 357              		.loc 1 472 1 view .LVU109
+ 358              		.cfi_endproc
+ 359              	.LFE9:
+ 361              		.section	.text.riic_hld_control,"ax",%progbits
+ 362              		.align	2
+ 363              		.syntax unified
+ 364              		.arm
+ 365              		.fpu neon
+ 367              	riic_hld_control:
+ 368              	.LVL36:
+ 369              	.LFB6:
+ 282:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t ret_value = DRV_ERROR;
+ 370              		.loc 1 282 1 is_stmt 1 view -0
+ 371              		.cfi_startproc
+ 372              		@ args = 0, pretend = 0, frame = 0
+ 373              		@ frame_needed = 0, uses_anonymous_args = 0
+ 282:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t ret_value = DRV_ERROR;
+ 374              		.loc 1 282 1 is_stmt 0 view .LVU111
+ 375 0000 F0412DE9 		push	{r4, r5, r6, r7, r8, lr}
+ 376              		.cfi_def_cfa_offset 24
+ 377              		.cfi_offset 4, -24
+ 378              		.cfi_offset 5, -20
+ 379              		.cfi_offset 6, -16
+ 380              		.cfi_offset 7, -12
+ 381              		.cfi_offset 8, -8
+ 382              		.cfi_offset 14, -4
+ 383 0004 0070A0E1 		mov	r7, r0
+ 384 0008 0150A0E1 		mov	r5, r1
+ 385 000c 0260A0E1 		mov	r6, r2
+ 283:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t file_mode;
+ 386              		.loc 1 283 5 is_stmt 1 view .LVU112
+ 387              	.LVL37:
+ 284:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 388              		.loc 1 284 5 view .LVU113
+ 287:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 389              		.loc 1 287 5 view .LVU114
+ 287:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 390              		.loc 1 287 21 is_stmt 0 view .LVU115
+ 391 0010 FEFFFFEB 		bl	riic_get_channel
+ 392              	.LVL38:
+ 287:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 393              		.loc 1 287 21 view .LVU116
+ 394 0014 0040A0E1 		mov	r4, r0
+ 395              	.LVL39:
+ 290:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 396              		.loc 1 290 5 is_stmt 1 view .LVU117
+ 290:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 397              		.loc 1 290 8 is_stmt 0 view .LVU118
+ 398 0018 010070E3 		cmn	r0, #1
+ 399 001c 4000000A 		beq	.L43
+ 296:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 400              		.loc 1 296 5 is_stmt 1 view .LVU119
+ 296:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 401              		.loc 1 296 17 is_stmt 0 view .LVU120
+ 402 0020 0700A0E1 		mov	r0, r7
+ 403              	.LVL40:
+ 296:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 404              		.loc 1 296 17 view .LVU121
+ 405 0024 FEFFFFEB 		bl	riic_get_file_mode
+ 406              	.LVL41:
+ 407 0028 0070A0E1 		mov	r7, r0
+ 408              	.LVL42:
+ 299:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 409              		.loc 1 299 5 is_stmt 1 view .LVU122
+ 299:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 410              		.loc 1 299 30 is_stmt 0 view .LVU123
+ 411 002c 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 412 0030 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 413 0034 043193E7 		ldr	r3, [r3, r4, lsl #2]
+ 299:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 414              		.loc 1 299 8 view .LVU124
+ 415 0038 000053E3 		cmp	r3, #0
+ 416 003c 3A0000DA 		ble	.L44
+ 304:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 417              		.loc 1 304 5 is_stmt 1 view .LVU125
+ 304:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 418              		.loc 1 304 8 is_stmt 0 view .LVU126
+ 419 0040 000056E3 		cmp	r6, #0
+ 420 0044 3A00000A 		beq	.L45
+ 307:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 421              		.loc 1 307 9 is_stmt 1 view .LVU127
+ 422 0048 003000E3 		movw	r3, #:lower16:.LANCHOR2
+ 423 004c 003040E3 		movt	r3, #:upper16:.LANCHOR2
+ 424 0050 040193E7 		ldr	r0, [r3, r4, lsl #2]
+ 425              	.LVL43:
+ 307:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 426              		.loc 1 307 9 is_stmt 0 view .LVU128
+ 427 0054 FEFFFFEB 		bl	R_OS_MutexAcquire
+ 428              	.LVL44:
+ 309:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 429              		.loc 1 309 9 is_stmt 1 view .LVU129
+ 311:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 430              		.loc 1 311 9 view .LVU130
+ 431 0058 040055E3 		cmp	r5, #4
+ 432 005c 05F19F97 		ldrls	pc, [pc, r5, asl #2]
+ 433 0060 2D0000EA 		b	.L46
+ 434              	.L39:
+ 435 0064 78000000 		.word	.L42
+ 436 0068 9C000000 		.word	.L41
+ 437 006c 1C010000 		.word	.L46
+ 438 0070 C4000000 		.word	.L40
+ 439 0074 F0000000 		.word	.L38
+ 440              	.L42:
+ 318:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 441              		.loc 1 318 17 view .LVU131
+ 318:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 442              		.loc 1 318 29 is_stmt 0 view .LVU132
+ 443 0078 0600A0E1 		mov	r0, r6
+ 444 007c FEFFFFEB 		bl	validate_config_struct
+ 445              	.LVL45:
+ 320:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 446              		.loc 1 320 17 is_stmt 1 view .LVU133
+ 320:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 447              		.loc 1 320 20 is_stmt 0 view .LVU134
+ 448 0080 005050E2 		subs	r5, r0, #0
+ 449              	.LVL46:
+ 320:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 450              		.loc 1 320 20 view .LVU135
+ 451 0084 0800001A 		bne	.L37
+ 323:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 452              		.loc 1 323 21 is_stmt 1 view .LVU136
+ 323:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 453              		.loc 1 323 33 is_stmt 0 view .LVU137
+ 454 0088 0610A0E1 		mov	r1, r6
+ 455 008c 0400A0E1 		mov	r0, r4
+ 456              	.LVL47:
+ 323:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 457              		.loc 1 323 33 view .LVU138
+ 458 0090 FEFFFFEB 		bl	R_RIIC_SetConfig
+ 459              	.LVL48:
+ 460 0094 0050A0E1 		mov	r5, r0
+ 461              	.LVL49:
+ 323:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 462              		.loc 1 323 33 view .LVU139
+ 463 0098 030000EA 		b	.L37
+ 464              	.LVL50:
+ 465              	.L41:
+ 331:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 466              		.loc 1 331 17 is_stmt 1 view .LVU140
+ 331:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 467              		.loc 1 331 29 is_stmt 0 view .LVU141
+ 468 009c 0610A0E1 		mov	r1, r6
+ 469 00a0 0400A0E1 		mov	r0, r4
+ 470 00a4 FEFFFFEB 		bl	R_RIIC_GetConfig
+ 471              	.LVL51:
+ 472 00a8 0050A0E1 		mov	r5, r0
+ 473              	.LVL52:
+ 333:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 474              		.loc 1 333 13 is_stmt 1 view .LVU142
+ 475              	.L37:
+ 379:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 476              		.loc 1 379 9 view .LVU143
+ 477 00ac 003000E3 		movw	r3, #:lower16:.LANCHOR2
+ 478 00b0 003040E3 		movt	r3, #:upper16:.LANCHOR2
+ 479 00b4 040193E7 		ldr	r0, [r3, r4, lsl #2]
+ 480 00b8 FEFFFFEB 		bl	R_OS_MutexRelease
+ 481              	.LVL53:
+ 482              	.L35:
+ 383:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+ 483              		.loc 1 383 1 is_stmt 0 view .LVU144
+ 484 00bc 0500A0E1 		mov	r0, r5
+ 485 00c0 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 486              	.LVL54:
+ 487              	.L40:
+ 340:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 488              		.loc 1 340 17 is_stmt 1 view .LVU145
+ 340:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 489              		.loc 1 340 20 is_stmt 0 view .LVU146
+ 490 00c4 040017E3 		tst	r7, #4
+ 309:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 491              		.loc 1 309 19 view .LVU147
+ 492 00c8 0050E003 		mvneq	r5, #0
+ 493              	.LVL55:
+ 309:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 494              		.loc 1 309 19 view .LVU148
+ 495 00cc F6FFFF0A 		beq	.L37
+ 496              	.LVL56:
+ 497              	.L50:
+ 343:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 498              		.loc 1 343 21 is_stmt 1 view .LVU149
+ 343:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 499              		.loc 1 343 33 is_stmt 0 view .LVU150
+ 500 00d0 0610A0E1 		mov	r1, r6
+ 501 00d4 0400A0E1 		mov	r0, r4
+ 502 00d8 FEFFFFEB 		bl	read_data
+ 503              	.LVL57:
+ 345:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 504              		.loc 1 345 21 is_stmt 1 view .LVU151
+ 345:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 505              		.loc 1 345 24 is_stmt 0 view .LVU152
+ 506 00dc 005050E2 		subs	r5, r0, #0
+ 507              	.LVL58:
+ 345:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 508              		.loc 1 345 24 view .LVU153
+ 509 00e0 F1FFFF0A 		beq	.L37
+ 347:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 510              		.loc 1 347 25 is_stmt 1 view .LVU154
+ 511 00e4 0400A0E1 		mov	r0, r4
+ 512              	.LVL59:
+ 347:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 513              		.loc 1 347 25 is_stmt 0 view .LVU155
+ 514 00e8 FEFFFFEB 		bl	riic_reset
+ 515              	.LVL60:
+ 516 00ec EEFFFFEA 		b	.L37
+ 517              	.LVL61:
+ 518              	.L38:
+ 358:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 519              		.loc 1 358 17 is_stmt 1 view .LVU156
+ 358:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 520              		.loc 1 358 20 is_stmt 0 view .LVU157
+ 521 00f0 080017E3 		tst	r7, #8
+ 309:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 522              		.loc 1 309 19 view .LVU158
+ 523 00f4 0050E003 		mvneq	r5, #0
+ 524              	.LVL62:
+ 309:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 525              		.loc 1 309 19 view .LVU159
+ 526 00f8 EBFFFF0A 		beq	.L37
+ 527              	.LVL63:
+ 528              	.L51:
+ 361:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 529              		.loc 1 361 21 is_stmt 1 view .LVU160
+ 361:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 530              		.loc 1 361 33 is_stmt 0 view .LVU161
+ 531 00fc 0610A0E1 		mov	r1, r6
+ 532 0100 0400A0E1 		mov	r0, r4
+ 533 0104 FEFFFFEB 		bl	write_data
+ 534              	.LVL64:
+ 363:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 535              		.loc 1 363 21 is_stmt 1 view .LVU162
+ 363:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 536              		.loc 1 363 24 is_stmt 0 view .LVU163
+ 537 0108 005050E2 		subs	r5, r0, #0
+ 538              	.LVL65:
+ 363:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 539              		.loc 1 363 24 view .LVU164
+ 540 010c E6FFFF0A 		beq	.L37
+ 365:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 541              		.loc 1 365 25 is_stmt 1 view .LVU165
+ 542 0110 0400A0E1 		mov	r0, r4
+ 543              	.LVL66:
+ 365:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 544              		.loc 1 365 25 is_stmt 0 view .LVU166
+ 545 0114 FEFFFFEB 		bl	riic_reset
+ 546              	.LVL67:
+ 547 0118 E3FFFFEA 		b	.L37
+ 548              	.LVL68:
+ 549              	.L46:
+ 307:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 550              		.loc 1 307 9 view .LVU167
+ 551 011c 0050E0E3 		mvn	r5, #0
+ 552              	.LVL69:
+ 307:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 553              		.loc 1 307 9 view .LVU168
+ 554 0120 E1FFFFEA 		b	.L37
+ 555              	.LVL70:
+ 556              	.L43:
+ 292:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 557              		.loc 1 292 16 view .LVU169
+ 558 0124 0050A0E1 		mov	r5, r0
+ 559              	.LVL71:
+ 292:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 560              		.loc 1 292 16 view .LVU170
+ 561 0128 E3FFFFEA 		b	.L35
+ 562              	.LVL72:
+ 563              	.L44:
+ 301:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 564              		.loc 1 301 16 view .LVU171
+ 565 012c 0050E0E3 		mvn	r5, #0
+ 566              	.LVL73:
+ 301:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 567              		.loc 1 301 16 view .LVU172
+ 568 0130 E1FFFFEA 		b	.L35
+ 569              	.LVL74:
+ 570              	.L45:
+ 283:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t file_mode;
+ 571              		.loc 1 283 11 view .LVU173
+ 572 0134 0050E0E3 		mvn	r5, #0
+ 573              	.LVL75:
+ 283:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t file_mode;
+ 574              		.loc 1 283 11 view .LVU174
+ 575 0138 DFFFFFEA 		b	.L35
+ 576              		.cfi_endproc
+ 577              	.LFE6:
+ 579              		.section	.rodata.get_p1clk.str1.4,"aMS",%progbits,1
+ 580              		.align	2
+ 581              	.LC1:
+ 582 0000 63706700 		.ascii	"cpg\000"
+ 583              		.section	.text.get_p1clk,"ax",%progbits
+ 584              		.align	2
+ 585              		.syntax unified
+ 586              		.arm
+ 587              		.fpu neon
+ 589              	get_p1clk:
+ 590              	.LVL76:
+ 591              	.LFB3:
+ 111:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t cpg_handle;
+ 592              		.loc 1 111 1 is_stmt 1 view -0
+ 593              		.cfi_startproc
+ 594              		@ args = 0, pretend = 0, frame = 16
+ 595              		@ frame_needed = 0, uses_anonymous_args = 0
+ 111:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t cpg_handle;
+ 596              		.loc 1 111 1 is_stmt 0 view .LVU176
+ 597 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 598              		.cfi_def_cfa_offset 16
+ 599              		.cfi_offset 4, -16
+ 600              		.cfi_offset 5, -12
+ 601              		.cfi_offset 6, -8
+ 602              		.cfi_offset 14, -4
+ 603 0004 10D04DE2 		sub	sp, sp, #16
+ 604              		.cfi_def_cfa_offset 32
+ 605 0008 0050A0E1 		mov	r5, r0
+ 112:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t retval;
+ 606              		.loc 1 112 5 is_stmt 1 view .LVU177
+ 113:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     st_r_drv_cpg_get_clk_t cpg_get_clock_t;
+ 607              		.loc 1 113 5 view .LVU178
+ 114:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 608              		.loc 1 114 5 view .LVU179
+ 117:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if (cpg_handle < 0)
+ 609              		.loc 1 117 5 view .LVU180
+ 117:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if (cpg_handle < 0)
+ 610              		.loc 1 117 18 is_stmt 0 view .LVU181
+ 611 000c 0210A0E3 		mov	r1, #2
+ 612 0010 000000E3 		movw	r0, #:lower16:.LC1
+ 613              	.LVL77:
+ 117:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     if (cpg_handle < 0)
+ 614              		.loc 1 117 18 view .LVU182
+ 615 0014 000040E3 		movt	r0, #:upper16:.LC1
+ 616 0018 FEFFFFEB 		bl	direct_open
+ 617              	.LVL78:
+ 118:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 618              		.loc 1 118 5 is_stmt 1 view .LVU183
+ 118:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 619              		.loc 1 118 8 is_stmt 0 view .LVU184
+ 620 001c 004050E2 		subs	r4, r0, #0
+ 621 0020 0D0000BA 		blt	.L54
+ 124:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     retval = control(cpg_handle, CTL_CPG_GET_CLK, &cpg_get_clock_t);
+ 622              		.loc 1 124 5 is_stmt 1 view .LVU185
+ 124:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     retval = control(cpg_handle, CTL_CPG_GET_CLK, &cpg_get_clock_t);
+ 623              		.loc 1 124 30 is_stmt 0 view .LVU186
+ 624 0024 0430A0E3 		mov	r3, #4
+ 625 0028 0030CDE5 		strb	r3, [sp]
+ 125:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 626              		.loc 1 125 5 is_stmt 1 view .LVU187
+ 125:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 627              		.loc 1 125 14 is_stmt 0 view .LVU188
+ 628 002c 0D20A0E1 		mov	r2, sp
+ 629 0030 0610A0E3 		mov	r1, #6
+ 630 0034 0400A0E1 		mov	r0, r4
+ 125:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 631              		.loc 1 125 14 view .LVU189
+ 632 0038 FEFFFFEB 		bl	control
+ 633              	.LVL79:
+ 125:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 634              		.loc 1 125 14 view .LVU190
+ 635 003c 0060A0E1 		mov	r6, r0
+ 636              	.LVL80:
+ 127:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 637              		.loc 1 127 5 is_stmt 1 view .LVU191
+ 127:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 638              		.loc 1 127 29 is_stmt 0 view .LVU192
+ 639 0040 D820CDE1 		ldrd	r2, [sp, #8]
+ 127:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 640              		.loc 1 127 12 view .LVU193
+ 641 0044 F020C5E1 		strd	r2, [r5]
+ 130:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 642              		.loc 1 130 5 is_stmt 1 view .LVU194
+ 643 0048 0400A0E1 		mov	r0, r4
+ 644              	.LVL81:
+ 130:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 645              		.loc 1 130 5 is_stmt 0 view .LVU195
+ 646 004c FEFFFFEB 		bl	direct_close
+ 647              	.LVL82:
+ 132:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 648              		.loc 1 132 5 is_stmt 1 view .LVU196
+ 649              	.L52:
+ 133:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+ 650              		.loc 1 133 1 is_stmt 0 view .LVU197
+ 651 0050 0600A0E1 		mov	r0, r6
+ 652 0054 10D08DE2 		add	sp, sp, #16
+ 653              		.cfi_remember_state
+ 654              		.cfi_def_cfa_offset 16
+ 655              		@ sp needed
+ 656 0058 7080BDE8 		pop	{r4, r5, r6, pc}
+ 657              	.LVL83:
+ 658              	.L54:
+ 659              		.cfi_restore_state
+ 120:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 660              		.loc 1 120 16 view .LVU198
+ 661 005c 0060E0E3 		mvn	r6, #0
+ 662 0060 FAFFFFEA 		b	.L52
+ 663              		.cfi_endproc
+ 664              	.LFE3:
+ 666              		.section	.text.validate_channel,"ax",%progbits
+ 667              		.align	2
+ 668              		.global	validate_channel
+ 669              		.syntax unified
+ 670              		.arm
+ 671              		.fpu neon
+ 673              	validate_channel:
+ 674              	.LVL84:
+ 675              	.LFB10:
+ 484:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t ret_value = DRV_ERROR;
+ 676              		.loc 1 484 1 is_stmt 1 view -0
+ 677              		.cfi_startproc
+ 678              		@ args = 0, pretend = 0, frame = 0
+ 679              		@ frame_needed = 0, uses_anonymous_args = 0
+ 680              		@ link register save eliminated.
+ 485:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 681              		.loc 1 485 5 view .LVU200
+ 488:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 682              		.loc 1 488 5 view .LVU201
+ 488:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 683              		.loc 1 488 11 is_stmt 0 view .LVU202
+ 684 0000 0F30A0E3 		mov	r3, #15
+ 685 0004 5330A0E1 		asr	r3, r3, r0
+ 488:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 686              		.loc 1 488 8 view .LVU203
+ 687 0008 010013E3 		tst	r3, #1
+ 688 000c 0100000A 		beq	.L59
+ 490:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     }
+ 689              		.loc 1 490 19 view .LVU204
+ 690 0010 0000A0E3 		mov	r0, #0
+ 691              	.LVL85:
+ 494:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 692              		.loc 1 494 5 is_stmt 1 view .LVU205
+ 495:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /*******************************************************************************
+ 693              		.loc 1 495 1 is_stmt 0 view .LVU206
+ 694 0014 1EFF2FE1 		bx	lr
+ 695              	.LVL86:
+ 696              	.L59:
+ 485:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 697              		.loc 1 485 11 view .LVU207
+ 698 0018 0000E0E3 		mvn	r0, #0
+ 699              	.LVL87:
+ 485:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 700              		.loc 1 485 11 view .LVU208
+ 701 001c 1EFF2FE1 		bx	lr
+ 702              		.cfi_endproc
+ 703              	.LFE10:
+ 705              		.section	.text.riic_hld_close,"ax",%progbits
+ 706              		.align	2
+ 707              		.syntax unified
+ 708              		.arm
+ 709              		.fpu neon
+ 711              	riic_hld_close:
+ 712              	.LVL88:
+ 713              	.LFB5:
+ 240:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* determine hardware channel number */
+ 714              		.loc 1 240 1 is_stmt 1 view -0
+ 715              		.cfi_startproc
+ 716              		@ args = 0, pretend = 0, frame = 0
+ 717              		@ frame_needed = 0, uses_anonymous_args = 0
+ 240:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     /* determine hardware channel number */
+ 718              		.loc 1 240 1 is_stmt 0 view .LVU210
+ 719 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 720              		.cfi_def_cfa_offset 16
+ 721              		.cfi_offset 4, -16
+ 722              		.cfi_offset 5, -12
+ 723              		.cfi_offset 6, -8
+ 724              		.cfi_offset 14, -4
+ 242:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 725              		.loc 1 242 5 is_stmt 1 view .LVU211
+ 242:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 726              		.loc 1 242 21 is_stmt 0 view .LVU212
+ 727 0004 FEFFFFEB 		bl	riic_get_channel
+ 728              	.LVL89:
+ 244:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 729              		.loc 1 244 5 is_stmt 1 view .LVU213
+ 244:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 730              		.loc 1 244 8 is_stmt 0 view .LVU214
+ 731 0008 010070E3 		cmn	r0, #1
+ 732 000c 7080BD08 		popeq	{r4, r5, r6, pc}
+ 733 0010 0040A0E1 		mov	r4, r0
+ 244:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 734              		.loc 1 244 66 discriminator 1 view .LVU215
+ 735 0014 003000E3 		movw	r3, #:lower16:.LANCHOR2
+ 736 0018 003040E3 		movt	r3, #:upper16:.LANCHOR2
+ 737 001c 005193E7 		ldr	r5, [r3, r0, lsl #2]
+ 244:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 738              		.loc 1 244 32 discriminator 1 view .LVU216
+ 739 0020 000055E3 		cmp	r5, #0
+ 740 0024 7080BD08 		popeq	{r4, r5, r6, pc}
+ 246:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 741              		.loc 1 246 9 is_stmt 1 view .LVU217
+ 246:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 742              		.loc 1 246 13 is_stmt 0 view .LVU218
+ 743 0028 FEFFFFEB 		bl	validate_channel
+ 744              	.LVL90:
+ 246:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 745              		.loc 1 246 12 view .LVU219
+ 746 002c 000050E3 		cmp	r0, #0
+ 747 0030 7080BD18 		popne	{r4, r5, r6, pc}
+ 249:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 748              		.loc 1 249 13 is_stmt 1 view .LVU220
+ 249:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 749              		.loc 1 249 29 is_stmt 0 view .LVU221
+ 750 0034 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 751 0038 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 752 003c 042193E7 		ldr	r2, [r3, r4, lsl #2]
+ 249:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 753              		.loc 1 249 38 view .LVU222
+ 754 0040 012042E2 		sub	r2, r2, #1
+ 755 0044 042183E7 		str	r2, [r3, r4, lsl #2]
+ 252:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 756              		.loc 1 252 13 is_stmt 1 view .LVU223
+ 252:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 757              		.loc 1 252 38 is_stmt 0 view .LVU224
+ 758 0048 043193E7 		ldr	r3, [r3, r4, lsl #2]
+ 252:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 759              		.loc 1 252 16 view .LVU225
+ 760 004c 000053E3 		cmp	r3, #0
+ 761 0050 7080BD18 		popne	{r4, r5, r6, pc}
+ 255:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 762              		.loc 1 255 17 is_stmt 1 view .LVU226
+ 763 0054 0500A0E1 		mov	r0, r5
+ 764 0058 FEFFFFEB 		bl	R_OS_MutexAcquire
+ 765              	.LVL91:
+ 258:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 766              		.loc 1 258 17 view .LVU227
+ 767 005c 0400A0E1 		mov	r0, r4
+ 768 0060 FEFFFFEB 		bl	R_RIIC_CloseChannel
+ 769              	.LVL92:
+ 261:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 R_OS_MutexDelete( &gsp_riic_control_mutex[channel]);
+ 770              		.loc 1 261 17 view .LVU228
+ 771 0064 FEFFFFEB 		bl	R_OS_EnterCritical
+ 772              	.LVL93:
+ 262:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 gsp_riic_control_mutex[channel] = NULL;
+ 773              		.loc 1 262 17 view .LVU229
+ 262:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 gsp_riic_control_mutex[channel] = NULL;
+ 774              		.loc 1 262 35 is_stmt 0 view .LVU230
+ 775 0068 005000E3 		movw	r5, #:lower16:.LANCHOR2
+ 776 006c 005040E3 		movt	r5, #:upper16:.LANCHOR2
+ 262:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 gsp_riic_control_mutex[channel] = NULL;
+ 777              		.loc 1 262 17 view .LVU231
+ 778 0070 040185E0 		add	r0, r5, r4, lsl #2
+ 779 0074 FEFFFFEB 		bl	R_OS_MutexDelete
+ 780              	.LVL94:
+ 263:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 R_OS_ExitCritical();
+ 781              		.loc 1 263 17 is_stmt 1 view .LVU232
+ 263:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 R_OS_ExitCritical();
+ 782              		.loc 1 263 49 is_stmt 0 view .LVU233
+ 783 0078 0030A0E3 		mov	r3, #0
+ 784 007c 043185E7 		str	r3, [r5, r4, lsl #2]
+ 264:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 785              		.loc 1 264 17 is_stmt 1 view .LVU234
+ 786 0080 FEFFFFEB 		bl	R_OS_ExitCritical
+ 787              	.LVL95:
+ 268:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+ 788              		.loc 1 268 1 is_stmt 0 view .LVU235
+ 789 0084 7080BDE8 		pop	{r4, r5, r6, pc}
+ 790              		.cfi_endproc
+ 791              	.LFE5:
+ 793              		.section	.text.riic_hld_open,"ax",%progbits
+ 794              		.align	2
+ 795              		.syntax unified
+ 796              		.arm
+ 797              		.fpu neon
+ 799              	riic_hld_open:
+ 800              	.LVL96:
+ 801              	.LFB4:
+ 145:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     float64_t p1clk;
+ 802              		.loc 1 145 1 is_stmt 1 view -0
+ 803              		.cfi_startproc
+ 804              		@ args = 0, pretend = 0, frame = 8
+ 805              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     float64_t p1clk;
+ 806              		.loc 1 145 1 is_stmt 0 view .LVU237
+ 807 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 808              		.cfi_def_cfa_offset 16
+ 809              		.cfi_offset 4, -16
+ 810              		.cfi_offset 5, -12
+ 811              		.cfi_offset 6, -8
+ 812              		.cfi_offset 14, -4
+ 813 0004 08D04DE2 		sub	sp, sp, #8
+ 814              		.cfi_def_cfa_offset 24
+ 815 0008 0060A0E1 		mov	r6, r0
+ 146:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     int_t ret_value = DRV_ERROR;
+ 816              		.loc 1 146 5 is_stmt 1 view .LVU238
+ 147:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 817              		.loc 1 147 5 view .LVU239
+ 818              	.LVL97:
+ 150:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 819              		.loc 1 150 5 view .LVU240
+ 150:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 820              		.loc 1 150 21 is_stmt 0 view .LVU241
+ 821 000c FEFFFFEB 		bl	riic_get_channel
+ 822              	.LVL98:
+ 150:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 823              		.loc 1 150 21 view .LVU242
+ 824 0010 0040A0E1 		mov	r4, r0
+ 825              	.LVL99:
+ 152:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 826              		.loc 1 152 5 is_stmt 1 view .LVU243
+ 152:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****     {
+ 827              		.loc 1 152 8 is_stmt 0 view .LVU244
+ 828 0014 010070E3 		cmn	r0, #1
+ 829 0018 5300000A 		beq	.L74
+ 155:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 830              		.loc 1 155 9 is_stmt 1 view .LVU245
+ 155:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 831              		.loc 1 155 21 is_stmt 0 view .LVU246
+ 832 001c FEFFFFEB 		bl	validate_channel
+ 833              	.LVL100:
+ 155:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 834              		.loc 1 155 21 view .LVU247
+ 835 0020 0050A0E1 		mov	r5, r0
+ 836              	.LVL101:
+ 157:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 837              		.loc 1 157 9 is_stmt 1 view .LVU248
+ 157:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****         {
+ 838              		.loc 1 157 12 is_stmt 0 view .LVU249
+ 839 0024 010070E3 		cmn	r0, #1
+ 840 0028 0E00000A 		beq	.L63
+ 160:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 841              		.loc 1 160 13 is_stmt 1 view .LVU250
+ 160:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 842              		.loc 1 160 17 is_stmt 0 view .LVU251
+ 843 002c 003000E3 		movw	r3, #:lower16:.LANCHOR3
+ 844 0030 003040E3 		movt	r3, #:upper16:.LANCHOR3
+ 845 0034 003093E5 		ldr	r3, [r3]
+ 160:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 846              		.loc 1 160 16 view .LVU252
+ 847 0038 000053E3 		cmp	r3, #0
+ 848 003c 1400000A 		beq	.L65
+ 849              	.L66:
+ 173:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 850              		.loc 1 173 13 is_stmt 1 view .LVU253
+ 173:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 851              		.loc 1 173 38 is_stmt 0 view .LVU254
+ 852 0040 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 853 0044 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 854 0048 043193E7 		ldr	r3, [r3, r4, lsl #2]
+ 173:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             {
+ 855              		.loc 1 173 16 view .LVU255
+ 856 004c 000053E3 		cmp	r3, #0
+ 857 0050 1600000A 		beq	.L76
+ 221:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 858              		.loc 1 221 17 is_stmt 1 view .LVU256
+ 221:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 859              		.loc 1 221 33 is_stmt 0 view .LVU257
+ 860 0054 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 861 0058 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 862 005c 042193E7 		ldr	r2, [r3, r4, lsl #2]
+ 221:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 863              		.loc 1 221 42 view .LVU258
+ 864 0060 012082E2 		add	r2, r2, #1
+ 865 0064 042183E7 		str	r2, [r3, r4, lsl #2]
+ 866              	.LVL102:
+ 867              	.L63:
+ 228:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** /******************************************************************************
+ 868              		.loc 1 228 1 view .LVU259
+ 869 0068 0500A0E1 		mov	r0, r5
+ 870 006c 08D08DE2 		add	sp, sp, #8
+ 871              		.cfi_remember_state
+ 872              		.cfi_def_cfa_offset 16
+ 873              		@ sp needed
+ 874 0070 7080BDE8 		pop	{r4, r5, r6, pc}
+ 875              	.LVL103:
+ 876              	.L67:
+ 877              		.cfi_restore_state
+ 878              	.LBB3:
+ 166:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     gsp_riic_control_mutex[loop] = NULL;
+ 879              		.loc 1 166 21 is_stmt 1 discriminator 3 view .LVU260
+ 166:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     gsp_riic_control_mutex[loop] = NULL;
+ 880              		.loc 1 166 44 is_stmt 0 discriminator 3 view .LVU261
+ 881 0074 002000E3 		movw	r2, #:lower16:.LANCHOR1
+ 882 0078 002040E3 		movt	r2, #:upper16:.LANCHOR1
+ 883 007c 0010A0E3 		mov	r1, #0
+ 884 0080 031182E7 		str	r1, [r2, r3, lsl #2]
+ 167:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 885              		.loc 1 167 21 is_stmt 1 discriminator 3 view .LVU262
+ 167:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 886              		.loc 1 167 50 is_stmt 0 discriminator 3 view .LVU263
+ 887 0084 002000E3 		movw	r2, #:lower16:.LANCHOR2
+ 888 0088 002040E3 		movt	r2, #:upper16:.LANCHOR2
+ 889 008c 031182E7 		str	r1, [r2, r3, lsl #2]
+ 164:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 890              		.loc 1 164 66 is_stmt 1 discriminator 3 view .LVU264
+ 164:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 891              		.loc 1 164 70 is_stmt 0 discriminator 3 view .LVU265
+ 892 0090 013083E2 		add	r3, r3, #1
+ 893              	.LVL104:
+ 894              	.L65:
+ 164:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 895              		.loc 1 164 32 is_stmt 1 discriminator 1 view .LVU266
+ 164:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 896              		.loc 1 164 17 is_stmt 0 discriminator 1 view .LVU267
+ 897 0094 030053E3 		cmp	r3, #3
+ 898 0098 F5FFFF9A 		bls	.L67
+ 170:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 899              		.loc 1 170 17 is_stmt 1 view .LVU268
+ 170:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 900              		.loc 1 170 32 is_stmt 0 view .LVU269
+ 901 009c 003000E3 		movw	r3, #:lower16:.LANCHOR3
+ 902              	.LVL105:
+ 170:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 903              		.loc 1 170 32 view .LVU270
+ 904 00a0 003040E3 		movt	r3, #:upper16:.LANCHOR3
+ 905 00a4 0120A0E3 		mov	r2, #1
+ 906 00a8 002083E5 		str	r2, [r3]
+ 907 00ac E3FFFFEA 		b	.L66
+ 908              	.L76:
+ 170:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****             }
+ 909              		.loc 1 170 32 view .LVU271
+ 910              	.LBE3:
+ 178:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 gsp_riic_control_mutex[channel] = R_OS_MutexCreate();
+ 911              		.loc 1 178 17 is_stmt 1 view .LVU272
+ 912 00b0 FEFFFFEB 		bl	R_OS_EnterCritical
+ 913              	.LVL106:
+ 179:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 if (NULL == gsp_riic_control_mutex[channel])
+ 914              		.loc 1 179 17 view .LVU273
+ 179:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 if (NULL == gsp_riic_control_mutex[channel])
+ 915              		.loc 1 179 51 is_stmt 0 view .LVU274
+ 916 00b4 FEFFFFEB 		bl	R_OS_MutexCreate
+ 917              	.LVL107:
+ 179:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 if (NULL == gsp_riic_control_mutex[channel])
+ 918              		.loc 1 179 49 view .LVU275
+ 919 00b8 003000E3 		movw	r3, #:lower16:.LANCHOR2
+ 920 00bc 003040E3 		movt	r3, #:upper16:.LANCHOR2
+ 921 00c0 040183E7 		str	r0, [r3, r4, lsl #2]
+ 180:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 922              		.loc 1 180 17 is_stmt 1 view .LVU276
+ 180:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 {
+ 923              		.loc 1 180 20 is_stmt 0 view .LVU277
+ 924 00c4 000050E3 		cmp	r0, #0
+ 925 00c8 1300000A 		beq	.L77
+ 187:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     R_OS_ExitCritical();
+ 926              		.loc 1 187 21 is_stmt 1 view .LVU278
+ 927 00cc FEFFFFEB 		bl	R_OS_MutexAcquire
+ 928              	.LVL108:
+ 188:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 929              		.loc 1 188 21 view .LVU279
+ 930 00d0 FEFFFFEB 		bl	R_OS_ExitCritical
+ 931              	.LVL109:
+ 190:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 932              		.loc 1 190 21 view .LVU280
+ 190:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 933              		.loc 1 190 24 is_stmt 0 view .LVU281
+ 934 00d4 000055E3 		cmp	r5, #0
+ 935 00d8 1200000A 		beq	.L78
+ 936              	.L70:
+ 195:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 937              		.loc 1 195 21 is_stmt 1 view .LVU282
+ 195:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 938              		.loc 1 195 24 is_stmt 0 view .LVU283
+ 939 00dc 000055E3 		cmp	r5, #0
+ 940 00e0 1400000A 		beq	.L79
+ 941              	.L71:
+ 202:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 942              		.loc 1 202 21 is_stmt 1 view .LVU284
+ 202:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 943              		.loc 1 202 24 is_stmt 0 view .LVU285
+ 944 00e4 000055E3 		cmp	r5, #0
+ 945 00e8 1B00000A 		beq	.L80
+ 946              	.L72:
+ 208:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 947              		.loc 1 208 21 is_stmt 1 view .LVU286
+ 208:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     {
+ 948              		.loc 1 208 24 is_stmt 0 view .LVU287
+ 949 00ec 000055E3 		cmp	r5, #0
+ 950 00f0 0400001A 		bne	.L73
+ 211:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 951              		.loc 1 211 25 is_stmt 1 view .LVU288
+ 211:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 952              		.loc 1 211 41 is_stmt 0 view .LVU289
+ 953 00f4 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 954 00f8 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 955 00fc 042193E7 		ldr	r2, [r3, r4, lsl #2]
+ 211:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 956              		.loc 1 211 50 view .LVU290
+ 957 0100 012082E2 		add	r2, r2, #1
+ 958 0104 042183E7 		str	r2, [r3, r4, lsl #2]
+ 959              	.L73:
+ 215:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 960              		.loc 1 215 21 is_stmt 1 view .LVU291
+ 961 0108 003000E3 		movw	r3, #:lower16:.LANCHOR2
+ 962 010c 003040E3 		movt	r3, #:upper16:.LANCHOR2
+ 963 0110 040193E7 		ldr	r0, [r3, r4, lsl #2]
+ 964 0114 FEFFFFEB 		bl	R_OS_MutexRelease
+ 965              	.LVL110:
+ 966 0118 D2FFFFEA 		b	.L63
+ 967              	.L77:
+ 182:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     ret_value = DRV_ERROR;
+ 968              		.loc 1 182 21 view .LVU292
+ 969 011c FEFFFFEB 		bl	R_OS_ExitCritical
+ 970              	.LVL111:
+ 183:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 971              		.loc 1 183 21 view .LVU293
+ 183:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                 }
+ 972              		.loc 1 183 31 is_stmt 0 view .LVU294
+ 973 0120 0050E0E3 		mvn	r5, #0
+ 974 0124 CFFFFFEA 		b	.L63
+ 975              	.LVL112:
+ 976              	.L78:
+ 192:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 977              		.loc 1 192 25 is_stmt 1 view .LVU295
+ 192:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 978              		.loc 1 192 37 is_stmt 0 view .LVU296
+ 979 0128 0D00A0E1 		mov	r0, sp
+ 980 012c FEFFFFEB 		bl	get_p1clk
+ 981              	.LVL113:
+ 982 0130 0050A0E1 		mov	r5, r0
+ 983              	.LVL114:
+ 192:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 984              		.loc 1 192 37 view .LVU297
+ 985 0134 E8FFFFEA 		b	.L70
+ 986              	.LVL115:
+ 987              	.L79:
+ 198:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                                 (uint32_t) (p1clk * 1000));
+ 988              		.loc 1 198 25 is_stmt 1 view .LVU298
+ 199:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 989              		.loc 1 199 51 is_stmt 0 view .LVU299
+ 990 0138 000BDDED 		vldr.64	d16, [sp]
+ 991 013c 0D7B9FED 		vldr.64	d7, .L81
+ 992 0140 877B20EE 		vmul.f64	d7, d16, d7
+ 198:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                                 (uint32_t) (p1clk * 1000));
+ 993              		.loc 1 198 37 view .LVU300
+ 994 0144 C77BFCEE 		vcvt.u32.f64	s15, d7
+ 995 0148 901A17EE 		vmov	r1, s15	@ int
+ 996 014c 1C00D6E5 		ldrb	r0, [r6, #28]	@ zero_extendqisi2
+ 997 0150 FEFFFFEB 		bl	R_RIIC_ScInitChannel
+ 998              	.LVL116:
+ 999 0154 0050A0E1 		mov	r5, r0
+ 1000              	.LVL117:
+ 198:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                                 (uint32_t) (p1clk * 1000));
+ 1001              		.loc 1 198 37 view .LVU301
+ 1002 0158 E1FFFFEA 		b	.L71
+ 1003              	.LVL118:
+ 1004              	.L80:
+ 205:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 1005              		.loc 1 205 25 is_stmt 1 view .LVU302
+ 205:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 1006              		.loc 1 205 37 is_stmt 0 view .LVU303
+ 1007 015c 0400A0E1 		mov	r0, r4
+ 1008 0160 FEFFFFEB 		bl	open_channel
+ 1009              	.LVL119:
+ 1010 0164 0050A0E1 		mov	r5, r0
+ 1011              	.LVL120:
+ 205:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c ****                     }
+ 1012              		.loc 1 205 37 view .LVU304
+ 1013 0168 DFFFFFEA 		b	.L72
+ 1014              	.LVL121:
+ 1015              	.L74:
+ 147:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** 
+ 1016              		.loc 1 147 11 view .LVU305
+ 1017 016c 0050A0E1 		mov	r5, r0
+ 1018              	.LVL122:
+ 227:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 1019              		.loc 1 227 5 is_stmt 1 view .LVU306
+ 227:../generate/sc_drivers/r_riic/src/hld/r_riic_drv_api.c **** }
+ 1020              		.loc 1 227 12 is_stmt 0 view .LVU307
+ 1021 0170 BCFFFFEA 		b	.L63
+ 1022              	.L82:
+ 1023 0174 00F020E3 		.align	3
+ 1024              	.L81:
+ 1025 0178 00000000 		.word	0
+ 1026 017c 00408F40 		.word	1083129856
+ 1027              		.cfi_endproc
+ 1028              	.LFE4:
+ 1030              		.global	g_riic_driver
+ 1031              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 1032              		.align	2
+ 1033              	.LC2:
+ 1034 0000 49324320 		.ascii	"I2C Device Driver\000"
+ 1034      44657669 
+ 1034      63652044 
+ 1034      72697665 
+ 1034      7200
+ 1035              		.section	.bss.gs_channel_count,"aw",%nobits
+ 1036              		.align	2
+ 1037              		.set	.LANCHOR1,. + 0
+ 1040              	gs_channel_count:
+ 1041 0000 00000000 		.space	16
+ 1041      00000000 
+ 1041      00000000 
+ 1041      00000000 
+ 1042              		.section	.bss.gs_driver_open,"aw",%nobits
+ 1043              		.align	2
+ 1044              		.set	.LANCHOR3,. + 0
+ 1047              	gs_driver_open:
+ 1048 0000 00000000 		.space	4
+ 1049              		.section	.bss.gsp_riic_control_mutex,"aw",%nobits
+ 1050              		.align	2
+ 1051              		.set	.LANCHOR2,. + 0
+ 1054              	gsp_riic_control_mutex:
+ 1055 0000 00000000 		.space	16
+ 1055      00000000 
+ 1055      00000000 
+ 1055      00000000 
+ 1056              		.section	.rodata.GPIO_SC_TABLE_riic1,"a"
+ 1057              		.align	2
+ 1060              	GPIO_SC_TABLE_riic1:
+ 1061 0000 020D     		.short	3330
+ 1062 0002 07       		.byte	7
+ 1063 0003 01       		.byte	1
+ 1064 0004 05       		.byte	5
+ 1065 0005 00       		.space	1
+ 1066 0006 030D     		.short	3331
+ 1067 0008 07       		.byte	7
+ 1068 0009 01       		.byte	1
+ 1069 000a 05       		.byte	5
+ 1070 000b 00       		.space	1
+ 1071              		.section	.rodata.RIIC_SC_TABLE,"a"
+ 1072              		.align	2
+ 1073              		.set	.LANCHOR0,. + 0
+ 1076              	RIIC_SC_TABLE:
+ 1077 0000 01000000 		.word	1
+ 1078 0004 00       		.byte	0
+ 1079 0005 000000   		.space	3
+ 1080 0008 01000000 		.word	1
+ 1081 000c 00000000 		.word	0
+ 1082 0010 00000000 		.word	0
+ 1083 0014 0100     		.short	1
+ 1084 0016 0100     		.short	1
+ 1085 0018 0100     		.short	1
+ 1086 001a 00       		.byte	0
+ 1087 001b 00       		.byte	0
+ 1088 001c 00       		.byte	0
+ 1089 001d 00       		.byte	0
+ 1090 001e 04       		.byte	4
+ 1091 001f 00       		.space	1
+ 1092 0020 00000000 		.word	0
+ 1093 0024 00000000 		.word	0
+ 1094 0028 00       		.byte	0
+ 1095 0029 00       		.byte	0
+ 1096 002a 00       		.byte	0
+ 1097 002b 00       		.space	1
+ 1098 002c 00000000 		.word	0
+ 1099 0030 09       		.byte	9
+ 1100 0031 09       		.byte	9
+ 1101 0032 09       		.byte	9
+ 1102 0033 09       		.byte	9
+ 1103 0034 09       		.byte	9
+ 1104 0035 09       		.byte	9
+ 1105 0036 09       		.byte	9
+ 1106 0037 09       		.byte	9
+ 1107 0038 00000000 		.word	GPIO_SC_TABLE_riic1
+ 1108 003c 02000000 		.word	2
+ 1109 0040 00000000 		.space	4
+ 1110              		.section	.rodata.g_riic_driver,"a"
+ 1111              		.align	2
+ 1114              	g_riic_driver:
+ 1115 0000 00000000 		.word	.LC2
+ 1116 0004 00000000 		.word	riic_hld_open
+ 1117 0008 00000000 		.word	riic_hld_close
+ 1118 000c 00000000 		.word	no_dev_read
+ 1119 0010 00000000 		.word	no_dev_write
+ 1120 0014 00000000 		.word	riic_hld_control
+ 1121 0018 00000000 		.word	riic_hld_get_version
+ 1122              		.text
+ 1123              	.Letext0:
+ 1124              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1125              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1126              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 1127              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1128              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1129              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1130              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1131              		.file 9 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_t
+ 1132              		.file 10 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1133              		.file 11 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1134              		.file 12 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/dr
+ 1135              		.file 13 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1136              		.file 14 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1137              		.file 15 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_gpi
+ 1138              		.file 16 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_gpi
+ 1139              		.file 17 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_gpi
+ 1140              		.file 18 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1141              		.file 19 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/os_abstractio
+ 1142              		.file 20 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_cpg
+ 1143              		.file 21 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_cpg
+ 1144              		.file 22 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/os_abstractio
+ 1145              		.file 23 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1146              		.file 24 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_riic_drv_api.c
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:17     .text.riic_get_channel:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:25     .text.riic_get_channel:00000000 riic_get_channel
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1073   .rodata.RIIC_SC_TABLE:00000000 .LANCHOR0
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:91     .text.riic_get_file_mode:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:96     .text.riic_get_file_mode:00000000 riic_get_file_mode
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:136    .text.validate_config_struct:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:141    .text.validate_config_struct:00000000 validate_config_struct
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:270    .rodata.riic_hld_get_version.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:271    .rodata.riic_hld_get_version.str1.4:00000000 .LC0
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:274    .text.riic_hld_get_version:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:279    .text.riic_hld_get_version:00000000 riic_hld_get_version
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:322    .text.riic_reset:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:327    .text.riic_reset:00000000 riic_reset
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:362    .text.riic_hld_control:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:367    .text.riic_hld_control:00000000 riic_hld_control
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1037   .bss.gs_channel_count:00000000 .LANCHOR1
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1051   .bss.gsp_riic_control_mutex:00000000 .LANCHOR2
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:435    .text.riic_hld_control:00000064 $d
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:443    .text.riic_hld_control:00000078 $a
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:580    .rodata.get_p1clk.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:581    .rodata.get_p1clk.str1.4:00000000 .LC1
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:584    .text.get_p1clk:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:589    .text.get_p1clk:00000000 get_p1clk
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:667    .text.validate_channel:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:673    .text.validate_channel:00000000 validate_channel
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:706    .text.riic_hld_close:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:711    .text.riic_hld_close:00000000 riic_hld_close
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:794    .text.riic_hld_open:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:799    .text.riic_hld_open:00000000 riic_hld_open
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1044   .bss.gs_driver_open:00000000 .LANCHOR3
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1025   .text.riic_hld_open:00000178 $d
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1114   .rodata.g_riic_driver:00000000 g_riic_driver
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1032   .rodata.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1036   .bss.gs_channel_count:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1040   .bss.gs_channel_count:00000000 gs_channel_count
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1043   .bss.gs_driver_open:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1047   .bss.gs_driver_open:00000000 gs_driver_open
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1050   .bss.gsp_riic_control_mutex:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1054   .bss.gsp_riic_control_mutex:00000000 gsp_riic_control_mutex
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1057   .rodata.GPIO_SC_TABLE_riic1:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1060   .rodata.GPIO_SC_TABLE_riic1:00000000 GPIO_SC_TABLE_riic1
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1072   .rodata.RIIC_SC_TABLE:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1076   .rodata.RIIC_SC_TABLE:00000000 RIIC_SC_TABLE
+C:\Users\ryota\AppData\Local\Temp\ccisJZqE.s:1111   .rodata.g_riic_driver:00000000 $d
+                           .group:00000000 wm4.0.3d5c910ebb40df6df78b28e37cd67f3d
+                           .group:00000000 wm4.stddef.h.39.144cf5ddcd53cbfdac30259dc1a6c87f
+                           .group:00000000 wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d
+                           .group:00000000 wm4.features.h.33.318b64d71e0957639cfb30f1db1f7ec8
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.newlib.h.8.7cb3972cd43265932d4782d5eb589854
+                           .group:00000000 wm4.ieeefp.h.77.3f06799abf5dd88bdddee084775a1223
+                           .group:00000000 wm4.config.h.224.c701144a7b0518c6ee9b9b5465b79f81
+                           .group:00000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.155.3588ebfdd1e8c7ede80509bb9c3b8009
+                           .group:00000000 wm4._types.h.127.34941de1b2539d59d5cac00e0dd27a45
+                           .group:00000000 wm4.reent.h.17.e292bf8b0bec6c96e131a54347145a30
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4.reent.h.77.dcd6129ff07fe81bd5636db29abe53b2
+                           .group:00000000 wm4.cdefs.h.49.6260d97adb8d27534cbdc0f868b8ea87
+                           .group:00000000 wm4.math.h.13.97100c05caf9f40dd9f5a3cda48ccc01
+                           .group:00000000 wm4.r_typedefs.h.38.e90d9de5300d9ae020e5db8c5af88b3e
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4.stddef.h.155.ba788add86a0e365f264484f110c3c29
+                           .group:00000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:00000000 wm4.types.h.40.8b6acba56cefbb11746718204edc8f5e
+                           .group:00000000 wm4._endian.h.31.65a10590763c3dde1ac4a7f66d7d4891
+                           .group:00000000 wm4.endian.h.9.49f3a4695c1b61e8a0808de3c4a106cb
+                           .group:00000000 wm4._timeval.h.32.bec3221fa7a9bb0bdde696c9c57e47d2
+                           .group:00000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:00000000 wm4.select.h.19.97ca6fd0c752a0f3b6719fd314d361e6
+                           .group:00000000 wm4.types.h.51.5571ec98f267d17d3c670b7a3ba33afa
+                           .group:00000000 wm4.sched.h.22.c60982713a5c428609783c78f9c78d95
+                           .group:00000000 wm4._pthreadtypes.h.36.fcee9961c35163dde6267ef772ad1972
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.81.932d0c162786b883f622b8d05c120c78
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.56.f4862cfbf4363a1db01842d5bdf72c18
+                           .group:00000000 wm4.reent.h.91.b3ea049ebc5486622b61409b78486f84
+                           .group:00000000 wm4._default_fcntl.h.6.791f38f41eee7843f224ce48f47caa9b
+                           .group:00000000 wm4.time.h.8.db4619001f026d0b4874c029fef0e91f
+                           .group:00000000 wm4.time.h.2.4581ce0ffb6627cfc02162c94bf846c9
+                           .group:00000000 wm4.time.h.25.0e6a0fdbc9955f5707ed54246ed2e089
+                           .group:00000000 wm4.time.h.162.85256a1e684b58f061361067da714e0e
+                           .group:00000000 wm4.stat.h.54.5a9b823658423102e7a8de4ed089eedc
+                           .group:00000000 wm4.fcntl.h.9.9336f33d7f5028f694c75e6e224e0cf7
+                           .group:00000000 wm4.driver.h.34.180df73e0731406f5e50150641059ede
+                           .group:00000000 wm4.r_devlink_wrapper.h.72.ad1de4c851513efa3aed0532ebca7ca2
+                           .group:00000000 wm4.r_rza2m_riic_lld_cfg.h.34.420dadece52c9d581310a82d03ef7a9c
+                           .group:00000000 wm4.r_rza2m_riic_lld_api.h.36.fbae5305df069aab4ee8737f6b4cc155
+                           .group:00000000 wm4.r_riic_drv_api.h.81.8cfa166374387345d2e15a569d3903b9
+                           .group:00000000 wm4.adc_iodefine.h.29.14c6f50dce37432a7d004e4b1ce33da7
+                           .group:00000000 wm4.bsc_iodefine.h.29.9281d1f3639266933964d6d0c2d42c4f
+                           .group:00000000 wm4.ceu_iodefine.h.29.2a669d0b46fdde030a50db9e3c307fbf
+                           .group:00000000 wm4.cpg_iodefine.h.29.d6fdc9cb4798723afd88b251d64c2ce2
+                           .group:00000000 wm4.csi2link_iodefine.h.29.221c4531636a409f24d307b16341ada8
+                           .group:00000000 wm4.dmac_iodefine.h.29.578fccc2cc1da886ec95a029bf874f01
+                           .group:00000000 wm4.drpk_iodefine.h.29.580eb8588a2b2d43d2726fbe791e513f
+                           .group:00000000 wm4.drw_iodefine.h.29.df30f4a4a34a79f6a86c4df91353dffe
+                           .group:00000000 wm4.edmac_iodefine.h.29.33e8759349004a722f42f5429c1353f6
+                           .group:00000000 wm4.eptpc_iodefine.h.29.74d8f9fab0f5549b56097fb9e937dde8
+                           .group:00000000 wm4.etherc_iodefine.h.29.14602750383a574f1c21f994ad33a366
+                           .group:00000000 wm4.gpio_iodefine.h.29.3d0b021c56839cee4ae5149903684e4b
+                           .group:00000000 wm4.gpt_iodefine.h.29.557ead75d7b0585b898d3898b64c7f87
+                           .group:00000000 wm4.hyper_iodefine.h.29.000caadbb74d881e97db55b39b432154
+                           .group:00000000 wm4.imr_iodefine.h.29.77c022f017e711c4d51cc0145db1dad3
+                           .group:00000000 wm4.intc_iodefine.h.29.b68f5799a35a7495d63b4cd458e1ba57
+                           .group:00000000 wm4.irda_iodefine.h.29.37e67bd2005173d68a74d1cc937d8444
+                           .group:00000000 wm4.jcu_iodefine.h.29.3aca452908962e7a7ccf26164751feda
+                           .group:00000000 wm4.lvds_iodefine.h.29.c11cbe1900e5209c8dcc76c2336c16bc
+                           .group:00000000 wm4.mtu_iodefine.h.29.5498fb974bb53caf05aa143c2deec781
+                           .group:00000000 wm4.nandc_iodefine.h.29.e0b343306750f017ee86e169ad98efe9
+                           .group:00000000 wm4.octa_iodefine.h.29.4cb0d62e4b9633e173858000dc1c626c
+                           .group:00000000 wm4.ostm_iodefine.h.29.6914f7e330a1cf0008b34219adcdfed4
+                           .group:00000000 wm4.pl_iodefine.h.29.abbb6d725aed990aa8343242bfe31416
+                           .group:00000000 wm4.pmg_iodefine.h.29.8bcfbc4771a6f9b7dd4d6f504427219e
+                           .group:00000000 wm4.poeg_iodefine.h.29.0d8e258d10986260cbc70cfb8c0ef273
+                           .group:00000000 wm4.poe_iodefine.h.29.fe74e55e7b6b4afbe3596c74ba035e98
+                           .group:00000000 wm4.prr_iodefine.h.29.c1f15576f7a27b9c83aa3b40f5b2f988
+                           .group:00000000 wm4.ptpedmac_iodefine.h.29.cd24a93374ce35cebc41e26889d619ef
+                           .group:00000000 wm4.rcanfd_iodefine.h.29.532dd48b82fcb61d63538aba4b6f1289
+                           .group:00000000 wm4.rcan_iodefine.h.29.a47a89db1b35c12b54af48fa1956acba
+                           .group:00000000 wm4.riic_iodefine.h.29.f96943d49800d297612c4af3bba5c943
+                           .group:00000000 wm4.rspi_iodefine.h.29.7efa041fe34a7d27db66a7b337879dfe
+                           .group:00000000 wm4.rtc_iodefine.h.29.6dc76be5ca3df69cecb5a81d06cc46b5
+                           .group:00000000 wm4.scifa_iodefine.h.29.b04ccd664d71baaf31c75761c45b9c4d
+                           .group:00000000 wm4.scim_iodefine.h.29.87d0760abf94446b00d826c797bf0ff2
+                           .group:00000000 wm4.sdmmc_iodefine.h.29.e67e9815445e8057a3262d1566bea0db
+                           .group:00000000 wm4.spdif_iodefine.h.29.59f5d70150fa200a4d8ee50be1ee34c8
+                           .group:00000000 wm4.spibsc_iodefine.h.29.f4930f8b8da1140200204513a363c76f
+                           .group:00000000 wm4.sprite_iodefine.h.29.55796d1fa083a2457fea4ece974a192e
+                           .group:00000000 wm4.ssif_iodefine.h.29.054ec6d95f487f631f16aee39c85c47a
+                           .group:00000000 wm4.usb_iodefine.h.29.6dc44ea388ba227e8fdcfb33c315887b
+                           .group:00000000 wm4.vdc_iodefine.h.29.db282ded1f052d8567fbbd3b61ce8f7a
+                           .group:00000000 wm4.vin_iodefine.h.29.9b392e5601347d53e64be3272934e170
+                           .group:00000000 wm4.wdt_iodefine.h.29.ed07bb44b797072f8c28b41c64fdca30
+                           .group:00000000 wm4.r_gpio_lld_rza2m.h.35.96c370653fb2c866d018d89b2befa42a
+                           .group:00000000 wm4.r_gpio_drv_api.h.82.65cb5059c23a4e3e6bc10574003162e6
+                           .group:00000000 wm4.r_riic_drv_sc_cfg.h.61.5b602d36b67415ece823db1792791a3e
+                           .group:00000000 wm4.r_riic_hld_prv.h.63.1956f8dba580a3079e75aa1856078b51
+                           .group:00000000 wm4.r_os_abstraction_api.h.60.0331cc3a2f471de784d61b225d2e9127
+                           .group:00000000 wm4.r_cpg_lld_rza2m.h.34.816a72e040903fdc81e9bc59d78d8604
+                           .group:00000000 wm4.r_cpg_drv_api.h.32.34aa4048b9b772326079abd0eac5b571
+
+UNDEFINED SYMBOLS
+R_RIIC_GetVersion
+R_RIIC_GetConfig
+R_RIIC_SetConfig
+R_OS_MutexAcquire
+R_OS_MutexRelease
+read_data
+write_data
+direct_open
+control
+direct_close
+R_RIIC_CloseChannel
+R_OS_EnterCritical
+R_OS_MutexDelete
+R_OS_ExitCritical
+R_OS_MutexCreate
+R_RIIC_ScInitChannel
+open_channel
+no_dev_read
+no_dev_write

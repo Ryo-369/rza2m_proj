@@ -1,0 +1,549 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"freertos_tick_config.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.rodata.vConfigureTickInterrupt.str1.4,"aMS",%progbits,1
+  17              		.align	2
+  18              	.LC0:
+  19 0000 5C5C2E5C 		.ascii	"\\\\.\\ostm_reserved\000"
+  19      6F73746D 
+  19      5F726573 
+  19      65727665 
+  19      6400
+  20 0012 0000     		.align	2
+  21              	.LC1:
+  22 0014 2E2E2F73 		.ascii	"../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos"
+  22      72632F46 
+  22      72656552 
+  22      544F532F 
+  22      706F7274 
+  23 0047 5F746963 		.ascii	"_tick_config.c\000"
+  23      6B5F636F 
+  23      6E666967 
+  23      2E6300
+  24              		.section	.text.vConfigureTickInterrupt,"ax",%progbits
+  25              		.align	2
+  26              		.global	vConfigureTickInterrupt
+  27              		.arch armv7-a
+  28              		.arch_extension mp
+  29              		.arch_extension sec
+  30              		.syntax unified
+  31              		.arm
+  32              		.fpu neon
+  34              	vConfigureTickInterrupt:
+  35              	.LFB6:
+  36              		.file 1 "../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c"
+   1:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** /*
+   2:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * FreeRTOS Kernel V10.0.0
+   3:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  *
+   5:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * the Software without restriction, including without limitation the rights to
+   8:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * subject to the following conditions:
+  11:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  *
+  12:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * copies or substantial portions of the Software. If you wish to use our Amazon
+  14:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * FreeRTOS name, please do so in a fair use way that does not cause confusion.
+  15:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  *
+  16:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  17:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  18:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  19:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  20:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  21:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  22:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  *
+  23:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * http://www.FreeRTOS.org
+  24:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * http://aws.amazon.com/freertos
+  25:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  *
+  26:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * 1 tab == 4 spaces!
+  27:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  */
+  28:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+  29:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** /* Renesas driver includes. */
+  30:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** #include <stdint.h>
+  31:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** #include "iodefine.h"
+  32:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+  33:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** /* FreeRTOS includes. */
+  34:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** #include "FreeRTOS.h"
+  35:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** #include "task.h"
+  36:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+  37:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** #include "compiler_settings.h"
+  38:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** #include "r_devlink_wrapper.h"
+  39:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** #include "r_os_abstraction_api.h"
+  40:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** #include "r_ostm_drv_api.h"
+  41:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+  42:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** /*
+  43:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * The application must provide a function that configures a peripheral to
+  44:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * create the FreeRTOS tick interrupt, then define configSETUP_TICK_INTERRUPT()
+  45:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * in FreeRTOSConfig.h to call the function.  This file contains a function
+  46:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * that is suitable for use on the Renesas RZ MPU.
+  47:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  */
+  48:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+  49:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** #define R_FREERTOS_RUNTIME_STATS_OSTM_RESOURCE ("\\\\.\\runtime_stats_timer")
+  50:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** #define runtimeCLOCK_SCALE_SHIFT	( 9UL )
+  51:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** #define runtimeOVERFLOW_BIT			( 1UL << ( 32UL - runtimeCLOCK_SCALE_SHIFT ) )
+  52:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+  53:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** static int_t s_tick_timer_handle = (-1);
+  54:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** static int_t s_runtime_stats_timer_handle = (-1);
+  55:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+  56:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** void vConfigureTickInterrupt( void )
+  57:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** {
+  37              		.loc 1 57 1 view -0
+  38              		.cfi_startproc
+  39              		@ args = 0, pretend = 0, frame = 0
+  40              		@ frame_needed = 0, uses_anonymous_args = 0
+  58:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     if (( -1) == s_tick_timer_handle)
+  41              		.loc 1 58 5 view .LVU1
+  42              		.loc 1 58 15 is_stmt 0 view .LVU2
+  43 0000 003000E3 		movw	r3, #:lower16:.LANCHOR0
+  44 0004 003040E3 		movt	r3, #:upper16:.LANCHOR0
+  45 0008 003093E5 		ldr	r3, [r3]
+  46              		.loc 1 58 8 view .LVU3
+  47 000c 010073E3 		cmn	r3, #1
+  48 0010 1EFF2F11 		bxne	lr
+  57:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     if (( -1) == s_tick_timer_handle)
+  49              		.loc 1 57 1 view .LVU4
+  50 0014 10402DE9 		push	{r4, lr}
+  51              		.cfi_def_cfa_offset 8
+  52              		.cfi_offset 4, -8
+  53              		.cfi_offset 14, -4
+  59:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     {
+  60:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         s_tick_timer_handle = open(R_OS_ABSTRACTION_OSTM_RESOURCE, O_RDWR);
+  54              		.loc 1 60 9 is_stmt 1 view .LVU5
+  55              		.loc 1 60 31 is_stmt 0 view .LVU6
+  56 0018 0210A0E3 		mov	r1, #2
+  57 001c 000000E3 		movw	r0, #:lower16:.LC0
+  58 0020 000040E3 		movt	r0, #:upper16:.LC0
+  59 0024 FEFFFFEB 		bl	open
+  60              	.LVL0:
+  61              		.loc 1 60 29 view .LVU7
+  62 0028 003000E3 		movw	r3, #:lower16:.LANCHOR0
+  63 002c 003040E3 		movt	r3, #:upper16:.LANCHOR0
+  64 0030 000083E5 		str	r0, [r3]
+  61:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+  62:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         if (( -1) == s_tick_timer_handle)
+  65              		.loc 1 62 9 is_stmt 1 view .LVU8
+  66              		.loc 1 62 12 is_stmt 0 view .LVU9
+  67 0034 010070E3 		cmn	r0, #1
+  68 0038 0300000A 		beq	.L8
+  63:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         {
+  64:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****             R_OS_AssertCalled( __FILE__, __LINE__);
+  65:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         }
+  66:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         else
+  67:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         {
+  68:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****             control(s_tick_timer_handle, CTRL_OSTM_START_TIMER, NULL);
+  69              		.loc 1 68 13 is_stmt 1 view .LVU10
+  70 003c 0020A0E3 		mov	r2, #0
+  71 0040 0210A0E1 		mov	r1, r2
+  72 0044 FEFFFFEB 		bl	control
+  73              	.LVL1:
+  69:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         }
+  70:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     }
+  71:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** }
+  74              		.loc 1 71 1 is_stmt 0 view .LVU11
+  75 0048 1080BDE8 		pop	{r4, pc}
+  76              	.L8:
+  64:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         }
+  77              		.loc 1 64 13 is_stmt 1 view .LVU12
+  78 004c 4010A0E3 		mov	r1, #64
+  79 0050 000000E3 		movw	r0, #:lower16:.LC1
+  80 0054 000040E3 		movt	r0, #:upper16:.LC1
+  81 0058 FEFFFFEB 		bl	R_OS_AssertCalled
+  82              	.LVL2:
+  83 005c 1080BDE8 		pop	{r4, pc}
+  84              		.cfi_endproc
+  85              	.LFE6:
+  87              		.section	.text.ulGetRunTimeCounterValue,"ax",%progbits
+  88              		.align	2
+  89              		.global	ulGetRunTimeCounterValue
+  90              		.syntax unified
+  91              		.arm
+  92              		.fpu neon
+  94              	ulGetRunTimeCounterValue:
+  95              	.LFB7:
+  72:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** /*-----------------------------------------------------------*/
+  73:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+  74:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** /*
+  75:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * Crude implementation of a run time counter used to measure how much time
+  76:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  * each task spends in the Running state.
+  77:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****  */
+  78:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** unsigned long ulGetRunTimeCounterValue( void )
+  79:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** {
+  96              		.loc 1 79 1 view -0
+  97              		.cfi_startproc
+  98              		@ args = 0, pretend = 0, frame = 8
+  99              		@ frame_needed = 0, uses_anonymous_args = 0
+ 100 0000 04E02DE5 		str	lr, [sp, #-4]!
+ 101              		.cfi_def_cfa_offset 4
+ 102              		.cfi_offset 14, -4
+ 103 0004 0CD04DE2 		sub	sp, sp, #12
+ 104              		.cfi_def_cfa_offset 16
+  80:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     static unsigned long ulLastCounterValue = 0UL, ulOverflows = 0;
+ 105              		.loc 1 80 5 view .LVU14
+  81:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     unsigned long ulValueNow = 0;
+ 106              		.loc 1 81 5 view .LVU15
+ 107              		.loc 1 81 19 is_stmt 0 view .LVU16
+ 108 0008 0030A0E3 		mov	r3, #0
+ 109 000c 04308DE5 		str	r3, [sp, #4]
+  82:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+  83:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     if (( -1) == s_runtime_stats_timer_handle)
+ 110              		.loc 1 83 5 is_stmt 1 view .LVU17
+ 111              		.loc 1 83 15 is_stmt 0 view .LVU18
+ 112 0010 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 113 0014 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 114 0018 000093E5 		ldr	r0, [r3]
+ 115              		.loc 1 83 8 view .LVU19
+ 116 001c 010070E3 		cmn	r0, #1
+ 117 0020 1700000A 		beq	.L14
+  84:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     {
+  85:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         R_OS_AssertCalled( __FILE__, __LINE__);
+  86:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     }
+  87:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     else
+  88:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     {
+  89:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         control(s_runtime_stats_timer_handle, CTRL_OSTM_READ_COUNTER, &ulValueNow);
+ 118              		.loc 1 89 9 is_stmt 1 view .LVU20
+ 119 0024 04208DE2 		add	r2, sp, #4
+ 120 0028 0310A0E3 		mov	r1, #3
+ 121 002c FEFFFFEB 		bl	control
+ 122              	.LVL3:
+ 123              	.L11:
+  90:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     }
+  91:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+  92:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     /* Has the value overflowed since it was last read. */
+  93:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     if( ulValueNow < ulLastCounterValue )
+ 124              		.loc 1 93 5 view .LVU21
+ 125              		.loc 1 93 20 is_stmt 0 view .LVU22
+ 126 0030 04009DE5 		ldr	r0, [sp, #4]
+ 127 0034 003000E3 		movw	r3, #:lower16:.LANCHOR2
+ 128 0038 003040E3 		movt	r3, #:upper16:.LANCHOR2
+ 129 003c 003093E5 		ldr	r3, [r3]
+ 130              		.loc 1 93 7 view .LVU23
+ 131 0040 030050E1 		cmp	r0, r3
+ 132 0044 0400002A 		bcs	.L12
+  94:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     {
+  95:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         ulOverflows++;
+ 133              		.loc 1 95 9 is_stmt 1 view .LVU24
+ 134              		.loc 1 95 20 is_stmt 0 view .LVU25
+ 135 0048 003000E3 		movw	r3, #:lower16:.LANCHOR3
+ 136 004c 003040E3 		movt	r3, #:upper16:.LANCHOR3
+ 137 0050 002093E5 		ldr	r2, [r3]
+ 138 0054 012082E2 		add	r2, r2, #1
+ 139 0058 002083E5 		str	r2, [r3]
+ 140              	.L12:
+  96:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     }
+  97:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     ulLastCounterValue = ulValueNow;
+ 141              		.loc 1 97 5 is_stmt 1 view .LVU26
+ 142              		.loc 1 97 24 is_stmt 0 view .LVU27
+ 143 005c 003000E3 		movw	r3, #:lower16:.LANCHOR2
+ 144 0060 003040E3 		movt	r3, #:upper16:.LANCHOR2
+ 145 0064 000083E5 		str	r0, [r3]
+  98:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+  99:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     /* There is no prescale on the counter, so simulate in software. */
+ 100:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     ulValueNow >>= runtimeCLOCK_SCALE_SHIFT;
+ 146              		.loc 1 100 5 is_stmt 1 view .LVU28
+ 101:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     ulValueNow += ( runtimeOVERFLOW_BIT * ulOverflows );
+ 147              		.loc 1 101 5 view .LVU29
+ 148              		.loc 1 101 41 is_stmt 0 view .LVU30
+ 149 0068 003000E3 		movw	r3, #:lower16:.LANCHOR3
+ 150 006c 003040E3 		movt	r3, #:upper16:.LANCHOR3
+ 151 0070 003093E5 		ldr	r3, [r3]
+ 152 0074 833BA0E1 		lsl	r3, r3, #23
+ 102:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+ 103:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     return ulValueNow;
+ 153              		.loc 1 103 5 is_stmt 1 view .LVU31
+ 104:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** }
+ 154              		.loc 1 104 1 is_stmt 0 view .LVU32
+ 155 0078 A00483E0 		add	r0, r3, r0, lsr #9
+ 156 007c 0CD08DE2 		add	sp, sp, #12
+ 157              		.cfi_remember_state
+ 158              		.cfi_def_cfa_offset 4
+ 159              		@ sp needed
+ 160 0080 04F09DE4 		ldr	pc, [sp], #4
+ 161              	.L14:
+ 162              		.cfi_restore_state
+  85:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     }
+ 163              		.loc 1 85 9 is_stmt 1 view .LVU33
+ 164 0084 5510A0E3 		mov	r1, #85
+ 165 0088 000000E3 		movw	r0, #:lower16:.LC1
+ 166 008c 000040E3 		movt	r0, #:upper16:.LC1
+ 167 0090 FEFFFFEB 		bl	R_OS_AssertCalled
+ 168              	.LVL4:
+ 169 0094 E5FFFFEA 		b	.L11
+ 170              		.cfi_endproc
+ 171              	.LFE7:
+ 173              		.section	.rodata.vInitialiseRunTimeStats.str1.4,"aMS",%progbits,1
+ 174              		.align	2
+ 175              	.LC2:
+ 176 0000 5C5C2E5C 		.ascii	"\\\\.\\runtime_stats_timer\000"
+ 176      72756E74 
+ 176      696D655F 
+ 176      73746174 
+ 176      735F7469 
+ 177              		.section	.text.vInitialiseRunTimeStats,"ax",%progbits
+ 178              		.align	2
+ 179              		.global	vInitialiseRunTimeStats
+ 180              		.syntax unified
+ 181              		.arm
+ 182              		.fpu neon
+ 184              	vInitialiseRunTimeStats:
+ 185              	.LFB8:
+ 105:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** /*-----------------------------------------------------------*/
+ 106:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+ 107:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** void vInitialiseRunTimeStats( void )
+ 108:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** {
+ 186              		.loc 1 108 1 view -0
+ 187              		.cfi_startproc
+ 188              		@ args = 0, pretend = 0, frame = 0
+ 189              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     if (( -1) == s_runtime_stats_timer_handle)
+ 190              		.loc 1 109 5 view .LVU35
+ 191              		.loc 1 109 15 is_stmt 0 view .LVU36
+ 192 0000 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 193 0004 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 194 0008 003093E5 		ldr	r3, [r3]
+ 195              		.loc 1 109 8 view .LVU37
+ 196 000c 010073E3 		cmn	r3, #1
+ 197 0010 1EFF2F11 		bxne	lr
+ 108:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     if (( -1) == s_runtime_stats_timer_handle)
+ 198              		.loc 1 108 1 view .LVU38
+ 199 0014 10402DE9 		push	{r4, lr}
+ 200              		.cfi_def_cfa_offset 8
+ 201              		.cfi_offset 4, -8
+ 202              		.cfi_offset 14, -4
+ 110:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     {
+ 111:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         s_runtime_stats_timer_handle = open(R_FREERTOS_RUNTIME_STATS_OSTM_RESOURCE, O_RDWR);
+ 203              		.loc 1 111 9 is_stmt 1 view .LVU39
+ 204              		.loc 1 111 40 is_stmt 0 view .LVU40
+ 205 0018 0210A0E3 		mov	r1, #2
+ 206 001c 000000E3 		movw	r0, #:lower16:.LC2
+ 207 0020 000040E3 		movt	r0, #:upper16:.LC2
+ 208 0024 FEFFFFEB 		bl	open
+ 209              	.LVL5:
+ 210              		.loc 1 111 38 view .LVU41
+ 211 0028 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 212 002c 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 213 0030 000083E5 		str	r0, [r3]
+ 112:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** 
+ 113:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         if (( -1) == s_runtime_stats_timer_handle)
+ 214              		.loc 1 113 9 is_stmt 1 view .LVU42
+ 215              		.loc 1 113 12 is_stmt 0 view .LVU43
+ 216 0034 010070E3 		cmn	r0, #1
+ 217 0038 0300000A 		beq	.L22
+ 114:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         {
+ 115:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****             R_OS_AssertCalled( __FILE__, __LINE__);
+ 116:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         }
+ 117:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         else
+ 118:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         {
+ 119:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****             control(s_runtime_stats_timer_handle, CTRL_OSTM_START_TIMER, NULL);
+ 218              		.loc 1 119 13 is_stmt 1 view .LVU44
+ 219 003c 0020A0E3 		mov	r2, #0
+ 220 0040 0210A0E1 		mov	r1, r2
+ 221 0044 FEFFFFEB 		bl	control
+ 222              	.LVL6:
+ 120:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         }
+ 121:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****     }
+ 122:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c **** }
+ 223              		.loc 1 122 1 is_stmt 0 view .LVU45
+ 224 0048 1080BDE8 		pop	{r4, pc}
+ 225              	.L22:
+ 115:../src/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/freertos_tick_config.c ****         }
+ 226              		.loc 1 115 13 is_stmt 1 view .LVU46
+ 227 004c 7310A0E3 		mov	r1, #115
+ 228 0050 000000E3 		movw	r0, #:lower16:.LC1
+ 229 0054 000040E3 		movt	r0, #:upper16:.LC1
+ 230 0058 FEFFFFEB 		bl	R_OS_AssertCalled
+ 231              	.LVL7:
+ 232 005c 1080BDE8 		pop	{r4, pc}
+ 233              		.cfi_endproc
+ 234              	.LFE8:
+ 236              		.section	.bss.ulLastCounterValue.71406,"aw",%nobits
+ 237              		.align	2
+ 238              		.set	.LANCHOR2,. + 0
+ 241              	ulLastCounterValue.71406:
+ 242 0000 00000000 		.space	4
+ 243              		.section	.bss.ulOverflows.71407,"aw",%nobits
+ 244              		.align	2
+ 245              		.set	.LANCHOR3,. + 0
+ 248              	ulOverflows.71407:
+ 249 0000 00000000 		.space	4
+ 250              		.section	.data.s_runtime_stats_timer_handle,"aw"
+ 251              		.align	2
+ 252              		.set	.LANCHOR1,. + 0
+ 255              	s_runtime_stats_timer_handle:
+ 256 0000 FFFFFFFF 		.word	-1
+ 257              		.section	.data.s_tick_timer_handle,"aw"
+ 258              		.align	2
+ 259              		.set	.LANCHOR0,. + 0
+ 262              	s_tick_timer_handle:
+ 263 0000 FFFFFFFF 		.word	-1
+ 264              		.text
+ 265              	.Letext0:
+ 266              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 267              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 268              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 269              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 270              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 271              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 272              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 273              		.file 9 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_t
+ 274              		.file 10 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/dr
+ 275              		.file 11 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/os_abstractio
+ 276              		.file 12 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 277              		.file 13 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 278              		.file 14 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_int
+ 279              		.file 15 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 280              		.file 16 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 281              		.file 17 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_
+ 282              		.file 18 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/os_abstractio
+DEFINED SYMBOLS
+                            *ABS*:00000000 freertos_tick_config.c
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:17     .rodata.vConfigureTickInterrupt.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:18     .rodata.vConfigureTickInterrupt.str1.4:00000000 .LC0
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:21     .rodata.vConfigureTickInterrupt.str1.4:00000014 .LC1
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:25     .text.vConfigureTickInterrupt:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:34     .text.vConfigureTickInterrupt:00000000 vConfigureTickInterrupt
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:259    .data.s_tick_timer_handle:00000000 .LANCHOR0
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:88     .text.ulGetRunTimeCounterValue:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:94     .text.ulGetRunTimeCounterValue:00000000 ulGetRunTimeCounterValue
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:252    .data.s_runtime_stats_timer_handle:00000000 .LANCHOR1
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:238    .bss.ulLastCounterValue.71406:00000000 .LANCHOR2
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:245    .bss.ulOverflows.71407:00000000 .LANCHOR3
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:174    .rodata.vInitialiseRunTimeStats.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:175    .rodata.vInitialiseRunTimeStats.str1.4:00000000 .LC2
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:178    .text.vInitialiseRunTimeStats:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:184    .text.vInitialiseRunTimeStats:00000000 vInitialiseRunTimeStats
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:237    .bss.ulLastCounterValue.71406:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:241    .bss.ulLastCounterValue.71406:00000000 ulLastCounterValue.71406
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:244    .bss.ulOverflows.71407:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:248    .bss.ulOverflows.71407:00000000 ulOverflows.71407
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:251    .data.s_runtime_stats_timer_handle:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:255    .data.s_runtime_stats_timer_handle:00000000 s_runtime_stats_timer_handle
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:258    .data.s_tick_timer_handle:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccaoK9yp.s:262    .data.s_tick_timer_handle:00000000 s_tick_timer_handle
+                           .group:00000000 wm4.0.3d5c910ebb40df6df78b28e37cd67f3d
+                           .group:00000000 wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d
+                           .group:00000000 wm4.features.h.33.318b64d71e0957639cfb30f1db1f7ec8
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.adc_iodefine.h.29.14c6f50dce37432a7d004e4b1ce33da7
+                           .group:00000000 wm4.bsc_iodefine.h.29.9281d1f3639266933964d6d0c2d42c4f
+                           .group:00000000 wm4.ceu_iodefine.h.29.2a669d0b46fdde030a50db9e3c307fbf
+                           .group:00000000 wm4.cpg_iodefine.h.29.d6fdc9cb4798723afd88b251d64c2ce2
+                           .group:00000000 wm4.csi2link_iodefine.h.29.221c4531636a409f24d307b16341ada8
+                           .group:00000000 wm4.dmac_iodefine.h.29.578fccc2cc1da886ec95a029bf874f01
+                           .group:00000000 wm4.drpk_iodefine.h.29.580eb8588a2b2d43d2726fbe791e513f
+                           .group:00000000 wm4.drw_iodefine.h.29.df30f4a4a34a79f6a86c4df91353dffe
+                           .group:00000000 wm4.edmac_iodefine.h.29.33e8759349004a722f42f5429c1353f6
+                           .group:00000000 wm4.eptpc_iodefine.h.29.74d8f9fab0f5549b56097fb9e937dde8
+                           .group:00000000 wm4.etherc_iodefine.h.29.14602750383a574f1c21f994ad33a366
+                           .group:00000000 wm4.gpio_iodefine.h.29.3d0b021c56839cee4ae5149903684e4b
+                           .group:00000000 wm4.gpt_iodefine.h.29.557ead75d7b0585b898d3898b64c7f87
+                           .group:00000000 wm4.hyper_iodefine.h.29.000caadbb74d881e97db55b39b432154
+                           .group:00000000 wm4.imr_iodefine.h.29.77c022f017e711c4d51cc0145db1dad3
+                           .group:00000000 wm4.intc_iodefine.h.29.b68f5799a35a7495d63b4cd458e1ba57
+                           .group:00000000 wm4.irda_iodefine.h.29.37e67bd2005173d68a74d1cc937d8444
+                           .group:00000000 wm4.jcu_iodefine.h.29.3aca452908962e7a7ccf26164751feda
+                           .group:00000000 wm4.lvds_iodefine.h.29.c11cbe1900e5209c8dcc76c2336c16bc
+                           .group:00000000 wm4.mtu_iodefine.h.29.5498fb974bb53caf05aa143c2deec781
+                           .group:00000000 wm4.nandc_iodefine.h.29.e0b343306750f017ee86e169ad98efe9
+                           .group:00000000 wm4.octa_iodefine.h.29.4cb0d62e4b9633e173858000dc1c626c
+                           .group:00000000 wm4.ostm_iodefine.h.29.6914f7e330a1cf0008b34219adcdfed4
+                           .group:00000000 wm4.pl_iodefine.h.29.abbb6d725aed990aa8343242bfe31416
+                           .group:00000000 wm4.pmg_iodefine.h.29.8bcfbc4771a6f9b7dd4d6f504427219e
+                           .group:00000000 wm4.poeg_iodefine.h.29.0d8e258d10986260cbc70cfb8c0ef273
+                           .group:00000000 wm4.poe_iodefine.h.29.fe74e55e7b6b4afbe3596c74ba035e98
+                           .group:00000000 wm4.prr_iodefine.h.29.c1f15576f7a27b9c83aa3b40f5b2f988
+                           .group:00000000 wm4.ptpedmac_iodefine.h.29.cd24a93374ce35cebc41e26889d619ef
+                           .group:00000000 wm4.rcanfd_iodefine.h.29.532dd48b82fcb61d63538aba4b6f1289
+                           .group:00000000 wm4.rcan_iodefine.h.29.a47a89db1b35c12b54af48fa1956acba
+                           .group:00000000 wm4.riic_iodefine.h.29.f96943d49800d297612c4af3bba5c943
+                           .group:00000000 wm4.rspi_iodefine.h.29.7efa041fe34a7d27db66a7b337879dfe
+                           .group:00000000 wm4.rtc_iodefine.h.29.6dc76be5ca3df69cecb5a81d06cc46b5
+                           .group:00000000 wm4.scifa_iodefine.h.29.b04ccd664d71baaf31c75761c45b9c4d
+                           .group:00000000 wm4.scim_iodefine.h.29.87d0760abf94446b00d826c797bf0ff2
+                           .group:00000000 wm4.sdmmc_iodefine.h.29.e67e9815445e8057a3262d1566bea0db
+                           .group:00000000 wm4.spdif_iodefine.h.29.59f5d70150fa200a4d8ee50be1ee34c8
+                           .group:00000000 wm4.spibsc_iodefine.h.29.f4930f8b8da1140200204513a363c76f
+                           .group:00000000 wm4.sprite_iodefine.h.29.55796d1fa083a2457fea4ece974a192e
+                           .group:00000000 wm4.ssif_iodefine.h.29.054ec6d95f487f631f16aee39c85c47a
+                           .group:00000000 wm4.usb_iodefine.h.29.6dc44ea388ba227e8fdcfb33c315887b
+                           .group:00000000 wm4.vdc_iodefine.h.29.db282ded1f052d8567fbbd3b61ce8f7a
+                           .group:00000000 wm4.vin_iodefine.h.29.9b392e5601347d53e64be3272934e170
+                           .group:00000000 wm4.wdt_iodefine.h.29.ed07bb44b797072f8c28b41c64fdca30
+                           .group:00000000 wm4.stddef.h.39.144cf5ddcd53cbfdac30259dc1a6c87f
+                           .group:00000000 wm4.r_task_priority.h.26.416bb98a222bf391200df359bd0318d1
+                           .group:00000000 wm4.FreeRTOSConfig.h.79.b5458a5c31689ea246b5d3a5f655ce5b
+                           .group:00000000 wm4.projdefs.h.28.d6a7c9061b707820f2fcf4c2ff5d9f24
+                           .group:00000000 wm4.newlib.h.8.7cb3972cd43265932d4782d5eb589854
+                           .group:00000000 wm4.ieeefp.h.77.3f06799abf5dd88bdddee084775a1223
+                           .group:00000000 wm4.config.h.224.c701144a7b0518c6ee9b9b5465b79f81
+                           .group:00000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.155.3588ebfdd1e8c7ede80509bb9c3b8009
+                           .group:00000000 wm4._types.h.127.34941de1b2539d59d5cac00e0dd27a45
+                           .group:00000000 wm4.reent.h.17.e292bf8b0bec6c96e131a54347145a30
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4.reent.h.77.dcd6129ff07fe81bd5636db29abe53b2
+                           .group:00000000 wm4.cdefs.h.49.6260d97adb8d27534cbdc0f868b8ea87
+                           .group:00000000 wm4.math.h.13.97100c05caf9f40dd9f5a3cda48ccc01
+                           .group:00000000 wm4.r_typedefs.h.38.e90d9de5300d9ae020e5db8c5af88b3e
+                           .group:00000000 wm4.portmacro.h.32.440d21c040186908c7273660706c6bca
+                           .group:00000000 wm4.portable.h.63.e9cc508c3850f44ce542149380c67812
+                           .group:00000000 wm4.mpu_wrappers.h.28.768974478c42e424045182d5a8740d87
+                           .group:00000000 wm4.FreeRTOS.h.67.5b4462ac037a881bffd21a8fce4c91ce
+                           .group:00000000 wm4.list.h.57.02ec67e07eacffe5ca7cfb7326896236
+                           .group:00000000 wm4.task.h.47.5632d4e651ed85e40d7d5c5d13006d85
+                           .group:00000000 wm4.r_startup_config.h.28.41a2bd9676f9208cac4163ceb2eb9006
+                           .group:00000000 wm4.r_compiler_abstraction_api.h.26.bb21b39b83806cb7bb8838b6f825dcff
+                           .group:00000000 wm4.driver.h.34.180df73e0731406f5e50150641059ede
+                           .group:00000000 wm4.r_os_abstraction_api.h.60.0331cc3a2f471de784d61b225d2e9127
+                           .group:00000000 wm4.compiler_settings.h.55.412db3588640e7e83336e77c1cd11233
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4.stddef.h.155.ba788add86a0e365f264484f110c3c29
+                           .group:00000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:00000000 wm4.types.h.40.8b6acba56cefbb11746718204edc8f5e
+                           .group:00000000 wm4._endian.h.31.65a10590763c3dde1ac4a7f66d7d4891
+                           .group:00000000 wm4.endian.h.9.49f3a4695c1b61e8a0808de3c4a106cb
+                           .group:00000000 wm4._timeval.h.32.bec3221fa7a9bb0bdde696c9c57e47d2
+                           .group:00000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:00000000 wm4.select.h.19.97ca6fd0c752a0f3b6719fd314d361e6
+                           .group:00000000 wm4.types.h.51.5571ec98f267d17d3c670b7a3ba33afa
+                           .group:00000000 wm4.sched.h.22.c60982713a5c428609783c78f9c78d95
+                           .group:00000000 wm4._pthreadtypes.h.36.fcee9961c35163dde6267ef772ad1972
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.81.932d0c162786b883f622b8d05c120c78
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.56.f4862cfbf4363a1db01842d5bdf72c18
+                           .group:00000000 wm4.reent.h.91.b3ea049ebc5486622b61409b78486f84
+                           .group:00000000 wm4._default_fcntl.h.6.791f38f41eee7843f224ce48f47caa9b
+                           .group:00000000 wm4.time.h.8.db4619001f026d0b4874c029fef0e91f
+                           .group:00000000 wm4.time.h.2.4581ce0ffb6627cfc02162c94bf846c9
+                           .group:00000000 wm4.time.h.25.0e6a0fdbc9955f5707ed54246ed2e089
+                           .group:00000000 wm4.time.h.162.85256a1e684b58f061361067da714e0e
+                           .group:00000000 wm4.stat.h.54.5a9b823658423102e7a8de4ed089eedc
+                           .group:00000000 wm4.fcntl.h.9.9336f33d7f5028f694c75e6e224e0cf7
+                           .group:00000000 wm4.r_devlink_wrapper.h.72.ad1de4c851513efa3aed0532ebca7ca2
+                           .group:00000000 wm4.r_intc_lld_rza2m.h.35.148dee33e6a963828fdce2545668b517
+                           .group:00000000 wm4.r_ostm_lld_rza2m.h.66.272f829b409763a94e47858c6b6cb517
+                           .group:00000000 wm4.r_ostm_drv_api.h.51.adcd0e7bd4841f6d7c67e44f00650c60
+
+UNDEFINED SYMBOLS
+open
+control
+R_OS_AssertCalled

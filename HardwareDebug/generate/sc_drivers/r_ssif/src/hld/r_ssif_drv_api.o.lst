@@ -1,0 +1,2533 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_ssif_drv_api.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.ssif_get_channel,"ax",%progbits
+  17              		.align	2
+  18              		.arch armv7-a
+  19              		.arch_extension mp
+  20              		.arch_extension sec
+  21              		.syntax unified
+  22              		.arm
+  23              		.fpu neon
+  25              	ssif_get_channel:
+  26              	.LVL0:
+  27              	.LFB15:
+  28              		.file 1 "../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c"
+   1:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+   2:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * DISCLAIMER
+   3:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * This software is supplied by Renesas Electronics Corporation and is only
+   4:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * intended for use with Renesas products. No other uses are authorized. This
+   5:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * software is owned by Renesas Electronics Corporation and is protected under
+   6:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * all applicable laws, including copyright laws.
+   7:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Renesas reserves the right, without notice, to make changes to this software
+  17:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * and to discontinue the availability of this software. By using this software,
+  18:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * you agree to the additional terms and conditions found by accessing the
+  19:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * following link:
+  20:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * http://www.renesas.com/disclaimer
+  21:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *******************************************************************************
+  22:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  23:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *******************************************************************************
+  24:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * File Name    : r_ssid_drv_api.c
+  25:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Version      : 1.00
+  26:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Description  : This file contains the API for the SSIF Driver.
+  27:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *******************************************************************************
+  28:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * History      : DD.MM.YYYY Version Description
+  29:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *              : 04.02.2010 1.00    First Release
+  30:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+  31:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  32:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+  33:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  WARNING!  IN ACCORDANCE WITH THE USER LICENCE THIS CODE MUST NOT BE CONVEYED
+  34:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  OR REDISTRIBUTED IN COMBINATION WITH ANY SOFTWARE LICENSED UNDER TERMS THE
+  35:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  SAME AS OR SIMILAR TO THE GNU GENERAL PUBLIC LICENCE
+  36:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+  37:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  38:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+  39:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Includes   <System Includes> , "Project Includes"
+  40:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+  41:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** #include <fcntl.h>
+  42:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  43:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** #include "r_typedefs.h"
+  44:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** #include "compiler_settings.h"
+  45:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** #include "r_devlink_wrapper.h"
+  46:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** #include "r_ssif_drv_api.h"
+  47:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** #include "r_intc_drv_api.h"
+  48:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** #include "FreeRTOS.h"
+  49:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** #include "r_ssif_drv_sc_cfg.h"
+  50:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** #include "r_rza2_ssif_lld_cfg.h"
+  51:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  52:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+  53:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Macro definitions
+  54:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+  55:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  56:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /** priority of SSIF interrupts, used in r_ssif_drv_api.c */
+  57:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     #define ISR_SSIF_IRQ_PRIORITY    INTC_PRIORITY_30
+  58:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  59:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*****************************************************************************
+  60:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Function Prototypes
+  61:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+  62:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  63:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /* Driver Functions */
+  64:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t ssif_hld_open (st_stream_ptr_t stream_ptr);
+  65:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static void ssif_hld_close (st_stream_ptr_t stream_ptr);
+  66:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t ssif_hld_read (st_stream_ptr_t stream_ptr, uint8_t *pbyBuffer, uint32_t uiCount);
+  67:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t ssif_hld_write (st_stream_ptr_t stream_ptr, uint8_t *pbyBuffer, uint32_t uiCount);
+  68:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t ssif_hld_control (st_stream_ptr_t stream_ptr, uint32_t ctlCode, void *pCtlStruct);
+  69:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t ssif_hld_get_version (st_stream_ptr_t stream_ptr, st_ver_info_t *pVerInfo);
+  70:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  71:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /* SSIF Initialise functions */
+  72:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static void *ssif_init (void * const config_data, int32_t * const p_errno);
+  73:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t ssif_un_init (void * const driver_instance, int32_t * const p_errno);
+  74:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t configure_ssif_channel (st_stream_ptr_t stream_ptr);
+  75:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int16_t ssif_get_channel (st_stream_ptr_t stream_ptr);
+  76:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  77:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*****************************************************************************
+  78:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Constant Data
+  79:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+  80:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static const st_drv_info_t gs_hld_info =
+  81:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** {
+  82:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** { ((R_SSIF_RZ_HLD_VERSION_MAJOR << 16) + R_SSIF_RZ_HLD_VERSION_MINOR) },
+  83:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  84:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     R_SSIF_RZ_HLD_BUILD_NUM,
+  85:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     R_SSIF_RZ_HLD_DRV_NAME
+  86:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** };
+  87:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  88:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /* structure pointer for setting up DMA read */
+  89:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static AIOCB *gsp_aio_r = NULL;
+  90:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  91:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /* structure pointer for setting up DMA write */
+  92:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static AIOCB *gsp_aio_w = NULL;
+  93:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  94:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /* pointer to info for SSIF channel */
+  95:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static ssif_info_ch_t *gsp_info_ch = (ssif_info_ch_t *)NULL;
+  96:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+  97:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /* Configured Inputs to Open */
+  98:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static ssif_channel_cfg_t gs_ssif_cfg[SSIF_NUM_CHANS];
+  99:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 100:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /* Define the driver function table for this */
+ 101:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** const st_r_driver_t g_ssif_driver =
+ 102:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** { "SSIF Device Driver", ssif_hld_open, ssif_hld_close, ssif_hld_read, ssif_hld_write, ssif_hld_cont
+ 103:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 104:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** extern ssif_info_drv_t g_ssif_info_drv;
+ 105:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 106:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 107:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Function Name: ssif_hld_open
+ 108:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Description:   Function to open the system timer device driver
+ 109:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Arguments:     IN  stream_ptr - Pointer to the file stream
+ 110:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Return value:  0 for success otherwise -1
+ 111:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 112:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t ssif_hld_open (st_stream_ptr_t stream_ptr)
+ 113:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** {
+ 114:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ercd = DRV_SUCCESS;
+ 115:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 116:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* get the Smart Configuration index associated with the handle */
+ 117:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int16_t channel = ssif_get_channel(stream_ptr);
+ 118:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 119:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if (DRV_ERROR != channel)
+ 120:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 121:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         int_t gpio_handle;
+ 122:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         gpio_handle = direct_open("gpio", 0);
+ 123:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 124:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         if (gpio_handle > 0)
+ 125:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 126:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* direct_control as direct_control assumes parameter 3 is i/o, but using the parameter
+ 127:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             direct_control(gpio_handle, CTL_GPIO_INIT_BY_TABLE, (void *) &SSIF_SC_TABLE[stream_ptr-
+ 128:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             direct_close(gpio_handle);
+ 129:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 130:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         else
+ 131:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 132:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             ercd = DRV_ERROR;
+ 133:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 134:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 135:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         if (DRV_SUCCESS == ercd)
+ 136:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 137:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* Configure SSIF Channel 0. 4 channels available (0-3) */
+ 138:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             configure_ssif_channel(stream_ptr);
+ 139:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 140:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* get access to channel to enable it */
+ 141:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             if (false == R_OS_SemaphoreWait( &gsp_info_ch->sem_access, R_OS_ABSTRACTION_EV_WAIT_INF
+ 142:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 143:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 ercd = DRV_ERROR;
+ 144:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 145:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             else
+ 146:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 147:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 gsp_info_ch->openflag = stream_ptr->file_flag;
+ 148:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 149:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* Initialise the tx buffer element */
+ 150:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 gsp_info_ch->p_aio_tx_curr = NULL;
+ 151:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 152:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* Initialise the rx buffer element */
+ 153:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 gsp_info_ch->p_aio_rx_curr = NULL;
+ 154:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 155:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 ercd = R_SSIF_EnableChannel(gsp_info_ch);
+ 156:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 if (DRV_SUCCESS == ercd)
+ 157:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 158:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     gsp_info_ch->ch_stat = SSIF_CHSTS_OPEN;
+ 159:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 }
+ 160:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 161:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             R_OS_SemaphoreRelease( &gsp_info_ch->sem_access);
+ 162:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 163:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 164:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 165:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 166:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     return (ercd);
+ 167:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 168:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 169:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  End of function  ssif_hld_open
+ 170:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 171:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 172:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 173:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Function Name: ssif_hld_close
+ 174:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Description:   Function to close the standard IN driver. All open devices
+ 175:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  connected to the tmr are closed.
+ 176:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Arguments:     IN  stream_ptr - Pointer to the file stream
+ 177:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Return value:  none
+ 178:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 179:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static void ssif_hld_close (st_stream_ptr_t stream_ptr)
+ 180:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** {
+ 181:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Unused parameter*/
+ 182:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     (void) stream_ptr;
+ 183:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 184:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int32_t ercd = DRV_SUCCESS;
+ 185:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 186:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     ercd = ssif_un_init( &g_ssif_info_drv, &ercd);
+ 187:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 188:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Ensure that there is a drive to close */
+ 189:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if ((NULL == gsp_info_ch) || (DRV_SUCCESS != ercd))
+ 190:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 191:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         ercd = DRV_ERROR;
+ 192:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 193:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     else
+ 194:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 195:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         /* Get semaphore to access the channel data */
+ 196:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         if (false == R_OS_SemaphoreWait( &gsp_info_ch->sem_access, R_OS_ABSTRACTION_EV_WAIT_INFINIT
+ 197:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 198:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             ercd = DRV_ERROR;
+ 199:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 200:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         else
+ 201:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 202:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             if (SSIF_CHSTS_UNINIT != gsp_info_ch->ch_stat)
+ 203:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 204:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 ercd = DRV_ERROR;
+ 205:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 206:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             else
+ 207:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 208:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* No p_errno not required */
+ 209:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 R_SSIF_PostAsyncCancel(gsp_info_ch, NULL);
+ 210:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 211:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 ercd = R_SSIF_DisableChannel(gsp_info_ch);
+ 212:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 213:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 if (DRV_SUCCESS == ercd)
+ 214:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 215:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     gsp_info_ch->ch_stat = SSIF_CHSTS_INIT;
+ 216:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 }
+ 217:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 218:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 219:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* Release semaphore */
+ 220:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             R_OS_SemaphoreRelease( &gsp_info_ch->sem_access);
+ 221:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 222:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         /* delete the private semaphore */
+ 223:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         R_OS_SemaphoreDelete(&gsp_info_ch->sem_access);
+ 224:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 225:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 226:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 227:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 228:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  End of function  ssif_hld_close
+ 229:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 230:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 231:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 232:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Function Name: ssif_hld_read
+ 233:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @brief         Enqueue asynchronous read request
+ 234:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *
+ 235:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *                Description:<br>
+ 236:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *
+ 237:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @param[in,out] p_fd       :channel handle which was returned by R_SSIF_Open
+ 238:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @param[in]     p_aio      :aio control block of read request
+ 239:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @param[in,out] p_errno    :pointer of error code
+ 240:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @retval        DRV_SUCCESS   :Success.
+ 241:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @retval        DRV_ERROR     :Failure.
+ 242:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 243:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t ssif_hld_read (st_stream_ptr_t stream_ptr, uint8_t *pbyBuffer, uint32_t uiCount)
+ 244:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** {
+ 245:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ercd = DRV_SUCCESS;
+ 246:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 247:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Ensure reading is allowed */
+ 248:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if (O_WRONLY != stream_ptr->file_flag)
+ 249:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 250:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 251:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         /* Ensure that the driver is configured */
+ 252:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         if ((NULL == gsp_info_ch) || (NULL == gsp_aio_r))
+ 253:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 254:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             ercd = DRV_ERROR;
+ 255:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 256:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         else
+ 257:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 258:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* update file descriptor field with pointer to channel configuration */
+ 259:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             gsp_aio_r->aio_fildes = (int) gsp_info_ch;
+ 260:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 261:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* Enable callback on message */
+ 262:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             gsp_aio_r->aio_sigevent.sigev_notify = SIGEV_THREAD;
+ 263:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 264:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* set operation type */
+ 265:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             gsp_aio_r->aio_return = SSIF_ASYNC_R;
+ 266:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 267:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* number of bytes */
+ 268:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             gsp_aio_r->aio_nbytes = uiCount;
+ 269:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 270:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* pointer to buffer */
+ 271:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             gsp_aio_r->aio_buf = (void *) pbyBuffer;
+ 272:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 273:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* pass message to config structure */
+ 274:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             gsp_info_ch->p_aio_rx_next = gsp_aio_r;
+ 275:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 276:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* Go! */
+ 277:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             R_SSIF_PostAsyncIo(gsp_info_ch, gsp_aio_r);
+ 278:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 279:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 280:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 281:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     return ercd;
+ 282:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 283:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 284:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  End of function ssif_hld_read
+ 285:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 286:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 287:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 288:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Function Name: ssif_hld_write
+ 289:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @brief         Enqueue asynchronous write request
+ 290:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *
+ 291:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *                Description:<br>
+ 292:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *
+ 293:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @param[in,out] p_fd       :channel handle which was returned by R_SSIF_Open
+ 294:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @param[in]     p_aio      :aio control block of write request
+ 295:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @param[in,out] p_errno    :pointer of error code
+ 296:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @retval        DRV_SUCCESS   :Success.
+ 297:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @retval        DRV_ERROR     :Failure.
+ 298:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 299:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t ssif_hld_write (st_stream_ptr_t stream_ptr, uint8_t *pbyBuffer, uint32_t uiCount)
+ 300:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** {
+ 301:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int        lp_cnt;
+ 302:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 303:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ercd = DRV_SUCCESS;
+ 304:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 305:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Ensure writing is allowed */
+ 306:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if (O_RDONLY != stream_ptr->file_flag)
+ 307:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 308:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 309:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         /* Ensure that the ssif is configured correctly */
+ 310:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         if ((NULL == gsp_info_ch) || (NULL == gsp_aio_w))
+ 311:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 312:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             ercd = DRV_ERROR;
+ 313:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 314:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         else
+ 315:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 316:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* Validate parameters */
+ 317:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             if ((0u == uiCount) || (NULL == pbyBuffer))
+ 318:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 319:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 ercd = DRV_ERROR;
+ 320:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 321:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             else
+ 322:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 323:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* update file descriptor field with pointer to channel configuration */
+ 324:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 gsp_aio_w->aio_fildes = (int) gsp_info_ch;
+ 325:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 326:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* Enable callback on message */
+ 327:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 gsp_aio_w->aio_sigevent.sigev_notify = SIGEV_THREAD;
+ 328:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 329:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* set operation type */
+ 330:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 gsp_aio_w->aio_return = SSIF_ASYNC_W;
+ 331:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 332:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* number of bytes */
+ 333:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 gsp_aio_w->aio_nbytes = uiCount;
+ 334:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 335:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* pointer to buffer */
+ 336:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 gsp_aio_w->aio_buf = (void *) pbyBuffer;
+ 337:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 338:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* pass message to config structure */
+ 339:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 gsp_info_ch->p_aio_tx_next = gsp_aio_w;
+ 340:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 341:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* Go! */
+ 342:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 R_SSIF_PostAsyncIo(gsp_info_ch, gsp_aio_w);
+ 343:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 344:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 345:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 346:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 347:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     return ercd;
+ 348:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 349:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 350:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  End of function ssif_hld_write
+ 351:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 352:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 353:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 354:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Function Name: ssif_hld_control
+ 355:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Description:   Function to handle custom controls for the standard IN device
+ 356:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Arguments:     IN  stream_ptr - Pointer to the file stream
+ 357:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  IN  ctlCode - The custom control code
+ 358:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  IN  pCtlStruct - Pointer to the custom control structure
+ 359:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Return value:  0 for success -1 on error
+ 360:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 361:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t ssif_hld_control (st_stream_ptr_t stream_ptr, uint32_t ctlCode, void *pCtlStruct)
+ 362:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** {
+ 363:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t result = DRV_ERROR;
+ 364:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 365:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Avoid unused parameter compiler warning */
+ 366:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     (void) stream_ptr;
+ 367:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if (pCtlStruct)
+ 368:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 369:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         switch (ctlCode)
+ 370:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 371:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             case CTL_SSIF_SET_CONFIGURE:
+ 372:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 373:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 ssif_channel_cfg_t *p_channel_cfg = pCtlStruct;
+ 374:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 375:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* Comparison with NULL */
+ 376:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 if (NULL == p_channel_cfg)
+ 377:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 378:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     result = DRV_ERROR;
+ 379:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 }
+ 380:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 else
+ 381:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 382:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     result = R_SSIF_IOCTL_ConfigChannel(gsp_info_ch, p_channel_cfg);
+ 383:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     if (DRV_SUCCESS != result)
+ 384:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     {
+ 385:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                         result = DRV_ERROR;
+ 386:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     }
+ 387:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 }
+ 388:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 break;
+ 389:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 390:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 391:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             case CTL_SSIF_GET_STATUS:
+ 392:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 393:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 uint32_t *p_status = pCtlStruct;
+ 394:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 395:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* Comparison with NULL */
+ 396:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 if (NULL == p_status)
+ 397:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 398:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     result = DRV_ERROR;
+ 399:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 }
+ 400:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 else
+ 401:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 402:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     result = R_SSIF_IOCTL_GetStatus(gsp_info_ch, p_status);
+ 403:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     if (DRV_SUCCESS != result)
+ 404:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     {
+ 405:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                         result = DRV_ERROR;
+ 406:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     }
+ 407:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 }
+ 408:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 break;
+ 409:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 410:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             case CTL_SSIF_CANCEL:
+ 411:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 412:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* not implement */
+ 413:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 result = DRV_ERROR;
+ 414:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 415:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             break;
+ 416:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 417:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             case CTL_SSIF_READ:
+ 418:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 419:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* point to read setup */
+ 420:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 gsp_aio_r = (AIOCB *) pCtlStruct;
+ 421:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 result = DRV_SUCCESS;
+ 422:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 423:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             break;
+ 424:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 425:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             case CTL_SSIF_WRITE:
+ 426:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 427:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 /* point to write setup */
+ 428:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 gsp_aio_w = (AIOCB *) pCtlStruct;
+ 429:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 result = DRV_SUCCESS;
+ 430:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 431:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             break;
+ 432:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 433:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             default:
+ 434:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 435:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 result = DRV_ERROR;
+ 436:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 break;
+ 437:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 438:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 439:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 440:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     return result;
+ 441:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 442:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 443:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  End of function  ssif_hld_control
+ 444:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 445:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 446:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 447:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Function Name: ssif_hld_get_version
+ 448:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Description  : Provides build information even if driver fails to open
+ 449:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  version information is updated by developer
+ 450:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Arguments    : none
+ 451:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  Return Value : 0 (never fails)
+ 452:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 453:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t ssif_hld_get_version (st_stream_ptr_t stream_ptr, st_ver_info_t *pVerInfo)
+ 454:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** {
+ 455:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Unused parameter */
+ 456:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     (void) stream_ptr;
+ 457:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 458:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     pVerInfo->hld.version.sub.major = gs_hld_info.version.sub.major;
+ 459:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     pVerInfo->hld.version.sub.minor = gs_hld_info.version.sub.minor;
+ 460:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     pVerInfo->hld.build = gs_hld_info.build;
+ 461:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     pVerInfo->hld.p_szdriver_name = gs_hld_info.p_szdriver_name;
+ 462:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 463:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Obtain version information from Low layer Driver */
+ 464:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     R_SSIF_GetVersion(pVerInfo);
+ 465:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 466:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     return 0;
+ 467:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 468:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 469:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  End of function ssif_hld_get_version
+ 470:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 471:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 472:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 473:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Function Name: ssif_init
+ 474:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @brief         Initialises the SSIF driver.
+ 475:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *
+ 476:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *                Description: Initialises the SSIF Driver.
+ 477:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *
+ 478:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @param[in,out] driver_instance :driver instance which was returned by<br>
+ 479:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ssif_init
+ 480:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @param[in,out] p_errno         :pointer of error code
+ 481:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @retval        DRV_SUCCESS        :Success.
+ 482:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @retval        DRV_ERROR          :Failure.
+ 483:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 484:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static void *ssif_init (void * const p_config_data, int32_t * const p_errno)
+ 485:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** {
+ 486:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Unused parameter */
+ 487:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     (void) p_errno;
+ 488:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 489:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ercd = DRV_ERROR;
+ 490:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 491:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* cast to void */
+ 492:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     void *p_ret = (void *)NULL;
+ 493:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 494:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* driver instance must not be NULL */
+ 495:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if (NULL == p_config_data)
+ 496:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 497:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         ercd = DRV_ERROR;
+ 498:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 499:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     else if (SSIF_DRVSTS_UNINIT != g_ssif_info_drv.drv_stat)
+ 500:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 501:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         ercd = DRV_ERROR;
+ 502:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 503:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     else
+ 504:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 505:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         g_ssif_info_drv.drv_stat = SSIF_DRVSTS_INIT;
+ 506:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 507:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         /* cast to ssif_channel_cfg_t pointer */
+ 508:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         ercd = R_SSIF_Initialise((ssif_channel_cfg_t *) p_config_data);
+ 509:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 510:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         if (DRV_SUCCESS == ercd)
+ 511:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 512:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* cast to void */
+ 513:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             p_ret = (void *) &g_ssif_info_drv;
+ 514:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 515:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         else
+ 516:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 517:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             g_ssif_info_drv.drv_stat = SSIF_DRVSTS_UNINIT;
+ 518:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 519:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 520:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 521:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if (DRV_ERROR == ercd)
+ 522:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 523:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         /* Set p_ret to NULL */
+ 524:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         p_ret = NULL;
+ 525:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 526:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 527:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     return p_ret;
+ 528:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 529:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 530:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  End of function ssif_init
+ 531:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 532:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 533:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 534:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Function Name: ssif_un_init
+ 535:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @brief         Uninitialise the SSIF driver.
+ 536:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *
+ 537:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *                Description: Unitailises the SSIF Driver.
+ 538:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *
+ 539:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @param[in,out] driver_instance :driver instance which was returned by<br>
+ 540:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ssif_init
+ 541:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @param[in,out] p_errno         :pointer of error code
+ 542:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @retval        DRV_SUCCESS        :Success.
+ 543:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * @retval        DRV_ERROR          :Failure.
+ 544:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 545:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t ssif_un_init (void * const driver_instance, int32_t * const p_errno)
+ 546:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** {
+ 547:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Unused parameter */
+ 548:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     (void) p_errno;
+ 549:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 550:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ercd;
+ 551:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ret = DRV_SUCCESS;
+ 552:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     ssif_info_drv_t * const p_info_drv = driver_instance;
+ 553:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 554:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Null comparison */
+ 555:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if (NULL == p_info_drv)
+ 556:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 557:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         ercd = DRV_ERROR;
+ 558:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 559:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     else
+ 560:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 561:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         if (SSIF_DRVSTS_INIT != p_info_drv->drv_stat)
+ 562:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 563:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             ercd = DRV_ERROR;
+ 564:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 565:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         else
+ 566:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 567:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             ercd = R_SSIF_UnInitialise();
+ 568:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             p_info_drv->drv_stat = SSIF_DRVSTS_UNINIT;
+ 569:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 570:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 571:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 572:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if (DRV_SUCCESS != ercd)
+ 573:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 574:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         ret = DRV_ERROR;
+ 575:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 576:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 577:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     return ret;
+ 578:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 579:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 580:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  End of function ssif_un_init
+ 581:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 582:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 583:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 584:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Function Name: configure_ssif_channel
+ 585:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Description  : Configures the appropriate SSIF channel. The limit to which is
+ 586:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *                   defined in the driver. Currently the function is limited to a
+ 587:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  *                   hard coded gs_ssif_cfg structure.
+ 588:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Arguments    : int_t channel - configures the appropriate channel
+ 589:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 590:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int_t configure_ssif_channel (st_stream_ptr_t stream_ptr)
+ 591:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** {
+ 592:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     ssif_info_drv_t *p_info_drv;
+ 593:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ecrd = DRV_SUCCESS;
+ 594:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int16_t channel = ssif_get_channel(stream_ptr);
+ 595:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 596:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].enabled = true;
+ 597:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].int_level = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.int_level;
+ 598:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].master_slave = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.master_sl
+ 599:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].sample_freq = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.sample_fre
+ 600:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].clk_select = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.clk_select;
+ 601:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].frame_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.frame_word;
+ 602:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].data_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.data_word;
+ 603:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].system_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.system_wor
+ 604:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].bclk_pol = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.bclk_pol;
+ 605:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].lr_clock = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.lr_clock;
+ 606:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].padding_pol = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.padding_po
+ 607:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].serial_alignment = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.seria
+ 608:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].parallel_alignment = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.par
+ 609:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].ws_delay = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.ws_delay;
+ 610:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].mute_onoff = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.mute_onoff;
+ 611:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].noise_cancel = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.noise_can
+ 612:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].tdm_mode = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.tdm_mode;
+ 613:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 614:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if (gs_ssif_cfg[channel].master_slave == SSIF_CFG_MASTER)
+ 615:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 616:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         gs_ssif_cfg[channel].slave_mode = false;
+ 617:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 618:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     else
+ 619:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 620:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         gs_ssif_cfg[channel].slave_mode = true;
+ 621:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 622:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 623:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* initialise driver data structures */
+ 624:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     p_info_drv = ssif_init( &gs_ssif_cfg, NULL);
+ 625:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 626:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Casting NULL */
+ 627:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if (NULL == p_info_drv)
+ 628:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 629:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         /* Error - SSIF not initialised correctly */
+ 630:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         ecrd = DRV_ERROR;
+ 631:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 632:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     else
+ 633:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 634:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         gsp_info_ch = &p_info_drv->info_ch[channel];
+ 635:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 636:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     return ecrd;
+ 637:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 638:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 639:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  End of function configure_ssif_channel
+ 640:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 641:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 642:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 643:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Function Name: ssif_get_channel
+ 644:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Description  : Provides channel number written in stream_ptr
+ 645:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Arguments    : IN stream_ptr - Pointer to the file stream
+ 646:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  * Return value:  0 to 3 for channel number -1 on error
+ 647:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****  ******************************************************************************/
+ 648:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** static int16_t ssif_get_channel (st_stream_ptr_t stream_ptr)
+ 649:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** {
+  29              		.loc 1 649 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+ 650:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int16_t ret_value = DRV_ERROR;
+  34              		.loc 1 650 5 view .LVU1
+ 651:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int16_t channel_id;
+  35              		.loc 1 651 5 view .LVU2
+ 652:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 653:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if (NULL != stream_ptr)
+  36              		.loc 1 653 5 view .LVU3
+  37              		.loc 1 653 8 is_stmt 0 view .LVU4
+  38 0000 000050E3 		cmp	r0, #0
+  39              		.loc 1 653 8 view .LVU5
+  40 0004 0E00000A 		beq	.L3
+ 654:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 655:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         /* cast channel id to an int_t */
+ 656:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         channel_id = (int_t) (SSIF_SC_TABLE[stream_ptr->sc_config_index].channel);
+  41              		.loc 1 656 9 is_stmt 1 view .LVU6
+  42              		.loc 1 656 55 is_stmt 0 view .LVU7
+  43 0008 1C30D0E5 		ldrb	r3, [r0, #28]	@ zero_extendqisi2
+  44              		.loc 1 656 73 view .LVU8
+  45 000c 002000E3 		movw	r2, #:lower16:.LANCHOR0
+  46 0010 002040E3 		movt	r2, #:upper16:.LANCHOR0
+  47 0014 033183E0 		add	r3, r3, r3, lsl #2
+  48 0018 8331A0E1 		lsl	r3, r3, #3
+  49 001c D32092E1 		ldrsb	r2, [r2, r3]
+  50              		.loc 1 656 20 view .LVU9
+  51 0020 7200BFE6 		sxth	r0, r2
+  52              	.LVL1:
+ 657:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 658:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         /* verify that the channel is supported */
+ 659:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         /* look for channel in the map of available channels from low level driver */
+ 660:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         /* (e_channel_id_t). This is a bit field where the power of 2 is the available channel */
+ 661:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         if (((1 << channel_id) <= R_CH15))
+  53              		.loc 1 661 9 is_stmt 1 view .LVU10
+  54              		.loc 1 661 17 is_stmt 0 view .LVU11
+  55 0024 0130A0E3 		mov	r3, #1
+  56 0028 1332A0E1 		lsl	r3, r3, r2
+  57              		.loc 1 661 12 view .LVU12
+  58 002c 020953E3 		cmp	r3, #32768
+  59 0030 050000CA 		bgt	.L4
+  60              	.LBB2:
+ 662:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 663:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* set channel as bit field where value is 2 << channel */
+ 664:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             uint16_t channel_bit_value = (uint16_t) (1 << channel_id);
+  61              		.loc 1 664 13 is_stmt 1 view .LVU13
+  62              	.LVL2:
+ 665:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 666:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             /* get bit field of supported channels */
+ 667:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             uint16_t supported_channels = SSIF_CFG_LLD_SUPPORTED_CHANNELS;
+  63              		.loc 1 667 13 view .LVU14
+ 668:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 669:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             if (0 != (channel_bit_value & supported_channels))
+  64              		.loc 1 669 13 view .LVU15
+  65              		.loc 1 669 16 is_stmt 0 view .LVU16
+  66 0034 0F0013E3 		tst	r3, #15
+  67 0038 1EFF2F11 		bxne	lr
+  68              	.LBE2:
+ 650:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int16_t channel_id;
+  69              		.loc 1 650 13 view .LVU17
+  70 003c 0000E0E3 		mvn	r0, #0
+  71              	.LVL3:
+ 650:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int16_t channel_id;
+  72              		.loc 1 650 13 view .LVU18
+  73 0040 1EFF2FE1 		bx	lr
+  74              	.LVL4:
+  75              	.L3:
+ 650:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int16_t channel_id;
+  76              		.loc 1 650 13 view .LVU19
+  77 0044 0000E0E3 		mvn	r0, #0
+  78              	.LVL5:
+ 650:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int16_t channel_id;
+  79              		.loc 1 650 13 view .LVU20
+  80 0048 1EFF2FE1 		bx	lr
+  81              	.LVL6:
+  82              	.L4:
+ 650:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int16_t channel_id;
+  83              		.loc 1 650 13 view .LVU21
+  84 004c 0000E0E3 		mvn	r0, #0
+  85              	.LVL7:
+ 670:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 671:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 ret_value = (int_t) channel_id;
+ 672:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 673:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 674:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 675:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 676:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* return status as error or channel number  */
+ 677:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     return (ret_value);
+  86              		.loc 1 677 5 is_stmt 1 view .LVU22
+ 678:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+  87              		.loc 1 678 1 is_stmt 0 view .LVU23
+  88 0050 1EFF2FE1 		bx	lr
+  89              		.cfi_endproc
+  90              	.LFE15:
+  92              		.section	.rodata.ssif_hld_get_version.str1.4,"aMS",%progbits,1
+  93              		.align	2
+  94              	.LC0:
+  95 0000 484C4420 		.ascii	"HLD SSIF\000"
+  95      53534946 
+  95      00
+  96              		.section	.text.ssif_hld_get_version,"ax",%progbits
+  97              		.align	2
+  98              		.syntax unified
+  99              		.arm
+ 100              		.fpu neon
+ 102              	ssif_hld_get_version:
+ 103              	.LVL8:
+ 104              	.LFB11:
+ 454:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Unused parameter */
+ 105              		.loc 1 454 1 is_stmt 1 view -0
+ 106              		.cfi_startproc
+ 107              		@ args = 0, pretend = 0, frame = 0
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 454:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Unused parameter */
+ 109              		.loc 1 454 1 is_stmt 0 view .LVU25
+ 110 0000 10402DE9 		push	{r4, lr}
+ 111              		.cfi_def_cfa_offset 8
+ 112              		.cfi_offset 4, -8
+ 113              		.cfi_offset 14, -4
+ 114 0004 0100A0E1 		mov	r0, r1
+ 115              	.LVL9:
+ 456:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 116              		.loc 1 456 5 is_stmt 1 view .LVU26
+ 458:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     pVerInfo->hld.version.sub.minor = gs_hld_info.version.sub.minor;
+ 117              		.loc 1 458 5 view .LVU27
+ 458:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     pVerInfo->hld.version.sub.minor = gs_hld_info.version.sub.minor;
+ 118              		.loc 1 458 37 is_stmt 0 view .LVU28
+ 119 0008 0130A0E3 		mov	r3, #1
+ 120 000c B230C1E1 		strh	r3, [r1, #2]	@ movhi
+ 459:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     pVerInfo->hld.build = gs_hld_info.build;
+ 121              		.loc 1 459 5 is_stmt 1 view .LVU29
+ 459:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     pVerInfo->hld.build = gs_hld_info.build;
+ 122              		.loc 1 459 37 is_stmt 0 view .LVU30
+ 123 0010 0040A0E3 		mov	r4, #0
+ 124 0014 B040C1E1 		strh	r4, [r1]	@ movhi
+ 460:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     pVerInfo->hld.p_szdriver_name = gs_hld_info.p_szdriver_name;
+ 125              		.loc 1 460 5 is_stmt 1 view .LVU31
+ 460:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     pVerInfo->hld.p_szdriver_name = gs_hld_info.p_szdriver_name;
+ 126              		.loc 1 460 25 is_stmt 0 view .LVU32
+ 127 0018 044081E5 		str	r4, [r1, #4]
+ 461:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 128              		.loc 1 461 5 is_stmt 1 view .LVU33
+ 461:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 129              		.loc 1 461 35 is_stmt 0 view .LVU34
+ 130 001c 003000E3 		movw	r3, #:lower16:.LC0
+ 131 0020 003040E3 		movt	r3, #:upper16:.LC0
+ 132 0024 083081E5 		str	r3, [r1, #8]
+ 464:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 133              		.loc 1 464 5 is_stmt 1 view .LVU35
+ 134 0028 FEFFFFEB 		bl	R_SSIF_GetVersion
+ 135              	.LVL10:
+ 466:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 136              		.loc 1 466 5 view .LVU36
+ 467:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 137              		.loc 1 467 1 is_stmt 0 view .LVU37
+ 138 002c 0400A0E1 		mov	r0, r4
+ 139 0030 1080BDE8 		pop	{r4, pc}
+ 140              		.cfi_endproc
+ 141              	.LFE11:
+ 143              		.section	.text.ssif_hld_control,"ax",%progbits
+ 144              		.align	2
+ 145              		.syntax unified
+ 146              		.arm
+ 147              		.fpu neon
+ 149              	ssif_hld_control:
+ 150              	.LVL11:
+ 151              	.LFB10:
+ 362:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t result = DRV_ERROR;
+ 152              		.loc 1 362 1 is_stmt 1 view -0
+ 153              		.cfi_startproc
+ 154              		@ args = 0, pretend = 0, frame = 0
+ 155              		@ frame_needed = 0, uses_anonymous_args = 0
+ 362:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t result = DRV_ERROR;
+ 156              		.loc 1 362 1 is_stmt 0 view .LVU39
+ 157 0000 0130A0E1 		mov	r3, r1
+ 363:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 158              		.loc 1 363 5 is_stmt 1 view .LVU40
+ 159              	.LVL12:
+ 366:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     if (pCtlStruct)
+ 160              		.loc 1 366 5 view .LVU41
+ 367:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 161              		.loc 1 367 5 view .LVU42
+ 367:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 162              		.loc 1 367 8 is_stmt 0 view .LVU43
+ 163 0004 001052E2 		subs	r1, r2, #0
+ 164              	.LVL13:
+ 367:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 165              		.loc 1 367 8 view .LVU44
+ 166 0008 2200000A 		beq	.L14
+ 362:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t result = DRV_ERROR;
+ 167              		.loc 1 362 1 view .LVU45
+ 168 000c 10402DE9 		push	{r4, lr}
+ 169              		.cfi_def_cfa_offset 8
+ 170              		.cfi_offset 4, -8
+ 171              		.cfi_offset 14, -4
+ 369:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 172              		.loc 1 369 9 is_stmt 1 view .LVU46
+ 173 0010 040053E3 		cmp	r3, #4
+ 174 0014 03F19F97 		ldrls	pc, [pc, r3, asl #2]
+ 175 0018 200000EA 		b	.L15
+ 176              	.L10:
+ 177 001c 30000000 		.word	.L13
+ 178 0020 A0000000 		.word	.L15
+ 179 0024 50000000 		.word	.L12
+ 180 0028 70000000 		.word	.L11
+ 181 002c 84000000 		.word	.L9
+ 182              	.L13:
+ 183              	.LBB3:
+ 373:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 184              		.loc 1 373 17 view .LVU47
+ 185              	.LVL14:
+ 376:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 186              		.loc 1 376 17 view .LVU48
+ 382:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     if (DRV_SUCCESS != result)
+ 187              		.loc 1 382 21 view .LVU49
+ 382:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     if (DRV_SUCCESS != result)
+ 188              		.loc 1 382 30 is_stmt 0 view .LVU50
+ 189 0030 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 190              	.LVL15:
+ 382:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     if (DRV_SUCCESS != result)
+ 191              		.loc 1 382 30 view .LVU51
+ 192 0034 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 193 0038 000093E5 		ldr	r0, [r3]
+ 194              	.LVL16:
+ 382:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     if (DRV_SUCCESS != result)
+ 195              		.loc 1 382 30 view .LVU52
+ 196 003c FEFFFFEB 		bl	R_SSIF_IOCTL_ConfigChannel
+ 197              	.LVL17:
+ 383:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     {
+ 198              		.loc 1 383 21 is_stmt 1 view .LVU53
+ 383:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     {
+ 199              		.loc 1 383 24 is_stmt 0 view .LVU54
+ 200 0040 000050E3 		cmp	r0, #0
+ 383:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     {
+ 201              		.loc 1 383 24 view .LVU55
+ 202 0044 1080BD08 		popeq	{r4, pc}
+ 385:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     }
+ 203              		.loc 1 385 32 view .LVU56
+ 204 0048 0000E0E3 		mvn	r0, #0
+ 205              	.LVL18:
+ 385:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     }
+ 206              		.loc 1 385 32 view .LVU57
+ 207 004c 1080BDE8 		pop	{r4, pc}
+ 208              	.LVL19:
+ 209              	.L12:
+ 385:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     }
+ 210              		.loc 1 385 32 view .LVU58
+ 211              	.LBE3:
+ 212              	.LBB4:
+ 393:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 213              		.loc 1 393 17 is_stmt 1 view .LVU59
+ 396:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 214              		.loc 1 396 17 view .LVU60
+ 402:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     if (DRV_SUCCESS != result)
+ 215              		.loc 1 402 21 view .LVU61
+ 402:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     if (DRV_SUCCESS != result)
+ 216              		.loc 1 402 30 is_stmt 0 view .LVU62
+ 217 0050 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 218              	.LVL20:
+ 402:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     if (DRV_SUCCESS != result)
+ 219              		.loc 1 402 30 view .LVU63
+ 220 0054 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 221 0058 000093E5 		ldr	r0, [r3]
+ 222              	.LVL21:
+ 402:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     if (DRV_SUCCESS != result)
+ 223              		.loc 1 402 30 view .LVU64
+ 224 005c FEFFFFEB 		bl	R_SSIF_IOCTL_GetStatus
+ 225              	.LVL22:
+ 403:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     {
+ 226              		.loc 1 403 21 is_stmt 1 view .LVU65
+ 403:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     {
+ 227              		.loc 1 403 24 is_stmt 0 view .LVU66
+ 228 0060 000050E3 		cmp	r0, #0
+ 403:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     {
+ 229              		.loc 1 403 24 view .LVU67
+ 230 0064 1080BD08 		popeq	{r4, pc}
+ 405:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     }
+ 231              		.loc 1 405 32 view .LVU68
+ 232 0068 0000E0E3 		mvn	r0, #0
+ 233              	.LVL23:
+ 405:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                     }
+ 234              		.loc 1 405 32 view .LVU69
+ 235              	.LBE4:
+ 440:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 236              		.loc 1 440 5 is_stmt 1 view .LVU70
+ 441:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 237              		.loc 1 441 1 is_stmt 0 view .LVU71
+ 238 006c 1080BDE8 		pop	{r4, pc}
+ 239              	.LVL24:
+ 240              	.L11:
+ 420:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 result = DRV_SUCCESS;
+ 241              		.loc 1 420 17 is_stmt 1 view .LVU72
+ 420:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 result = DRV_SUCCESS;
+ 242              		.loc 1 420 27 is_stmt 0 view .LVU73
+ 243 0070 003000E3 		movw	r3, #:lower16:.LANCHOR2
+ 244              	.LVL25:
+ 420:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 result = DRV_SUCCESS;
+ 245              		.loc 1 420 27 view .LVU74
+ 246 0074 003040E3 		movt	r3, #:upper16:.LANCHOR2
+ 247 0078 001083E5 		str	r1, [r3]
+ 421:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 248              		.loc 1 421 17 is_stmt 1 view .LVU75
+ 249              	.LVL26:
+ 423:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 250              		.loc 1 423 13 view .LVU76
+ 421:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 251              		.loc 1 421 24 is_stmt 0 view .LVU77
+ 252 007c 0000A0E3 		mov	r0, #0
+ 253              	.LVL27:
+ 423:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 254              		.loc 1 423 13 view .LVU78
+ 255 0080 1080BDE8 		pop	{r4, pc}
+ 256              	.LVL28:
+ 257              	.L9:
+ 428:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 result = DRV_SUCCESS;
+ 258              		.loc 1 428 17 is_stmt 1 view .LVU79
+ 428:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 result = DRV_SUCCESS;
+ 259              		.loc 1 428 27 is_stmt 0 view .LVU80
+ 260 0084 003000E3 		movw	r3, #:lower16:.LANCHOR3
+ 261              	.LVL29:
+ 428:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 result = DRV_SUCCESS;
+ 262              		.loc 1 428 27 view .LVU81
+ 263 0088 003040E3 		movt	r3, #:upper16:.LANCHOR3
+ 264 008c 001083E5 		str	r1, [r3]
+ 429:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 265              		.loc 1 429 17 is_stmt 1 view .LVU82
+ 266              	.LVL30:
+ 431:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 267              		.loc 1 431 13 view .LVU83
+ 429:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 268              		.loc 1 429 24 is_stmt 0 view .LVU84
+ 269 0090 0000A0E3 		mov	r0, #0
+ 270              	.LVL31:
+ 431:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 271              		.loc 1 431 13 view .LVU85
+ 272 0094 1080BDE8 		pop	{r4, pc}
+ 273              	.LVL32:
+ 274              	.L14:
+ 275              		.cfi_def_cfa_offset 0
+ 276              		.cfi_restore 4
+ 277              		.cfi_restore 14
+ 363:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 278              		.loc 1 363 11 view .LVU86
+ 279 0098 0000E0E3 		mvn	r0, #0
+ 280              	.LVL33:
+ 441:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 281              		.loc 1 441 1 view .LVU87
+ 282 009c 1EFF2FE1 		bx	lr
+ 283              	.LVL34:
+ 284              	.L15:
+ 285              		.cfi_def_cfa_offset 8
+ 286              		.cfi_offset 4, -8
+ 287              		.cfi_offset 14, -4
+ 367:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 288              		.loc 1 367 8 view .LVU88
+ 289 00a0 0000E0E3 		mvn	r0, #0
+ 290              	.LVL35:
+ 367:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 291              		.loc 1 367 8 view .LVU89
+ 292 00a4 1080BDE8 		pop	{r4, pc}
+ 293              		.cfi_endproc
+ 294              	.LFE10:
+ 296              		.section	.text.ssif_hld_write,"ax",%progbits
+ 297              		.align	2
+ 298              		.syntax unified
+ 299              		.arm
+ 300              		.fpu neon
+ 302              	ssif_hld_write:
+ 303              	.LVL36:
+ 304              	.LFB9:
+ 300:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int        lp_cnt;
+ 305              		.loc 1 300 1 is_stmt 1 view -0
+ 306              		.cfi_startproc
+ 307              		@ args = 0, pretend = 0, frame = 0
+ 308              		@ frame_needed = 0, uses_anonymous_args = 0
+ 301:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 309              		.loc 1 301 5 view .LVU91
+ 303:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 310              		.loc 1 303 5 view .LVU92
+ 306:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 311              		.loc 1 306 5 view .LVU93
+ 306:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 312              		.loc 1 306 31 is_stmt 0 view .LVU94
+ 313 0000 180090E5 		ldr	r0, [r0, #24]
+ 314              	.LVL37:
+ 306:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 315              		.loc 1 306 8 view .LVU95
+ 316 0004 000050E3 		cmp	r0, #0
+ 317 0008 1EFF2F01 		bxeq	lr
+ 318 000c 0130A0E1 		mov	r3, r1
+ 310:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 319              		.loc 1 310 9 is_stmt 1 view .LVU96
+ 310:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 320              		.loc 1 310 19 is_stmt 0 view .LVU97
+ 321 0010 001000E3 		movw	r1, #:lower16:.LANCHOR1
+ 322              	.LVL38:
+ 310:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 323              		.loc 1 310 19 view .LVU98
+ 324 0014 001040E3 		movt	r1, #:upper16:.LANCHOR1
+ 325 0018 000091E5 		ldr	r0, [r1]
+ 310:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 326              		.loc 1 310 12 view .LVU99
+ 327 001c 000050E3 		cmp	r0, #0
+ 328 0020 1600000A 		beq	.L24
+ 310:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 329              		.loc 1 310 44 discriminator 1 view .LVU100
+ 330 0024 001000E3 		movw	r1, #:lower16:.LANCHOR3
+ 331 0028 001040E3 		movt	r1, #:upper16:.LANCHOR3
+ 332 002c 001091E5 		ldr	r1, [r1]
+ 310:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 333              		.loc 1 310 35 discriminator 1 view .LVU101
+ 334 0030 000051E3 		cmp	r1, #0
+ 335 0034 1300000A 		beq	.L25
+ 317:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 336              		.loc 1 317 13 is_stmt 1 view .LVU102
+ 317:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 337              		.loc 1 317 42 is_stmt 0 view .LVU103
+ 338 0038 13CF6FE1 		clz	ip, r3
+ 339 003c ACC2A0E1 		lsr	ip, ip, #5
+ 317:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 340              		.loc 1 317 33 view .LVU104
+ 341 0040 000052E3 		cmp	r2, #0
+ 342 0044 01C0A003 		moveq	ip, #1
+ 317:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 343              		.loc 1 317 16 view .LVU105
+ 344 0048 00005CE3 		cmp	ip, #0
+ 345 004c 0F00001A 		bne	.L26
+ 300:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int        lp_cnt;
+ 346              		.loc 1 300 1 view .LVU106
+ 347 0050 10402DE9 		push	{r4, lr}
+ 348              		.cfi_def_cfa_offset 8
+ 349              		.cfi_offset 4, -8
+ 350              		.cfi_offset 14, -4
+ 324:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 351              		.loc 1 324 17 is_stmt 1 view .LVU107
+ 324:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 352              		.loc 1 324 39 is_stmt 0 view .LVU108
+ 353 0054 100081E5 		str	r0, [r1, #16]
+ 327:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 354              		.loc 1 327 17 is_stmt 1 view .LVU109
+ 327:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 355              		.loc 1 327 54 is_stmt 0 view .LVU110
+ 356 0058 02C0A0E3 		mov	ip, #2
+ 357 005c 1CC081E5 		str	ip, [r1, #28]
+ 330:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 358              		.loc 1 330 17 is_stmt 1 view .LVU111
+ 330:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 359              		.loc 1 330 39 is_stmt 0 view .LVU112
+ 360 0060 0040A0E3 		mov	r4, #0
+ 361 0064 084081E5 		str	r4, [r1, #8]
+ 333:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 362              		.loc 1 333 17 is_stmt 1 view .LVU113
+ 333:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 363              		.loc 1 333 39 is_stmt 0 view .LVU114
+ 364 0068 182081E5 		str	r2, [r1, #24]
+ 336:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 365              		.loc 1 336 17 is_stmt 1 view .LVU115
+ 336:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 366              		.loc 1 336 36 is_stmt 0 view .LVU116
+ 367 006c 143081E5 		str	r3, [r1, #20]
+ 339:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 368              		.loc 1 339 17 is_stmt 1 view .LVU117
+ 339:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 369              		.loc 1 339 44 is_stmt 0 view .LVU118
+ 370 0070 601080E5 		str	r1, [r0, #96]
+ 342:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 371              		.loc 1 342 17 is_stmt 1 view .LVU119
+ 372 0074 FEFFFFEB 		bl	R_SSIF_PostAsyncIo
+ 373              	.LVL39:
+ 303:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 374              		.loc 1 303 11 is_stmt 0 view .LVU120
+ 375 0078 0400A0E1 		mov	r0, r4
+ 348:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 376              		.loc 1 348 1 view .LVU121
+ 377 007c 1080BDE8 		pop	{r4, pc}
+ 378              	.LVL40:
+ 379              	.L24:
+ 380              		.cfi_def_cfa_offset 0
+ 381              		.cfi_restore 4
+ 382              		.cfi_restore 14
+ 312:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 383              		.loc 1 312 18 view .LVU122
+ 384 0080 0000E0E3 		mvn	r0, #0
+ 385 0084 1EFF2FE1 		bx	lr
+ 386              	.L25:
+ 387 0088 0000E0E3 		mvn	r0, #0
+ 388 008c 1EFF2FE1 		bx	lr
+ 389              	.L26:
+ 319:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 390              		.loc 1 319 22 view .LVU123
+ 391 0090 0000E0E3 		mvn	r0, #0
+ 392              	.LVL41:
+ 347:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 393              		.loc 1 347 5 is_stmt 1 view .LVU124
+ 348:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 394              		.loc 1 348 1 is_stmt 0 view .LVU125
+ 395 0094 1EFF2FE1 		bx	lr
+ 396              		.cfi_endproc
+ 397              	.LFE9:
+ 399              		.section	.text.ssif_hld_read,"ax",%progbits
+ 400              		.align	2
+ 401              		.syntax unified
+ 402              		.arm
+ 403              		.fpu neon
+ 405              	ssif_hld_read:
+ 406              	.LVL42:
+ 407              	.LFB8:
+ 244:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ercd = DRV_SUCCESS;
+ 408              		.loc 1 244 1 is_stmt 1 view -0
+ 409              		.cfi_startproc
+ 410              		@ args = 0, pretend = 0, frame = 0
+ 411              		@ frame_needed = 0, uses_anonymous_args = 0
+ 244:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ercd = DRV_SUCCESS;
+ 412              		.loc 1 244 1 is_stmt 0 view .LVU127
+ 413 0000 0130A0E1 		mov	r3, r1
+ 245:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 414              		.loc 1 245 5 is_stmt 1 view .LVU128
+ 415              	.LVL43:
+ 248:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 416              		.loc 1 248 5 view .LVU129
+ 248:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 417              		.loc 1 248 31 is_stmt 0 view .LVU130
+ 418 0004 181090E5 		ldr	r1, [r0, #24]
+ 419              	.LVL44:
+ 248:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 420              		.loc 1 248 8 view .LVU131
+ 421 0008 010051E3 		cmp	r1, #1
+ 422 000c 1500000A 		beq	.L33
+ 252:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 423              		.loc 1 252 9 is_stmt 1 view .LVU132
+ 252:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 424              		.loc 1 252 19 is_stmt 0 view .LVU133
+ 425 0010 001000E3 		movw	r1, #:lower16:.LANCHOR1
+ 426 0014 001040E3 		movt	r1, #:upper16:.LANCHOR1
+ 427 0018 000091E5 		ldr	r0, [r1]
+ 428              	.LVL45:
+ 252:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 429              		.loc 1 252 12 view .LVU134
+ 430 001c 000050E3 		cmp	r0, #0
+ 431 0020 1200000A 		beq	.L34
+ 252:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 432              		.loc 1 252 44 discriminator 1 view .LVU135
+ 433 0024 001000E3 		movw	r1, #:lower16:.LANCHOR2
+ 434 0028 001040E3 		movt	r1, #:upper16:.LANCHOR2
+ 435 002c 001091E5 		ldr	r1, [r1]
+ 252:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 436              		.loc 1 252 35 discriminator 1 view .LVU136
+ 437 0030 000051E3 		cmp	r1, #0
+ 438 0034 0F00000A 		beq	.L35
+ 244:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ercd = DRV_SUCCESS;
+ 439              		.loc 1 244 1 view .LVU137
+ 440 0038 10402DE9 		push	{r4, lr}
+ 441              		.cfi_def_cfa_offset 8
+ 442              		.cfi_offset 4, -8
+ 443              		.cfi_offset 14, -4
+ 259:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 444              		.loc 1 259 13 is_stmt 1 view .LVU138
+ 259:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 445              		.loc 1 259 35 is_stmt 0 view .LVU139
+ 446 003c 100081E5 		str	r0, [r1, #16]
+ 262:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 447              		.loc 1 262 13 is_stmt 1 view .LVU140
+ 262:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 448              		.loc 1 262 50 is_stmt 0 view .LVU141
+ 449 0040 02C0A0E3 		mov	ip, #2
+ 450 0044 1CC081E5 		str	ip, [r1, #28]
+ 265:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 451              		.loc 1 265 13 is_stmt 1 view .LVU142
+ 265:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 452              		.loc 1 265 35 is_stmt 0 view .LVU143
+ 453 0048 01C0A0E3 		mov	ip, #1
+ 454 004c 08C081E5 		str	ip, [r1, #8]
+ 268:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 455              		.loc 1 268 13 is_stmt 1 view .LVU144
+ 268:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 456              		.loc 1 268 35 is_stmt 0 view .LVU145
+ 457 0050 182081E5 		str	r2, [r1, #24]
+ 271:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 458              		.loc 1 271 13 is_stmt 1 view .LVU146
+ 271:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 459              		.loc 1 271 32 is_stmt 0 view .LVU147
+ 460 0054 143081E5 		str	r3, [r1, #20]
+ 274:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 461              		.loc 1 274 13 is_stmt 1 view .LVU148
+ 274:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 462              		.loc 1 274 40 is_stmt 0 view .LVU149
+ 463 0058 681080E5 		str	r1, [r0, #104]
+ 277:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 464              		.loc 1 277 13 is_stmt 1 view .LVU150
+ 465 005c FEFFFFEB 		bl	R_SSIF_PostAsyncIo
+ 466              	.LVL46:
+ 245:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 467              		.loc 1 245 11 is_stmt 0 view .LVU151
+ 468 0060 0000A0E3 		mov	r0, #0
+ 282:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 469              		.loc 1 282 1 view .LVU152
+ 470 0064 1080BDE8 		pop	{r4, pc}
+ 471              	.LVL47:
+ 472              	.L33:
+ 473              		.cfi_def_cfa_offset 0
+ 474              		.cfi_restore 4
+ 475              		.cfi_restore 14
+ 245:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 476              		.loc 1 245 11 view .LVU153
+ 477 0068 0000A0E3 		mov	r0, #0
+ 478              	.LVL48:
+ 245:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 479              		.loc 1 245 11 view .LVU154
+ 480 006c 1EFF2FE1 		bx	lr
+ 481              	.L34:
+ 254:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 482              		.loc 1 254 18 view .LVU155
+ 483 0070 0000E0E3 		mvn	r0, #0
+ 484 0074 1EFF2FE1 		bx	lr
+ 485              	.L35:
+ 486 0078 0000E0E3 		mvn	r0, #0
+ 487              	.LVL49:
+ 281:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 488              		.loc 1 281 5 is_stmt 1 view .LVU156
+ 282:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 489              		.loc 1 282 1 is_stmt 0 view .LVU157
+ 490 007c 1EFF2FE1 		bx	lr
+ 491              		.cfi_endproc
+ 492              	.LFE8:
+ 494              		.section	.text.ssif_un_init,"ax",%progbits
+ 495              		.align	2
+ 496              		.syntax unified
+ 497              		.arm
+ 498              		.fpu neon
+ 500              	ssif_un_init:
+ 501              	.LVL50:
+ 502              	.LFB13:
+ 546:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Unused parameter */
+ 503              		.loc 1 546 1 is_stmt 1 view -0
+ 504              		.cfi_startproc
+ 505              		@ args = 0, pretend = 0, frame = 0
+ 506              		@ frame_needed = 0, uses_anonymous_args = 0
+ 546:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Unused parameter */
+ 507              		.loc 1 546 1 is_stmt 0 view .LVU159
+ 508 0000 10402DE9 		push	{r4, lr}
+ 509              		.cfi_def_cfa_offset 8
+ 510              		.cfi_offset 4, -8
+ 511              		.cfi_offset 14, -4
+ 548:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 512              		.loc 1 548 5 is_stmt 1 view .LVU160
+ 550:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ret = DRV_SUCCESS;
+ 513              		.loc 1 550 5 view .LVU161
+ 551:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     ssif_info_drv_t * const p_info_drv = driver_instance;
+ 514              		.loc 1 551 5 view .LVU162
+ 515              	.LVL51:
+ 552:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 516              		.loc 1 552 5 view .LVU163
+ 555:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 517              		.loc 1 555 5 view .LVU164
+ 555:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 518              		.loc 1 555 8 is_stmt 0 view .LVU165
+ 519 0004 004050E2 		subs	r4, r0, #0
+ 520 0008 0900000A 		beq	.L42
+ 561:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 521              		.loc 1 561 9 is_stmt 1 view .LVU166
+ 561:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 522              		.loc 1 561 43 is_stmt 0 view .LVU167
+ 523 000c 0030D4E5 		ldrb	r3, [r4]	@ zero_extendqisi2
+ 561:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 524              		.loc 1 561 12 view .LVU168
+ 525 0010 010053E3 		cmp	r3, #1
+ 526 0014 0800001A 		bne	.L43
+ 567:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             p_info_drv->drv_stat = SSIF_DRVSTS_UNINIT;
+ 527              		.loc 1 567 13 is_stmt 1 view .LVU169
+ 567:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             p_info_drv->drv_stat = SSIF_DRVSTS_UNINIT;
+ 528              		.loc 1 567 20 is_stmt 0 view .LVU170
+ 529 0018 FEFFFFEB 		bl	R_SSIF_UnInitialise
+ 530              	.LVL52:
+ 568:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 531              		.loc 1 568 13 is_stmt 1 view .LVU171
+ 568:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 532              		.loc 1 568 34 is_stmt 0 view .LVU172
+ 533 001c 0030A0E3 		mov	r3, #0
+ 534 0020 0030C4E5 		strb	r3, [r4]
+ 572:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 535              		.loc 1 572 5 is_stmt 1 view .LVU173
+ 572:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 536              		.loc 1 572 8 is_stmt 0 view .LVU174
+ 537 0024 000050E3 		cmp	r0, #0
+ 572:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 538              		.loc 1 572 8 view .LVU175
+ 539 0028 1080BD08 		popeq	{r4, pc}
+ 574:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 540              		.loc 1 574 13 view .LVU176
+ 541 002c 0000E0E3 		mvn	r0, #0
+ 542              	.LVL53:
+ 577:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 543              		.loc 1 577 5 is_stmt 1 view .LVU177
+ 578:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 544              		.loc 1 578 1 is_stmt 0 view .LVU178
+ 545 0030 1080BDE8 		pop	{r4, pc}
+ 546              	.LVL54:
+ 547              	.L42:
+ 574:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 548              		.loc 1 574 13 view .LVU179
+ 549 0034 0000E0E3 		mvn	r0, #0
+ 550              	.LVL55:
+ 574:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 551              		.loc 1 574 13 view .LVU180
+ 552 0038 1080BDE8 		pop	{r4, pc}
+ 553              	.LVL56:
+ 554              	.L43:
+ 574:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 555              		.loc 1 574 13 view .LVU181
+ 556 003c 0000E0E3 		mvn	r0, #0
+ 557              	.LVL57:
+ 574:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 558              		.loc 1 574 13 view .LVU182
+ 559 0040 1080BDE8 		pop	{r4, pc}
+ 560              		.cfi_endproc
+ 561              	.LFE13:
+ 563              		.section	.text.ssif_hld_close,"ax",%progbits
+ 564              		.align	2
+ 565              		.syntax unified
+ 566              		.arm
+ 567              		.fpu neon
+ 569              	ssif_hld_close:
+ 570              	.LVL58:
+ 571              	.LFB7:
+ 180:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Unused parameter*/
+ 572              		.loc 1 180 1 is_stmt 1 view -0
+ 573              		.cfi_startproc
+ 574              		@ args = 0, pretend = 0, frame = 8
+ 575              		@ frame_needed = 0, uses_anonymous_args = 0
+ 180:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Unused parameter*/
+ 576              		.loc 1 180 1 is_stmt 0 view .LVU184
+ 577 0000 04E02DE5 		str	lr, [sp, #-4]!
+ 578              		.cfi_def_cfa_offset 4
+ 579              		.cfi_offset 14, -4
+ 580 0004 0CD04DE2 		sub	sp, sp, #12
+ 581              		.cfi_def_cfa_offset 16
+ 182:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 582              		.loc 1 182 5 is_stmt 1 view .LVU185
+ 184:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 583              		.loc 1 184 5 view .LVU186
+ 184:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 584              		.loc 1 184 13 is_stmt 0 view .LVU187
+ 585 0008 0030A0E3 		mov	r3, #0
+ 586 000c 04308DE5 		str	r3, [sp, #4]
+ 186:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 587              		.loc 1 186 5 is_stmt 1 view .LVU188
+ 186:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 588              		.loc 1 186 12 is_stmt 0 view .LVU189
+ 589 0010 04108DE2 		add	r1, sp, #4
+ 590 0014 000000E3 		movw	r0, #:lower16:g_ssif_info_drv
+ 591              	.LVL59:
+ 186:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 592              		.loc 1 186 12 view .LVU190
+ 593 0018 000040E3 		movt	r0, #:upper16:g_ssif_info_drv
+ 594 001c FEFFFFEB 		bl	ssif_un_init
+ 595              	.LVL60:
+ 186:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 596              		.loc 1 186 10 view .LVU191
+ 597 0020 04008DE5 		str	r0, [sp, #4]
+ 189:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 598              		.loc 1 189 5 is_stmt 1 view .LVU192
+ 189:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 599              		.loc 1 189 15 is_stmt 0 view .LVU193
+ 600 0024 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 601 0028 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 602 002c 003093E5 		ldr	r3, [r3]
+ 189:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 603              		.loc 1 189 8 view .LVU194
+ 604 0030 000053E3 		cmp	r3, #0
+ 605 0034 0100000A 		beq	.L46
+ 189:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 606              		.loc 1 189 31 discriminator 1 view .LVU195
+ 607 0038 000050E3 		cmp	r0, #0
+ 608 003c 0100000A 		beq	.L53
+ 609              	.L46:
+ 226:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 610              		.loc 1 226 1 view .LVU196
+ 611 0040 0CD08DE2 		add	sp, sp, #12
+ 612              		.cfi_remember_state
+ 613              		.cfi_def_cfa_offset 4
+ 614              		@ sp needed
+ 615 0044 04F09DE4 		ldr	pc, [sp], #4
+ 616              	.L53:
+ 617              		.cfi_restore_state
+ 196:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 618              		.loc 1 196 9 is_stmt 1 view .LVU197
+ 196:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 619              		.loc 1 196 22 is_stmt 0 view .LVU198
+ 620 0048 0010E0E3 		mvn	r1, #0
+ 621 004c 180083E2 		add	r0, r3, #24
+ 622 0050 FEFFFFEB 		bl	R_OS_SemaphoreWait
+ 623              	.LVL61:
+ 196:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 624              		.loc 1 196 12 view .LVU199
+ 625 0054 000050E3 		cmp	r0, #0
+ 626 0058 0700001A 		bne	.L48
+ 198:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 627              		.loc 1 198 13 is_stmt 1 view .LVU200
+ 198:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 628              		.loc 1 198 18 is_stmt 0 view .LVU201
+ 629 005c 0030E0E3 		mvn	r3, #0
+ 630 0060 04308DE5 		str	r3, [sp, #4]
+ 631              	.L49:
+ 223:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 632              		.loc 1 223 9 is_stmt 1 view .LVU202
+ 223:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 633              		.loc 1 223 42 is_stmt 0 view .LVU203
+ 634 0064 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 635 0068 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 636 006c 000093E5 		ldr	r0, [r3]
+ 223:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 637              		.loc 1 223 9 view .LVU204
+ 638 0070 180080E2 		add	r0, r0, #24
+ 639 0074 FEFFFFEB 		bl	R_OS_SemaphoreDelete
+ 640              	.LVL62:
+ 226:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 641              		.loc 1 226 1 view .LVU205
+ 642 0078 F0FFFFEA 		b	.L46
+ 643              	.L48:
+ 202:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 644              		.loc 1 202 13 is_stmt 1 view .LVU206
+ 202:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 645              		.loc 1 202 49 is_stmt 0 view .LVU207
+ 646 007c 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 647 0080 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 648 0084 000093E5 		ldr	r0, [r3]
+ 649 0088 1430D0E5 		ldrb	r3, [r0, #20]	@ zero_extendqisi2
+ 202:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 650              		.loc 1 202 16 view .LVU208
+ 651 008c 000053E3 		cmp	r3, #0
+ 652 0090 0700000A 		beq	.L50
+ 204:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 653              		.loc 1 204 17 is_stmt 1 view .LVU209
+ 204:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 654              		.loc 1 204 22 is_stmt 0 view .LVU210
+ 655 0094 0030E0E3 		mvn	r3, #0
+ 656 0098 04308DE5 		str	r3, [sp, #4]
+ 657              	.L51:
+ 220:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 658              		.loc 1 220 13 is_stmt 1 view .LVU211
+ 220:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 659              		.loc 1 220 48 is_stmt 0 view .LVU212
+ 660 009c 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 661 00a0 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 662 00a4 000093E5 		ldr	r0, [r3]
+ 220:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 663              		.loc 1 220 13 view .LVU213
+ 664 00a8 180080E2 		add	r0, r0, #24
+ 665 00ac FEFFFFEB 		bl	R_OS_SemaphoreRelease
+ 666              	.LVL63:
+ 667 00b0 EBFFFFEA 		b	.L49
+ 668              	.L50:
+ 209:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 669              		.loc 1 209 17 is_stmt 1 view .LVU214
+ 670 00b4 0010A0E3 		mov	r1, #0
+ 671 00b8 FEFFFFEB 		bl	R_SSIF_PostAsyncCancel
+ 672              	.LVL64:
+ 211:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 673              		.loc 1 211 17 view .LVU215
+ 211:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 674              		.loc 1 211 24 is_stmt 0 view .LVU216
+ 675 00bc 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 676 00c0 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 677 00c4 000093E5 		ldr	r0, [r3]
+ 678 00c8 FEFFFFEB 		bl	R_SSIF_DisableChannel
+ 679              	.LVL65:
+ 211:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 680              		.loc 1 211 22 view .LVU217
+ 681 00cc 04008DE5 		str	r0, [sp, #4]
+ 213:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 682              		.loc 1 213 17 is_stmt 1 view .LVU218
+ 213:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 683              		.loc 1 213 20 is_stmt 0 view .LVU219
+ 684 00d0 000050E3 		cmp	r0, #0
+ 685 00d4 F0FFFF1A 		bne	.L51
+ 215:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 }
+ 686              		.loc 1 215 21 is_stmt 1 view .LVU220
+ 215:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 }
+ 687              		.loc 1 215 32 is_stmt 0 view .LVU221
+ 688 00d8 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 689 00dc 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 690 00e0 003093E5 		ldr	r3, [r3]
+ 215:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 }
+ 691              		.loc 1 215 42 view .LVU222
+ 692 00e4 0120A0E3 		mov	r2, #1
+ 693 00e8 1420C3E5 		strb	r2, [r3, #20]
+ 694 00ec EAFFFFEA 		b	.L51
+ 695              		.cfi_endproc
+ 696              	.LFE7:
+ 698              		.section	.text.ssif_init,"ax",%progbits
+ 699              		.align	2
+ 700              		.syntax unified
+ 701              		.arm
+ 702              		.fpu neon
+ 704              	ssif_init:
+ 705              	.LVL66:
+ 706              	.LFB12:
+ 485:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Unused parameter */
+ 707              		.loc 1 485 1 is_stmt 1 view -0
+ 708              		.cfi_startproc
+ 709              		@ args = 0, pretend = 0, frame = 0
+ 710              		@ frame_needed = 0, uses_anonymous_args = 0
+ 487:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 711              		.loc 1 487 5 view .LVU224
+ 489:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 712              		.loc 1 489 5 view .LVU225
+ 492:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 713              		.loc 1 492 5 view .LVU226
+ 495:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 714              		.loc 1 495 5 view .LVU227
+ 495:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 715              		.loc 1 495 8 is_stmt 0 view .LVU228
+ 716 0000 000050E3 		cmp	r0, #0
+ 495:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 717              		.loc 1 495 8 view .LVU229
+ 718 0004 1EFF2F01 		bxeq	lr
+ 499:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 719              		.loc 1 499 10 is_stmt 1 view .LVU230
+ 499:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 720              		.loc 1 499 51 is_stmt 0 view .LVU231
+ 721 0008 003000E3 		movw	r3, #:lower16:g_ssif_info_drv
+ 722 000c 003040E3 		movt	r3, #:upper16:g_ssif_info_drv
+ 723 0010 0030D3E5 		ldrb	r3, [r3]	@ zero_extendqisi2
+ 499:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 724              		.loc 1 499 13 view .LVU232
+ 725 0014 000053E3 		cmp	r3, #0
+ 726 0018 1200001A 		bne	.L58
+ 485:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     /* Unused parameter */
+ 727              		.loc 1 485 1 view .LVU233
+ 728 001c 10402DE9 		push	{r4, lr}
+ 729              		.cfi_def_cfa_offset 8
+ 730              		.cfi_offset 4, -8
+ 731              		.cfi_offset 14, -4
+ 505:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 732              		.loc 1 505 9 is_stmt 1 view .LVU234
+ 505:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 733              		.loc 1 505 34 is_stmt 0 view .LVU235
+ 734 0020 003000E3 		movw	r3, #:lower16:g_ssif_info_drv
+ 735 0024 003040E3 		movt	r3, #:upper16:g_ssif_info_drv
+ 736 0028 0120A0E3 		mov	r2, #1
+ 737 002c 0020C3E5 		strb	r2, [r3]
+ 508:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 738              		.loc 1 508 9 is_stmt 1 view .LVU236
+ 508:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 739              		.loc 1 508 16 is_stmt 0 view .LVU237
+ 740 0030 FEFFFFEB 		bl	R_SSIF_Initialise
+ 741              	.LVL67:
+ 510:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 742              		.loc 1 510 9 is_stmt 1 view .LVU238
+ 510:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 743              		.loc 1 510 12 is_stmt 0 view .LVU239
+ 744 0034 003050E2 		subs	r3, r0, #0
+ 745 0038 0700000A 		beq	.L59
+ 517:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 746              		.loc 1 517 13 is_stmt 1 view .LVU240
+ 517:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 747              		.loc 1 517 38 is_stmt 0 view .LVU241
+ 748 003c 002000E3 		movw	r2, #:lower16:g_ssif_info_drv
+ 749 0040 002040E3 		movt	r2, #:upper16:g_ssif_info_drv
+ 750 0044 0000A0E3 		mov	r0, #0
+ 751              	.LVL68:
+ 517:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 752              		.loc 1 517 38 view .LVU242
+ 753 0048 0000C2E5 		strb	r0, [r2]
+ 754              	.L56:
+ 755              	.LVL69:
+ 521:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 756              		.loc 1 521 5 is_stmt 1 view .LVU243
+ 521:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 757              		.loc 1 521 8 is_stmt 0 view .LVU244
+ 758 004c 010073E3 		cmn	r3, #1
+ 759 0050 1080BD18 		popne	{r4, pc}
+ 524:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 760              		.loc 1 524 15 view .LVU245
+ 761 0054 0000A0E3 		mov	r0, #0
+ 762              	.LVL70:
+ 527:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 763              		.loc 1 527 5 is_stmt 1 view .LVU246
+ 528:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 764              		.loc 1 528 1 is_stmt 0 view .LVU247
+ 765 0058 1080BDE8 		pop	{r4, pc}
+ 766              	.LVL71:
+ 767              	.L59:
+ 513:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 768              		.loc 1 513 19 view .LVU248
+ 769 005c 000000E3 		movw	r0, #:lower16:g_ssif_info_drv
+ 770              	.LVL72:
+ 513:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 771              		.loc 1 513 19 view .LVU249
+ 772 0060 000040E3 		movt	r0, #:upper16:g_ssif_info_drv
+ 773 0064 F8FFFFEA 		b	.L56
+ 774              	.LVL73:
+ 775              	.L58:
+ 776              		.cfi_def_cfa_offset 0
+ 777              		.cfi_restore 4
+ 778              		.cfi_restore 14
+ 524:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 779              		.loc 1 524 15 view .LVU250
+ 780 0068 0000A0E3 		mov	r0, #0
+ 781              	.LVL74:
+ 528:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 782              		.loc 1 528 1 view .LVU251
+ 783 006c 1EFF2FE1 		bx	lr
+ 784              		.cfi_endproc
+ 785              	.LFE12:
+ 787              		.section	.text.configure_ssif_channel,"ax",%progbits
+ 788              		.align	2
+ 789              		.syntax unified
+ 790              		.arm
+ 791              		.fpu neon
+ 793              	configure_ssif_channel:
+ 794              	.LVL75:
+ 795              	.LFB14:
+ 591:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     ssif_info_drv_t *p_info_drv;
+ 796              		.loc 1 591 1 is_stmt 1 view -0
+ 797              		.cfi_startproc
+ 798              		@ args = 0, pretend = 0, frame = 0
+ 799              		@ frame_needed = 0, uses_anonymous_args = 0
+ 591:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     ssif_info_drv_t *p_info_drv;
+ 800              		.loc 1 591 1 is_stmt 0 view .LVU253
+ 801 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 802              		.cfi_def_cfa_offset 16
+ 803              		.cfi_offset 4, -16
+ 804              		.cfi_offset 5, -12
+ 805              		.cfi_offset 6, -8
+ 806              		.cfi_offset 14, -4
+ 807 0004 0040A0E1 		mov	r4, r0
+ 592:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ecrd = DRV_SUCCESS;
+ 808              		.loc 1 592 5 is_stmt 1 view .LVU254
+ 593:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int16_t channel = ssif_get_channel(stream_ptr);
+ 809              		.loc 1 593 5 view .LVU255
+ 810              	.LVL76:
+ 594:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 811              		.loc 1 594 5 view .LVU256
+ 594:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 812              		.loc 1 594 23 is_stmt 0 view .LVU257
+ 813 0008 FEFFFFEB 		bl	ssif_get_channel
+ 814              	.LVL77:
+ 594:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 815              		.loc 1 594 23 view .LVU258
+ 816 000c 0050A0E1 		mov	r5, r0
+ 817              	.LVL78:
+ 596:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].int_level = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.int_level;
+ 818              		.loc 1 596 5 is_stmt 1 view .LVU259
+ 596:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].int_level = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.int_level;
+ 819              		.loc 1 596 34 is_stmt 0 view .LVU260
+ 820 0010 003000E3 		movw	r3, #:lower16:.LANCHOR4
+ 821 0014 003040E3 		movt	r3, #:upper16:.LANCHOR4
+ 822 0018 0120A0E3 		mov	r2, #1
+ 823 001c 802283E7 		str	r2, [r3, r0, lsl #5]
+ 597:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].master_slave = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.master_sl
+ 824              		.loc 1 597 5 is_stmt 1 view .LVU261
+ 597:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].master_slave = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.master_sl
+ 825              		.loc 1 597 62 is_stmt 0 view .LVU262
+ 826 0020 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 597:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].master_slave = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.master_sl
+ 827              		.loc 1 597 87 view .LVU263
+ 828 0024 002000E3 		movw	r2, #:lower16:.LANCHOR0
+ 829 0028 002040E3 		movt	r2, #:upper16:.LANCHOR0
+ 830 002c 011181E0 		add	r1, r1, r1, lsl #2
+ 831 0030 811182E0 		add	r1, r2, r1, lsl #3
+ 832 0034 0410D1E5 		ldrb	r1, [r1, #4]	@ zero_extendqisi2
+ 597:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].master_slave = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.master_sl
+ 833              		.loc 1 597 36 view .LVU264
+ 834 0038 803283E0 		add	r3, r3, r0, lsl #5
+ 835 003c 0410C3E5 		strb	r1, [r3, #4]
+ 598:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].sample_freq = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.sample_fre
+ 836              		.loc 1 598 5 is_stmt 1 view .LVU265
+ 598:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].sample_freq = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.sample_fre
+ 837              		.loc 1 598 65 is_stmt 0 view .LVU266
+ 838 0040 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 598:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].sample_freq = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.sample_fre
+ 839              		.loc 1 598 90 view .LVU267
+ 840 0044 011181E0 		add	r1, r1, r1, lsl #2
+ 841 0048 811182E0 		add	r1, r2, r1, lsl #3
+ 842 004c 0510D1E5 		ldrb	r1, [r1, #5]	@ zero_extendqisi2
+ 598:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].sample_freq = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.sample_fre
+ 843              		.loc 1 598 39 view .LVU268
+ 844 0050 1410C3E5 		strb	r1, [r3, #20]
+ 599:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].clk_select = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.clk_select;
+ 845              		.loc 1 599 5 is_stmt 1 view .LVU269
+ 599:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].clk_select = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.clk_select;
+ 846              		.loc 1 599 64 is_stmt 0 view .LVU270
+ 847 0054 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 599:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].clk_select = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.clk_select;
+ 848              		.loc 1 599 89 view .LVU271
+ 849 0058 011181E0 		add	r1, r1, r1, lsl #2
+ 850 005c 811182E0 		add	r1, r2, r1, lsl #3
+ 851 0060 081091E5 		ldr	r1, [r1, #8]
+ 599:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].clk_select = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.clk_select;
+ 852              		.loc 1 599 38 view .LVU272
+ 853 0064 0C1083E5 		str	r1, [r3, #12]
+ 600:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].frame_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.frame_word;
+ 854              		.loc 1 600 5 is_stmt 1 view .LVU273
+ 600:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].frame_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.frame_word;
+ 855              		.loc 1 600 63 is_stmt 0 view .LVU274
+ 856 0068 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 600:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].frame_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.frame_word;
+ 857              		.loc 1 600 88 view .LVU275
+ 858 006c 011181E0 		add	r1, r1, r1, lsl #2
+ 859 0070 811182E0 		add	r1, r2, r1, lsl #3
+ 860 0074 0C10D1E5 		ldrb	r1, [r1, #12]	@ zero_extendqisi2
+ 600:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].frame_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.frame_word;
+ 861              		.loc 1 600 37 view .LVU276
+ 862 0078 1010C3E5 		strb	r1, [r3, #16]
+ 601:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].data_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.data_word;
+ 863              		.loc 1 601 5 is_stmt 1 view .LVU277
+ 601:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].data_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.data_word;
+ 864              		.loc 1 601 63 is_stmt 0 view .LVU278
+ 865 007c 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 601:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].data_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.data_word;
+ 866              		.loc 1 601 88 view .LVU279
+ 867 0080 011181E0 		add	r1, r1, r1, lsl #2
+ 868 0084 811182E0 		add	r1, r2, r1, lsl #3
+ 869 0088 0D10D1E5 		ldrb	r1, [r1, #13]	@ zero_extendqisi2
+ 601:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].data_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.data_word;
+ 870              		.loc 1 601 37 view .LVU280
+ 871 008c 1110C3E5 		strb	r1, [r3, #17]
+ 602:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].system_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.system_wor
+ 872              		.loc 1 602 5 is_stmt 1 view .LVU281
+ 602:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].system_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.system_wor
+ 873              		.loc 1 602 62 is_stmt 0 view .LVU282
+ 874 0090 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 602:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].system_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.system_wor
+ 875              		.loc 1 602 87 view .LVU283
+ 876 0094 011181E0 		add	r1, r1, r1, lsl #2
+ 877 0098 811182E0 		add	r1, r2, r1, lsl #3
+ 878 009c 0E10D1E5 		ldrb	r1, [r1, #14]	@ zero_extendqisi2
+ 602:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].system_word = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.system_wor
+ 879              		.loc 1 602 36 view .LVU284
+ 880 00a0 1210C3E5 		strb	r1, [r3, #18]
+ 603:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].bclk_pol = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.bclk_pol;
+ 881              		.loc 1 603 5 is_stmt 1 view .LVU285
+ 603:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].bclk_pol = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.bclk_pol;
+ 882              		.loc 1 603 64 is_stmt 0 view .LVU286
+ 883 00a4 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 603:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].bclk_pol = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.bclk_pol;
+ 884              		.loc 1 603 89 view .LVU287
+ 885 00a8 011181E0 		add	r1, r1, r1, lsl #2
+ 886 00ac 811182E0 		add	r1, r2, r1, lsl #3
+ 887 00b0 0F10D1E5 		ldrb	r1, [r1, #15]	@ zero_extendqisi2
+ 603:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].bclk_pol = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.bclk_pol;
+ 888              		.loc 1 603 38 view .LVU288
+ 889 00b4 1310C3E5 		strb	r1, [r3, #19]
+ 604:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].lr_clock = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.lr_clock;
+ 890              		.loc 1 604 5 is_stmt 1 view .LVU289
+ 604:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].lr_clock = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.lr_clock;
+ 891              		.loc 1 604 61 is_stmt 0 view .LVU290
+ 892 00b8 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 604:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].lr_clock = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.lr_clock;
+ 893              		.loc 1 604 86 view .LVU291
+ 894 00bc 011181E0 		add	r1, r1, r1, lsl #2
+ 895 00c0 811182E0 		add	r1, r2, r1, lsl #3
+ 896 00c4 1010D1E5 		ldrb	r1, [r1, #16]	@ zero_extendqisi2
+ 604:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].lr_clock = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.lr_clock;
+ 897              		.loc 1 604 35 view .LVU292
+ 898 00c8 1510C3E5 		strb	r1, [r3, #21]
+ 605:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].padding_pol = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.padding_po
+ 899              		.loc 1 605 5 is_stmt 1 view .LVU293
+ 605:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].padding_pol = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.padding_po
+ 900              		.loc 1 605 61 is_stmt 0 view .LVU294
+ 901 00cc 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 605:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].padding_pol = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.padding_po
+ 902              		.loc 1 605 86 view .LVU295
+ 903 00d0 011181E0 		add	r1, r1, r1, lsl #2
+ 904 00d4 811182E0 		add	r1, r2, r1, lsl #3
+ 905 00d8 1110D1E5 		ldrb	r1, [r1, #17]	@ zero_extendqisi2
+ 605:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].padding_pol = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.padding_po
+ 906              		.loc 1 605 35 view .LVU296
+ 907 00dc 1610C3E5 		strb	r1, [r3, #22]
+ 606:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].serial_alignment = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.seria
+ 908              		.loc 1 606 5 is_stmt 1 view .LVU297
+ 606:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].serial_alignment = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.seria
+ 909              		.loc 1 606 64 is_stmt 0 view .LVU298
+ 910 00e0 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 606:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].serial_alignment = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.seria
+ 911              		.loc 1 606 89 view .LVU299
+ 912 00e4 011181E0 		add	r1, r1, r1, lsl #2
+ 913 00e8 811182E0 		add	r1, r2, r1, lsl #3
+ 914 00ec 1210D1E5 		ldrb	r1, [r1, #18]	@ zero_extendqisi2
+ 606:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].serial_alignment = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.seria
+ 915              		.loc 1 606 38 view .LVU300
+ 916 00f0 1710C3E5 		strb	r1, [r3, #23]
+ 607:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].parallel_alignment = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.par
+ 917              		.loc 1 607 5 is_stmt 1 view .LVU301
+ 607:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].parallel_alignment = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.par
+ 918              		.loc 1 607 69 is_stmt 0 view .LVU302
+ 919 00f4 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 607:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].parallel_alignment = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.par
+ 920              		.loc 1 607 94 view .LVU303
+ 921 00f8 011181E0 		add	r1, r1, r1, lsl #2
+ 922 00fc 811182E0 		add	r1, r2, r1, lsl #3
+ 923 0100 1310D1E5 		ldrb	r1, [r1, #19]	@ zero_extendqisi2
+ 607:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].parallel_alignment = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.par
+ 924              		.loc 1 607 43 view .LVU304
+ 925 0104 1810C3E5 		strb	r1, [r3, #24]
+ 608:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].ws_delay = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.ws_delay;
+ 926              		.loc 1 608 5 is_stmt 1 view .LVU305
+ 608:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].ws_delay = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.ws_delay;
+ 927              		.loc 1 608 71 is_stmt 0 view .LVU306
+ 928 0108 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 608:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].ws_delay = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.ws_delay;
+ 929              		.loc 1 608 96 view .LVU307
+ 930 010c 011181E0 		add	r1, r1, r1, lsl #2
+ 931 0110 811182E0 		add	r1, r2, r1, lsl #3
+ 932 0114 1410D1E5 		ldrb	r1, [r1, #20]	@ zero_extendqisi2
+ 608:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].ws_delay = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.ws_delay;
+ 933              		.loc 1 608 45 view .LVU308
+ 934 0118 1910C3E5 		strb	r1, [r3, #25]
+ 609:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].mute_onoff = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.mute_onoff;
+ 935              		.loc 1 609 5 is_stmt 1 view .LVU309
+ 609:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].mute_onoff = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.mute_onoff;
+ 936              		.loc 1 609 61 is_stmt 0 view .LVU310
+ 937 011c 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 609:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].mute_onoff = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.mute_onoff;
+ 938              		.loc 1 609 86 view .LVU311
+ 939 0120 011181E0 		add	r1, r1, r1, lsl #2
+ 940 0124 811182E0 		add	r1, r2, r1, lsl #3
+ 941 0128 1510D1E5 		ldrb	r1, [r1, #21]	@ zero_extendqisi2
+ 609:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].mute_onoff = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.mute_onoff;
+ 942              		.loc 1 609 35 view .LVU312
+ 943 012c 1A10C3E5 		strb	r1, [r3, #26]
+ 610:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].noise_cancel = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.noise_can
+ 944              		.loc 1 610 5 is_stmt 1 view .LVU313
+ 610:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].noise_cancel = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.noise_can
+ 945              		.loc 1 610 63 is_stmt 0 view .LVU314
+ 946 0130 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 610:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].noise_cancel = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.noise_can
+ 947              		.loc 1 610 88 view .LVU315
+ 948 0134 011181E0 		add	r1, r1, r1, lsl #2
+ 949 0138 811182E0 		add	r1, r2, r1, lsl #3
+ 950 013c 1610D1E5 		ldrb	r1, [r1, #22]	@ zero_extendqisi2
+ 610:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].noise_cancel = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.noise_can
+ 951              		.loc 1 610 37 view .LVU316
+ 952 0140 1B10C3E5 		strb	r1, [r3, #27]
+ 611:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].tdm_mode = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.tdm_mode;
+ 953              		.loc 1 611 5 is_stmt 1 view .LVU317
+ 611:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].tdm_mode = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.tdm_mode;
+ 954              		.loc 1 611 65 is_stmt 0 view .LVU318
+ 955 0144 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 611:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].tdm_mode = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.tdm_mode;
+ 956              		.loc 1 611 90 view .LVU319
+ 957 0148 011181E0 		add	r1, r1, r1, lsl #2
+ 958 014c 811182E0 		add	r1, r2, r1, lsl #3
+ 959 0150 1710D1E5 		ldrb	r1, [r1, #23]	@ zero_extendqisi2
+ 611:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     gs_ssif_cfg[channel].tdm_mode = SSIF_SC_TABLE[stream_ptr->sc_config_index].config.tdm_mode;
+ 960              		.loc 1 611 39 view .LVU320
+ 961 0154 1C10C3E5 		strb	r1, [r3, #28]
+ 612:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 962              		.loc 1 612 5 is_stmt 1 view .LVU321
+ 612:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 963              		.loc 1 612 61 is_stmt 0 view .LVU322
+ 964 0158 1C10D4E5 		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 612:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 965              		.loc 1 612 86 view .LVU323
+ 966 015c 011181E0 		add	r1, r1, r1, lsl #2
+ 967 0160 812182E0 		add	r2, r2, r1, lsl #3
+ 968 0164 1820D2E5 		ldrb	r2, [r2, #24]	@ zero_extendqisi2
+ 612:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 969              		.loc 1 612 35 view .LVU324
+ 970 0168 1D20C3E5 		strb	r2, [r3, #29]
+ 614:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 971              		.loc 1 614 5 is_stmt 1 view .LVU325
+ 614:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 972              		.loc 1 614 29 is_stmt 0 view .LVU326
+ 973 016c 1430D3E5 		ldrb	r3, [r3, #20]	@ zero_extendqisi2
+ 614:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 974              		.loc 1 614 8 view .LVU327
+ 975 0170 010053E3 		cmp	r3, #1
+ 976 0174 1100000A 		beq	.L71
+ 620:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 977              		.loc 1 620 9 is_stmt 1 view .LVU328
+ 620:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 978              		.loc 1 620 41 is_stmt 0 view .LVU329
+ 979 0178 003000E3 		movw	r3, #:lower16:.LANCHOR4
+ 980 017c 003040E3 		movt	r3, #:upper16:.LANCHOR4
+ 981 0180 803283E0 		add	r3, r3, r0, lsl #5
+ 982 0184 0120A0E3 		mov	r2, #1
+ 983 0188 082083E5 		str	r2, [r3, #8]
+ 984              	.L67:
+ 624:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 985              		.loc 1 624 5 is_stmt 1 view .LVU330
+ 624:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 986              		.loc 1 624 18 is_stmt 0 view .LVU331
+ 987 018c 0010A0E3 		mov	r1, #0
+ 988 0190 000000E3 		movw	r0, #:lower16:.LANCHOR4
+ 989              	.LVL79:
+ 624:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 990              		.loc 1 624 18 view .LVU332
+ 991 0194 000040E3 		movt	r0, #:upper16:.LANCHOR4
+ 992 0198 FEFFFFEB 		bl	ssif_init
+ 993              	.LVL80:
+ 627:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 994              		.loc 1 627 5 is_stmt 1 view .LVU333
+ 627:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 995              		.loc 1 627 8 is_stmt 0 view .LVU334
+ 996 019c 003050E2 		subs	r3, r0, #0
+ 997 01a0 0C00000A 		beq	.L69
+ 634:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 998              		.loc 1 634 9 is_stmt 1 view .LVU335
+ 634:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 999              		.loc 1 634 23 is_stmt 0 view .LVU336
+ 1000 01a4 850383E0 		add	r0, r3, r5, lsl #7
+ 1001              	.LVL81:
+ 634:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 1002              		.loc 1 634 23 view .LVU337
+ 1003 01a8 040080E2 		add	r0, r0, #4
+ 634:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 1004              		.loc 1 634 21 view .LVU338
+ 1005 01ac 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 1006              	.LVL82:
+ 634:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 1007              		.loc 1 634 21 view .LVU339
+ 1008 01b0 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 1009 01b4 000083E5 		str	r0, [r3]
+ 593:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int16_t channel = ssif_get_channel(stream_ptr);
+ 1010              		.loc 1 593 11 view .LVU340
+ 1011 01b8 0000A0E3 		mov	r0, #0
+ 1012 01bc 7080BDE8 		pop	{r4, r5, r6, pc}
+ 1013              	.LVL83:
+ 1014              	.L71:
+ 616:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 1015              		.loc 1 616 9 is_stmt 1 view .LVU341
+ 616:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 1016              		.loc 1 616 41 is_stmt 0 view .LVU342
+ 1017 01c0 003000E3 		movw	r3, #:lower16:.LANCHOR4
+ 1018 01c4 003040E3 		movt	r3, #:upper16:.LANCHOR4
+ 1019 01c8 803283E0 		add	r3, r3, r0, lsl #5
+ 1020 01cc 0020A0E3 		mov	r2, #0
+ 1021 01d0 082083E5 		str	r2, [r3, #8]
+ 1022 01d4 ECFFFFEA 		b	.L67
+ 1023              	.LVL84:
+ 1024              	.L69:
+ 630:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     }
+ 1025              		.loc 1 630 14 view .LVU343
+ 1026 01d8 0000E0E3 		mvn	r0, #0
+ 1027              	.LVL85:
+ 636:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 1028              		.loc 1 636 5 is_stmt 1 view .LVU344
+ 637:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /*******************************************************************************
+ 1029              		.loc 1 637 1 is_stmt 0 view .LVU345
+ 1030 01dc 7080BDE8 		pop	{r4, r5, r6, pc}
+ 1031              		.cfi_endproc
+ 1032              	.LFE14:
+ 1034              		.section	.rodata.ssif_hld_open.str1.4,"aMS",%progbits,1
+ 1035              		.align	2
+ 1036              	.LC1:
+ 1037 0000 6770696F 		.ascii	"gpio\000"
+ 1037      00
+ 1038              		.section	.text.ssif_hld_open,"ax",%progbits
+ 1039              		.align	2
+ 1040              		.syntax unified
+ 1041              		.arm
+ 1042              		.fpu neon
+ 1044              	ssif_hld_open:
+ 1045              	.LVL86:
+ 1046              	.LFB6:
+ 113:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ercd = DRV_SUCCESS;
+ 1047              		.loc 1 113 1 is_stmt 1 view -0
+ 1048              		.cfi_startproc
+ 1049              		@ args = 0, pretend = 0, frame = 0
+ 1050              		@ frame_needed = 0, uses_anonymous_args = 0
+ 113:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     int_t ercd = DRV_SUCCESS;
+ 1051              		.loc 1 113 1 is_stmt 0 view .LVU347
+ 1052 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 1053              		.cfi_def_cfa_offset 16
+ 1054              		.cfi_offset 4, -16
+ 1055              		.cfi_offset 5, -12
+ 1056              		.cfi_offset 6, -8
+ 1057              		.cfi_offset 14, -4
+ 1058 0004 0040A0E1 		mov	r4, r0
+ 114:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1059              		.loc 1 114 5 is_stmt 1 view .LVU348
+ 1060              	.LVL87:
+ 117:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1061              		.loc 1 117 5 view .LVU349
+ 117:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1062              		.loc 1 117 23 is_stmt 0 view .LVU350
+ 1063 0008 FEFFFFEB 		bl	ssif_get_channel
+ 1064              	.LVL88:
+ 119:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 1065              		.loc 1 119 5 is_stmt 1 view .LVU351
+ 119:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****     {
+ 1066              		.loc 1 119 8 is_stmt 0 view .LVU352
+ 1067 000c 010070E3 		cmn	r0, #1
+ 1068 0010 0200001A 		bne	.L79
+ 114:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1069              		.loc 1 114 11 view .LVU353
+ 1070 0014 0040A0E3 		mov	r4, #0
+ 1071              	.LVL89:
+ 1072              	.L72:
+ 167:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** /******************************************************************************
+ 1073              		.loc 1 167 1 view .LVU354
+ 1074 0018 0400A0E1 		mov	r0, r4
+ 1075 001c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 1076              	.LVL90:
+ 1077              	.L79:
+ 1078              	.LBB5:
+ 121:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         gpio_handle = direct_open("gpio", 0);
+ 1079              		.loc 1 121 9 is_stmt 1 view .LVU355
+ 122:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1080              		.loc 1 122 9 view .LVU356
+ 122:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1081              		.loc 1 122 23 is_stmt 0 view .LVU357
+ 1082 0020 0010A0E3 		mov	r1, #0
+ 1083 0024 000000E3 		movw	r0, #:lower16:.LC1
+ 1084              	.LVL91:
+ 122:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1085              		.loc 1 122 23 view .LVU358
+ 1086 0028 000040E3 		movt	r0, #:upper16:.LC1
+ 1087 002c FEFFFFEB 		bl	direct_open
+ 1088              	.LVL92:
+ 124:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 1089              		.loc 1 124 9 is_stmt 1 view .LVU359
+ 124:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 1090              		.loc 1 124 12 is_stmt 0 view .LVU360
+ 1091 0030 005050E2 		subs	r5, r0, #0
+ 1092 0034 2E0000DA 		ble	.L76
+ 127:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             direct_close(gpio_handle);
+ 1093              		.loc 1 127 13 is_stmt 1 view .LVU361
+ 127:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             direct_close(gpio_handle);
+ 1094              		.loc 1 127 99 is_stmt 0 view .LVU362
+ 1095 0038 1C30D4E5 		ldrb	r3, [r4, #28]	@ zero_extendqisi2
+ 127:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             direct_close(gpio_handle);
+ 1096              		.loc 1 127 74 view .LVU363
+ 1097 003c 001000E3 		movw	r1, #:lower16:.LANCHOR0
+ 1098 0040 001040E3 		movt	r1, #:upper16:.LANCHOR0
+ 1099 0044 033183E0 		add	r3, r3, r3, lsl #2
+ 1100 0048 8321A0E1 		lsl	r2, r3, #3
+ 1101 004c 182082E2 		add	r2, r2, #24
+ 1102 0050 022081E0 		add	r2, r1, r2
+ 127:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             direct_close(gpio_handle);
+ 1103              		.loc 1 127 13 view .LVU364
+ 1104 0054 042082E2 		add	r2, r2, #4
+ 1105 0058 0410A0E3 		mov	r1, #4
+ 1106 005c 0500A0E1 		mov	r0, r5
+ 127:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             direct_close(gpio_handle);
+ 1107              		.loc 1 127 13 view .LVU365
+ 1108 0060 FEFFFFEB 		bl	direct_control
+ 1109              	.LVL93:
+ 128:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 1110              		.loc 1 128 13 is_stmt 1 view .LVU366
+ 1111 0064 0500A0E1 		mov	r0, r5
+ 1112 0068 FEFFFFEB 		bl	direct_close
+ 1113              	.LVL94:
+ 135:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         {
+ 1114              		.loc 1 135 9 view .LVU367
+ 138:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1115              		.loc 1 138 13 view .LVU368
+ 1116 006c 0400A0E1 		mov	r0, r4
+ 1117 0070 FEFFFFEB 		bl	configure_ssif_channel
+ 1118              	.LVL95:
+ 141:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 1119              		.loc 1 141 13 view .LVU369
+ 141:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 1120              		.loc 1 141 58 is_stmt 0 view .LVU370
+ 1121 0074 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 1122 0078 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 1123 007c 000093E5 		ldr	r0, [r3]
+ 141:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 1124              		.loc 1 141 26 view .LVU371
+ 1125 0080 0010E0E3 		mvn	r1, #0
+ 1126 0084 180080E2 		add	r0, r0, #24
+ 1127 0088 FEFFFFEB 		bl	R_OS_SemaphoreWait
+ 1128              	.LVL96:
+ 141:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             {
+ 1129              		.loc 1 141 16 view .LVU372
+ 1130 008c 000050E3 		cmp	r0, #0
+ 1131 0090 0600001A 		bne	.L80
+ 143:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****             }
+ 1132              		.loc 1 143 22 view .LVU373
+ 1133 0094 0040E0E3 		mvn	r4, #0
+ 1134              	.LVL97:
+ 1135              	.L74:
+ 161:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 1136              		.loc 1 161 13 is_stmt 1 view .LVU374
+ 161:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 1137              		.loc 1 161 48 is_stmt 0 view .LVU375
+ 1138 0098 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 1139 009c 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 1140 00a0 000093E5 		ldr	r0, [r3]
+ 161:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 1141              		.loc 1 161 13 view .LVU376
+ 1142 00a4 180080E2 		add	r0, r0, #24
+ 1143 00a8 FEFFFFEB 		bl	R_OS_SemaphoreRelease
+ 1144              	.LVL98:
+ 1145 00ac D9FFFFEA 		b	.L72
+ 1146              	.LVL99:
+ 1147              	.L80:
+ 147:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1148              		.loc 1 147 17 is_stmt 1 view .LVU377
+ 147:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1149              		.loc 1 147 28 is_stmt 0 view .LVU378
+ 1150 00b0 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 1151 00b4 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 1152 00b8 000093E5 		ldr	r0, [r3]
+ 147:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1153              		.loc 1 147 51 view .LVU379
+ 1154 00bc 183094E5 		ldr	r3, [r4, #24]
+ 147:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1155              		.loc 1 147 39 view .LVU380
+ 1156 00c0 583080E5 		str	r3, [r0, #88]
+ 150:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1157              		.loc 1 150 17 is_stmt 1 view .LVU381
+ 150:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1158              		.loc 1 150 44 is_stmt 0 view .LVU382
+ 1159 00c4 0030A0E3 		mov	r3, #0
+ 1160 00c8 5C3080E5 		str	r3, [r0, #92]
+ 153:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1161              		.loc 1 153 17 is_stmt 1 view .LVU383
+ 153:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** 
+ 1162              		.loc 1 153 44 is_stmt 0 view .LVU384
+ 1163 00cc 643080E5 		str	r3, [r0, #100]
+ 155:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 if (DRV_SUCCESS == ercd)
+ 1164              		.loc 1 155 17 is_stmt 1 view .LVU385
+ 155:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 if (DRV_SUCCESS == ercd)
+ 1165              		.loc 1 155 24 is_stmt 0 view .LVU386
+ 1166 00d0 FEFFFFEB 		bl	R_SSIF_EnableChannel
+ 1167              	.LVL100:
+ 156:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 1168              		.loc 1 156 17 is_stmt 1 view .LVU387
+ 156:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 1169              		.loc 1 156 20 is_stmt 0 view .LVU388
+ 1170 00d4 004050E2 		subs	r4, r0, #0
+ 1171              	.LVL101:
+ 156:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 {
+ 1172              		.loc 1 156 20 view .LVU389
+ 1173 00d8 EEFFFF1A 		bne	.L74
+ 158:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 }
+ 1174              		.loc 1 158 21 is_stmt 1 view .LVU390
+ 158:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 }
+ 1175              		.loc 1 158 32 is_stmt 0 view .LVU391
+ 1176 00dc 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 1177 00e0 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 1178 00e4 003093E5 		ldr	r3, [r3]
+ 158:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****                 }
+ 1179              		.loc 1 158 42 view .LVU392
+ 1180 00e8 0220A0E3 		mov	r2, #2
+ 1181 00ec 1420C3E5 		strb	r2, [r3, #20]
+ 1182 00f0 E8FFFFEA 		b	.L74
+ 1183              	.LVL102:
+ 1184              	.L76:
+ 132:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 1185              		.loc 1 132 18 view .LVU393
+ 1186 00f4 0040E0E3 		mvn	r4, #0
+ 1187              	.LVL103:
+ 132:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c ****         }
+ 1188              		.loc 1 132 18 view .LVU394
+ 1189              	.LBE5:
+ 166:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 1190              		.loc 1 166 5 is_stmt 1 view .LVU395
+ 166:../generate/sc_drivers/r_ssif/src/hld/r_ssif_drv_api.c **** }
+ 1191              		.loc 1 166 12 is_stmt 0 view .LVU396
+ 1192 00f8 C6FFFFEA 		b	.L72
+ 1193              		.cfi_endproc
+ 1194              	.LFE6:
+ 1196              		.global	g_ssif_driver
+ 1197              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 1198              		.align	2
+ 1199              	.LC2:
+ 1200 0000 53534946 		.ascii	"SSIF Device Driver\000"
+ 1200      20446576 
+ 1200      69636520 
+ 1200      44726976 
+ 1200      657200
+ 1201              		.section	.bss.gs_ssif_cfg,"aw",%nobits
+ 1202              		.align	2
+ 1203              		.set	.LANCHOR4,. + 0
+ 1206              	gs_ssif_cfg:
+ 1207 0000 00000000 		.space	128
+ 1207      00000000 
+ 1207      00000000 
+ 1207      00000000 
+ 1207      00000000 
+ 1208              		.section	.bss.gsp_aio_r,"aw",%nobits
+ 1209              		.align	2
+ 1210              		.set	.LANCHOR2,. + 0
+ 1213              	gsp_aio_r:
+ 1214 0000 00000000 		.space	4
+ 1215              		.section	.bss.gsp_aio_w,"aw",%nobits
+ 1216              		.align	2
+ 1217              		.set	.LANCHOR3,. + 0
+ 1220              	gsp_aio_w:
+ 1221 0000 00000000 		.space	4
+ 1222              		.section	.bss.gsp_info_ch,"aw",%nobits
+ 1223              		.align	2
+ 1224              		.set	.LANCHOR1,. + 0
+ 1227              	gsp_info_ch:
+ 1228 0000 00000000 		.space	4
+ 1229              		.section	.rodata.GPIO_SC_TABLE_ssif3,"a"
+ 1230              		.align	2
+ 1233              	GPIO_SC_TABLE_ssif3:
+ 1234 0000 0012     		.short	4608
+ 1235 0002 0B       		.byte	11
+ 1236 0003 01       		.byte	1
+ 1237 0004 05       		.byte	5
+ 1238 0005 00       		.space	1
+ 1239 0006 0212     		.short	4610
+ 1240 0008 0B       		.byte	11
+ 1241 0009 01       		.byte	1
+ 1242 000a 02       		.byte	2
+ 1243 000b 00       		.space	1
+ 1244 000c 0312     		.short	4611
+ 1245 000e 0B       		.byte	11
+ 1246 000f 01       		.byte	1
+ 1247 0010 02       		.byte	2
+ 1248 0011 00       		.space	1
+ 1249 0012 0412     		.short	4612
+ 1250 0014 0B       		.byte	11
+ 1251 0015 01       		.byte	1
+ 1252 0016 02       		.byte	2
+ 1253 0017 00       		.space	1
+ 1254              		.section	.rodata.SSIF_SC_TABLE,"a"
+ 1255              		.align	2
+ 1256              		.set	.LANCHOR0,. + 0
+ 1259              	SSIF_SC_TABLE:
+ 1260 0000 03       		.byte	3
+ 1261 0001 000000   		.space	3
+ 1262 0004 1E       		.byte	30
+ 1263 0005 00       		.byte	0
+ 1264 0006 0000     		.space	2
+ 1265 0008 44AC0000 		.word	44100
+ 1266 000c 01       		.byte	1
+ 1267 000d 00       		.byte	0
+ 1268 000e 01       		.byte	1
+ 1269 000f 02       		.byte	2
+ 1270 0010 00       		.byte	0
+ 1271 0011 00       		.byte	0
+ 1272 0012 00       		.byte	0
+ 1273 0013 00       		.byte	0
+ 1274 0014 00       		.byte	0
+ 1275 0015 00       		.byte	0
+ 1276 0016 00       		.byte	0
+ 1277 0017 01       		.byte	1
+ 1278 0018 00       		.byte	0
+ 1279 0019 000000   		.space	3
+ 1280 001c 00000000 		.word	GPIO_SC_TABLE_ssif3
+ 1281 0020 04000000 		.word	4
+ 1282 0024 00000000 		.space	4
+ 1283              		.section	.rodata.g_ssif_driver,"a"
+ 1284              		.align	2
+ 1287              	g_ssif_driver:
+ 1288 0000 00000000 		.word	.LC2
+ 1289 0004 00000000 		.word	ssif_hld_open
+ 1290 0008 00000000 		.word	ssif_hld_close
+ 1291 000c 00000000 		.word	ssif_hld_read
+ 1292 0010 00000000 		.word	ssif_hld_write
+ 1293 0014 00000000 		.word	ssif_hld_control
+ 1294 0018 00000000 		.word	ssif_hld_get_version
+ 1295              		.text
+ 1296              	.Letext0:
+ 1297              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1298              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 1299              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1300              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1301              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1302              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1303              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1304              		.file 9 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1305              		.file 10 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1306              		.file 11 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_
+ 1307              		.file 12 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/dr
+ 1308              		.file 13 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/os_abstractio
+ 1309              		.file 14 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1310              		.file 15 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1311              		.file 16 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1312              		.file 17 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1313              		.file 18 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/iodefi
+ 1314              		.file 19 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1315              		.file 20 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_int
+ 1316              		.file 21 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_gpi
+ 1317              		.file 22 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_gpi
+ 1318              		.file 23 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_gpi
+ 1319              		.file 24 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1320              		.file 25 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/os_abstractio
+ 1321              		.file 26 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_ssif_drv_api.c
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:17     .text.ssif_get_channel:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:25     .text.ssif_get_channel:00000000 ssif_get_channel
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1256   .rodata.SSIF_SC_TABLE:00000000 .LANCHOR0
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:93     .rodata.ssif_hld_get_version.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:94     .rodata.ssif_hld_get_version.str1.4:00000000 .LC0
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:97     .text.ssif_hld_get_version:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:102    .text.ssif_hld_get_version:00000000 ssif_hld_get_version
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:144    .text.ssif_hld_control:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:149    .text.ssif_hld_control:00000000 ssif_hld_control
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:177    .text.ssif_hld_control:0000001c $d
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1224   .bss.gsp_info_ch:00000000 .LANCHOR1
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:189    .text.ssif_hld_control:00000030 $a
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1210   .bss.gsp_aio_r:00000000 .LANCHOR2
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1217   .bss.gsp_aio_w:00000000 .LANCHOR3
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:297    .text.ssif_hld_write:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:302    .text.ssif_hld_write:00000000 ssif_hld_write
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:400    .text.ssif_hld_read:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:405    .text.ssif_hld_read:00000000 ssif_hld_read
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:495    .text.ssif_un_init:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:500    .text.ssif_un_init:00000000 ssif_un_init
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:564    .text.ssif_hld_close:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:569    .text.ssif_hld_close:00000000 ssif_hld_close
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:699    .text.ssif_init:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:704    .text.ssif_init:00000000 ssif_init
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:788    .text.configure_ssif_channel:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:793    .text.configure_ssif_channel:00000000 configure_ssif_channel
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1203   .bss.gs_ssif_cfg:00000000 .LANCHOR4
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1035   .rodata.ssif_hld_open.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1036   .rodata.ssif_hld_open.str1.4:00000000 .LC1
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1039   .text.ssif_hld_open:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1044   .text.ssif_hld_open:00000000 ssif_hld_open
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1287   .rodata.g_ssif_driver:00000000 g_ssif_driver
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1198   .rodata.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1202   .bss.gs_ssif_cfg:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1206   .bss.gs_ssif_cfg:00000000 gs_ssif_cfg
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1209   .bss.gsp_aio_r:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1213   .bss.gsp_aio_r:00000000 gsp_aio_r
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1216   .bss.gsp_aio_w:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1220   .bss.gsp_aio_w:00000000 gsp_aio_w
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1223   .bss.gsp_info_ch:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1227   .bss.gsp_info_ch:00000000 gsp_info_ch
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1230   .rodata.GPIO_SC_TABLE_ssif3:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1233   .rodata.GPIO_SC_TABLE_ssif3:00000000 GPIO_SC_TABLE_ssif3
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1255   .rodata.SSIF_SC_TABLE:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1259   .rodata.SSIF_SC_TABLE:00000000 SSIF_SC_TABLE
+C:\Users\ryota\AppData\Local\Temp\cc2szhc6.s:1284   .rodata.g_ssif_driver:00000000 $d
+                           .group:00000000 wm4.0.3d5c910ebb40df6df78b28e37cd67f3d
+                           .group:00000000 wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d
+                           .group:00000000 wm4.newlib.h.18.1c9fedb6b3cd797cff253cc0fd593ef2
+                           .group:00000000 wm4.ieeefp.h.77.3f06799abf5dd88bdddee084775a1223
+                           .group:00000000 wm4.features.h.22.fad1cec3bc7ff06488171438dbdcfd02
+                           .group:00000000 wm4.config.h.224.c701144a7b0518c6ee9b9b5465b79f81
+                           .group:00000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:00000000 wm4._default_types.h.6.959254cf5f09734ea7516c89e8bb21bd
+                           .group:00000000 wm4.stddef.h.39.144cf5ddcd53cbfdac30259dc1a6c87f
+                           .group:00000000 wm4.cdefs.h.49.6260d97adb8d27534cbdc0f868b8ea87
+                           .group:00000000 wm4._default_fcntl.h.9.0c106485b52bb932d293002f8507c3be
+                           .group:00000000 wm4.types.h.40.8b6acba56cefbb11746718204edc8f5e
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.155.3588ebfdd1e8c7ede80509bb9c3b8009
+                           .group:00000000 wm4._types.h.127.34941de1b2539d59d5cac00e0dd27a45
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4._endian.h.31.65a10590763c3dde1ac4a7f66d7d4891
+                           .group:00000000 wm4.endian.h.9.49f3a4695c1b61e8a0808de3c4a106cb
+                           .group:00000000 wm4._timeval.h.32.bec3221fa7a9bb0bdde696c9c57e47d2
+                           .group:00000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:00000000 wm4.select.h.19.97ca6fd0c752a0f3b6719fd314d361e6
+                           .group:00000000 wm4.types.h.51.5571ec98f267d17d3c670b7a3ba33afa
+                           .group:00000000 wm4.sched.h.22.c60982713a5c428609783c78f9c78d95
+                           .group:00000000 wm4._pthreadtypes.h.36.fcee9961c35163dde6267ef772ad1972
+                           .group:00000000 wm4.reent.h.17.e292bf8b0bec6c96e131a54347145a30
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4.reent.h.77.dcd6129ff07fe81bd5636db29abe53b2
+                           .group:00000000 wm4.time.h.14.849270cc7997ccc4e05edd146e568a9f
+                           .group:00000000 wm4.stddef.h.155.ba788add86a0e365f264484f110c3c29
+                           .group:00000000 wm4.time.h.2.4581ce0ffb6627cfc02162c94bf846c9
+                           .group:00000000 wm4.time.h.25.0e6a0fdbc9955f5707ed54246ed2e089
+                           .group:00000000 wm4.time.h.162.85256a1e684b58f061361067da714e0e
+                           .group:00000000 wm4.stat.h.54.5a9b823658423102e7a8de4ed089eedc
+                           .group:00000000 wm4.fcntl.h.9.9336f33d7f5028f694c75e6e224e0cf7
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.math.h.13.97100c05caf9f40dd9f5a3cda48ccc01
+                           .group:00000000 wm4.r_typedefs.h.38.e90d9de5300d9ae020e5db8c5af88b3e
+                           .group:00000000 wm4.r_startup_config.h.28.41a2bd9676f9208cac4163ceb2eb9006
+                           .group:00000000 wm4.r_compiler_abstraction_api.h.26.bb21b39b83806cb7bb8838b6f825dcff
+                           .group:00000000 wm4.driver.h.34.180df73e0731406f5e50150641059ede
+                           .group:00000000 wm4.r_os_abstraction_api.h.60.0331cc3a2f471de784d61b225d2e9127
+                           .group:00000000 wm4.compiler_settings.h.55.412db3588640e7e83336e77c1cd11233
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:00000000 wm4.stdio.h.47.1f5845210bb9053bbca9ed76fc4018da
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.81.932d0c162786b883f622b8d05c120c78
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.56.f4862cfbf4363a1db01842d5bdf72c18
+                           .group:00000000 wm4.reent.h.91.b3ea049ebc5486622b61409b78486f84
+                           .group:00000000 wm4.r_devlink_wrapper.h.72.ad1de4c851513efa3aed0532ebca7ca2
+                           .group:00000000 wm4.r_ssif_hld_cfg.h.77.494484d2b35f901d21e5a4a443023f99
+                           .group:00000000 wm4.r_ssif_lld_aioif.h.68.0b414c2cd636b66d5d3dd6df4fbb9396
+                           .group:00000000 wm4.r_rza2_ssif_lld.h.71.c3a11c781f996c42386d956f84748ee5
+                           .group:00000000 wm4.r_rza2_ssif_lld_cfg.h.35.613780c59f37c9d9d2b6c16dc6fd3003
+                           .group:00000000 wm4.r_ssif_drv_api.h.83.0f339aeb2852e6aeb06bb4a8f8fef094
+                           .group:00000000 wm4.r_intc_lld_rza2m.h.35.148dee33e6a963828fdce2545668b517
+                           .group:00000000 wm4.r_task_priority.h.26.416bb98a222bf391200df359bd0318d1
+                           .group:00000000 wm4.FreeRTOSConfig.h.79.b5458a5c31689ea246b5d3a5f655ce5b
+                           .group:00000000 wm4.projdefs.h.28.d6a7c9061b707820f2fcf4c2ff5d9f24
+                           .group:00000000 wm4.portmacro.h.32.440d21c040186908c7273660706c6bca
+                           .group:00000000 wm4.portable.h.63.e9cc508c3850f44ce542149380c67812
+                           .group:00000000 wm4.mpu_wrappers.h.28.768974478c42e424045182d5a8740d87
+                           .group:00000000 wm4.FreeRTOS.h.67.5b4462ac037a881bffd21a8fce4c91ce
+                           .group:00000000 wm4.adc_iodefine.h.29.14c6f50dce37432a7d004e4b1ce33da7
+                           .group:00000000 wm4.bsc_iodefine.h.29.9281d1f3639266933964d6d0c2d42c4f
+                           .group:00000000 wm4.ceu_iodefine.h.29.2a669d0b46fdde030a50db9e3c307fbf
+                           .group:00000000 wm4.cpg_iodefine.h.29.d6fdc9cb4798723afd88b251d64c2ce2
+                           .group:00000000 wm4.csi2link_iodefine.h.29.221c4531636a409f24d307b16341ada8
+                           .group:00000000 wm4.dmac_iodefine.h.29.578fccc2cc1da886ec95a029bf874f01
+                           .group:00000000 wm4.drpk_iodefine.h.29.580eb8588a2b2d43d2726fbe791e513f
+                           .group:00000000 wm4.drw_iodefine.h.29.df30f4a4a34a79f6a86c4df91353dffe
+                           .group:00000000 wm4.edmac_iodefine.h.29.33e8759349004a722f42f5429c1353f6
+                           .group:00000000 wm4.eptpc_iodefine.h.29.74d8f9fab0f5549b56097fb9e937dde8
+                           .group:00000000 wm4.etherc_iodefine.h.29.14602750383a574f1c21f994ad33a366
+                           .group:00000000 wm4.gpio_iodefine.h.29.3d0b021c56839cee4ae5149903684e4b
+                           .group:00000000 wm4.gpt_iodefine.h.29.557ead75d7b0585b898d3898b64c7f87
+                           .group:00000000 wm4.hyper_iodefine.h.29.000caadbb74d881e97db55b39b432154
+                           .group:00000000 wm4.imr_iodefine.h.29.77c022f017e711c4d51cc0145db1dad3
+                           .group:00000000 wm4.intc_iodefine.h.29.b68f5799a35a7495d63b4cd458e1ba57
+                           .group:00000000 wm4.irda_iodefine.h.29.37e67bd2005173d68a74d1cc937d8444
+                           .group:00000000 wm4.jcu_iodefine.h.29.3aca452908962e7a7ccf26164751feda
+                           .group:00000000 wm4.lvds_iodefine.h.29.c11cbe1900e5209c8dcc76c2336c16bc
+                           .group:00000000 wm4.mtu_iodefine.h.29.5498fb974bb53caf05aa143c2deec781
+                           .group:00000000 wm4.nandc_iodefine.h.29.e0b343306750f017ee86e169ad98efe9
+                           .group:00000000 wm4.octa_iodefine.h.29.4cb0d62e4b9633e173858000dc1c626c
+                           .group:00000000 wm4.ostm_iodefine.h.29.6914f7e330a1cf0008b34219adcdfed4
+                           .group:00000000 wm4.pl_iodefine.h.29.abbb6d725aed990aa8343242bfe31416
+                           .group:00000000 wm4.pmg_iodefine.h.29.8bcfbc4771a6f9b7dd4d6f504427219e
+                           .group:00000000 wm4.poeg_iodefine.h.29.0d8e258d10986260cbc70cfb8c0ef273
+                           .group:00000000 wm4.poe_iodefine.h.29.fe74e55e7b6b4afbe3596c74ba035e98
+                           .group:00000000 wm4.prr_iodefine.h.29.c1f15576f7a27b9c83aa3b40f5b2f988
+                           .group:00000000 wm4.ptpedmac_iodefine.h.29.cd24a93374ce35cebc41e26889d619ef
+                           .group:00000000 wm4.rcanfd_iodefine.h.29.532dd48b82fcb61d63538aba4b6f1289
+                           .group:00000000 wm4.rcan_iodefine.h.29.a47a89db1b35c12b54af48fa1956acba
+                           .group:00000000 wm4.riic_iodefine.h.29.f96943d49800d297612c4af3bba5c943
+                           .group:00000000 wm4.rspi_iodefine.h.29.7efa041fe34a7d27db66a7b337879dfe
+                           .group:00000000 wm4.rtc_iodefine.h.29.6dc76be5ca3df69cecb5a81d06cc46b5
+                           .group:00000000 wm4.scifa_iodefine.h.29.b04ccd664d71baaf31c75761c45b9c4d
+                           .group:00000000 wm4.scim_iodefine.h.29.87d0760abf94446b00d826c797bf0ff2
+                           .group:00000000 wm4.sdmmc_iodefine.h.29.e67e9815445e8057a3262d1566bea0db
+                           .group:00000000 wm4.spdif_iodefine.h.29.59f5d70150fa200a4d8ee50be1ee34c8
+                           .group:00000000 wm4.spibsc_iodefine.h.29.f4930f8b8da1140200204513a363c76f
+                           .group:00000000 wm4.sprite_iodefine.h.29.55796d1fa083a2457fea4ece974a192e
+                           .group:00000000 wm4.ssif_iodefine.h.29.054ec6d95f487f631f16aee39c85c47a
+                           .group:00000000 wm4.usb_iodefine.h.29.6dc44ea388ba227e8fdcfb33c315887b
+                           .group:00000000 wm4.vdc_iodefine.h.29.db282ded1f052d8567fbbd3b61ce8f7a
+                           .group:00000000 wm4.vin_iodefine.h.29.9b392e5601347d53e64be3272934e170
+                           .group:00000000 wm4.wdt_iodefine.h.29.ed07bb44b797072f8c28b41c64fdca30
+                           .group:00000000 wm4.r_gpio_lld_rza2m.h.35.96c370653fb2c866d018d89b2befa42a
+                           .group:00000000 wm4.r_gpio_drv_api.h.82.65cb5059c23a4e3e6bc10574003162e6
+
+UNDEFINED SYMBOLS
+R_SSIF_GetVersion
+R_SSIF_IOCTL_ConfigChannel
+R_SSIF_IOCTL_GetStatus
+R_SSIF_PostAsyncIo
+R_SSIF_UnInitialise
+g_ssif_info_drv
+R_OS_SemaphoreWait
+R_OS_SemaphoreDelete
+R_OS_SemaphoreRelease
+R_SSIF_PostAsyncCancel
+R_SSIF_DisableChannel
+R_SSIF_Initialise
+direct_open
+direct_control
+direct_close
+R_SSIF_EnableChannel

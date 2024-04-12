@@ -1,0 +1,226 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"init.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.__libc_init_array,"ax",%progbits
+  17              		.align	2
+  18              		.global	__libc_init_array
+  19              		.arch armv7-a
+  20              		.arch_extension mp
+  21              		.arch_extension sec
+  22              		.syntax unified
+  23              		.arm
+  24              		.fpu neon
+  26              	__libc_init_array:
+  27              	.LFB0:
+  28              		.file 1 "../generate/compiler/init/init.c"
+   1:../generate/compiler/init/init.c **** /*******************************************************************************
+   2:../generate/compiler/init/init.c **** * DISCLAIMER
+   3:../generate/compiler/init/init.c **** * This software is supplied by Renesas Electronics Corporation and is only
+   4:../generate/compiler/init/init.c **** * intended for use with Renesas products. No other uses are authorized. This
+   5:../generate/compiler/init/init.c **** * software is owned by Renesas Electronics Corporation and is protected under
+   6:../generate/compiler/init/init.c **** * all applicable laws, including copyright laws.
+   7:../generate/compiler/init/init.c **** * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:../generate/compiler/init/init.c **** * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:../generate/compiler/init/init.c **** * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:../generate/compiler/init/init.c **** * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:../generate/compiler/init/init.c **** * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:../generate/compiler/init/init.c **** * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:../generate/compiler/init/init.c **** * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:../generate/compiler/init/init.c **** * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:../generate/compiler/init/init.c **** * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:../generate/compiler/init/init.c **** * Renesas reserves the right, without notice, to make changes to this software
+  17:../generate/compiler/init/init.c **** * and to discontinue the availability of this software. By using this software,
+  18:../generate/compiler/init/init.c **** * you agree to the additional terms and conditions found by accessing the
+  19:../generate/compiler/init/init.c **** * following link:
+  20:../generate/compiler/init/init.c **** * http://www.renesas.com/disclaimer
+  21:../generate/compiler/init/init.c **** * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  22:../generate/compiler/init/init.c **** *******************************************************************************/
+  23:../generate/compiler/init/init.c **** /*******************************************************************************
+  24:../generate/compiler/init/init.c **** * File Name : init.c
+  25:../generate/compiler/init/init.c **** * Description :
+  26:../generate/compiler/init/init.c **** ******************************************************************************/
+  27:../generate/compiler/init/init.c **** /*
+  28:../generate/compiler/init/init.c ****  * Copyright (C) 2004 CodeSourcery, LLC
+  29:../generate/compiler/init/init.c ****  *
+  30:../generate/compiler/init/init.c ****  * Permission to use, copy, modify, and distribute this file
+  31:../generate/compiler/init/init.c ****  * for any purpose is hereby granted without fee, provided that
+  32:../generate/compiler/init/init.c ****  * the above copyright notice and this notice appears in all
+  33:../generate/compiler/init/init.c ****  * copies.
+  34:../generate/compiler/init/init.c ****  *
+  35:../generate/compiler/init/init.c ****  * This file is distributed WITHOUT ANY WARRANTY; without even the implied
+  36:../generate/compiler/init/init.c ****  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  37:../generate/compiler/init/init.c ****  */
+  38:../generate/compiler/init/init.c **** 
+  39:../generate/compiler/init/init.c **** /* Handle ELF .{pre_init,init,fini}_array sections.  */
+  40:../generate/compiler/init/init.c **** #include <sys/types.h>
+  41:../generate/compiler/init/init.c **** 
+  42:../generate/compiler/init/init.c **** //#ifdef HAVE_INITFINI_ARRAY
+  43:../generate/compiler/init/init.c **** 
+  44:../generate/compiler/init/init.c **** /* These magic symbols are provided by the linker.  */
+  45:../generate/compiler/init/init.c **** extern void (*__preinit_array_start []) (void) __attribute__((weak));
+  46:../generate/compiler/init/init.c **** extern void (*__preinit_array_end []) (void) __attribute__((weak));
+  47:../generate/compiler/init/init.c **** extern void (*__init_array_start []) (void) __attribute__((weak));
+  48:../generate/compiler/init/init.c **** extern void (*__init_array_end []) (void) __attribute__((weak));
+  49:../generate/compiler/init/init.c **** 
+  50:../generate/compiler/init/init.c **** extern void _init (void);
+  51:../generate/compiler/init/init.c **** extern void __libc_init_array (void);
+  52:../generate/compiler/init/init.c **** 
+  53:../generate/compiler/init/init.c **** /* Iterate over all the init routines.  */
+  54:../generate/compiler/init/init.c **** void __libc_init_array (void)
+  55:../generate/compiler/init/init.c **** {
+  29              		.loc 1 55 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 70402DE9 		push	{r4, r5, r6, lr}
+  34              		.cfi_def_cfa_offset 16
+  35              		.cfi_offset 4, -16
+  36              		.cfi_offset 5, -12
+  37              		.cfi_offset 6, -8
+  38              		.cfi_offset 14, -4
+  56:../generate/compiler/init/init.c ****   size_t count;
+  39              		.loc 1 56 3 view .LVU1
+  57:../generate/compiler/init/init.c ****   size_t i;
+  40              		.loc 1 57 3 view .LVU2
+  58:../generate/compiler/init/init.c **** 
+  59:../generate/compiler/init/init.c ****   count = (size_t)(__preinit_array_end - __preinit_array_start);
+  41              		.loc 1 59 3 view .LVU3
+  42              		.loc 1 59 40 is_stmt 0 view .LVU4
+  43 0004 005000E3 		movw	r5, #:lower16:__preinit_array_end
+  44 0008 005040E3 		movt	r5, #:upper16:__preinit_array_end
+  45 000c 003000E3 		movw	r3, #:lower16:__preinit_array_start
+  46 0010 003040E3 		movt	r3, #:upper16:__preinit_array_start
+  47 0014 035045E0 		sub	r5, r5, r3
+  48              		.loc 1 59 9 view .LVU5
+  49 0018 4551A0E1 		asr	r5, r5, #2
+  50              	.LVL0:
+  60:../generate/compiler/init/init.c ****   for (i = 0; i < count; i++)
+  51              		.loc 1 60 3 is_stmt 1 view .LVU6
+  52              		.loc 1 60 10 is_stmt 0 view .LVU7
+  53 001c 0040A0E3 		mov	r4, #0
+  54              	.LVL1:
+  55              	.L2:
+  56              		.loc 1 60 15 is_stmt 1 discriminator 1 view .LVU8
+  57              		.loc 1 60 3 is_stmt 0 discriminator 1 view .LVU9
+  58 0020 050054E1 		cmp	r4, r5
+  59 0024 0500002A 		bcs	.L8
+  61:../generate/compiler/init/init.c ****     __preinit_array_start[i] ();
+  60              		.loc 1 61 5 is_stmt 1 discriminator 3 view .LVU10
+  61              		.loc 1 61 26 is_stmt 0 discriminator 3 view .LVU11
+  62 0028 003000E3 		movw	r3, #:lower16:__preinit_array_start
+  63 002c 003040E3 		movt	r3, #:upper16:__preinit_array_start
+  64 0030 043193E7 		ldr	r3, [r3, r4, lsl #2]
+  65              		.loc 1 61 5 discriminator 3 view .LVU12
+  66 0034 33FF2FE1 		blx	r3
+  67              	.LVL2:
+  60:../generate/compiler/init/init.c ****   for (i = 0; i < count; i++)
+  68              		.loc 1 60 26 is_stmt 1 discriminator 3 view .LVU13
+  60:../generate/compiler/init/init.c ****   for (i = 0; i < count; i++)
+  69              		.loc 1 60 27 is_stmt 0 discriminator 3 view .LVU14
+  70 0038 014084E2 		add	r4, r4, #1
+  71              	.LVL3:
+  60:../generate/compiler/init/init.c ****   for (i = 0; i < count; i++)
+  72              		.loc 1 60 27 discriminator 3 view .LVU15
+  73 003c F7FFFFEA 		b	.L2
+  74              	.L8:
+  62:../generate/compiler/init/init.c **** 
+  63:../generate/compiler/init/init.c ****   //_init ();
+  64:../generate/compiler/init/init.c **** 
+  65:../generate/compiler/init/init.c ****   count = (size_t)(__init_array_end - __init_array_start);
+  75              		.loc 1 65 3 is_stmt 1 view .LVU16
+  76              		.loc 1 65 37 is_stmt 0 view .LVU17
+  77 0040 005000E3 		movw	r5, #:lower16:__init_array_end
+  78              	.LVL4:
+  79              		.loc 1 65 37 view .LVU18
+  80 0044 005040E3 		movt	r5, #:upper16:__init_array_end
+  81 0048 003000E3 		movw	r3, #:lower16:__init_array_start
+  82 004c 003040E3 		movt	r3, #:upper16:__init_array_start
+  83 0050 035045E0 		sub	r5, r5, r3
+  84              		.loc 1 65 9 view .LVU19
+  85 0054 4551A0E1 		asr	r5, r5, #2
+  86              	.LVL5:
+  66:../generate/compiler/init/init.c ****   for (i = 0; i < count; i++)
+  87              		.loc 1 66 3 is_stmt 1 view .LVU20
+  88              		.loc 1 66 10 is_stmt 0 view .LVU21
+  89 0058 0040A0E3 		mov	r4, #0
+  90              		.loc 1 66 3 view .LVU22
+  91 005c 040000EA 		b	.L4
+  92              	.LVL6:
+  93              	.L9:
+  67:../generate/compiler/init/init.c ****     __init_array_start[i] ();
+  94              		.loc 1 67 5 is_stmt 1 discriminator 3 view .LVU23
+  95              		.loc 1 67 23 is_stmt 0 discriminator 3 view .LVU24
+  96 0060 003000E3 		movw	r3, #:lower16:__init_array_start
+  97 0064 003040E3 		movt	r3, #:upper16:__init_array_start
+  98 0068 043193E7 		ldr	r3, [r3, r4, lsl #2]
+  99              		.loc 1 67 5 discriminator 3 view .LVU25
+ 100 006c 33FF2FE1 		blx	r3
+ 101              	.LVL7:
+  66:../generate/compiler/init/init.c ****   for (i = 0; i < count; i++)
+ 102              		.loc 1 66 26 is_stmt 1 discriminator 3 view .LVU26
+  66:../generate/compiler/init/init.c ****   for (i = 0; i < count; i++)
+ 103              		.loc 1 66 27 is_stmt 0 discriminator 3 view .LVU27
+ 104 0070 014084E2 		add	r4, r4, #1
+ 105              	.LVL8:
+ 106              	.L4:
+  66:../generate/compiler/init/init.c ****   for (i = 0; i < count; i++)
+ 107              		.loc 1 66 15 is_stmt 1 discriminator 1 view .LVU28
+  66:../generate/compiler/init/init.c ****   for (i = 0; i < count; i++)
+ 108              		.loc 1 66 3 is_stmt 0 discriminator 1 view .LVU29
+ 109 0074 050054E1 		cmp	r4, r5
+ 110 0078 F8FFFF3A 		bcc	.L9
+ 111 007c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 112              		.cfi_endproc
+ 113              	.LFE0:
+ 115              		.weak	__init_array_start
+ 116              		.weak	__init_array_end
+ 117              		.weak	__preinit_array_start
+ 118              		.weak	__preinit_array_end
+ 119              		.text
+ 120              	.Letext0:
+ 121              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+DEFINED SYMBOLS
+                            *ABS*:00000000 init.c
+C:\Users\ryota\AppData\Local\Temp\ccIIQobU.s:17     .text.__libc_init_array:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccIIQobU.s:26     .text.__libc_init_array:00000000 __libc_init_array
+                           .group:00000000 wm4.0.3d5c910ebb40df6df78b28e37cd67f3d
+                           .group:00000000 wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d
+                           .group:00000000 wm4.newlib.h.18.1c9fedb6b3cd797cff253cc0fd593ef2
+                           .group:00000000 wm4.ieeefp.h.77.3f06799abf5dd88bdddee084775a1223
+                           .group:00000000 wm4.features.h.22.fad1cec3bc7ff06488171438dbdcfd02
+                           .group:00000000 wm4.config.h.224.c701144a7b0518c6ee9b9b5465b79f81
+                           .group:00000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:00000000 wm4._default_types.h.6.959254cf5f09734ea7516c89e8bb21bd
+                           .group:00000000 wm4.stddef.h.39.144cf5ddcd53cbfdac30259dc1a6c87f
+                           .group:00000000 wm4.cdefs.h.49.6260d97adb8d27534cbdc0f868b8ea87
+                           .group:00000000 wm4.types.h.40.8b6acba56cefbb11746718204edc8f5e
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.155.3588ebfdd1e8c7ede80509bb9c3b8009
+                           .group:00000000 wm4._types.h.127.34941de1b2539d59d5cac00e0dd27a45
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4._endian.h.31.65a10590763c3dde1ac4a7f66d7d4891
+                           .group:00000000 wm4.endian.h.9.49f3a4695c1b61e8a0808de3c4a106cb
+                           .group:00000000 wm4._timeval.h.32.bec3221fa7a9bb0bdde696c9c57e47d2
+                           .group:00000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:00000000 wm4.select.h.19.97ca6fd0c752a0f3b6719fd314d361e6
+                           .group:00000000 wm4.types.h.51.5571ec98f267d17d3c670b7a3ba33afa
+                           .group:00000000 wm4.sched.h.22.c60982713a5c428609783c78f9c78d95
+                           .group:00000000 wm4._pthreadtypes.h.36.fcee9961c35163dde6267ef772ad1972
+
+UNDEFINED SYMBOLS
+__preinit_array_end
+__preinit_array_start
+__init_array_end
+__init_array_start

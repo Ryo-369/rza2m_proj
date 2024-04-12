@@ -1,0 +1,1054 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_ostm_drv_api.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.rodata.ostm_get_version.str1.4,"aMS",%progbits,1
+  17              		.align	2
+  18              	.LC0:
+  19 0000 484C4420 		.ascii	"HLD OSTM\000"
+  19      4F53544D 
+  19      00
+  20              		.section	.text.ostm_get_version,"ax",%progbits
+  21              		.align	2
+  22              		.arch armv7-a
+  23              		.arch_extension mp
+  24              		.arch_extension sec
+  25              		.syntax unified
+  26              		.arm
+  27              		.fpu neon
+  29              	ostm_get_version:
+  30              	.LVL0:
+  31              	.LFB8:
+  32              		.file 1 "../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c"
+   1:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /*******************************************************************************
+   2:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * DISCLAIMER
+   3:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * This software is supplied by Renesas Electronics Corporation and is only
+   4:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * intended for use with Renesas products. No other uses are authorized. This
+   5:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * software is owned by Renesas Electronics Corporation and is protected under
+   6:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * all applicable laws, including copyright laws.
+   7:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * Renesas reserves the right, without notice, to make changes to this software
+  17:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * and to discontinue the availability of this software. By using this software,
+  18:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * you agree to the additional terms and conditions found by accessing the
+  19:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * following link:
+  20:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * http://www.renesas.com/disclaimer
+  21:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * Copyright (C) 2012 - 2014 Renesas Electronics Corporation. All rights reserved.
+  22:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  *******************************************************************************/
+  23:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /*******************************************************************************
+  24:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * File Name   : r_ostm_drv_api.c
+  25:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * Description : OS timer driver high layer driver
+  26:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  *******************************************************************************/
+  27:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  28:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+  29:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Includes   <System Includes> , "Project Includes"
+  30:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+  31:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** #include "r_ostm_drv_api.h"
+  32:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** #include "r_ostm_drv_link.h"
+  33:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** #include "r_ostm_drv_sc_cfg.h"
+  34:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  35:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+  36:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Typedef definitions
+  37:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+  38:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  39:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+  40:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Macro definitions
+  41:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+  42:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /* Comment this line out to turn ON module trace in this file */
+  43:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** #undef _TRACE_ON_
+  44:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  45:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** #ifndef _TRACE_ON_
+  46:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** #undef DEBUG_PRV_TRACE
+  47:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** #define  DEBUG_PRV_TRACE(x)
+  48:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** #endif
+  49:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  50:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+  51:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Enumerated Types
+  52:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+  53:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  54:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+  55:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Typedefs
+  56:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+  57:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  58:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /*****************************************************************************
+  59:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Function Prototypes
+  60:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+  61:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** static int_t ostm_open(st_stream_ptr_t stream_ptr);
+  62:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** static void ostm_close(st_stream_ptr_t stream_ptr);
+  63:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** static int_t ostm_read(st_stream_ptr_t stream_ptr, uint8_t *buff_ptr, uint32_t count);
+  64:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** static int_t ostm_control(st_stream_ptr_t stream_ptr, uint32_t ctrl_code, void *ctrl_ptr);
+  65:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** static int_t ostm_get_version(st_stream_ptr_t stream_ptr, st_ver_info_t *pVerInfo);
+  66:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  67:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /*****************************************************************************
+  68:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Constant Data
+  69:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+  70:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  71:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+  72:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Private global variables and functions
+  73:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+  74:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /*! Version Information */
+  75:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** static const st_drv_info_t gs_hld_info =
+  76:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** {
+  77:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+  78:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         ((STDIO_OSTM_HLD_VERSION_MAJOR << 16) + STDIO_OSTM_HLD_VERSION_MINOR)
+  79:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     },
+  80:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     STDIO_OSTM_HLD_BUILD_NUM,
+  81:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     STDIO_OSTM_HLD_DRV_NAME
+  82:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** };
+  83:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  84:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** bool_t gs_r_drv_ostm_open[OSTM_CH_MAX] = {false, false, false};
+  85:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  86:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  87:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /* Define the driver function table for this implementation */
+  88:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /* GSCE Warning (global variable 'g_ostm_Driver' not declared static [9.3a])
+  89:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * can be safely ignored */
+  90:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** const st_r_driver_t g_ostm_driver =
+  91:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** {
+  92:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* st_r_driver_t p_device */
+  93:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     "OS Timer Driver",
+  94:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     ostm_open,
+  95:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     ostm_close,
+  96:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     ostm_read,
+  97:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     no_dev_write,
+  98:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     ostm_control,
+  99:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     ostm_get_version
+ 100:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** };
+ 101:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 102:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /**
+ 103:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * @brief          reconfigure_timer
+ 104:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  *                 Reconfigure opened channel
+ 105:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * @param[in]      channel:     desired channel
+ 106:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * @param[in/out]  p_config:    configuration for the channel
+ 107:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * @retval         DRV_SUCCESS  Successful operation
+ 108:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * @retval         DRV_ERROR    Failure operation
+ 109:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  */
+ 110:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** static int_t reconfigure_timer(e_r_drv_ostm_channel_t channel, const st_r_drv_ostm_config_t * p_con
+ 111:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** {
+ 112:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     int_t ret = DRV_SUCCESS;
+ 113:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 114:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* 1: stop current timer */
+ 115:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     if (DRV_SUCCESS == ret)
+ 116:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 117:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         ret = R_OSTM_Stop(channel);
+ 118:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 119:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 120:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* 2: close the timer */
+ 121:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     if (DRV_SUCCESS == ret)
+ 122:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 123:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         ret = R_OSTM_Close(channel);
+ 124:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 125:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 126:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* 3: re-initialise the timer */
+ 127:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     if (DRV_SUCCESS == ret)
+ 128:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 129:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         ret = R_OSTM_Init(channel, p_config);
+ 130:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 131:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 132:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     return (ret);
+ 133:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** }
+ 134:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /**************************************************************************************************
+ 135:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  End of function reconfigure_timer
+ 136:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  **************************************************************************************************
+ 137:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 138:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 139:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Function Name: ostm_open
+ 140:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Description:   Function to open the system timer device driver
+ 141:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Arguments:     IN  stream_ptr - Pointer to the file stream
+ 142:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Return Value:  DRV_SUCCESS for success otherwise DRV_ERROR
+ 143:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+ 144:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** static int_t ostm_open(st_stream_ptr_t stream_ptr)
+ 145:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** {
+ 146:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     int_t ret = DRV_ERROR;
+ 147:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 148:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 149:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* obtain the OSTM channel */
+ 150:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     channel = OSTM_SC_TABLE[stream_ptr->sc_config_index].channel;
+ 151:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 152:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* only 1 instance of each channel is permissible */
+ 153:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* check to see if channel is available HLD */
+ 154:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     if (!gs_r_drv_ostm_open[channel])
+ 155:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 156:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         ret = R_OSTM_Init(channel, &OSTM_SC_TABLE[stream_ptr->sc_config_index].config);
+ 157:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 158:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         if (DRV_SUCCESS == ret)
+ 159:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         {
+ 160:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             gs_r_drv_ostm_open[channel] = true;
+ 161:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         }
+ 162:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 163:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     else
+ 164:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 165:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         /* No more modules can be granted simultaneous access to this driver */
+ 166:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         DEBUG_PRV_TRACE(("Error - Can not open %s channel is already opened\r\n", stream_ptr->pszSt
+ 167:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 168:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 169:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     return (ret);
+ 170:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** }
+ 171:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 172:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  End of function  ostm_open
+ 173:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+ 174:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 175:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 176:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Function Name: ostm_close
+ 177:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Description:   Function to close the standard IN driver. All open devices
+ 178:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  connected to the led are closed.
+ 179:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Arguments:     IN  stream_ptr - Pointer to the file stream
+ 180:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Return value:  none
+ 181:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+ 182:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** static void ostm_close(st_stream_ptr_t stream_ptr)
+ 183:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** {
+ 184:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 185:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 186:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* obtain the OSTM channel */
+ 187:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     channel = OSTM_SC_TABLE[stream_ptr->sc_config_index].channel;
+ 188:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 189:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     if (gs_r_drv_ostm_open[channel])
+ 190:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 191:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         /* reset the state of this driver so that the next time it is opened the driver is reinitia
+ 192:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         gs_r_drv_ostm_open[channel] = false;
+ 193:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 194:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         R_OSTM_Close(channel);
+ 195:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 196:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** }
+ 197:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 198:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  End of function  ostm_close
+ 199:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+ 200:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 201:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 202:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Function Name: ostm_read
+ 203:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Description:   Function to read data from the OSTM device
+ 204:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Arguments:     IN  stream_ptr - Pointer to the file stream
+ 205:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****                 IN  buffer - Pointer to the destination memory
+ 206:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****                 IN  count - The number of bytes to read
+ 207:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Return value:  data count for success or Error Code on error
+ 208:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+ 209:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** static int_t ostm_read(st_stream_ptr_t stream_ptr, uint8_t *buff_ptr, uint32_t count)
+ 210:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** {
+ 211:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     int_t err_code = DRV_ERROR;
+ 212:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 213:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 214:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* the counter is a uint32_t, so the buffer needs to be at least that big */
+ 215:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     if (count < sizeof(uint32_t))
+ 216:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 217:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         return (DRV_ERROR);
+ 218:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 219:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 220:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* obtain the OSTM channel */
+ 221:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     channel = OSTM_SC_TABLE[stream_ptr->sc_config_index].channel;
+ 222:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 223:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* obtain the current counter
+ 224:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****      * (safe for change to uint32_t pointer due to count restricts 4 byte or more)
+ 225:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****      */
+ 226:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     err_code = R_OSTM_GetCount(channel, (uint32_t *) buff_ptr);
+ 227:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 228:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     return (err_code);
+ 229:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** }
+ 230:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 231:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  End of function ostm_read
+ 232:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+ 233:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 234:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 235:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Function Name: ostm_control
+ 236:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Description:   Function to handle custom controls for the standard IN device
+ 237:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Arguments:     IN  stream_ptr - Pointer to the file stream
+ 238:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  IN  ctrl_code - The custom control code
+ 239:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  IN  ctrl_ptr - Pointer to the custom control structure
+ 240:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  Return value:  0 for success -1 on error
+ 241:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+ 242:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** static int_t ostm_control(st_stream_ptr_t stream_ptr, uint32_t ctrl_code, void *ctrl_ptr)
+ 243:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** {
+ 244:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     int_t retval = DRV_ERROR;
+ 245:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 246:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     st_r_drv_ostm_config_t * p_config;
+ 247:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 248:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* obtain the OSTM channel */
+ 249:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     channel = OSTM_SC_TABLE[stream_ptr->sc_config_index].channel;
+ 250:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 251:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     switch (ctrl_code)
+ 252:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 253:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         case CTRL_OSTM_START_TIMER:
+ 254:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         {
+ 255:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             /* start timer */
+ 256:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             retval = R_OSTM_Start(channel);
+ 257:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             break;
+ 258:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         }
+ 259:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 260:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         case CTRL_OSTM_STOP_TIMER:
+ 261:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         {
+ 262:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             /* stop timer */
+ 263:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             retval = R_OSTM_Stop(channel);
+ 264:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             break;
+ 265:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         }
+ 266:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 267:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         case CTRL_OSTM_RECONFIGURE:
+ 268:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         {
+ 269:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             if (NULL != ctrl_ptr)
+ 270:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             {
+ 271:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****                 /* convert parameter pointer to the function specific */
+ 272:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****                 p_config = (st_r_drv_ostm_config_t *) ctrl_ptr;
+ 273:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 274:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****                 retval = reconfigure_timer(channel, p_config);
+ 275:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             }
+ 276:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 277:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             break;
+ 278:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         }
+ 279:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 280:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         case CTRL_OSTM_READ_COUNTER:
+ 281:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         {
+ 282:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             if (NULL != ctrl_ptr)
+ 283:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             {
+ 284:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****                 /* read the timer */
+ 285:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****                 retval = R_OSTM_GetCount(channel, (uint32_t *) ctrl_ptr);
+ 286:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             }
+ 287:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 288:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             break;
+ 289:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         }
+ 290:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 291:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         default:
+ 292:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         {
+ 293:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             DEBUG_PRV_TRACE(("drvOSTM: Unknown control code\r\n"));
+ 294:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             break;
+ 295:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         }
+ 296:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 297:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 298:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     return (retval);
+ 299:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** }
+ 300:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 301:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  End of function  ostm_control
+ 302:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+ 303:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 304:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /*******************************************************************************
+ 305:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * Function Name: ostm_get_version
+ 306:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * Description  : Provides build information even if driver fails to open
+ 307:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  *                version information is updated by developer
+ 308:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * Arguments    : none
+ 309:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  * Return Value : 0 (never fails)
+ 310:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****  ******************************************************************************/
+ 311:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** static int_t ostm_get_version(st_stream_ptr_t stream_ptr, st_ver_info_t *pVerInfo)
+ 312:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** {
+  33              		.loc 1 312 1 view -0
+  34              		.cfi_startproc
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 0, uses_anonymous_args = 0
+  37              		.loc 1 312 1 is_stmt 0 view .LVU1
+  38 0000 10402DE9 		push	{r4, lr}
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 4, -8
+  41              		.cfi_offset 14, -4
+  42 0004 0100A0E1 		mov	r0, r1
+  43              	.LVL1:
+ 313:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* stream_ptr not used */
+ 314:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     UNUSED_PARAM (stream_ptr);
+  44              		.loc 1 314 5 is_stmt 1 view .LVU2
+ 315:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 316:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     pVerInfo->hld.version.sub.major = gs_hld_info.version.sub.major;
+  45              		.loc 1 316 5 view .LVU3
+  46              		.loc 1 316 37 is_stmt 0 view .LVU4
+  47 0008 0130A0E3 		mov	r3, #1
+  48 000c B230C1E1 		strh	r3, [r1, #2]	@ movhi
+ 317:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     pVerInfo->hld.version.sub.minor = gs_hld_info.version.sub.minor;
+  49              		.loc 1 317 5 is_stmt 1 view .LVU5
+  50              		.loc 1 317 37 is_stmt 0 view .LVU6
+  51 0010 0230A0E3 		mov	r3, #2
+  52 0014 B030C1E1 		strh	r3, [r1]	@ movhi
+ 318:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     pVerInfo->hld.build = gs_hld_info.build;
+  53              		.loc 1 318 5 is_stmt 1 view .LVU7
+  54              		.loc 1 318 25 is_stmt 0 view .LVU8
+  55 0018 0030A0E3 		mov	r3, #0
+  56 001c 043081E5 		str	r3, [r1, #4]
+ 319:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     pVerInfo->hld.p_szdriver_name = gs_hld_info.p_szdriver_name;
+  57              		.loc 1 319 5 is_stmt 1 view .LVU9
+  58              		.loc 1 319 35 is_stmt 0 view .LVU10
+  59 0020 003000E3 		movw	r3, #:lower16:.LC0
+  60 0024 003040E3 		movt	r3, #:upper16:.LC0
+  61 0028 083081E5 		str	r3, [r1, #8]
+ 320:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 321:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     /* Obtain version information from Low Layer Driver */
+ 322:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     return R_OSTM_GetVersion (pVerInfo);
+  62              		.loc 1 322 5 is_stmt 1 view .LVU11
+  63              		.loc 1 322 12 is_stmt 0 view .LVU12
+  64 002c FEFFFFEB 		bl	R_OSTM_GetVersion
+  65              	.LVL2:
+ 323:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** }
+  66              		.loc 1 323 1 view .LVU13
+  67 0030 1080BDE8 		pop	{r4, pc}
+  68              		.cfi_endproc
+  69              	.LFE8:
+  71              		.section	.text.ostm_read,"ax",%progbits
+  72              		.align	2
+  73              		.syntax unified
+  74              		.arm
+  75              		.fpu neon
+  77              	ostm_read:
+  78              	.LVL3:
+  79              	.LFB6:
+ 210:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     int_t err_code = DRV_ERROR;
+  80              		.loc 1 210 1 is_stmt 1 view -0
+  81              		.cfi_startproc
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+ 211:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+  84              		.loc 1 211 5 view .LVU15
+ 212:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  85              		.loc 1 212 5 view .LVU16
+ 215:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+  86              		.loc 1 215 5 view .LVU17
+ 215:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+  87              		.loc 1 215 8 is_stmt 0 view .LVU18
+  88 0000 030052E3 		cmp	r2, #3
+  89 0004 0700009A 		bls	.L5
+ 210:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     int_t err_code = DRV_ERROR;
+  90              		.loc 1 210 1 view .LVU19
+  91 0008 10402DE9 		push	{r4, lr}
+  92              		.cfi_def_cfa_offset 8
+  93              		.cfi_offset 4, -8
+  94              		.cfi_offset 14, -4
+ 221:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  95              		.loc 1 221 5 is_stmt 1 view .LVU20
+ 221:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  96              		.loc 1 221 39 is_stmt 0 view .LVU21
+  97 000c 1C30D0E5 		ldrb	r3, [r0, #28]	@ zero_extendqisi2
+ 221:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+  98              		.loc 1 221 57 view .LVU22
+  99 0010 002000E3 		movw	r2, #:lower16:.LANCHOR0
+ 100              	.LVL4:
+ 221:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 101              		.loc 1 221 57 view .LVU23
+ 102 0014 002040E3 		movt	r2, #:upper16:.LANCHOR0
+ 103 0018 033183E0 		add	r3, r3, r3, lsl #2
+ 104              	.LVL5:
+ 226:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 105              		.loc 1 226 5 is_stmt 1 view .LVU24
+ 226:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 106              		.loc 1 226 16 is_stmt 0 view .LVU25
+ 107 001c 0301D2E7 		ldrb	r0, [r2, r3, lsl #2]	@ zero_extendqisi2
+ 108              	.LVL6:
+ 226:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 109              		.loc 1 226 16 view .LVU26
+ 110 0020 FEFFFFEB 		bl	R_OSTM_GetCount
+ 111              	.LVL7:
+ 228:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** }
+ 112              		.loc 1 228 5 is_stmt 1 view .LVU27
+ 229:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 113              		.loc 1 229 1 is_stmt 0 view .LVU28
+ 114 0024 1080BDE8 		pop	{r4, pc}
+ 115              	.LVL8:
+ 116              	.L5:
+ 117              		.cfi_def_cfa_offset 0
+ 118              		.cfi_restore 4
+ 119              		.cfi_restore 14
+ 217:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 120              		.loc 1 217 16 view .LVU29
+ 121 0028 0000E0E3 		mvn	r0, #0
+ 122              	.LVL9:
+ 229:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 123              		.loc 1 229 1 view .LVU30
+ 124 002c 1EFF2FE1 		bx	lr
+ 125              		.cfi_endproc
+ 126              	.LFE6:
+ 128              		.section	.text.ostm_close,"ax",%progbits
+ 129              		.align	2
+ 130              		.syntax unified
+ 131              		.arm
+ 132              		.fpu neon
+ 134              	ostm_close:
+ 135              	.LVL10:
+ 136              	.LFB5:
+ 183:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 137              		.loc 1 183 1 is_stmt 1 view -0
+ 138              		.cfi_startproc
+ 139              		@ args = 0, pretend = 0, frame = 0
+ 140              		@ frame_needed = 0, uses_anonymous_args = 0
+ 184:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 141              		.loc 1 184 5 view .LVU32
+ 187:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 142              		.loc 1 187 5 view .LVU33
+ 187:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 143              		.loc 1 187 39 is_stmt 0 view .LVU34
+ 144 0000 1C30D0E5 		ldrb	r3, [r0, #28]	@ zero_extendqisi2
+ 187:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 145              		.loc 1 187 57 view .LVU35
+ 146 0004 002000E3 		movw	r2, #:lower16:.LANCHOR0
+ 147 0008 002040E3 		movt	r2, #:upper16:.LANCHOR0
+ 148 000c 033183E0 		add	r3, r3, r3, lsl #2
+ 187:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 149              		.loc 1 187 13 view .LVU36
+ 150 0010 0301D2E7 		ldrb	r0, [r2, r3, lsl #2]	@ zero_extendqisi2
+ 151              	.LVL11:
+ 189:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 152              		.loc 1 189 5 is_stmt 1 view .LVU37
+ 189:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 153              		.loc 1 189 27 is_stmt 0 view .LVU38
+ 154 0014 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 155 0018 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 156 001c 003193E7 		ldr	r3, [r3, r0, lsl #2]
+ 189:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 157              		.loc 1 189 8 view .LVU39
+ 158 0020 000053E3 		cmp	r3, #0
+ 159 0024 1EFF2F01 		bxeq	lr
+ 183:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 160              		.loc 1 183 1 view .LVU40
+ 161 0028 10402DE9 		push	{r4, lr}
+ 162              		.cfi_def_cfa_offset 8
+ 163              		.cfi_offset 4, -8
+ 164              		.cfi_offset 14, -4
+ 192:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 165              		.loc 1 192 9 is_stmt 1 view .LVU41
+ 192:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 166              		.loc 1 192 37 is_stmt 0 view .LVU42
+ 167 002c 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 168 0030 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 169 0034 0020A0E3 		mov	r2, #0
+ 170 0038 002183E7 		str	r2, [r3, r0, lsl #2]
+ 194:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 171              		.loc 1 194 9 is_stmt 1 view .LVU43
+ 172 003c FEFFFFEB 		bl	R_OSTM_Close
+ 173              	.LVL12:
+ 196:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 174              		.loc 1 196 1 is_stmt 0 view .LVU44
+ 175 0040 1080BDE8 		pop	{r4, pc}
+ 176              		.cfi_endproc
+ 177              	.LFE5:
+ 179              		.section	.text.reconfigure_timer,"ax",%progbits
+ 180              		.align	2
+ 181              		.syntax unified
+ 182              		.arm
+ 183              		.fpu neon
+ 185              	reconfigure_timer:
+ 186              	.LVL13:
+ 187              	.LFB3:
+ 111:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     int_t ret = DRV_SUCCESS;
+ 188              		.loc 1 111 1 is_stmt 1 view -0
+ 189              		.cfi_startproc
+ 190              		@ args = 0, pretend = 0, frame = 0
+ 191              		@ frame_needed = 0, uses_anonymous_args = 0
+ 111:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     int_t ret = DRV_SUCCESS;
+ 192              		.loc 1 111 1 is_stmt 0 view .LVU46
+ 193 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 194              		.cfi_def_cfa_offset 16
+ 195              		.cfi_offset 4, -16
+ 196              		.cfi_offset 5, -12
+ 197              		.cfi_offset 6, -8
+ 198              		.cfi_offset 14, -4
+ 199 0004 0040A0E1 		mov	r4, r0
+ 200 0008 0150A0E1 		mov	r5, r1
+ 112:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 201              		.loc 1 112 5 is_stmt 1 view .LVU47
+ 202              	.LVL14:
+ 115:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 203              		.loc 1 115 5 view .LVU48
+ 117:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 204              		.loc 1 117 9 view .LVU49
+ 117:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 205              		.loc 1 117 15 is_stmt 0 view .LVU50
+ 206 000c FEFFFFEB 		bl	R_OSTM_Stop
+ 207              	.LVL15:
+ 121:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 208              		.loc 1 121 5 is_stmt 1 view .LVU51
+ 121:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 209              		.loc 1 121 8 is_stmt 0 view .LVU52
+ 210 0010 000050E3 		cmp	r0, #0
+ 121:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 211              		.loc 1 121 8 view .LVU53
+ 212 0014 0500000A 		beq	.L20
+ 213              	.L17:
+ 127:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 214              		.loc 1 127 5 is_stmt 1 view .LVU54
+ 127:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 215              		.loc 1 127 8 is_stmt 0 view .LVU55
+ 216 0018 000050E3 		cmp	r0, #0
+ 217 001c 7080BD18 		popne	{r4, r5, r6, pc}
+ 129:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 218              		.loc 1 129 9 is_stmt 1 view .LVU56
+ 129:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 219              		.loc 1 129 15 is_stmt 0 view .LVU57
+ 220 0020 0510A0E1 		mov	r1, r5
+ 221 0024 0400A0E1 		mov	r0, r4
+ 222              	.LVL16:
+ 129:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 223              		.loc 1 129 15 view .LVU58
+ 224 0028 FEFFFFEB 		bl	R_OSTM_Init
+ 225              	.LVL17:
+ 132:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** }
+ 226              		.loc 1 132 5 is_stmt 1 view .LVU59
+ 133:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /**************************************************************************************************
+ 227              		.loc 1 133 1 is_stmt 0 view .LVU60
+ 228 002c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 229              	.L20:
+ 123:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 230              		.loc 1 123 9 is_stmt 1 view .LVU61
+ 123:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 231              		.loc 1 123 15 is_stmt 0 view .LVU62
+ 232 0030 0400A0E1 		mov	r0, r4
+ 233              	.LVL18:
+ 123:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 234              		.loc 1 123 15 view .LVU63
+ 235 0034 FEFFFFEB 		bl	R_OSTM_Close
+ 236              	.LVL19:
+ 123:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 237              		.loc 1 123 15 view .LVU64
+ 238 0038 F6FFFFEA 		b	.L17
+ 239              		.cfi_endproc
+ 240              	.LFE3:
+ 242              		.section	.text.ostm_control,"ax",%progbits
+ 243              		.align	2
+ 244              		.syntax unified
+ 245              		.arm
+ 246              		.fpu neon
+ 248              	ostm_control:
+ 249              	.LVL20:
+ 250              	.LFB7:
+ 243:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     int_t retval = DRV_ERROR;
+ 251              		.loc 1 243 1 is_stmt 1 view -0
+ 252              		.cfi_startproc
+ 253              		@ args = 0, pretend = 0, frame = 0
+ 254              		@ frame_needed = 0, uses_anonymous_args = 0
+ 243:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     int_t retval = DRV_ERROR;
+ 255              		.loc 1 243 1 is_stmt 0 view .LVU66
+ 256 0000 10402DE9 		push	{r4, lr}
+ 257              		.cfi_def_cfa_offset 8
+ 258              		.cfi_offset 4, -8
+ 259              		.cfi_offset 14, -4
+ 244:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 260              		.loc 1 244 5 is_stmt 1 view .LVU67
+ 261              	.LVL21:
+ 245:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     st_r_drv_ostm_config_t * p_config;
+ 262              		.loc 1 245 5 view .LVU68
+ 246:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 263              		.loc 1 246 5 view .LVU69
+ 249:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 264              		.loc 1 249 5 view .LVU70
+ 249:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 265              		.loc 1 249 39 is_stmt 0 view .LVU71
+ 266 0004 1C30D0E5 		ldrb	r3, [r0, #28]	@ zero_extendqisi2
+ 249:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 267              		.loc 1 249 57 view .LVU72
+ 268 0008 000000E3 		movw	r0, #:lower16:.LANCHOR0
+ 269              	.LVL22:
+ 249:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 270              		.loc 1 249 57 view .LVU73
+ 271 000c 000040E3 		movt	r0, #:upper16:.LANCHOR0
+ 272 0010 033183E0 		add	r3, r3, r3, lsl #2
+ 249:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 273              		.loc 1 249 13 view .LVU74
+ 274 0014 0301D0E7 		ldrb	r0, [r0, r3, lsl #2]	@ zero_extendqisi2
+ 275              	.LVL23:
+ 251:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 276              		.loc 1 251 5 is_stmt 1 view .LVU75
+ 277 0018 030051E3 		cmp	r1, #3
+ 278 001c 01F19F97 		ldrls	pc, [pc, r1, asl #2]
+ 279 0020 110000EA 		b	.L28
+ 280              	.L24:
+ 281 0024 34000000 		.word	.L27
+ 282 0028 3C000000 		.word	.L26
+ 283 002c 44000000 		.word	.L25
+ 284 0030 58000000 		.word	.L23
+ 285              	.L27:
+ 256:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             break;
+ 286              		.loc 1 256 13 view .LVU76
+ 256:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             break;
+ 287              		.loc 1 256 22 is_stmt 0 view .LVU77
+ 288 0034 FEFFFFEB 		bl	R_OSTM_Start
+ 289              	.LVL24:
+ 257:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         }
+ 290              		.loc 1 257 13 is_stmt 1 view .LVU78
+ 291 0038 1080BDE8 		pop	{r4, pc}
+ 292              	.LVL25:
+ 293              	.L26:
+ 263:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             break;
+ 294              		.loc 1 263 13 view .LVU79
+ 263:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             break;
+ 295              		.loc 1 263 22 is_stmt 0 view .LVU80
+ 296 003c FEFFFFEB 		bl	R_OSTM_Stop
+ 297              	.LVL26:
+ 264:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         }
+ 298              		.loc 1 264 13 is_stmt 1 view .LVU81
+ 299 0040 1080BDE8 		pop	{r4, pc}
+ 300              	.LVL27:
+ 301              	.L25:
+ 269:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             {
+ 302              		.loc 1 269 13 view .LVU82
+ 269:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             {
+ 303              		.loc 1 269 16 is_stmt 0 view .LVU83
+ 304 0044 000052E3 		cmp	r2, #0
+ 305 0048 0900000A 		beq	.L29
+ 272:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 306              		.loc 1 272 17 is_stmt 1 view .LVU84
+ 307              	.LVL28:
+ 274:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             }
+ 308              		.loc 1 274 17 view .LVU85
+ 274:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             }
+ 309              		.loc 1 274 26 is_stmt 0 view .LVU86
+ 310 004c 0210A0E1 		mov	r1, r2
+ 311              	.LVL29:
+ 274:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             }
+ 312              		.loc 1 274 26 view .LVU87
+ 313 0050 FEFFFFEB 		bl	reconfigure_timer
+ 314              	.LVL30:
+ 274:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             }
+ 315              		.loc 1 274 26 view .LVU88
+ 316 0054 1080BDE8 		pop	{r4, pc}
+ 317              	.LVL31:
+ 318              	.L23:
+ 282:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             {
+ 319              		.loc 1 282 13 is_stmt 1 view .LVU89
+ 282:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             {
+ 320              		.loc 1 282 16 is_stmt 0 view .LVU90
+ 321 0058 000052E3 		cmp	r2, #0
+ 322 005c 0600000A 		beq	.L30
+ 285:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             }
+ 323              		.loc 1 285 17 is_stmt 1 view .LVU91
+ 285:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             }
+ 324              		.loc 1 285 26 is_stmt 0 view .LVU92
+ 325 0060 0210A0E1 		mov	r1, r2
+ 326              	.LVL32:
+ 285:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             }
+ 327              		.loc 1 285 26 view .LVU93
+ 328 0064 FEFFFFEB 		bl	R_OSTM_GetCount
+ 329              	.LVL33:
+ 285:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****             }
+ 330              		.loc 1 285 26 view .LVU94
+ 331 0068 1080BDE8 		pop	{r4, pc}
+ 332              	.LVL34:
+ 333              	.L28:
+ 249:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 334              		.loc 1 249 13 view .LVU95
+ 335 006c 0000E0E3 		mvn	r0, #0
+ 336              	.LVL35:
+ 249:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 337              		.loc 1 249 13 view .LVU96
+ 338 0070 1080BDE8 		pop	{r4, pc}
+ 339              	.LVL36:
+ 340              	.L29:
+ 244:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 341              		.loc 1 244 11 view .LVU97
+ 342 0074 0000E0E3 		mvn	r0, #0
+ 343              	.LVL37:
+ 244:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 344              		.loc 1 244 11 view .LVU98
+ 345 0078 1080BDE8 		pop	{r4, pc}
+ 346              	.LVL38:
+ 347              	.L30:
+ 244:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 348              		.loc 1 244 11 view .LVU99
+ 349 007c 0000E0E3 		mvn	r0, #0
+ 350              	.LVL39:
+ 298:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** }
+ 351              		.loc 1 298 5 is_stmt 1 view .LVU100
+ 299:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 352              		.loc 1 299 1 is_stmt 0 view .LVU101
+ 353 0080 1080BDE8 		pop	{r4, pc}
+ 354              		.cfi_endproc
+ 355              	.LFE7:
+ 357              		.section	.text.ostm_open,"ax",%progbits
+ 358              		.align	2
+ 359              		.syntax unified
+ 360              		.arm
+ 361              		.fpu neon
+ 363              	ostm_open:
+ 364              	.LVL40:
+ 365              	.LFB4:
+ 145:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     int_t ret = DRV_ERROR;
+ 366              		.loc 1 145 1 is_stmt 1 view -0
+ 367              		.cfi_startproc
+ 368              		@ args = 0, pretend = 0, frame = 0
+ 369              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     int_t ret = DRV_ERROR;
+ 370              		.loc 1 145 1 is_stmt 0 view .LVU103
+ 371 0000 10402DE9 		push	{r4, lr}
+ 372              		.cfi_def_cfa_offset 8
+ 373              		.cfi_offset 4, -8
+ 374              		.cfi_offset 14, -4
+ 146:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 375              		.loc 1 146 5 is_stmt 1 view .LVU104
+ 376              	.LVL41:
+ 147:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 377              		.loc 1 147 5 view .LVU105
+ 150:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 378              		.loc 1 150 5 view .LVU106
+ 150:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 379              		.loc 1 150 39 is_stmt 0 view .LVU107
+ 380 0004 1C10D0E5 		ldrb	r1, [r0, #28]	@ zero_extendqisi2
+ 150:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 381              		.loc 1 150 57 view .LVU108
+ 382 0008 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 383 000c 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 384 0010 012181E0 		add	r2, r1, r1, lsl #2
+ 150:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 385              		.loc 1 150 13 view .LVU109
+ 386 0014 0241D3E7 		ldrb	r4, [r3, r2, lsl #2]	@ zero_extendqisi2
+ 387              	.LVL42:
+ 154:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 388              		.loc 1 154 5 is_stmt 1 view .LVU110
+ 154:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 389              		.loc 1 154 28 is_stmt 0 view .LVU111
+ 390 0018 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 391 001c 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 392 0020 043193E7 		ldr	r3, [r3, r4, lsl #2]
+ 154:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     {
+ 393              		.loc 1 154 8 view .LVU112
+ 394 0024 000053E3 		cmp	r3, #0
+ 395 0028 0C00001A 		bne	.L34
+ 156:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 396              		.loc 1 156 9 is_stmt 1 view .LVU113
+ 156:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 397              		.loc 1 156 15 is_stmt 0 view .LVU114
+ 398 002c 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 399 0030 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 400 0034 021183E0 		add	r1, r3, r2, lsl #2
+ 401 0038 041081E2 		add	r1, r1, #4
+ 402 003c 0400A0E1 		mov	r0, r4
+ 403              	.LVL43:
+ 156:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** 
+ 404              		.loc 1 156 15 view .LVU115
+ 405 0040 FEFFFFEB 		bl	R_OSTM_Init
+ 406              	.LVL44:
+ 158:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         {
+ 407              		.loc 1 158 9 is_stmt 1 view .LVU116
+ 158:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         {
+ 408              		.loc 1 158 12 is_stmt 0 view .LVU117
+ 409 0044 000050E3 		cmp	r0, #0
+ 158:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         {
+ 410              		.loc 1 158 12 view .LVU118
+ 411 0048 1080BD18 		popne	{r4, pc}
+ 160:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         }
+ 412              		.loc 1 160 13 is_stmt 1 view .LVU119
+ 160:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****         }
+ 413              		.loc 1 160 41 is_stmt 0 view .LVU120
+ 414 004c 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 415 0050 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 416 0054 0120A0E3 		mov	r2, #1
+ 417 0058 042183E7 		str	r2, [r3, r4, lsl #2]
+ 418 005c 1080BDE8 		pop	{r4, pc}
+ 419              	.LVL45:
+ 420              	.L34:
+ 146:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 421              		.loc 1 146 11 view .LVU121
+ 422 0060 0000E0E3 		mvn	r0, #0
+ 423              	.LVL46:
+ 166:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c ****     }
+ 424              		.loc 1 166 110 is_stmt 1 view .LVU122
+ 169:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** }
+ 425              		.loc 1 169 5 view .LVU123
+ 170:../generate/sc_drivers/r_ostm/src/hld/r_ostm_drv_api.c **** /******************************************************************************
+ 426              		.loc 1 170 1 is_stmt 0 view .LVU124
+ 427 0064 1080BDE8 		pop	{r4, pc}
+ 428              		.cfi_endproc
+ 429              	.LFE4:
+ 431              		.global	g_ostm_driver
+ 432              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 433              		.align	2
+ 434              	.LC1:
+ 435 0000 4F532054 		.ascii	"OS Timer Driver\000"
+ 435      696D6572 
+ 435      20447269 
+ 435      76657200 
+ 436              		.global	gs_r_drv_ostm_open
+ 437              		.section	.bss.gs_r_drv_ostm_open,"aw",%nobits
+ 438              		.align	2
+ 439              		.set	.LANCHOR1,. + 0
+ 442              	gs_r_drv_ostm_open:
+ 443 0000 00000000 		.space	12
+ 443      00000000 
+ 443      00000000 
+ 444              		.section	.rodata.OSTM_SC_TABLE,"a"
+ 445              		.align	2
+ 446              		.set	.LANCHOR0,. + 0
+ 449              	OSTM_SC_TABLE:
+ 450 0000 02000000 		.word	2
+ 451 0004 00       		.byte	0
+ 452 0005 00       		.byte	0
+ 453 0006 0000     		.space	2
+ 454 0008 01000000 		.word	1
+ 455 000c 00       		.byte	0
+ 456 000d 00       		.byte	0
+ 457 000e 1E       		.byte	30
+ 458 000f 00       		.space	1
+ 459 0010 00000000 		.word	FreeRTOS_Tick_Handler
+ 460 0014 01000000 		.word	1
+ 461 0018 01       		.byte	1
+ 462 0019 01       		.byte	1
+ 463 001a 0000     		.space	2
+ 464 001c 00000000 		.word	0
+ 465 0020 00       		.byte	0
+ 466 0021 01       		.byte	1
+ 467 0022 00       		.byte	0
+ 468 0023 00       		.space	1
+ 469 0024 00000000 		.word	0
+ 470              		.section	.rodata.g_ostm_driver,"a"
+ 471              		.align	2
+ 474              	g_ostm_driver:
+ 475 0000 00000000 		.word	.LC1
+ 476 0004 00000000 		.word	ostm_open
+ 477 0008 00000000 		.word	ostm_close
+ 478 000c 00000000 		.word	ostm_read
+ 479 0010 00000000 		.word	no_dev_write
+ 480 0014 00000000 		.word	ostm_control
+ 481 0018 00000000 		.word	ostm_get_version
+ 482              		.text
+ 483              	.Letext0:
+ 484              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 485              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 486              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 487              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 488              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 489              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 490              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 491              		.file 9 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_t
+ 492              		.file 10 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 493              		.file 11 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 494              		.file 12 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/dr
+ 495              		.file 13 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_int
+ 496              		.file 14 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 497              		.file 15 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 498              		.file 16 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_ostm_drv_api.c
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:17     .rodata.ostm_get_version.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:18     .rodata.ostm_get_version.str1.4:00000000 .LC0
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:21     .text.ostm_get_version:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:29     .text.ostm_get_version:00000000 ostm_get_version
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:72     .text.ostm_read:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:77     .text.ostm_read:00000000 ostm_read
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:446    .rodata.OSTM_SC_TABLE:00000000 .LANCHOR0
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:129    .text.ostm_close:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:134    .text.ostm_close:00000000 ostm_close
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:439    .bss.gs_r_drv_ostm_open:00000000 .LANCHOR1
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:180    .text.reconfigure_timer:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:185    .text.reconfigure_timer:00000000 reconfigure_timer
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:243    .text.ostm_control:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:248    .text.ostm_control:00000000 ostm_control
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:281    .text.ostm_control:00000024 $d
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:288    .text.ostm_control:00000034 $a
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:358    .text.ostm_open:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:363    .text.ostm_open:00000000 ostm_open
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:474    .rodata.g_ostm_driver:00000000 g_ostm_driver
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:433    .rodata.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:442    .bss.gs_r_drv_ostm_open:00000000 gs_r_drv_ostm_open
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:438    .bss.gs_r_drv_ostm_open:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:445    .rodata.OSTM_SC_TABLE:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:449    .rodata.OSTM_SC_TABLE:00000000 OSTM_SC_TABLE
+C:\Users\ryota\AppData\Local\Temp\ccSLWPKo.s:471    .rodata.g_ostm_driver:00000000 $d
+                           .group:00000000 wm4.0.3d5c910ebb40df6df78b28e37cd67f3d
+                           .group:00000000 wm4.stddef.h.39.144cf5ddcd53cbfdac30259dc1a6c87f
+                           .group:00000000 wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d
+                           .group:00000000 wm4.features.h.33.318b64d71e0957639cfb30f1db1f7ec8
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.newlib.h.8.7cb3972cd43265932d4782d5eb589854
+                           .group:00000000 wm4.ieeefp.h.77.3f06799abf5dd88bdddee084775a1223
+                           .group:00000000 wm4.config.h.224.c701144a7b0518c6ee9b9b5465b79f81
+                           .group:00000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.155.3588ebfdd1e8c7ede80509bb9c3b8009
+                           .group:00000000 wm4._types.h.127.34941de1b2539d59d5cac00e0dd27a45
+                           .group:00000000 wm4.reent.h.17.e292bf8b0bec6c96e131a54347145a30
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4.reent.h.77.dcd6129ff07fe81bd5636db29abe53b2
+                           .group:00000000 wm4.cdefs.h.49.6260d97adb8d27534cbdc0f868b8ea87
+                           .group:00000000 wm4.math.h.13.97100c05caf9f40dd9f5a3cda48ccc01
+                           .group:00000000 wm4.r_typedefs.h.38.e90d9de5300d9ae020e5db8c5af88b3e
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4.stddef.h.155.ba788add86a0e365f264484f110c3c29
+                           .group:00000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:00000000 wm4.types.h.40.8b6acba56cefbb11746718204edc8f5e
+                           .group:00000000 wm4._endian.h.31.65a10590763c3dde1ac4a7f66d7d4891
+                           .group:00000000 wm4.endian.h.9.49f3a4695c1b61e8a0808de3c4a106cb
+                           .group:00000000 wm4._timeval.h.32.bec3221fa7a9bb0bdde696c9c57e47d2
+                           .group:00000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:00000000 wm4.select.h.19.97ca6fd0c752a0f3b6719fd314d361e6
+                           .group:00000000 wm4.types.h.51.5571ec98f267d17d3c670b7a3ba33afa
+                           .group:00000000 wm4.sched.h.22.c60982713a5c428609783c78f9c78d95
+                           .group:00000000 wm4._pthreadtypes.h.36.fcee9961c35163dde6267ef772ad1972
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.81.932d0c162786b883f622b8d05c120c78
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.56.f4862cfbf4363a1db01842d5bdf72c18
+                           .group:00000000 wm4.reent.h.91.b3ea049ebc5486622b61409b78486f84
+                           .group:00000000 wm4._default_fcntl.h.6.791f38f41eee7843f224ce48f47caa9b
+                           .group:00000000 wm4.time.h.8.db4619001f026d0b4874c029fef0e91f
+                           .group:00000000 wm4.time.h.2.4581ce0ffb6627cfc02162c94bf846c9
+                           .group:00000000 wm4.time.h.25.0e6a0fdbc9955f5707ed54246ed2e089
+                           .group:00000000 wm4.time.h.162.85256a1e684b58f061361067da714e0e
+                           .group:00000000 wm4.stat.h.54.5a9b823658423102e7a8de4ed089eedc
+                           .group:00000000 wm4.fcntl.h.9.9336f33d7f5028f694c75e6e224e0cf7
+                           .group:00000000 wm4.driver.h.34.180df73e0731406f5e50150641059ede
+                           .group:00000000 wm4.r_devlink_wrapper.h.72.ad1de4c851513efa3aed0532ebca7ca2
+                           .group:00000000 wm4.adc_iodefine.h.29.14c6f50dce37432a7d004e4b1ce33da7
+                           .group:00000000 wm4.bsc_iodefine.h.29.9281d1f3639266933964d6d0c2d42c4f
+                           .group:00000000 wm4.ceu_iodefine.h.29.2a669d0b46fdde030a50db9e3c307fbf
+                           .group:00000000 wm4.cpg_iodefine.h.29.d6fdc9cb4798723afd88b251d64c2ce2
+                           .group:00000000 wm4.csi2link_iodefine.h.29.221c4531636a409f24d307b16341ada8
+                           .group:00000000 wm4.dmac_iodefine.h.29.578fccc2cc1da886ec95a029bf874f01
+                           .group:00000000 wm4.drpk_iodefine.h.29.580eb8588a2b2d43d2726fbe791e513f
+                           .group:00000000 wm4.drw_iodefine.h.29.df30f4a4a34a79f6a86c4df91353dffe
+                           .group:00000000 wm4.edmac_iodefine.h.29.33e8759349004a722f42f5429c1353f6
+                           .group:00000000 wm4.eptpc_iodefine.h.29.74d8f9fab0f5549b56097fb9e937dde8
+                           .group:00000000 wm4.etherc_iodefine.h.29.14602750383a574f1c21f994ad33a366
+                           .group:00000000 wm4.gpio_iodefine.h.29.3d0b021c56839cee4ae5149903684e4b
+                           .group:00000000 wm4.gpt_iodefine.h.29.557ead75d7b0585b898d3898b64c7f87
+                           .group:00000000 wm4.hyper_iodefine.h.29.000caadbb74d881e97db55b39b432154
+                           .group:00000000 wm4.imr_iodefine.h.29.77c022f017e711c4d51cc0145db1dad3
+                           .group:00000000 wm4.intc_iodefine.h.29.b68f5799a35a7495d63b4cd458e1ba57
+                           .group:00000000 wm4.irda_iodefine.h.29.37e67bd2005173d68a74d1cc937d8444
+                           .group:00000000 wm4.jcu_iodefine.h.29.3aca452908962e7a7ccf26164751feda
+                           .group:00000000 wm4.lvds_iodefine.h.29.c11cbe1900e5209c8dcc76c2336c16bc
+                           .group:00000000 wm4.mtu_iodefine.h.29.5498fb974bb53caf05aa143c2deec781
+                           .group:00000000 wm4.nandc_iodefine.h.29.e0b343306750f017ee86e169ad98efe9
+                           .group:00000000 wm4.octa_iodefine.h.29.4cb0d62e4b9633e173858000dc1c626c
+                           .group:00000000 wm4.ostm_iodefine.h.29.6914f7e330a1cf0008b34219adcdfed4
+                           .group:00000000 wm4.pl_iodefine.h.29.abbb6d725aed990aa8343242bfe31416
+                           .group:00000000 wm4.pmg_iodefine.h.29.8bcfbc4771a6f9b7dd4d6f504427219e
+                           .group:00000000 wm4.poeg_iodefine.h.29.0d8e258d10986260cbc70cfb8c0ef273
+                           .group:00000000 wm4.poe_iodefine.h.29.fe74e55e7b6b4afbe3596c74ba035e98
+                           .group:00000000 wm4.prr_iodefine.h.29.c1f15576f7a27b9c83aa3b40f5b2f988
+                           .group:00000000 wm4.ptpedmac_iodefine.h.29.cd24a93374ce35cebc41e26889d619ef
+                           .group:00000000 wm4.rcanfd_iodefine.h.29.532dd48b82fcb61d63538aba4b6f1289
+                           .group:00000000 wm4.rcan_iodefine.h.29.a47a89db1b35c12b54af48fa1956acba
+                           .group:00000000 wm4.riic_iodefine.h.29.f96943d49800d297612c4af3bba5c943
+                           .group:00000000 wm4.rspi_iodefine.h.29.7efa041fe34a7d27db66a7b337879dfe
+                           .group:00000000 wm4.rtc_iodefine.h.29.6dc76be5ca3df69cecb5a81d06cc46b5
+                           .group:00000000 wm4.scifa_iodefine.h.29.b04ccd664d71baaf31c75761c45b9c4d
+                           .group:00000000 wm4.scim_iodefine.h.29.87d0760abf94446b00d826c797bf0ff2
+                           .group:00000000 wm4.sdmmc_iodefine.h.29.e67e9815445e8057a3262d1566bea0db
+                           .group:00000000 wm4.spdif_iodefine.h.29.59f5d70150fa200a4d8ee50be1ee34c8
+                           .group:00000000 wm4.spibsc_iodefine.h.29.f4930f8b8da1140200204513a363c76f
+                           .group:00000000 wm4.sprite_iodefine.h.29.55796d1fa083a2457fea4ece974a192e
+                           .group:00000000 wm4.ssif_iodefine.h.29.054ec6d95f487f631f16aee39c85c47a
+                           .group:00000000 wm4.usb_iodefine.h.29.6dc44ea388ba227e8fdcfb33c315887b
+                           .group:00000000 wm4.vdc_iodefine.h.29.db282ded1f052d8567fbbd3b61ce8f7a
+                           .group:00000000 wm4.vin_iodefine.h.29.9b392e5601347d53e64be3272934e170
+                           .group:00000000 wm4.wdt_iodefine.h.29.ed07bb44b797072f8c28b41c64fdca30
+                           .group:00000000 wm4.r_intc_lld_rza2m.h.35.148dee33e6a963828fdce2545668b517
+                           .group:00000000 wm4.r_ostm_lld_rza2m.h.66.272f829b409763a94e47858c6b6cb517
+                           .group:00000000 wm4.r_ostm_drv_api.h.51.adcd0e7bd4841f6d7c67e44f00650c60
+
+UNDEFINED SYMBOLS
+R_OSTM_GetVersion
+R_OSTM_GetCount
+R_OSTM_Close
+R_OSTM_Stop
+R_OSTM_Init
+R_OSTM_Start
+FreeRTOS_Tick_Handler
+no_dev_write

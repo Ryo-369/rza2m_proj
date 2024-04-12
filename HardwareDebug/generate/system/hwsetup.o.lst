@@ -1,0 +1,229 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"hwsetup.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.R_SC_HardwareSetup,"ax",%progbits
+  17              		.align	2
+  18              		.global	R_SC_HardwareSetup
+  19              		.arch armv7-a
+  20              		.arch_extension mp
+  21              		.arch_extension sec
+  22              		.syntax unified
+  23              		.arm
+  24              		.fpu neon
+  26              	R_SC_HardwareSetup:
+  27              	.LFB3:
+  28              		.file 1 "../generate/system/hwsetup.c"
+   1:../generate/system/hwsetup.c **** /**************************************************************************************************
+   2:../generate/system/hwsetup.c ****  * DISCLAIMER
+   3:../generate/system/hwsetup.c ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:../generate/system/hwsetup.c ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:../generate/system/hwsetup.c ****  * applicable laws, including copyright laws.
+   6:../generate/system/hwsetup.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:../generate/system/hwsetup.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:../generate/system/hwsetup.c ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:../generate/system/hwsetup.c ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:../generate/system/hwsetup.c ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:../generate/system/hwsetup.c ****  * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DA
+  12:../generate/system/hwsetup.c ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:../generate/system/hwsetup.c ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:../generate/system/hwsetup.c ****  * following link:
+  15:../generate/system/hwsetup.c ****  * http://www.renesas.com/disclaimer
+  16:../generate/system/hwsetup.c ****  *
+  17:../generate/system/hwsetup.c ****  * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  18:../generate/system/hwsetup.c ****  **************************************************************************************************
+  19:../generate/system/hwsetup.c **** /**************************************************************************************************
+  20:../generate/system/hwsetup.c ****  * File Name    : hwsetup.c
+  21:../generate/system/hwsetup.c ****  * Device(s)    : RZ/A2M
+  22:../generate/system/hwsetup.c ****  * OS           : None
+  23:../generate/system/hwsetup.c ****  * Description  : Initialisation process done before section initialise
+  24:../generate/system/hwsetup.c ****  * Operation    :
+  25:../generate/system/hwsetup.c ****  * Limitations  :
+  26:../generate/system/hwsetup.c ****  **************************************************************************************************
+  27:../generate/system/hwsetup.c **** 
+  28:../generate/system/hwsetup.c **** /**************************************************************************************************
+  29:../generate/system/hwsetup.c ****  Includes   <System Includes> , "Project Includes"
+  30:../generate/system/hwsetup.c ****  **************************************************************************************************
+  31:../generate/system/hwsetup.c **** #include "r_typedefs.h"
+  32:../generate/system/hwsetup.c **** #include "hwsetup.h"
+  33:../generate/system/hwsetup.c **** 
+  34:../generate/system/hwsetup.c **** /**************************************************************************************************
+  35:../generate/system/hwsetup.c ****  Macro definitions
+  36:../generate/system/hwsetup.c ****  **************************************************************************************************
+  37:../generate/system/hwsetup.c **** /*! Using DDR transfer for SPIBSC. Comment it if you want to use SDR transfer */
+  38:../generate/system/hwsetup.c **** #define SPIBSC_PRV_DDR_SETTING
+  39:../generate/system/hwsetup.c **** 
+  40:../generate/system/hwsetup.c **** /**************************************************************************************************
+  41:../generate/system/hwsetup.c ****  Local Typedef definitions
+  42:../generate/system/hwsetup.c ****  **************************************************************************************************
+  43:../generate/system/hwsetup.c **** 
+  44:../generate/system/hwsetup.c **** /**************************************************************************************************
+  45:../generate/system/hwsetup.c ****  Exported global variables
+  46:../generate/system/hwsetup.c ****  **************************************************************************************************
+  47:../generate/system/hwsetup.c **** 
+  48:../generate/system/hwsetup.c **** /**************************************************************************************************
+  49:../generate/system/hwsetup.c ****  Private (static) variables and functions
+  50:../generate/system/hwsetup.c ****  **************************************************************************************************
+  51:../generate/system/hwsetup.c **** 
+  52:../generate/system/hwsetup.c **** /**************************************************************************************************
+  53:../generate/system/hwsetup.c ****  * Function Name: R_SC_HardwareSetup
+  54:../generate/system/hwsetup.c ****  * @brief         Hardware setup, will done before section initialise
+  55:../generate/system/hwsetup.c ****  * @param         None
+  56:../generate/system/hwsetup.c ****  * @return        None
+  57:../generate/system/hwsetup.c ****  **************************************************************************************************
+  58:../generate/system/hwsetup.c **** void R_SC_HardwareSetup(void)
+  59:../generate/system/hwsetup.c **** {
+  29              		.loc 1 59 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 10402DE9 		push	{r4, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
+  60:../generate/system/hwsetup.c ****     /** Call user defined pre-initialisation routine */
+  61:../generate/system/hwsetup.c ****     if (NULL != Userdef_PreHardwareSetup)
+  37              		.loc 1 61 5 view .LVU1
+  38              		.loc 1 61 8 is_stmt 0 view .LVU2
+  39 0004 003000E3 		movw	r3, #:lower16:Userdef_PreHardwareSetup
+  40 0008 003040E3 		movt	r3, #:upper16:Userdef_PreHardwareSetup
+  41 000c 000053E3 		cmp	r3, #0
+  42 0010 0000000A 		beq	.L2
+  62:../generate/system/hwsetup.c ****     {
+  63:../generate/system/hwsetup.c ****         Userdef_PreHardwareSetup();
+  43              		.loc 1 63 9 is_stmt 1 view .LVU3
+  44 0014 FEFFFFEB 		bl	Userdef_PreHardwareSetup
+  45              	.LVL0:
+  46              	.L2:
+  64:../generate/system/hwsetup.c ****     }
+  65:../generate/system/hwsetup.c **** 
+  66:../generate/system/hwsetup.c ****     /** call SPIBSC driver setup wrapper interface if defined */
+  67:../generate/system/hwsetup.c ****     if (NULL != R_SPIBSC_Setup)
+  47              		.loc 1 67 5 view .LVU4
+  48              		.loc 1 67 8 is_stmt 0 view .LVU5
+  49 0018 003000E3 		movw	r3, #:lower16:R_SPIBSC_Setup
+  50 001c 003040E3 		movt	r3, #:upper16:R_SPIBSC_Setup
+  51 0020 000053E3 		cmp	r3, #0
+  52 0024 0100000A 		beq	.L3
+  68:../generate/system/hwsetup.c ****     {
+  69:../generate/system/hwsetup.c **** #ifdef SPIBSC_PRV_DDR_SETTING
+  70:../generate/system/hwsetup.c ****         R_SPIBSC_Setup(HWSETUP_SPIBSC_USE_DDR);
+  53              		.loc 1 70 9 is_stmt 1 view .LVU6
+  54 0028 0100A0E3 		mov	r0, #1
+  55 002c FEFFFFEB 		bl	R_SPIBSC_Setup
+  56              	.LVL1:
+  57              	.L3:
+  71:../generate/system/hwsetup.c **** #else /* SPIBSC_PRV_DDR_SETTING */
+  72:../generate/system/hwsetup.c ****         R_SPIBSC_Setup(HWSETUP_SPIBSC_USE_SDR);
+  73:../generate/system/hwsetup.c **** #endif /* SPIBSC_PRV_DDR_SETTING */
+  74:../generate/system/hwsetup.c ****     }
+  75:../generate/system/hwsetup.c **** 
+  76:../generate/system/hwsetup.c ****     /** call HyperBus driver setup wrapper interface if defined */
+  77:../generate/system/hwsetup.c ****     if (NULL != R_HYPERBUS_Setup)
+  58              		.loc 1 77 5 view .LVU7
+  59              		.loc 1 77 8 is_stmt 0 view .LVU8
+  60 0030 003000E3 		movw	r3, #:lower16:R_HYPERBUS_Setup
+  61 0034 003040E3 		movt	r3, #:upper16:R_HYPERBUS_Setup
+  62 0038 000053E3 		cmp	r3, #0
+  63 003c 0000000A 		beq	.L4
+  78:../generate/system/hwsetup.c ****     {
+  79:../generate/system/hwsetup.c ****         R_HYPERBUS_Setup();
+  64              		.loc 1 79 9 is_stmt 1 view .LVU9
+  65 0040 FEFFFFEB 		bl	R_HYPERBUS_Setup
+  66              	.LVL2:
+  67              	.L4:
+  80:../generate/system/hwsetup.c ****     }
+  81:../generate/system/hwsetup.c **** 
+  82:../generate/system/hwsetup.c ****     /** call OctaBus driver setup wrapper interface if defined */
+  83:../generate/system/hwsetup.c ****     if (NULL != R_OCTABUS_Setup)
+  68              		.loc 1 83 5 view .LVU10
+  69              		.loc 1 83 8 is_stmt 0 view .LVU11
+  70 0044 003000E3 		movw	r3, #:lower16:R_OCTABUS_Setup
+  71 0048 003040E3 		movt	r3, #:upper16:R_OCTABUS_Setup
+  72 004c 000053E3 		cmp	r3, #0
+  73 0050 0000000A 		beq	.L5
+  84:../generate/system/hwsetup.c ****     {
+  85:../generate/system/hwsetup.c ****         R_OCTABUS_Setup();
+  74              		.loc 1 85 9 is_stmt 1 view .LVU12
+  75 0054 FEFFFFEB 		bl	R_OCTABUS_Setup
+  76              	.LVL3:
+  77              	.L5:
+  86:../generate/system/hwsetup.c ****     }
+  87:../generate/system/hwsetup.c **** 
+  88:../generate/system/hwsetup.c ****     /** Call user defined post-initialisation routine */
+  89:../generate/system/hwsetup.c ****     if (NULL != Userdef_PostHardwareSetup)
+  78              		.loc 1 89 5 view .LVU13
+  79              		.loc 1 89 8 is_stmt 0 view .LVU14
+  80 0058 003000E3 		movw	r3, #:lower16:Userdef_PostHardwareSetup
+  81 005c 003040E3 		movt	r3, #:upper16:Userdef_PostHardwareSetup
+  82 0060 000053E3 		cmp	r3, #0
+  83 0064 1080BD08 		popeq	{r4, pc}
+  90:../generate/system/hwsetup.c ****     {
+  91:../generate/system/hwsetup.c ****         Userdef_PostHardwareSetup();
+  84              		.loc 1 91 9 is_stmt 1 view .LVU15
+  85 0068 FEFFFFEB 		bl	Userdef_PostHardwareSetup
+  86              	.LVL4:
+  92:../generate/system/hwsetup.c ****     }
+  93:../generate/system/hwsetup.c **** }
+  87              		.loc 1 93 1 is_stmt 0 view .LVU16
+  88 006c 1080BDE8 		pop	{r4, pc}
+  89              		.cfi_endproc
+  90              	.LFE3:
+  92              		.weak	Userdef_PostHardwareSetup
+  93              		.weak	R_OCTABUS_Setup
+  94              		.weak	R_HYPERBUS_Setup
+  95              		.weak	R_SPIBSC_Setup
+  96              		.weak	Userdef_PreHardwareSetup
+  97              		.text
+  98              	.Letext0:
+  99              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 100              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 101              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 102              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 103              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 104              		.file 7 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/hws
+DEFINED SYMBOLS
+                            *ABS*:00000000 hwsetup.c
+C:\Users\ryota\AppData\Local\Temp\ccmRmgur.s:17     .text.R_SC_HardwareSetup:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccmRmgur.s:26     .text.R_SC_HardwareSetup:00000000 R_SC_HardwareSetup
+                           .group:00000000 wm4.0.3d5c910ebb40df6df78b28e37cd67f3d
+                           .group:00000000 wm4.stddef.h.39.144cf5ddcd53cbfdac30259dc1a6c87f
+                           .group:00000000 wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d
+                           .group:00000000 wm4.features.h.33.318b64d71e0957639cfb30f1db1f7ec8
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.newlib.h.8.7cb3972cd43265932d4782d5eb589854
+                           .group:00000000 wm4.ieeefp.h.77.3f06799abf5dd88bdddee084775a1223
+                           .group:00000000 wm4.config.h.224.c701144a7b0518c6ee9b9b5465b79f81
+                           .group:00000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.155.3588ebfdd1e8c7ede80509bb9c3b8009
+                           .group:00000000 wm4._types.h.127.34941de1b2539d59d5cac00e0dd27a45
+                           .group:00000000 wm4.reent.h.17.e292bf8b0bec6c96e131a54347145a30
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4.reent.h.77.dcd6129ff07fe81bd5636db29abe53b2
+                           .group:00000000 wm4.cdefs.h.49.6260d97adb8d27534cbdc0f868b8ea87
+                           .group:00000000 wm4.math.h.13.97100c05caf9f40dd9f5a3cda48ccc01
+                           .group:00000000 wm4.r_typedefs.h.38.e90d9de5300d9ae020e5db8c5af88b3e
+                           .group:00000000 wm4.r_compiler_abstraction_api.h.26.bb21b39b83806cb7bb8838b6f825dcff
+                           .group:00000000 wm4.hwsetup.h.39.7f7ead0e307fea8a70ee37c3e31614e1
+
+UNDEFINED SYMBOLS
+Userdef_PreHardwareSetup
+R_SPIBSC_Setup
+R_HYPERBUS_Setup
+R_OCTABUS_Setup
+Userdef_PostHardwareSetup

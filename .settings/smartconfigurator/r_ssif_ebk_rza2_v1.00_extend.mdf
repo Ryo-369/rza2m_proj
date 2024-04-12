@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+/***********************************************************************************************************************
+  Purpose: Module Description File (MDF) Example (Schema Version 2.1)
+           This is a description of a sample module configuration file
+***********************************************************************************************************************/
+-->
+<module xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="2.1" xs:noNamespaceSchemaLocation="schema_mdf_2.10.xsd">
+    <fileVersion>1.00</fileVersion>
+    <formatVersion>2.12</formatVersion>
+
+    <resourceInfo>
+      <peripheral name="SSIF">
+        <channel number="SSIF0">
+          <pin name="SSIBCK0"/>
+          <pin name="SSILRCK0"/>
+          <pin name="SSITxD0"/>
+          <pin name="SSIRxD0"/>
+        </channel>
+        <channel number="SSIF1">
+          <pin name="SSIBCK1"/>
+          <pin name="SSILRCK1"/>
+          <pin name="SSITxD1"/>
+          <pin name="SSIRxD1"/>
+        </channel>
+        <channel number="SSIF2">
+          <pin name="SSIBCK2"/>
+          <pin name="SSILRCK2"/>
+          <pin name="SSIDATA2"/>
+        </channel>
+        <channel number="SSIF3">
+          <pin name="SSIBCK3"/>
+          <pin name="SSILRCK3"/>
+          <pin name="SSITxD3"/>
+          <pin name="SSIRxD3"/>
+        </channel>
+      </peripheral>
+    </resourceInfo>
+    <configuration>
+      <property id="INT_LEVEL" display="Interrupt priority(0-31)" default="30" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${INT_LEVEL}")</constraint>
+        <constraint display="Value must be in the range from 0 to 31" actionOnFail="error">("${INT_LEVEL}" &gt;= 0) &amp;&amp; ("${INT_LEVEL}" &lt;= 31)</constraint>
+        <description>Interrupt priority(0-31)</description>
+      </property>
+      <property id="MASTER_SLAVE_MODE" display="Master enable" default="SSIF_CFG_MASTER" type="combobox">
+        <option id="MASTER_SLAVE_MODE.SSIF_CFG_SLAVE" display="Slave-mode communication" value="SSIF_CFG_SLAVE"/>
+        <option id="MASTER_SLAVE_MODE.SSIF_CFG_MASTER" display="Master-mode communication" value="SSIF_CFG_MASTER"/>
+        <description>Master enable</description>
+      </property>
+      <property id="SAMPLE_FREQ" display="Sampling frequency(Hz)" default="44100" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${SAMPLE_FREQ}")</constraint>
+        <description>Sampling frequency(Hz)</description>
+      </property>
+      <property id="CLK_SELECT" display="Selects an audio clock for master-mode communication" default="SSIF_CFG_CKS_AUDIO_CLK" type="combobox">
+        <option id="CLK_SELECT.SSIF_CFG_CKS_AUDIO_CLK" display="Selects the AUDIO_CLK input" value="SSIF_CFG_CKS_AUDIO_CLK"/>
+        <option id="CLK_SELECT.SSIF_CFG_CKS_AUDIO_X1" display="Selects the AUDIO_X input" value="SSIF_CFG_CKS_AUDIO_X1"/>
+        <description>Selects an audio clock for master-mode communication</description>
+      </property>
+      <property id="FRAME_WORD" display="Select frame word number" default="SSIF_CFG_FRM_00B" type="combobox">
+        <option id="FRAME_WORD.SSIF_CFG_FRM_00B" display="2" value="SSIF_CFG_FRM_00B"/>
+        <option id="FRAME_WORD.SSIF_CFG_FRM_01B" display="Set prohibition" value="SSIF_CFG_FRM_01B"/>
+        <option id="FRAME_WORD.SSIF_CFG_FRM_10B" display="Set prohibition" value="SSIF_CFG_FRM_10B"/>
+        <option id="FRAME_WORD.SSIF_CFG_FRM_11B" display="Set prohibition" value="SSIF_CFG_FRM_11B"/>
+        <constraint display="TDM mode is scheduled for later versions" actionOnFail="disable">("${FRAME_WORD}" == "SSIF_CFG_FRM_01B")</constraint>
+        <constraint display="TDM mode is scheduled for later versions" actionOnFail="disable">("${FRAME_WORD}" == "SSIF_CFG_FRM_10B")</constraint>
+        <constraint display="TDM mode is scheduled for later versions" actionOnFail="disable">("${FRAME_WORD}" == "SSIF_CFG_FRM_11B")</constraint>
+        <description>Select frame word number</description>
+      </property>
+      <property id="DATA_WORD" display="Selects data word length" default="SSIF_CFG_DATA_WORD_16" type="combobox">
+        <option id="DATA_WORD.SSIF_CFG_DATA_WORD_8" display="8 bits" value="SSIF_CFG_DATA_WORD_8"/>
+        <option id="DATA_WORD.SSIF_CFG_DATA_WORD_16" display="16 bits" value="SSIF_CFG_DATA_WORD_16"/>
+        <option id="DATA_WORD.SSIF_CFG_DATA_WORD_18" display="18 bits" value="SSIF_CFG_DATA_WORD_18"/>
+        <option id="DATA_WORD.SSIF_CFG_DATA_WORD_20" display="20 bits" value="SSIF_CFG_DATA_WORD_20"/>
+        <option id="DATA_WORD.SSIF_CFG_DATA_WORD_22" display="22 bits" value="SSIF_CFG_DATA_WORD_22"/>
+        <option id="DATA_WORD.SSIF_CFG_DATA_WORD_24" display="24 bits" value="SSIF_CFG_DATA_WORD_24"/>
+        <option id="DATA_WORD.SSIF_CFG_DATA_WORD_32" display="32 bits" value="SSIF_CFG_DATA_WORD_32"/>
+        <description>Selects data word length</description>
+      </property>
+      <property id="SYSTEM_WORD" display="Selects system word length" default="SSIF_CFG_SYSTEM_WORD_32" type="combobox">
+        <option id="SYSTEM_WORD.SSIF_CFG_SYSTEM_WORD_8" display="8 bits" value="SSIF_CFG_SYSTEM_WORD_8"/>
+        <option id="SYSTEM_WORD.SSIF_CFG_SYSTEM_WORD_16" display="16 bits" value="SSIF_CFG_SYSTEM_WORD_16"/>
+        <option id="SYSTEM_WORD.SSIF_CFG_SYSTEM_WORD_24" display="24 bits" value="SSIF_CFG_SYSTEM_WORD_24"/>
+        <option id="SYSTEM_WORD.SSIF_CFG_SYSTEM_WORD_32" display="32 bits" value="SSIF_CFG_SYSTEM_WORD_32"/>
+        <option id="SYSTEM_WORD.SSIF_CFG_SYSTEM_WORD_48" display="48 bits" value="SSIF_CFG_SYSTEM_WORD_48"/>
+        <option id="SYSTEM_WORD.SSIF_CFG_SYSTEM_WORD_64" display="64 bits" value="SSIF_CFG_SYSTEM_WORD_64"/>
+        <option id="SYSTEM_WORD.SSIF_CFG_SYSTEM_WORD_128" display="128 bits" value="SSIF_CFG_SYSTEM_WORD_128"/>
+        <option id="SYSTEM_WORD.SSIF_CFG_SYSTEM_WORD_256" display="256 bits" value="SSIF_CFG_SYSTEM_WORD_256"/>
+        <description>Selects system word length</description>
+      </property>
+      <property id="BCLK_POL" display="Selects bit clock polarity" default="SSIF_CFG_FALLING" type="combobox">
+        <option id="BCLK_POL.SSIF_CFG_FALLING" display="SSILRCK/SSIFS and SSIFTxD/SSIFRxD change at a falling edge" value="SSIF_CFG_FALLING"/>
+        <option id="BCLK_POL.SSIF_CFG_RISING" display="SSILRCK/SSIFS and SSIFTxD/SSIFRxD change at a rising edge" value="SSIF_CFG_RISING"/>
+        <description>Selects bit clock polarity</description>
+      </property>
+      <property id="LR_CLOCK" display="Selects the initial value and polarity of LRCK/FS" default="SSIF_CFG_HIGH_LEVEL" type="combobox">
+        <option id="LR_CLOCK.SSIF_CFG_HIGH_LEVEL" display="The initial value is at a high level" value="SSIF_CFG_HIGH_LEVEL"/>
+        <option id="LR_CLOCK.SSIF_CFG_LOW_LEVEL" display="The initial value is at a low level" value="SSIF_CFG_LOW_LEVEL"/>
+        <description>Selects the initial value and polarity of LRCK/FS</description>
+      </property>
+      <property id="PADDING_POL" display="Selects serial padding polarity" default="SSIF_CFG_PADDING_LOW" type="combobox">
+        <option id="PADDING_POL.SSIF_CFG_PADDING_LOW" display="Padding data is at a low level" value="SSIF_CFG_PADDING_LOW"/>
+        <option id="PADDING_POL.SSIF_CFG_PADDING_HIGH" display="Padding data is at a high level" value="SSIF_CFG_PADDING_HIGH"/>
+        <description>Selects serial padding polarity</description>
+      </property>
+      <property id="SERIAL_ALIGNMENT" display="Selects serial data alignment" default="SSIF_CFG_DATA_FIRST" type="combobox">
+        <option id="SERIAL_ALIGNMENT.SSIF_CFG_DATA_FIRST" display="Transmits and receives serial data first and then padding bits." value="SSIF_CFG_DATA_FIRST"/>
+        <option id="SERIAL_ALIGNMENT.SSIF_CFG_PADDING_FIRST" display="Transmit and receives padding bits first and then serial data." value="SSIF_CFG_PADDING_FIRST"/>
+        <description>Selects serial data alignment</description>
+      </property>
+      <property id="PARALLEL_ALIGNMENT" display="Selects placement data alignment" default="SSIF_CFG_LEFT" type="combobox">
+        <option id="PARALLEL_ALIGNMENT.SSIF_CFG_LEFT" display="Left-justifies placement data (SSIFTDR, SSIFRDR)" value="SSIF_CFG_LEFT"/>
+        <option id="PARALLEL_ALIGNMENT.SSIF_CFG_RIGHT" display="Right-justifies placement data (SSIFTDR, SSIFRDR)" value="SSIF_CFG_RIGHT"/>
+        <description>Selects placement data alignment</description>
+      </property>
+      <property id="WS_DELAY" display="Selects serial data delay" default="SSIF_CFG_DELAY" type="combobox">
+        <option id="WS_DELAY.SSIF_CFG_DELAY" display="Delay of one cycle of SSIBCK between SSILRCK/SSIFS and SSIFTxD/SSIFRxD." value="SSIF_CFG_DELAY"/>
+        <option id="WS_DELAY.SSIF_CFG_NO_DELAY" display="No delay between SSILRCK/SSIFS and SSIFTxD/SSIFRxD." value="SSIF_CFG_NO_DELAY"/>
+        <description>Selects serial data delay</description>
+      </property>
+      <property id="MUTE" display="Mute (silent) enable" default="SSIF_CFG_MUTE_OFF" type="combobox">
+        <option id="MUTE.SSIF_CFG_MUTE_OFF" display="Disables muting on the next frame boundary." value="SSIF_CFG_MUTE_OFF"/>
+        <option id="MUTE.SSIF_CFG_MUTE_ON" display="Enables muting on the next frame boundary." value="SSIF_CFG_MUTE_ON"/>
+        <description>Mute (silent) enable</description>
+      </property>
+      <property id="NOISE_CANCEL" display="Noise Canceller Enable in Slave-mode Communication" default="SSIF_CFG_DISABLE_NOISE_CANCEL" type="combobox">
+        <option id="NOISE_CANCEL.SSIF_CFG_DISABLE_NOISE_CANCEL" display="Disables (bypasses) the noise canceller" value="SSIF_CFG_DISABLE_NOISE_CANCEL"/>
+        <option id="NOISE_CANCEL.SSIF_CFG_ENABLE_NOISE_CANCEL" display="Enables the noise canceller" value="SSIF_CFG_ENABLE_NOISE_CANCEL"/>
+        <constraint display="This function can only be set to enable in slave-mode communication" actionOnFail="disable">("${MASTER_SLAVE_MODE}" == "SSIF_CFG_SLAVE")</constraint>
+        <description>Noise Canceller Enable in Slave-mode Communication</description>
+      </property>
+      <property id="TDM_MODE" display="Audio Format Select" default="SSIF_CFG_DISABLE_TDM" type="combobox">
+        <option id="TDM_MODE.SSIF_CFG_DISABLE_TDM" display="I2S format" value="SSIF_CFG_DISABLE_TDM"/>
+        <option id="TDM_MODE.SSIF_CFG_ENABLE_TDM" display="TDM format" value="SSIF_CFG_ENABLE_TDM"/>
+        <constraint display="TDM mode is scheduled for later versions" actionOnFail="disable">("${TDM_MODE}" == "SSIF_CFG_ENABLE_TDM")</constraint>
+        <description>Audio Format Select</description>
+      </property>
+    </configuration>
+</module>

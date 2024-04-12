@@ -1,0 +1,3140 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_devlink_wrapper.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.get_first_free_direct_handle,"ax",%progbits
+  17              		.align	2
+  18              		.arch armv7-a
+  19              		.arch_extension mp
+  20              		.arch_extension sec
+  21              		.syntax unified
+  22              		.arm
+  23              		.fpu neon
+  25              	get_first_free_direct_handle:
+  26              	.LVL0:
+  27              	.LFB6:
+  28              		.file 1 "../generate/system/r_devlink_wrapper.c"
+   1:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+   2:../generate/system/r_devlink_wrapper.c ****  * DISCLAIMER
+   3:../generate/system/r_devlink_wrapper.c ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:../generate/system/r_devlink_wrapper.c ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:../generate/system/r_devlink_wrapper.c ****  * applicable laws, including copyright laws.
+   6:../generate/system/r_devlink_wrapper.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:../generate/system/r_devlink_wrapper.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:../generate/system/r_devlink_wrapper.c ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:../generate/system/r_devlink_wrapper.c ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:../generate/system/r_devlink_wrapper.c ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:../generate/system/r_devlink_wrapper.c ****  * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DA
+  12:../generate/system/r_devlink_wrapper.c ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:../generate/system/r_devlink_wrapper.c ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:../generate/system/r_devlink_wrapper.c ****  * following link:
+  15:../generate/system/r_devlink_wrapper.c ****  * http://www.renesas.com/disclaimer
+  16:../generate/system/r_devlink_wrapper.c ****  *
+  17:../generate/system/r_devlink_wrapper.c ****  * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+  18:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+  19:../generate/system/r_devlink_wrapper.c **** 
+  20:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+  21:../generate/system/r_devlink_wrapper.c ****  Includes   <System Includes> , "Project Includes"
+  22:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+  23:../generate/system/r_devlink_wrapper.c **** 
+  24:../generate/system/r_devlink_wrapper.c **** #include <string.h>
+  25:../generate/system/r_devlink_wrapper.c **** #include <stdio.h>
+  26:../generate/system/r_devlink_wrapper.c **** #include <fcntl.h>
+  27:../generate/system/r_devlink_wrapper.c **** 
+  28:../generate/system/r_devlink_wrapper.c **** #include "r_typedefs.h"
+  29:../generate/system/r_devlink_wrapper.c **** #include "driver.h"
+  30:../generate/system/r_devlink_wrapper.c **** #include "r_devlink_wrapper.h"
+  31:../generate/system/r_devlink_wrapper.c **** /*  #include "r_os_abstraction_api.h"  */
+  32:../generate/system/r_devlink_wrapper.c **** #include "r_devlink_wrapper_cfg.h"
+  33:../generate/system/r_devlink_wrapper.c **** #include "application_cfg.h"
+  34:../generate/system/r_devlink_wrapper.c **** 
+  35:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+  36:../generate/system/r_devlink_wrapper.c ****  Macro Definitions
+  37:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+  38:../generate/system/r_devlink_wrapper.c **** 
+  39:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+  40:../generate/system/r_devlink_wrapper.c ****  Private global variables and functions
+  41:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+  42:../generate/system/r_devlink_wrapper.c **** 
+  43:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+  44:../generate/system/r_devlink_wrapper.c ****  Imported global variables and functions (from other files)
+  45:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+  46:../generate/system/r_devlink_wrapper.c **** 
+  47:../generate/system/r_devlink_wrapper.c **** #ifdef UNUSED_CODE_20200521
+  48:../generate/system/r_devlink_wrapper.c **** /* Functions provided by lowsrc.c */
+  49:../generate/system/r_devlink_wrapper.c **** static void close_all(char_t *p_stream_name);
+  50:../generate/system/r_devlink_wrapper.c **** static bool_t check_open(st_r_driver_t *pDeviceDriver, char *pszLinkName);
+  51:../generate/system/r_devlink_wrapper.c **** #endif
+  52:../generate/system/r_devlink_wrapper.c **** 
+  53:../generate/system/r_devlink_wrapper.c **** /* The string that is used to differentiate a device name from a file name */
+  54:../generate/system/r_devlink_wrapper.c **** static const char_t * const gsp_dev_ident = DEVICE_INDENTIFIER;
+  55:../generate/system/r_devlink_wrapper.c **** 
+  56:../generate/system/r_devlink_wrapper.c **** /* Define a driver function table for no device */
+  57:../generate/system/r_devlink_wrapper.c **** static st_r_driver_t gs_no_driver =
+  58:../generate/system/r_devlink_wrapper.c **** { "No Device Driver", no_dev_open, no_dev_close, no_dev_read, no_dev_write, no_dev_control, no_dev_
+  59:../generate/system/r_devlink_wrapper.c **** 
+  60:../generate/system/r_devlink_wrapper.c **** /*
+  61:../generate/system/r_devlink_wrapper.c ****  * Interface between devlink and lowsrc
+  62:../generate/system/r_devlink_wrapper.c ****  * Store the lookup table in devlink to allow both direct and posix interfaces to share the same ta
+  63:../generate/system/r_devlink_wrapper.c ****  */
+  64:../generate/system/r_devlink_wrapper.c **** static st_stream_t gs_filestream[IOSTREAM];
+  65:../generate/system/r_devlink_wrapper.c **** 
+  66:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+  67:../generate/system/r_devlink_wrapper.c ****  Private global variables and functions
+  68:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+  69:../generate/system/r_devlink_wrapper.c **** /* Dummy driver configuration */
+  70:../generate/system/r_devlink_wrapper.c **** 
+  71:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+  72:../generate/system/r_devlink_wrapper.c ****  * Function Name: get_first_free_direct_handle
+  73:../generate/system/r_devlink_wrapper.c ****  * Description  : Function to get the first free handle from the list maintained
+  74:../generate/system/r_devlink_wrapper.c ****  *                in the array gs_filestream.
+  75:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN pszFileName - Pointer to the file name. This is to reserve the file descriptor
+  76:../generate/system/r_devlink_wrapper.c ****  *                streams defined in stdio.h, stdin, stdout and stderr
+  77:../generate/system/r_devlink_wrapper.c ****  * Return Value : File number or -1 on error
+  78:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+  79:../generate/system/r_devlink_wrapper.c **** static int_t get_first_free_direct_handle(const char *pszFileName)
+  80:../generate/system/r_devlink_wrapper.c **** {
+  29              		.loc 1 80 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  81:../generate/system/r_devlink_wrapper.c ****     UNUSED_PARAM(pszFileName);
+  34              		.loc 1 81 5 view .LVU1
+  82:../generate/system/r_devlink_wrapper.c **** 
+  83:../generate/system/r_devlink_wrapper.c ****     /* Allocate all other file descriptors dynamically */
+  84:../generate/system/r_devlink_wrapper.c ****     int_t handle = DRV_ERROR;
+  35              		.loc 1 84 5 view .LVU2
+  85:../generate/system/r_devlink_wrapper.c ****     int_t findex;
+  36              		.loc 1 85 5 view .LVU3
+  86:../generate/system/r_devlink_wrapper.c **** 
+  87:../generate/system/r_devlink_wrapper.c ****     for (findex = FIRST_DIRECT_FILE; findex < IOSTREAM; findex++)
+  37              		.loc 1 87 5 view .LVU4
+  38              		.loc 1 87 17 is_stmt 0 view .LVU5
+  39 0000 0330A0E3 		mov	r3, #3
+  84:../generate/system/r_devlink_wrapper.c ****     int_t findex;
+  40              		.loc 1 84 11 view .LVU6
+  41 0004 0000E0E3 		mvn	r0, #0
+  42              	.LVL1:
+  43              		.loc 1 87 5 view .LVU7
+  44 0008 000000EA 		b	.L2
+  45              	.LVL2:
+  46              	.L3:
+  47              		.loc 1 87 57 is_stmt 1 discriminator 2 view .LVU8
+  48              		.loc 1 87 63 is_stmt 0 discriminator 2 view .LVU9
+  49 000c 013083E2 		add	r3, r3, #1
+  50              	.LVL3:
+  51              	.L2:
+  52              		.loc 1 87 38 is_stmt 1 discriminator 1 view .LVU10
+  53              		.loc 1 87 5 is_stmt 0 discriminator 1 view .LVU11
+  54 0010 530053E3 		cmp	r3, #83
+  55 0014 1EFF2FC1 		bxgt	lr
+  88:../generate/system/r_devlink_wrapper.c ****     {
+  89:../generate/system/r_devlink_wrapper.c ****         /* NULL signifies that the driver is not loaded */
+  90:../generate/system/r_devlink_wrapper.c ****         if (NULL == gs_filestream[findex].p_device_driver)
+  56              		.loc 1 90 9 is_stmt 1 view .LVU12
+  57              		.loc 1 90 42 is_stmt 0 view .LVU13
+  58 0018 002000E3 		movw	r2, #:lower16:.LANCHOR0
+  59 001c 002040E3 		movt	r2, #:upper16:.LANCHOR0
+  60 0020 832292E7 		ldr	r2, [r2, r3, lsl #5]
+  61              		.loc 1 90 12 view .LVU14
+  62 0024 000052E3 		cmp	r2, #0
+  91:../generate/system/r_devlink_wrapper.c ****         {
+  92:../generate/system/r_devlink_wrapper.c ****             /* First free entry found */
+  93:../generate/system/r_devlink_wrapper.c ****             handle = findex;
+  63              		.loc 1 93 20 view .LVU15
+  64 0028 0300A001 		moveq	r0, r3
+  65              	.LVL4:
+  94:../generate/system/r_devlink_wrapper.c **** 
+  95:../generate/system/r_devlink_wrapper.c ****             /* force the loop to terminate */
+  96:../generate/system/r_devlink_wrapper.c ****             findex = IOSTREAM + 1;
+  66              		.loc 1 96 20 view .LVU16
+  67 002c 5530A003 		moveq	r3, #85
+  68              	.LVL5:
+  69              		.loc 1 96 20 view .LVU17
+  70 0030 F5FFFFEA 		b	.L3
+  71              		.cfi_endproc
+  72              	.LFE6:
+  74              		.section	.text.get_first_free_call_stdio_handle,"ax",%progbits
+  75              		.align	2
+  76              		.syntax unified
+  77              		.arm
+  78              		.fpu neon
+  80              	get_first_free_call_stdio_handle:
+  81              	.LVL6:
+  82              	.LFB7:
+  97:../generate/system/r_devlink_wrapper.c ****         }
+  98:../generate/system/r_devlink_wrapper.c ****     }
+  99:../generate/system/r_devlink_wrapper.c ****     return handle;
+ 100:../generate/system/r_devlink_wrapper.c **** }
+ 101:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 102:../generate/system/r_devlink_wrapper.c ****  End of function get_first_free_direct_handle
+ 103:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 104:../generate/system/r_devlink_wrapper.c **** 
+ 105:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 106:../generate/system/r_devlink_wrapper.c ****  * Function Name: get_first_free_call_stdio_handle
+ 107:../generate/system/r_devlink_wrapper.c ****  * Description  : Function to get the first free handle from the list maintained
+ 108:../generate/system/r_devlink_wrapper.c ****  *                in the array gs_filestream.
+ 109:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN pszFileName - Pointer to the file name. This is to reserve the file descriptor
+ 110:../generate/system/r_devlink_wrapper.c ****  *                streams defined in stdio.h, stdin, stdout and stderr
+ 111:../generate/system/r_devlink_wrapper.c ****  * Return Value : File number or -1 on error
+ 112:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 113:../generate/system/r_devlink_wrapper.c **** static int_t get_first_free_call_stdio_handle(const char *pszFileName)
+ 114:../generate/system/r_devlink_wrapper.c **** {
+  83              		.loc 1 114 1 is_stmt 1 view -0
+  84              		.cfi_startproc
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+ 115:../generate/system/r_devlink_wrapper.c ****     UNUSED_PARAM(pszFileName);
+  88              		.loc 1 115 5 view .LVU19
+ 116:../generate/system/r_devlink_wrapper.c **** 
+ 117:../generate/system/r_devlink_wrapper.c ****     /* Allocate all other file descriptors dynamically */
+ 118:../generate/system/r_devlink_wrapper.c ****     int_t handle = DRV_ERROR;
+  89              		.loc 1 118 5 view .LVU20
+ 119:../generate/system/r_devlink_wrapper.c ****     int_t findex;
+  90              		.loc 1 119 5 view .LVU21
+ 120:../generate/system/r_devlink_wrapper.c **** 
+ 121:../generate/system/r_devlink_wrapper.c ****     for (findex = FIRST_FILE; findex < IOSTREAM; findex++)
+  91              		.loc 1 121 5 view .LVU22
+  92              		.loc 1 121 17 is_stmt 0 view .LVU23
+  93 0000 0030A0E3 		mov	r3, #0
+ 118:../generate/system/r_devlink_wrapper.c ****     int_t findex;
+  94              		.loc 1 118 11 view .LVU24
+  95 0004 0000E0E3 		mvn	r0, #0
+  96              	.LVL7:
+  97              		.loc 1 121 5 view .LVU25
+  98 0008 000000EA 		b	.L8
+  99              	.LVL8:
+ 100              	.L9:
+ 101              		.loc 1 121 50 is_stmt 1 discriminator 2 view .LVU26
+ 102              		.loc 1 121 56 is_stmt 0 discriminator 2 view .LVU27
+ 103 000c 013083E2 		add	r3, r3, #1
+ 104              	.LVL9:
+ 105              	.L8:
+ 106              		.loc 1 121 31 is_stmt 1 discriminator 1 view .LVU28
+ 107              		.loc 1 121 5 is_stmt 0 discriminator 1 view .LVU29
+ 108 0010 530053E3 		cmp	r3, #83
+ 109 0014 1EFF2FC1 		bxgt	lr
+ 122:../generate/system/r_devlink_wrapper.c ****     {
+ 123:../generate/system/r_devlink_wrapper.c ****         /* NULL signifies that the driver is not loaded */
+ 124:../generate/system/r_devlink_wrapper.c ****         if (NULL == gs_filestream[findex].p_device_driver)
+ 110              		.loc 1 124 9 is_stmt 1 view .LVU30
+ 111              		.loc 1 124 42 is_stmt 0 view .LVU31
+ 112 0018 002000E3 		movw	r2, #:lower16:.LANCHOR0
+ 113 001c 002040E3 		movt	r2, #:upper16:.LANCHOR0
+ 114 0020 832292E7 		ldr	r2, [r2, r3, lsl #5]
+ 115              		.loc 1 124 12 view .LVU32
+ 116 0024 000052E3 		cmp	r2, #0
+ 125:../generate/system/r_devlink_wrapper.c ****         {
+ 126:../generate/system/r_devlink_wrapper.c ****             /* First free entry found */
+ 127:../generate/system/r_devlink_wrapper.c ****             handle = findex;
+ 117              		.loc 1 127 20 view .LVU33
+ 118 0028 0300A001 		moveq	r0, r3
+ 119              	.LVL10:
+ 128:../generate/system/r_devlink_wrapper.c **** 
+ 129:../generate/system/r_devlink_wrapper.c ****             /* force the loop to terminate */
+ 130:../generate/system/r_devlink_wrapper.c ****             findex = IOSTREAM + 1;
+ 120              		.loc 1 130 20 view .LVU34
+ 121 002c 5530A003 		moveq	r3, #85
+ 122              	.LVL11:
+ 123              		.loc 1 130 20 view .LVU35
+ 124 0030 F5FFFFEA 		b	.L9
+ 125              		.cfi_endproc
+ 126              	.LFE7:
+ 128              		.section	.text.get_device_stream_from_handle,"ax",%progbits
+ 129              		.align	2
+ 130              		.syntax unified
+ 131              		.arm
+ 132              		.fpu neon
+ 134              	get_device_stream_from_handle:
+ 135              	.LVL12:
+ 136              	.LFB10:
+ 131:../generate/system/r_devlink_wrapper.c ****         }
+ 132:../generate/system/r_devlink_wrapper.c ****     }
+ 133:../generate/system/r_devlink_wrapper.c ****     return handle;
+ 134:../generate/system/r_devlink_wrapper.c **** }
+ 135:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 136:../generate/system/r_devlink_wrapper.c ****  End of function get_first_free_call_stdio_handle
+ 137:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 138:../generate/system/r_devlink_wrapper.c **** 
+ 139:../generate/system/r_devlink_wrapper.c **** #ifdef UNUSED_CODE_20200521
+ 140:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 141:../generate/system/r_devlink_wrapper.c ****  * Function Name: check_open
+ 142:../generate/system/r_devlink_wrapper.c ****  * Description  : Function to find out if a device driver is open
+ 143:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  pDeviceDriver - Pointer to the device driver
+ 144:../generate/system/r_devlink_wrapper.c ****  *                IN  pszLinkName - Pointer to the link name
+ 145:../generate/system/r_devlink_wrapper.c ****  * Return Value : true if the device is open
+ 146:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 147:../generate/system/r_devlink_wrapper.c **** static bool_t check_open(st_r_driver_t *pDeviceDriver, char *pszLinkName)
+ 148:../generate/system/r_devlink_wrapper.c **** {
+ 149:../generate/system/r_devlink_wrapper.c ****     int_t index = FOPEN_MAX;
+ 150:../generate/system/r_devlink_wrapper.c **** 
+ 151:../generate/system/r_devlink_wrapper.c ****     /* For each file stream */
+ 152:../generate/system/r_devlink_wrapper.c ****     while (index--)
+ 153:../generate/system/r_devlink_wrapper.c ****     {
+ 154:../generate/system/r_devlink_wrapper.c ****         if (gs_filestream[index].p_device_driver == pDeviceDriver)
+ 155:../generate/system/r_devlink_wrapper.c ****         {
+ 156:../generate/system/r_devlink_wrapper.c ****             if (strcmp(gs_filestream[index].p_stream_name, pszLinkName) == 0)
+ 157:../generate/system/r_devlink_wrapper.c ****             {
+ 158:../generate/system/r_devlink_wrapper.c ****                 return true;
+ 159:../generate/system/r_devlink_wrapper.c ****             }
+ 160:../generate/system/r_devlink_wrapper.c ****         }
+ 161:../generate/system/r_devlink_wrapper.c ****     }
+ 162:../generate/system/r_devlink_wrapper.c ****     return false;
+ 163:../generate/system/r_devlink_wrapper.c **** }
+ 164:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 165:../generate/system/r_devlink_wrapper.c ****  End of function  check_open
+ 166:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 167:../generate/system/r_devlink_wrapper.c **** 
+ 168:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 169:../generate/system/r_devlink_wrapper.c ****  * Function Name: close_all
+ 170:../generate/system/r_devlink_wrapper.c ****  * Description  : Function to close all files of a given name
+ 171:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  pszStreamName - Pointer to the stream name to close
+ 172:../generate/system/r_devlink_wrapper.c ****  * Return Value : none
+ 173:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 174:../generate/system/r_devlink_wrapper.c **** static void close_all(char_t *pszStreamName)
+ 175:../generate/system/r_devlink_wrapper.c **** {
+ 176:../generate/system/r_devlink_wrapper.c ****     int_t index = FOPEN_MAX;
+ 177:../generate/system/r_devlink_wrapper.c **** 
+ 178:../generate/system/r_devlink_wrapper.c ****     /* For each file stream */
+ 179:../generate/system/r_devlink_wrapper.c ****     while (index--)
+ 180:../generate/system/r_devlink_wrapper.c ****     {
+ 181:../generate/system/r_devlink_wrapper.c ****         /* If the device is open */
+ 182:../generate/system/r_devlink_wrapper.c ****         if ((gs_filestream[index].p_device_driver)
+ 183:../generate/system/r_devlink_wrapper.c **** 
+ 184:../generate/system/r_devlink_wrapper.c ****                 /* Check the link name */
+ 185:../generate/system/r_devlink_wrapper.c ****                 && (strcmp(pszStreamName, gs_filestream[index].p_stream_name) == 0))
+ 186:../generate/system/r_devlink_wrapper.c ****         {
+ 187:../generate/system/r_devlink_wrapper.c ****             /* Previously this directly hit the low
+ 188:../generate/system/r_devlink_wrapper.c ****              * level close function, but left the OS level file
+ 189:../generate/system/r_devlink_wrapper.c ****              * open creating a synchronising issue. Modified 020615 to call
+ 190:../generate/system/r_devlink_wrapper.c ****              * the OS level close function
+ 191:../generate/system/r_devlink_wrapper.c ****              * Previous code line: low_close(filestream[iindex].file_number);*/
+ 192:../generate/system/r_devlink_wrapper.c **** 
+ 193:../generate/system/r_devlink_wrapper.c ****             direct_close(gs_filestream[index].file_number);
+ 194:../generate/system/r_devlink_wrapper.c ****         }
+ 195:../generate/system/r_devlink_wrapper.c ****     }
+ 196:../generate/system/r_devlink_wrapper.c **** }
+ 197:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 198:../generate/system/r_devlink_wrapper.c ****  End of function  close_all
+ 199:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 200:../generate/system/r_devlink_wrapper.c **** #endif /* UNUSED_CODE_20200521 */
+ 201:../generate/system/r_devlink_wrapper.c **** 
+ 202:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 203:../generate/system/r_devlink_wrapper.c ****  * Function Name: dev_get_pointer
+ 204:../generate/system/r_devlink_wrapper.c ****  * Description  : Function to get a pointer to the open, close, read, write, control and get_versio
+ 205:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  pszLinkName - Pointer to the link name
+ 206:../generate/system/r_devlink_wrapper.c ****  *                OUT p_stream_name - Pointer to the device link name
+ 207:../generate/system/r_devlink_wrapper.c ****  * Return Value : Pointer to the device or NULL on error
+ 208:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 209:../generate/system/r_devlink_wrapper.c **** static st_r_driver_t * dev_get_pointer(char *pszLinkName, char **p_stream_name, uint32_t *sc_index_
+ 210:../generate/system/r_devlink_wrapper.c **** {
+ 211:../generate/system/r_devlink_wrapper.c ****     /* NULL signifies that the driver is not loaded */
+ 212:../generate/system/r_devlink_wrapper.c ****     st_r_driver_t * p_device_driver = NULL;
+ 213:../generate/system/r_devlink_wrapper.c ****     int_t device = (sizeof(gs_mount_table)) / sizeof(struct _mount_table_t);
+ 214:../generate/system/r_devlink_wrapper.c **** 
+ 215:../generate/system/r_devlink_wrapper.c ****     /* First, search through all the static devices in the mount table */
+ 216:../generate/system/r_devlink_wrapper.c ****     while (device--)
+ 217:../generate/system/r_devlink_wrapper.c ****     {
+ 218:../generate/system/r_devlink_wrapper.c ****         if (strcmp (pszLinkName, gs_mount_table[device].p_stream_name) == 0)
+ 219:../generate/system/r_devlink_wrapper.c ****         {
+ 220:../generate/system/r_devlink_wrapper.c ****             /* remove the const is necessary for assignment */
+ 221:../generate/system/r_devlink_wrapper.c ****             *p_stream_name = (char *) gs_mount_table[device].p_stream_name;
+ 222:../generate/system/r_devlink_wrapper.c ****             *sc_index_ptr = gs_mount_table[device].sc_config_index;
+ 223:../generate/system/r_devlink_wrapper.c **** 
+ 224:../generate/system/r_devlink_wrapper.c ****             /* const needs removing */
+ 225:../generate/system/r_devlink_wrapper.c ****             return (st_r_driver_t *) gs_mount_table[device].p_device_driver;
+ 226:../generate/system/r_devlink_wrapper.c ****         }
+ 227:../generate/system/r_devlink_wrapper.c ****     }
+ 228:../generate/system/r_devlink_wrapper.c **** 
+ 229:../generate/system/r_devlink_wrapper.c ****     /* Device not found */
+ 230:../generate/system/r_devlink_wrapper.c ****     return (p_device_driver);
+ 231:../generate/system/r_devlink_wrapper.c **** }
+ 232:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 233:../generate/system/r_devlink_wrapper.c ****  End of function dev_get_pointer
+ 234:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 235:../generate/system/r_devlink_wrapper.c **** 
+ 236:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 237:../generate/system/r_devlink_wrapper.c ****  * Function Name: get_device_name
+ 238:../generate/system/r_devlink_wrapper.c ****  * Description  : Function to see if the file name supplied is for a device
+ 239:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  pszFileName - Pointer to the file name
+ 240:../generate/system/r_devlink_wrapper.c ****  * Return Value : Pointer to the device link name or NULL on failure
+ 241:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 242:../generate/system/r_devlink_wrapper.c **** static char_t * get_device_name(const char *pszFileName)
+ 243:../generate/system/r_devlink_wrapper.c **** {
+ 244:../generate/system/r_devlink_wrapper.c ****     /* NULL signifies that the driver name is not found */
+ 245:../generate/system/r_devlink_wrapper.c ****     char_t * p_name = NULL;
+ 246:../generate/system/r_devlink_wrapper.c **** 
+ 247:../generate/system/r_devlink_wrapper.c ****     if (strstr (pszFileName, gsp_dev_ident) == pszFileName)
+ 248:../generate/system/r_devlink_wrapper.c ****     {
+ 249:../generate/system/r_devlink_wrapper.c ****         /* NULL signifies that the driver name is not found */
+ 250:../generate/system/r_devlink_wrapper.c ****         p_name = (char_t *) (pszFileName += (sizeof(gsp_dev_ident)));
+ 251:../generate/system/r_devlink_wrapper.c ****     }
+ 252:../generate/system/r_devlink_wrapper.c **** 
+ 253:../generate/system/r_devlink_wrapper.c ****     return (p_name);
+ 254:../generate/system/r_devlink_wrapper.c **** }
+ 255:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 256:../generate/system/r_devlink_wrapper.c ****  End of function  get_device_name
+ 257:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 258:../generate/system/r_devlink_wrapper.c **** 
+ 259:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 260:../generate/system/r_devlink_wrapper.c ****  * Function Name: get_device_stream_from_handle
+ 261:../generate/system/r_devlink_wrapper.c ****  * Description  : Function to see if the file name supplied is for a device
+ 262:../generate/system/r_devlink_wrapper.c ****  * Arguments    : [IN] handle - The index to the driver to check taken from the gs_filestream
+ 263:../generate/system/r_devlink_wrapper.c ****  * Return Value : DRV_SUCCESS - Hand is valid and in use
+ 264:../generate/system/r_devlink_wrapper.c ****  *                DRV_ERROR - handle not in use
+ 265:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 266:../generate/system/r_devlink_wrapper.c **** static st_stream_ptr_t get_device_stream_from_handle(const int_t h)
+ 267:../generate/system/r_devlink_wrapper.c **** {
+ 137              		.loc 1 267 1 is_stmt 1 view -0
+ 138              		.cfi_startproc
+ 139              		@ args = 0, pretend = 0, frame = 0
+ 140              		@ frame_needed = 0, uses_anonymous_args = 0
+ 141              		@ link register save eliminated.
+ 142              		.loc 1 267 1 is_stmt 0 view .LVU37
+ 143 0000 0020A0E1 		mov	r2, r0
+ 268:../generate/system/r_devlink_wrapper.c ****     /* NULL signifies that the driver is not loaded */
+ 269:../generate/system/r_devlink_wrapper.c ****     st_stream_ptr_t pstream = NULL;
+ 144              		.loc 1 269 5 is_stmt 1 view .LVU38
+ 145              	.LVL13:
+ 270:../generate/system/r_devlink_wrapper.c **** 
+ 271:../generate/system/r_devlink_wrapper.c ****     if ((h >= 0) && (h < IOSTREAM))
+ 146              		.loc 1 271 5 view .LVU39
+ 147              		.loc 1 271 8 is_stmt 0 view .LVU40
+ 148 0004 530050E3 		cmp	r0, #83
+ 149 0008 0800008A 		bhi	.L15
+ 272:../generate/system/r_devlink_wrapper.c ****     {
+ 273:../generate/system/r_devlink_wrapper.c ****         /* NULL signifies that the driver is not loaded */
+ 274:../generate/system/r_devlink_wrapper.c ****         if (NULL != gs_filestream[h].p_device_driver)
+ 150              		.loc 1 274 9 is_stmt 1 view .LVU41
+ 151              		.loc 1 274 37 is_stmt 0 view .LVU42
+ 152 000c 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 153 0010 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 154 0014 800293E7 		ldr	r0, [r3, r0, lsl #5]
+ 155              	.LVL14:
+ 156              		.loc 1 274 12 view .LVU43
+ 157 0018 000050E3 		cmp	r0, #0
+ 158 001c 1EFF2F01 		bxeq	lr
+ 275:../generate/system/r_devlink_wrapper.c ****         {
+ 276:../generate/system/r_devlink_wrapper.c ****             /* handle found */
+ 277:../generate/system/r_devlink_wrapper.c ****             pstream = &gs_filestream[h];
+ 159              		.loc 1 277 13 is_stmt 1 view .LVU44
+ 160              		.loc 1 277 21 is_stmt 0 view .LVU45
+ 161 0020 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 162 0024 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 163 0028 820283E0 		add	r0, r3, r2, lsl #5
+ 164              	.LVL15:
+ 165              		.loc 1 277 21 view .LVU46
+ 166 002c 1EFF2FE1 		bx	lr
+ 167              	.LVL16:
+ 168              	.L15:
+ 269:../generate/system/r_devlink_wrapper.c **** 
+ 169              		.loc 1 269 21 view .LVU47
+ 170 0030 0000A0E3 		mov	r0, #0
+ 171              	.LVL17:
+ 278:../generate/system/r_devlink_wrapper.c ****         }
+ 279:../generate/system/r_devlink_wrapper.c ****     }
+ 280:../generate/system/r_devlink_wrapper.c ****     return (pstream);
+ 172              		.loc 1 280 5 is_stmt 1 view .LVU48
+ 281:../generate/system/r_devlink_wrapper.c **** }
+ 173              		.loc 1 281 1 is_stmt 0 view .LVU49
+ 174 0034 1EFF2FE1 		bx	lr
+ 175              		.cfi_endproc
+ 176              	.LFE10:
+ 178              		.section	.text.check_valid_handle,"ax",%progbits
+ 179              		.align	2
+ 180              		.syntax unified
+ 181              		.arm
+ 182              		.fpu neon
+ 184              	check_valid_handle:
+ 185              	.LVL18:
+ 186              	.LFB11:
+ 282:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 283:../generate/system/r_devlink_wrapper.c ****  End of function get_device_stream_from_handle
+ 284:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 285:../generate/system/r_devlink_wrapper.c **** 
+ 286:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 287:../generate/system/r_devlink_wrapper.c ****  * Function Name: check_valid_handle
+ 288:../generate/system/r_devlink_wrapper.c ****  * Description  : Function to ensure that the handle that is presented is in use in the gs_filestre
+ 289:../generate/system/r_devlink_wrapper.c ****  * Arguments    : [IN] handle - The index to the driver to check taken from the gs_filestream
+ 290:../generate/system/r_devlink_wrapper.c ****  * Return Value : DRV_SUCCESS - Hand is valid and in use
+ 291:../generate/system/r_devlink_wrapper.c ****  *                DRV_ERROR - handle not in use
+ 292:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 293:../generate/system/r_devlink_wrapper.c **** static int_t check_valid_handle(const int_t h)
+ 294:../generate/system/r_devlink_wrapper.c **** {
+ 187              		.loc 1 294 1 is_stmt 1 view -0
+ 188              		.cfi_startproc
+ 189              		@ args = 0, pretend = 0, frame = 0
+ 190              		@ frame_needed = 0, uses_anonymous_args = 0
+ 191              		@ link register save eliminated.
+ 295:../generate/system/r_devlink_wrapper.c ****     int_t res = (DRV_ERROR);
+ 192              		.loc 1 295 5 view .LVU51
+ 296:../generate/system/r_devlink_wrapper.c **** 
+ 297:../generate/system/r_devlink_wrapper.c ****     if ((h >= 0) && (h < IOSTREAM))
+ 193              		.loc 1 297 5 view .LVU52
+ 194              		.loc 1 297 8 is_stmt 0 view .LVU53
+ 195 0000 530050E3 		cmp	r0, #83
+ 196 0004 0800008A 		bhi	.L18
+ 298:../generate/system/r_devlink_wrapper.c ****     {
+ 299:../generate/system/r_devlink_wrapper.c ****         /* NULL signifies that the driver is not loaded */
+ 300:../generate/system/r_devlink_wrapper.c ****         if (NULL != gs_filestream[h].p_device_driver)
+ 197              		.loc 1 300 9 is_stmt 1 view .LVU54
+ 198              		.loc 1 300 37 is_stmt 0 view .LVU55
+ 199 0008 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 200 000c 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 201 0010 803293E7 		ldr	r3, [r3, r0, lsl #5]
+ 202              		.loc 1 300 12 view .LVU56
+ 203 0014 000053E3 		cmp	r3, #0
+ 204 0018 0100000A 		beq	.L20
+ 301:../generate/system/r_devlink_wrapper.c ****         {
+ 302:../generate/system/r_devlink_wrapper.c ****             /* handle found */
+ 303:../generate/system/r_devlink_wrapper.c ****             res = DRV_SUCCESS;
+ 205              		.loc 1 303 17 view .LVU57
+ 206 001c 0000A0E3 		mov	r0, #0
+ 207              	.LVL19:
+ 304:../generate/system/r_devlink_wrapper.c ****         }
+ 305:../generate/system/r_devlink_wrapper.c ****     }
+ 306:../generate/system/r_devlink_wrapper.c ****     return (res);
+ 208              		.loc 1 306 5 is_stmt 1 view .LVU58
+ 307:../generate/system/r_devlink_wrapper.c **** }
+ 209              		.loc 1 307 1 is_stmt 0 view .LVU59
+ 210 0020 1EFF2FE1 		bx	lr
+ 211              	.LVL20:
+ 212              	.L20:
+ 295:../generate/system/r_devlink_wrapper.c **** 
+ 213              		.loc 1 295 11 view .LVU60
+ 214 0024 0000E0E3 		mvn	r0, #0
+ 215              	.LVL21:
+ 295:../generate/system/r_devlink_wrapper.c **** 
+ 216              		.loc 1 295 11 view .LVU61
+ 217 0028 1EFF2FE1 		bx	lr
+ 218              	.LVL22:
+ 219              	.L18:
+ 295:../generate/system/r_devlink_wrapper.c **** 
+ 220              		.loc 1 295 11 view .LVU62
+ 221 002c 0000E0E3 		mvn	r0, #0
+ 222              	.LVL23:
+ 295:../generate/system/r_devlink_wrapper.c **** 
+ 223              		.loc 1 295 11 view .LVU63
+ 224 0030 1EFF2FE1 		bx	lr
+ 225              		.cfi_endproc
+ 226              	.LFE11:
+ 228              		.section	.text.no_dev_open,"ax",%progbits
+ 229              		.align	2
+ 230              		.global	no_dev_open
+ 231              		.syntax unified
+ 232              		.arm
+ 233              		.fpu neon
+ 235              	no_dev_open:
+ 236              	.LVL24:
+ 237              	.LFB12:
+ 308:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 309:../generate/system/r_devlink_wrapper.c ****  End of function check_valid_handle
+ 310:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 311:../generate/system/r_devlink_wrapper.c **** 
+ 312:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 313:../generate/system/r_devlink_wrapper.c ****  Public Functions
+ 314:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 315:../generate/system/r_devlink_wrapper.c **** 
+ 316:../generate/system/r_devlink_wrapper.c **** #ifdef UNUSED_CODE_20200521
+ 317:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 318:../generate/system/r_devlink_wrapper.c ****  * Function Name: get_no_driver
+ 319:../generate/system/r_devlink_wrapper.c ****  * Description  : Returns address of dummy driver configuration, used
+ 320:../generate/system/r_devlink_wrapper.c ****  * Arguments    : none
+ 321:../generate/system/r_devlink_wrapper.c ****  * Return Value : dummy driver configuration
+ 322:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 323:../generate/system/r_devlink_wrapper.c **** st_r_driver_t * get_no_driver(void)
+ 324:../generate/system/r_devlink_wrapper.c **** {
+ 325:../generate/system/r_devlink_wrapper.c ****     return (&gs_no_driver);
+ 326:../generate/system/r_devlink_wrapper.c **** }
+ 327:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 328:../generate/system/r_devlink_wrapper.c ****  End of function get_no_driver
+ 329:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 330:../generate/system/r_devlink_wrapper.c **** #endif
+ 331:../generate/system/r_devlink_wrapper.c **** 
+ 332:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 333:../generate/system/r_devlink_wrapper.c ****  * Function Name: no_dev_open
+ 334:../generate/system/r_devlink_wrapper.c ****  * Description  : Function open stub
+ 335:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  pStream - Pointer to the file stream
+ 336:../generate/system/r_devlink_wrapper.c ****  * Return Value : 0 for success otherwise -1
+ 337:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 338:../generate/system/r_devlink_wrapper.c **** int_t no_dev_open(st_stream_ptr_t pStream)
+ 339:../generate/system/r_devlink_wrapper.c **** {
+ 238              		.loc 1 339 1 is_stmt 1 view -0
+ 239              		.cfi_startproc
+ 240              		@ args = 0, pretend = 0, frame = 0
+ 241              		@ frame_needed = 0, uses_anonymous_args = 0
+ 242              		@ link register save eliminated.
+ 340:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 341:../generate/system/r_devlink_wrapper.c ****     (void) pStream;
+ 243              		.loc 1 341 5 view .LVU65
+ 342:../generate/system/r_devlink_wrapper.c **** 
+ 343:../generate/system/r_devlink_wrapper.c ****     return (DRV_ERROR);
+ 244              		.loc 1 343 5 view .LVU66
+ 344:../generate/system/r_devlink_wrapper.c **** }
+ 245              		.loc 1 344 1 is_stmt 0 view .LVU67
+ 246 0000 0000E0E3 		mvn	r0, #0
+ 247              	.LVL25:
+ 248              		.loc 1 344 1 view .LVU68
+ 249 0004 1EFF2FE1 		bx	lr
+ 250              		.cfi_endproc
+ 251              	.LFE12:
+ 253              		.section	.text.no_dev_close,"ax",%progbits
+ 254              		.align	2
+ 255              		.global	no_dev_close
+ 256              		.syntax unified
+ 257              		.arm
+ 258              		.fpu neon
+ 260              	no_dev_close:
+ 261              	.LVL26:
+ 262              	.LFB13:
+ 345:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 346:../generate/system/r_devlink_wrapper.c ****  End of function  no_dev_open
+ 347:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 348:../generate/system/r_devlink_wrapper.c **** 
+ 349:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 350:../generate/system/r_devlink_wrapper.c ****  * Function Name: no_dev_close
+ 351:../generate/system/r_devlink_wrapper.c ****  * Description  : Function close stub
+ 352:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  pStream - Pointer to the file stream
+ 353:../generate/system/r_devlink_wrapper.c ****  * Return Value : none
+ 354:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 355:../generate/system/r_devlink_wrapper.c **** void no_dev_close(st_stream_ptr_t pStream)
+ 356:../generate/system/r_devlink_wrapper.c **** {
+ 263              		.loc 1 356 1 is_stmt 1 view -0
+ 264              		.cfi_startproc
+ 265              		@ args = 0, pretend = 0, frame = 0
+ 266              		@ frame_needed = 0, uses_anonymous_args = 0
+ 267              		@ link register save eliminated.
+ 357:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 358:../generate/system/r_devlink_wrapper.c ****     (void) pStream;
+ 268              		.loc 1 358 5 view .LVU70
+ 359:../generate/system/r_devlink_wrapper.c **** }
+ 269              		.loc 1 359 1 is_stmt 0 view .LVU71
+ 270 0000 1EFF2FE1 		bx	lr
+ 271              		.cfi_endproc
+ 272              	.LFE13:
+ 274              		.section	.text.no_dev_read,"ax",%progbits
+ 275              		.align	2
+ 276              		.global	no_dev_read
+ 277              		.syntax unified
+ 278              		.arm
+ 279              		.fpu neon
+ 281              	no_dev_read:
+ 282              	.LVL27:
+ 283              	.LFB14:
+ 360:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 361:../generate/system/r_devlink_wrapper.c ****  End of function  no_dev_close
+ 362:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 363:../generate/system/r_devlink_wrapper.c **** 
+ 364:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 365:../generate/system/r_devlink_wrapper.c ****  * Function Name: no_dev_read
+ 366:../generate/system/r_devlink_wrapper.c ****  * Description  : Function read stub
+ 367:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  pStream - Pointer to the file stream
+ 368:../generate/system/r_devlink_wrapper.c ****  *                IN  pbyBuffer - Pointer to the destination memory
+ 369:../generate/system/r_devlink_wrapper.c ****  *                IN  uiCount - The number of bytes to read
+ 370:../generate/system/r_devlink_wrapper.c ****  * Return Value : 0 for success -1 on error
+ 371:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 372:../generate/system/r_devlink_wrapper.c **** int_t no_dev_read(st_stream_ptr_t pStream, uint8_t *pbyBuffer, uint32_t uiCount)
+ 373:../generate/system/r_devlink_wrapper.c **** {
+ 284              		.loc 1 373 1 is_stmt 1 view -0
+ 285              		.cfi_startproc
+ 286              		@ args = 0, pretend = 0, frame = 0
+ 287              		@ frame_needed = 0, uses_anonymous_args = 0
+ 288              		@ link register save eliminated.
+ 374:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 375:../generate/system/r_devlink_wrapper.c ****     (void) pStream;
+ 289              		.loc 1 375 5 view .LVU73
+ 376:../generate/system/r_devlink_wrapper.c **** 
+ 377:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 378:../generate/system/r_devlink_wrapper.c ****     (void) pbyBuffer;
+ 290              		.loc 1 378 5 view .LVU74
+ 379:../generate/system/r_devlink_wrapper.c **** 
+ 380:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 381:../generate/system/r_devlink_wrapper.c ****     (void) uiCount;
+ 291              		.loc 1 381 5 view .LVU75
+ 382:../generate/system/r_devlink_wrapper.c **** 
+ 383:../generate/system/r_devlink_wrapper.c ****     return (DRV_ERROR);
+ 292              		.loc 1 383 5 view .LVU76
+ 384:../generate/system/r_devlink_wrapper.c **** }
+ 293              		.loc 1 384 1 is_stmt 0 view .LVU77
+ 294 0000 0000E0E3 		mvn	r0, #0
+ 295              	.LVL28:
+ 296              		.loc 1 384 1 view .LVU78
+ 297 0004 1EFF2FE1 		bx	lr
+ 298              		.cfi_endproc
+ 299              	.LFE14:
+ 301              		.section	.text.no_dev_write,"ax",%progbits
+ 302              		.align	2
+ 303              		.global	no_dev_write
+ 304              		.syntax unified
+ 305              		.arm
+ 306              		.fpu neon
+ 308              	no_dev_write:
+ 309              	.LVL29:
+ 310              	.LFB15:
+ 385:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 386:../generate/system/r_devlink_wrapper.c ****  End of function  no_dev_read
+ 387:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 388:../generate/system/r_devlink_wrapper.c **** 
+ 389:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 390:../generate/system/r_devlink_wrapper.c ****  * Function Name: no_dev_write
+ 391:../generate/system/r_devlink_wrapper.c ****  * Description  : Function write stub
+ 392:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  pStream - Pointer to the file stream
+ 393:../generate/system/r_devlink_wrapper.c ****  *                IN  pbyBuffer - Pointer to the destination memory
+ 394:../generate/system/r_devlink_wrapper.c ****  *                IN  uiCount - The number of bytes to read
+ 395:../generate/system/r_devlink_wrapper.c ****  * Return Value : 0 for success -1 on error
+ 396:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 397:../generate/system/r_devlink_wrapper.c **** int_t no_dev_write(st_stream_ptr_t pStream, const uint8_t *pbyBuffer, uint32_t uiCount)
+ 398:../generate/system/r_devlink_wrapper.c **** {
+ 311              		.loc 1 398 1 is_stmt 1 view -0
+ 312              		.cfi_startproc
+ 313              		@ args = 0, pretend = 0, frame = 0
+ 314              		@ frame_needed = 0, uses_anonymous_args = 0
+ 315              		@ link register save eliminated.
+ 399:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 400:../generate/system/r_devlink_wrapper.c ****     (void) pStream;
+ 316              		.loc 1 400 5 view .LVU80
+ 401:../generate/system/r_devlink_wrapper.c **** 
+ 402:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 403:../generate/system/r_devlink_wrapper.c ****     (void) pbyBuffer;
+ 317              		.loc 1 403 5 view .LVU81
+ 404:../generate/system/r_devlink_wrapper.c **** 
+ 405:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 406:../generate/system/r_devlink_wrapper.c ****     (void) uiCount;
+ 318              		.loc 1 406 5 view .LVU82
+ 407:../generate/system/r_devlink_wrapper.c **** 
+ 408:../generate/system/r_devlink_wrapper.c ****     return (DRV_ERROR);
+ 319              		.loc 1 408 5 view .LVU83
+ 409:../generate/system/r_devlink_wrapper.c **** }
+ 320              		.loc 1 409 1 is_stmt 0 view .LVU84
+ 321 0000 0000E0E3 		mvn	r0, #0
+ 322              	.LVL30:
+ 323              		.loc 1 409 1 view .LVU85
+ 324 0004 1EFF2FE1 		bx	lr
+ 325              		.cfi_endproc
+ 326              	.LFE15:
+ 328              		.section	.text.no_dev_control,"ax",%progbits
+ 329              		.align	2
+ 330              		.global	no_dev_control
+ 331              		.syntax unified
+ 332              		.arm
+ 333              		.fpu neon
+ 335              	no_dev_control:
+ 336              	.LVL31:
+ 337              	.LFB16:
+ 410:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 411:../generate/system/r_devlink_wrapper.c ****  End of function  no_dev_write
+ 412:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 413:../generate/system/r_devlink_wrapper.c **** 
+ 414:../generate/system/r_devlink_wrapper.c **** #ifdef UNUSED_CODE_20200521
+ 415:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 416:../generate/system/r_devlink_wrapper.c ****  * Function Name: no_dev_io
+ 417:../generate/system/r_devlink_wrapper.c ****  * Description  : Function read / write stub
+ 418:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  pStream - Pointer to the file stream
+ 419:../generate/system/r_devlink_wrapper.c ****  *                IN  pbyBuffer - Pointer to the destination memory
+ 420:../generate/system/r_devlink_wrapper.c ****  *                IN  uiCount - The number of bytes to read
+ 421:../generate/system/r_devlink_wrapper.c ****  * Return Value : 0 for success -1 on error
+ 422:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 423:../generate/system/r_devlink_wrapper.c **** int_t no_dev_io(st_stream_ptr_t pStream, uint8_t *pbyBuffer, uint32_t uiCount)
+ 424:../generate/system/r_devlink_wrapper.c **** {
+ 425:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 426:../generate/system/r_devlink_wrapper.c ****     (void)pStream;
+ 427:../generate/system/r_devlink_wrapper.c **** 
+ 428:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 429:../generate/system/r_devlink_wrapper.c ****     (void)pbyBuffer;
+ 430:../generate/system/r_devlink_wrapper.c **** 
+ 431:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 432:../generate/system/r_devlink_wrapper.c ****     (void)uiCount;
+ 433:../generate/system/r_devlink_wrapper.c **** 
+ 434:../generate/system/r_devlink_wrapper.c ****     return (DRV_ERROR);
+ 435:../generate/system/r_devlink_wrapper.c **** }
+ 436:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 437:../generate/system/r_devlink_wrapper.c ****  End of function  no_dev_io
+ 438:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 439:../generate/system/r_devlink_wrapper.c **** #endif
+ 440:../generate/system/r_devlink_wrapper.c **** 
+ 441:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 442:../generate/system/r_devlink_wrapper.c ****  * Function Name: no_dev_control
+ 443:../generate/system/r_devlink_wrapper.c ****  * Description  : Function to control stub
+ 444:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  pStream - Pointer to the file stream
+ 445:../generate/system/r_devlink_wrapper.c ****  *                IN  ctlCode - The custom control code
+ 446:../generate/system/r_devlink_wrapper.c ****  *                IN  pCtlStruct - Pointer to the custorm control structure
+ 447:../generate/system/r_devlink_wrapper.c ****  * Return Value : 0 for success -1 on error
+ 448:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 449:../generate/system/r_devlink_wrapper.c **** int_t no_dev_control(st_stream_ptr_t pStream, uint32_t ctlCode, void *pCtlStruct)
+ 450:../generate/system/r_devlink_wrapper.c **** {
+ 338              		.loc 1 450 1 is_stmt 1 view -0
+ 339              		.cfi_startproc
+ 340              		@ args = 0, pretend = 0, frame = 0
+ 341              		@ frame_needed = 0, uses_anonymous_args = 0
+ 342              		@ link register save eliminated.
+ 451:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 452:../generate/system/r_devlink_wrapper.c ****     (void) pStream;
+ 343              		.loc 1 452 5 view .LVU87
+ 453:../generate/system/r_devlink_wrapper.c **** 
+ 454:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 455:../generate/system/r_devlink_wrapper.c ****     (void) ctlCode;
+ 344              		.loc 1 455 5 view .LVU88
+ 456:../generate/system/r_devlink_wrapper.c **** 
+ 457:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 458:../generate/system/r_devlink_wrapper.c ****     (void) pCtlStruct;
+ 345              		.loc 1 458 5 view .LVU89
+ 459:../generate/system/r_devlink_wrapper.c **** 
+ 460:../generate/system/r_devlink_wrapper.c ****     return (DRV_ERROR);
+ 346              		.loc 1 460 5 view .LVU90
+ 461:../generate/system/r_devlink_wrapper.c **** }
+ 347              		.loc 1 461 1 is_stmt 0 view .LVU91
+ 348 0000 0000E0E3 		mvn	r0, #0
+ 349              	.LVL32:
+ 350              		.loc 1 461 1 view .LVU92
+ 351 0004 1EFF2FE1 		bx	lr
+ 352              		.cfi_endproc
+ 353              	.LFE16:
+ 355              		.section	.text.no_dev_get_version,"ax",%progbits
+ 356              		.align	2
+ 357              		.global	no_dev_get_version
+ 358              		.syntax unified
+ 359              		.arm
+ 360              		.fpu neon
+ 362              	no_dev_get_version:
+ 363              	.LVL33:
+ 364              	.LFB17:
+ 462:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 463:../generate/system/r_devlink_wrapper.c ****  End of function  no_dev_control
+ 464:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 465:../generate/system/r_devlink_wrapper.c **** 
+ 466:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 467:../generate/system/r_devlink_wrapper.c ****  * Function Name: no_dev_get_version
+ 468:../generate/system/r_devlink_wrapper.c ****  * Description  : Function to version control stub
+ 469:../generate/system/r_devlink_wrapper.c ****  * Arguments    :
+ 470:../generate/system/r_devlink_wrapper.c ****  *
+ 471:../generate/system/r_devlink_wrapper.c ****  *  IN  pStream - Pointer to the file stream
+ 472:../generate/system/r_devlink_wrapper.c ****  *                IN  st_ver_info_t - The custom control code
+ 473:../generate/system/r_devlink_wrapper.c ****  *                IN  pCtlStruct - Pointer to the custorm control structure
+ 474:../generate/system/r_devlink_wrapper.c ****  *
+ 475:../generate/system/r_devlink_wrapper.c ****  *                st_ver_info_t
+ 476:../generate/system/r_devlink_wrapper.c ****  * Return Value : 0 for success -1 on error
+ 477:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 478:../generate/system/r_devlink_wrapper.c **** int_t no_dev_get_version(st_stream_ptr_t pStream, st_ver_info_ptr_t info_ptr)
+ 479:../generate/system/r_devlink_wrapper.c **** {
+ 365              		.loc 1 479 1 is_stmt 1 view -0
+ 366              		.cfi_startproc
+ 367              		@ args = 0, pretend = 0, frame = 0
+ 368              		@ frame_needed = 0, uses_anonymous_args = 0
+ 369              		@ link register save eliminated.
+ 480:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 481:../generate/system/r_devlink_wrapper.c ****     (void) pStream;
+ 370              		.loc 1 481 5 view .LVU94
+ 482:../generate/system/r_devlink_wrapper.c **** 
+ 483:../generate/system/r_devlink_wrapper.c ****     /* avoid unused parameter warning */
+ 484:../generate/system/r_devlink_wrapper.c ****     (void) info_ptr;
+ 371              		.loc 1 484 5 view .LVU95
+ 485:../generate/system/r_devlink_wrapper.c **** 
+ 486:../generate/system/r_devlink_wrapper.c ****     return DRV_ERROR;
+ 372              		.loc 1 486 5 view .LVU96
+ 487:../generate/system/r_devlink_wrapper.c **** }
+ 373              		.loc 1 487 1 is_stmt 0 view .LVU97
+ 374 0000 0000E0E3 		mvn	r0, #0
+ 375              	.LVL34:
+ 376              		.loc 1 487 1 view .LVU98
+ 377 0004 1EFF2FE1 		bx	lr
+ 378              		.cfi_endproc
+ 379              	.LFE17:
+ 381              		.section	.rodata.get_device_name.str1.4,"aMS",%progbits,1
+ 382              		.align	2
+ 383              	.LC0:
+ 384 0000 5C5C2E5C 		.ascii	"\\\\.\\\000"
+ 384      00
+ 385              		.section	.text.get_device_name,"ax",%progbits
+ 386              		.align	2
+ 387              		.syntax unified
+ 388              		.arm
+ 389              		.fpu neon
+ 391              	get_device_name:
+ 392              	.LVL35:
+ 393              	.LFB9:
+ 243:../generate/system/r_devlink_wrapper.c ****     /* NULL signifies that the driver name is not found */
+ 394              		.loc 1 243 1 is_stmt 1 view -0
+ 395              		.cfi_startproc
+ 396              		@ args = 0, pretend = 0, frame = 0
+ 397              		@ frame_needed = 0, uses_anonymous_args = 0
+ 243:../generate/system/r_devlink_wrapper.c ****     /* NULL signifies that the driver name is not found */
+ 398              		.loc 1 243 1 is_stmt 0 view .LVU100
+ 399 0000 10402DE9 		push	{r4, lr}
+ 400              		.cfi_def_cfa_offset 8
+ 401              		.cfi_offset 4, -8
+ 402              		.cfi_offset 14, -4
+ 403 0004 0040A0E1 		mov	r4, r0
+ 245:../generate/system/r_devlink_wrapper.c **** 
+ 404              		.loc 1 245 5 is_stmt 1 view .LVU101
+ 405              	.LVL36:
+ 247:../generate/system/r_devlink_wrapper.c ****     {
+ 406              		.loc 1 247 5 view .LVU102
+ 247:../generate/system/r_devlink_wrapper.c ****     {
+ 407              		.loc 1 247 9 is_stmt 0 view .LVU103
+ 408 0008 001000E3 		movw	r1, #:lower16:.LC0
+ 409 000c 001040E3 		movt	r1, #:upper16:.LC0
+ 410 0010 FEFFFFEB 		bl	strstr
+ 411              	.LVL37:
+ 247:../generate/system/r_devlink_wrapper.c ****     {
+ 412              		.loc 1 247 8 view .LVU104
+ 413 0014 000054E1 		cmp	r4, r0
+ 414 0018 0100001A 		bne	.L29
+ 250:../generate/system/r_devlink_wrapper.c ****     }
+ 415              		.loc 1 250 9 is_stmt 1 view .LVU105
+ 250:../generate/system/r_devlink_wrapper.c ****     }
+ 416              		.loc 1 250 42 is_stmt 0 view .LVU106
+ 417 001c 040084E2 		add	r0, r4, #4
+ 418              	.LVL38:
+ 250:../generate/system/r_devlink_wrapper.c ****     }
+ 419              		.loc 1 250 42 view .LVU107
+ 420 0020 1080BDE8 		pop	{r4, pc}
+ 421              	.LVL39:
+ 422              	.L29:
+ 245:../generate/system/r_devlink_wrapper.c **** 
+ 423              		.loc 1 245 14 view .LVU108
+ 424 0024 0000A0E3 		mov	r0, #0
+ 253:../generate/system/r_devlink_wrapper.c **** }
+ 425              		.loc 1 253 5 is_stmt 1 view .LVU109
+ 254:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 426              		.loc 1 254 1 is_stmt 0 view .LVU110
+ 427 0028 1080BDE8 		pop	{r4, pc}
+ 428              		.cfi_endproc
+ 429              	.LFE9:
+ 431              		.section	.text.dev_get_pointer,"ax",%progbits
+ 432              		.align	2
+ 433              		.syntax unified
+ 434              		.arm
+ 435              		.fpu neon
+ 437              	dev_get_pointer:
+ 438              	.LVL40:
+ 439              	.LFB8:
+ 210:../generate/system/r_devlink_wrapper.c ****     /* NULL signifies that the driver is not loaded */
+ 440              		.loc 1 210 1 is_stmt 1 view -0
+ 441              		.cfi_startproc
+ 442              		@ args = 0, pretend = 0, frame = 0
+ 443              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210:../generate/system/r_devlink_wrapper.c ****     /* NULL signifies that the driver is not loaded */
+ 444              		.loc 1 210 1 is_stmt 0 view .LVU112
+ 445 0000 F0412DE9 		push	{r4, r5, r6, r7, r8, lr}
+ 446              		.cfi_def_cfa_offset 24
+ 447              		.cfi_offset 4, -24
+ 448              		.cfi_offset 5, -20
+ 449              		.cfi_offset 6, -16
+ 450              		.cfi_offset 7, -12
+ 451              		.cfi_offset 8, -8
+ 452              		.cfi_offset 14, -4
+ 453 0004 0060A0E1 		mov	r6, r0
+ 454 0008 0180A0E1 		mov	r8, r1
+ 455 000c 0270A0E1 		mov	r7, r2
+ 212:../generate/system/r_devlink_wrapper.c ****     int_t device = (sizeof(gs_mount_table)) / sizeof(struct _mount_table_t);
+ 456              		.loc 1 212 5 is_stmt 1 view .LVU113
+ 457              	.LVL41:
+ 213:../generate/system/r_devlink_wrapper.c **** 
+ 458              		.loc 1 213 5 view .LVU114
+ 216:../generate/system/r_devlink_wrapper.c ****     {
+ 459              		.loc 1 216 5 view .LVU115
+ 213:../generate/system/r_devlink_wrapper.c **** 
+ 460              		.loc 1 213 11 is_stmt 0 view .LVU116
+ 461 0010 0C40A0E3 		mov	r4, #12
+ 462              	.LVL42:
+ 463              	.L32:
+ 216:../generate/system/r_devlink_wrapper.c ****     {
+ 464              		.loc 1 216 11 is_stmt 1 view .LVU117
+ 216:../generate/system/r_devlink_wrapper.c ****     {
+ 465              		.loc 1 216 11 is_stmt 0 view .LVU118
+ 466 0014 000054E3 		cmp	r4, #0
+ 467 0018 014044E2 		sub	r4, r4, #1
+ 468              	.LVL43:
+ 216:../generate/system/r_devlink_wrapper.c ****     {
+ 469              		.loc 1 216 11 view .LVU119
+ 470 001c 1400000A 		beq	.L36
+ 218:../generate/system/r_devlink_wrapper.c ****         {
+ 471              		.loc 1 218 9 is_stmt 1 view .LVU120
+ 218:../generate/system/r_devlink_wrapper.c ****         {
+ 472              		.loc 1 218 13 is_stmt 0 view .LVU121
+ 473 0020 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 474 0024 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 475 0028 842084E0 		add	r2, r4, r4, lsl #1
+ 476 002c 025193E7 		ldr	r5, [r3, r2, lsl #2]
+ 477 0030 0510A0E1 		mov	r1, r5
+ 478 0034 0600A0E1 		mov	r0, r6
+ 479 0038 FEFFFFEB 		bl	strcmp
+ 480              	.LVL44:
+ 218:../generate/system/r_devlink_wrapper.c ****         {
+ 481              		.loc 1 218 12 view .LVU122
+ 482 003c 000050E3 		cmp	r0, #0
+ 483 0040 F3FFFF1A 		bne	.L32
+ 221:../generate/system/r_devlink_wrapper.c ****             *sc_index_ptr = gs_mount_table[device].sc_config_index;
+ 484              		.loc 1 221 13 is_stmt 1 view .LVU123
+ 221:../generate/system/r_devlink_wrapper.c ****             *sc_index_ptr = gs_mount_table[device].sc_config_index;
+ 485              		.loc 1 221 28 is_stmt 0 view .LVU124
+ 486 0044 005088E5 		str	r5, [r8]
+ 222:../generate/system/r_devlink_wrapper.c **** 
+ 487              		.loc 1 222 13 is_stmt 1 view .LVU125
+ 222:../generate/system/r_devlink_wrapper.c **** 
+ 488              		.loc 1 222 51 is_stmt 0 view .LVU126
+ 489 0048 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 490 004c 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 491 0050 8420A0E1 		lsl	r2, r4, #1
+ 492 0054 041082E0 		add	r1, r2, r4
+ 493 0058 011183E0 		add	r1, r3, r1, lsl #2
+ 494 005c 081091E5 		ldr	r1, [r1, #8]
+ 222:../generate/system/r_devlink_wrapper.c **** 
+ 495              		.loc 1 222 27 view .LVU127
+ 496 0060 001087E5 		str	r1, [r7]
+ 225:../generate/system/r_devlink_wrapper.c ****         }
+ 497              		.loc 1 225 13 is_stmt 1 view .LVU128
+ 225:../generate/system/r_devlink_wrapper.c ****         }
+ 498              		.loc 1 225 20 is_stmt 0 view .LVU129
+ 499 0064 044082E0 		add	r4, r2, r4
+ 500              	.LVL45:
+ 225:../generate/system/r_devlink_wrapper.c ****         }
+ 501              		.loc 1 225 20 view .LVU130
+ 502 0068 043183E0 		add	r3, r3, r4, lsl #2
+ 503 006c 040093E5 		ldr	r0, [r3, #4]
+ 504 0070 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 505              	.LVL46:
+ 506              	.L36:
+ 230:../generate/system/r_devlink_wrapper.c **** }
+ 507              		.loc 1 230 12 view .LVU131
+ 508 0074 0000A0E3 		mov	r0, #0
+ 231:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 509              		.loc 1 231 1 view .LVU132
+ 510 0078 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 511              		.cfi_endproc
+ 512              	.LFE8:
+ 514              		.section	.rodata.direct_open.str1.4,"aMS",%progbits,1
+ 515              		.align	2
+ 516              	.LC1:
+ 517 0000 25732573 		.ascii	"%s%s\000"
+ 517      00
+ 518              		.section	.text.direct_open,"ax",%progbits
+ 519              		.align	2
+ 520              		.global	direct_open
+ 521              		.syntax unified
+ 522              		.arm
+ 523              		.fpu neon
+ 525              	direct_open:
+ 526              	.LVL47:
+ 527              	.LFB18:
+ 488:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 489:../generate/system/r_devlink_wrapper.c ****  End of function no_dev_get_version
+ 490:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 491:../generate/system/r_devlink_wrapper.c **** 
+ 492:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 493:../generate/system/r_devlink_wrapper.c ****  * Function Name: direct_open
+ 494:../generate/system/r_devlink_wrapper.c ****  * Description  : devlink direct API open driver function, opens the named driver assuming the name
+ 495:../generate/system/r_devlink_wrapper.c ****  *                and a handle is free.
+ 496:../generate/system/r_devlink_wrapper.c ****  *                direct functions do not use R_OS_Abstraction interface as they may be called befo
+ 497:../generate/system/r_devlink_wrapper.c ****  *                memory manager is initialised.
+ 498:../generate/system/r_devlink_wrapper.c ****  * Arguments    : [IN] p_driver_name - Pointer to the file name (NULL terminated)
+ 499:../generate/system/r_devlink_wrapper.c ****  *                [IN] file_flag - the file access mode parameter
+ 500:../generate/system/r_devlink_wrapper.c ****  * Return Value : 0 for success -1 on error
+ 501:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 502:../generate/system/r_devlink_wrapper.c **** int_t direct_open(char *p_driver_name, int_t file_flag)
+ 503:../generate/system/r_devlink_wrapper.c **** {
+ 528              		.loc 1 503 1 is_stmt 1 view -0
+ 529              		.cfi_startproc
+ 530              		@ args = 0, pretend = 0, frame = 40
+ 531              		@ frame_needed = 0, uses_anonymous_args = 0
+ 532              		.loc 1 503 1 is_stmt 0 view .LVU134
+ 533 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 534              		.cfi_def_cfa_offset 16
+ 535              		.cfi_offset 4, -16
+ 536              		.cfi_offset 5, -12
+ 537              		.cfi_offset 6, -8
+ 538              		.cfi_offset 14, -4
+ 539 0004 28D04DE2 		sub	sp, sp, #40
+ 540              		.cfi_def_cfa_offset 56
+ 541 0008 0060A0E1 		mov	r6, r0
+ 542 000c 0150A0E1 		mov	r5, r1
+ 504:../generate/system/r_devlink_wrapper.c ****     int_t handle = DRV_ERROR;
+ 543              		.loc 1 504 5 is_stmt 1 view .LVU135
+ 544              	.LVL48:
+ 505:../generate/system/r_devlink_wrapper.c ****     int_t local_handle;
+ 545              		.loc 1 505 5 view .LVU136
+ 506:../generate/system/r_devlink_wrapper.c ****     int_t open_result = DRV_ERROR;
+ 546              		.loc 1 506 5 view .LVU137
+ 507:../generate/system/r_devlink_wrapper.c **** 
+ 508:../generate/system/r_devlink_wrapper.c ****     /* Get the next free handle between  values of FIRST_DIRECT_FILE and IOSTREAM, or DRV_ERROR */
+ 509:../generate/system/r_devlink_wrapper.c ****     local_handle = get_first_free_direct_handle (p_driver_name);
+ 547              		.loc 1 509 5 view .LVU138
+ 548              		.loc 1 509 20 is_stmt 0 view .LVU139
+ 549 0010 FEFFFFEB 		bl	get_first_free_direct_handle
+ 550              	.LVL49:
+ 551              		.loc 1 509 20 view .LVU140
+ 552 0014 0040A0E1 		mov	r4, r0
+ 553              	.LVL50:
+ 510:../generate/system/r_devlink_wrapper.c **** 
+ 511:../generate/system/r_devlink_wrapper.c ****     if (DRV_ERROR != local_handle)
+ 554              		.loc 1 511 5 is_stmt 1 view .LVU141
+ 555              		.loc 1 511 8 is_stmt 0 view .LVU142
+ 556 0018 010070E3 		cmn	r0, #1
+ 557 001c 5400000A 		beq	.L37
+ 558              	.LBB2:
+ 512:../generate/system/r_devlink_wrapper.c ****     {
+ 513:../generate/system/r_devlink_wrapper.c ****         char_t link_name[32];
+ 559              		.loc 1 513 9 is_stmt 1 view .LVU143
+ 514:../generate/system/r_devlink_wrapper.c **** 
+ 515:../generate/system/r_devlink_wrapper.c ****         /* pre-fix the driver ID onto the device_name allowing direct and stdio calls to share code
+ 516:../generate/system/r_devlink_wrapper.c ****         sprintf (link_name, "%s%s", DEVICE_INDENTIFIER, p_driver_name);
+ 560              		.loc 1 516 9 view .LVU144
+ 561 0020 0630A0E1 		mov	r3, r6
+ 562 0024 002000E3 		movw	r2, #:lower16:.LC0
+ 563 0028 002040E3 		movt	r2, #:upper16:.LC0
+ 564 002c 001000E3 		movw	r1, #:lower16:.LC1
+ 565 0030 001040E3 		movt	r1, #:upper16:.LC1
+ 566 0034 08008DE2 		add	r0, sp, #8
+ 567              	.LVL51:
+ 568              		.loc 1 516 9 is_stmt 0 view .LVU145
+ 569 0038 FEFFFFEB 		bl	sprintf
+ 570              	.LVL52:
+ 517:../generate/system/r_devlink_wrapper.c **** 
+ 518:../generate/system/r_devlink_wrapper.c ****         char_t * p_link_name = get_device_name (link_name);
+ 571              		.loc 1 518 9 is_stmt 1 view .LVU146
+ 572              		.loc 1 518 32 is_stmt 0 view .LVU147
+ 573 003c 08008DE2 		add	r0, sp, #8
+ 574 0040 FEFFFFEB 		bl	get_device_name
+ 575              	.LVL53:
+ 519:../generate/system/r_devlink_wrapper.c **** 
+ 520:../generate/system/r_devlink_wrapper.c ****         /* check to see if this is a driver NULL signifies driver name not found */
+ 521:../generate/system/r_devlink_wrapper.c ****         if (p_link_name)
+ 576              		.loc 1 521 9 is_stmt 1 view .LVU148
+ 577              		.loc 1 521 12 is_stmt 0 view .LVU149
+ 578 0044 000050E3 		cmp	r0, #0
+ 579              		.loc 1 521 12 view .LVU150
+ 580 0048 4800000A 		beq	.L47
+ 581              	.LBB3:
+ 522:../generate/system/r_devlink_wrapper.c ****         {
+ 523:../generate/system/r_devlink_wrapper.c ****             char_t * p_stream_name;
+ 582              		.loc 1 523 13 is_stmt 1 view .LVU151
+ 524:../generate/system/r_devlink_wrapper.c ****             uint32_t sc_index;
+ 583              		.loc 1 524 13 view .LVU152
+ 525:../generate/system/r_devlink_wrapper.c **** 
+ 526:../generate/system/r_devlink_wrapper.c ****             st_r_driver_t * p_device_driver = dev_get_pointer (p_link_name, &p_stream_name, &sc_ind
+ 584              		.loc 1 526 13 view .LVU153
+ 585              		.loc 1 526 47 is_stmt 0 view .LVU154
+ 586 004c 04208DE2 		add	r2, sp, #4
+ 587 0050 0D10A0E1 		mov	r1, sp
+ 588 0054 FEFFFFEB 		bl	dev_get_pointer
+ 589              	.LVL54:
+ 527:../generate/system/r_devlink_wrapper.c **** 
+ 528:../generate/system/r_devlink_wrapper.c ****             gs_filestream[local_handle].p_device_driver = &gs_no_driver;
+ 590              		.loc 1 528 13 is_stmt 1 view .LVU155
+ 591              		.loc 1 528 57 is_stmt 0 view .LVU156
+ 592 0058 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 593 005c 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 594 0060 002000E3 		movw	r2, #:lower16:.LANCHOR2
+ 595 0064 002040E3 		movt	r2, #:upper16:.LANCHOR2
+ 596 0068 842283E7 		str	r2, [r3, r4, lsl #5]
+ 529:../generate/system/r_devlink_wrapper.c **** 
+ 530:../generate/system/r_devlink_wrapper.c ****             if (p_device_driver)
+ 597              		.loc 1 530 13 is_stmt 1 view .LVU157
+ 598              		.loc 1 530 16 is_stmt 0 view .LVU158
+ 599 006c 000050E3 		cmp	r0, #0
+ 600              		.loc 1 530 16 view .LVU159
+ 601 0070 0700000A 		beq	.L40
+ 531:../generate/system/r_devlink_wrapper.c ****             {
+ 532:../generate/system/r_devlink_wrapper.c ****                 gs_filestream[local_handle].p_stream_name = p_stream_name;
+ 602              		.loc 1 532 17 is_stmt 1 view .LVU160
+ 603              		.loc 1 532 59 is_stmt 0 view .LVU161
+ 604 0074 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 605 0078 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 606 007c 842283E0 		add	r2, r3, r4, lsl #5
+ 607 0080 00109DE5 		ldr	r1, [sp]
+ 608 0084 081082E5 		str	r1, [r2, #8]
+ 533:../generate/system/r_devlink_wrapper.c ****                 gs_filestream[local_handle].p_device_driver = p_device_driver;
+ 609              		.loc 1 533 17 is_stmt 1 view .LVU162
+ 610              		.loc 1 533 61 is_stmt 0 view .LVU163
+ 611 0088 840283E7 		str	r0, [r3, r4, lsl #5]
+ 534:../generate/system/r_devlink_wrapper.c ****                 gs_filestream[local_handle].sc_config_index = sc_index;
+ 612              		.loc 1 534 17 is_stmt 1 view .LVU164
+ 613              		.loc 1 534 61 is_stmt 0 view .LVU165
+ 614 008c 04309DE5 		ldr	r3, [sp, #4]
+ 615 0090 1C30C2E5 		strb	r3, [r2, #28]
+ 616              	.L40:
+ 535:../generate/system/r_devlink_wrapper.c ****             }
+ 536:../generate/system/r_devlink_wrapper.c ****             else
+ 537:../generate/system/r_devlink_wrapper.c ****             {
+ 538:../generate/system/r_devlink_wrapper.c ****                 open_result = DRV_ERROR;
+ 539:../generate/system/r_devlink_wrapper.c ****                 handle = DRV_ERROR;
+ 540:../generate/system/r_devlink_wrapper.c ****             }
+ 541:../generate/system/r_devlink_wrapper.c **** 
+ 542:../generate/system/r_devlink_wrapper.c ****             /* If we found a device or a file then open it */
+ 543:../generate/system/r_devlink_wrapper.c ****             if ((gs_filestream[local_handle].p_device_driver)
+ 617              		.loc 1 543 13 is_stmt 1 view .LVU166
+ 618              		.loc 1 543 45 is_stmt 0 view .LVU167
+ 619 0094 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 620 0098 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 621 009c 842293E7 		ldr	r2, [r3, r4, lsl #5]
+ 622              		.loc 1 543 16 view .LVU168
+ 623 00a0 000052E3 		cmp	r2, #0
+ 624 00a4 1B00000A 		beq	.L41
+ 544:../generate/system/r_devlink_wrapper.c ****                     && ((&gs_no_driver) != gs_filestream[local_handle].p_device_driver))
+ 625              		.loc 1 544 21 view .LVU169
+ 626 00a8 003000E3 		movw	r3, #:lower16:.LANCHOR2
+ 627 00ac 003040E3 		movt	r3, #:upper16:.LANCHOR2
+ 628 00b0 030052E1 		cmp	r2, r3
+ 629 00b4 1700000A 		beq	.L41
+ 630              	.LBB4:
+ 545:../generate/system/r_devlink_wrapper.c ****             {
+ 546:../generate/system/r_devlink_wrapper.c ****                 st_stream_ptr_t pstream = &gs_filestream[local_handle];
+ 631              		.loc 1 546 17 is_stmt 1 view .LVU170
+ 632              		.loc 1 546 33 is_stmt 0 view .LVU171
+ 633 00b8 000000E3 		movw	r0, #:lower16:.LANCHOR0
+ 634              	.LVL55:
+ 635              		.loc 1 546 33 view .LVU172
+ 636 00bc 000040E3 		movt	r0, #:upper16:.LANCHOR0
+ 637 00c0 840280E0 		add	r0, r0, r4, lsl #5
+ 638              	.LVL56:
+ 547:../generate/system/r_devlink_wrapper.c **** 
+ 548:../generate/system/r_devlink_wrapper.c ****                 pstream->file_number = local_handle;
+ 639              		.loc 1 548 17 is_stmt 1 view .LVU173
+ 640              		.loc 1 548 38 is_stmt 0 view .LVU174
+ 641 00c4 104080E5 		str	r4, [r0, #16]
+ 549:../generate/system/r_devlink_wrapper.c **** 
+ 550:../generate/system/r_devlink_wrapper.c ****                 /* check for read and write */
+ 551:../generate/system/r_devlink_wrapper.c ****                 if ((file_flag & O_RDWR) > 0)
+ 642              		.loc 1 551 17 is_stmt 1 view .LVU175
+ 643              		.loc 1 551 20 is_stmt 0 view .LVU176
+ 644 00c8 020015E3 		tst	r5, #2
+ 645 00cc 1900000A 		beq	.L42
+ 552:../generate/system/r_devlink_wrapper.c ****                 {
+ 553:../generate/system/r_devlink_wrapper.c ****                     pstream->file_mode = (__SRD | __SWR);
+ 646              		.loc 1 553 21 is_stmt 1 view .LVU177
+ 647              		.loc 1 553 40 is_stmt 0 view .LVU178
+ 648 00d0 0C10A0E3 		mov	r1, #12
+ 649 00d4 141080E5 		str	r1, [r0, #20]
+ 650              	.L43:
+ 554:../generate/system/r_devlink_wrapper.c ****                 }
+ 555:../generate/system/r_devlink_wrapper.c **** 
+ 556:../generate/system/r_devlink_wrapper.c ****                 /* check for write only */
+ 557:../generate/system/r_devlink_wrapper.c ****                 else if ((file_flag & O_WRONLY) > 0)
+ 558:../generate/system/r_devlink_wrapper.c ****                 {
+ 559:../generate/system/r_devlink_wrapper.c ****                     pstream->file_mode = __SWR;
+ 560:../generate/system/r_devlink_wrapper.c ****                 }
+ 561:../generate/system/r_devlink_wrapper.c ****                 else
+ 562:../generate/system/r_devlink_wrapper.c ****                 {
+ 563:../generate/system/r_devlink_wrapper.c ****                     /* If a open is requested with unrecognised flags such as 'rb', grant read only
+ 564:../generate/system/r_devlink_wrapper.c ****                     /* to allow a level of functionality */
+ 565:../generate/system/r_devlink_wrapper.c ****                     pstream->file_mode = __SRD;
+ 566:../generate/system/r_devlink_wrapper.c ****                 }
+ 567:../generate/system/r_devlink_wrapper.c **** 
+ 568:../generate/system/r_devlink_wrapper.c ****                 /* check for create & add write */
+ 569:../generate/system/r_devlink_wrapper.c ****                 if ((file_flag & O_CREAT) > 0)
+ 651              		.loc 1 569 17 is_stmt 1 view .LVU179
+ 652              		.loc 1 569 20 is_stmt 0 view .LVU180
+ 653 00d8 020C15E3 		tst	r5, #512
+ 654 00dc 0500000A 		beq	.L45
+ 570:../generate/system/r_devlink_wrapper.c ****                 {
+ 571:../generate/system/r_devlink_wrapper.c ****                     pstream->file_mode |= __SWR;
+ 655              		.loc 1 571 21 is_stmt 1 view .LVU181
+ 656              		.loc 1 571 40 is_stmt 0 view .LVU182
+ 657 00e0 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 658 00e4 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 659 00e8 843283E0 		add	r3, r3, r4, lsl #5
+ 660 00ec 141093E5 		ldr	r1, [r3, #20]
+ 661 00f0 081081E3 		orr	r1, r1, #8
+ 662 00f4 141083E5 		str	r1, [r3, #20]
+ 663              	.L45:
+ 572:../generate/system/r_devlink_wrapper.c ****                 }
+ 573:../generate/system/r_devlink_wrapper.c **** 
+ 574:../generate/system/r_devlink_wrapper.c ****                 pstream->file_flag = file_flag;
+ 664              		.loc 1 574 17 is_stmt 1 view .LVU183
+ 665              		.loc 1 574 36 is_stmt 0 view .LVU184
+ 666 00f8 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 667 00fc 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 668 0100 843283E0 		add	r3, r3, r4, lsl #5
+ 669 0104 185083E5 		str	r5, [r3, #24]
+ 575:../generate/system/r_devlink_wrapper.c **** 
+ 576:../generate/system/r_devlink_wrapper.c ****                 open_result = pstream->p_device_driver->open (pstream);
+ 670              		.loc 1 576 17 is_stmt 1 view .LVU185
+ 671              		.loc 1 576 55 is_stmt 0 view .LVU186
+ 672 0108 043092E5 		ldr	r3, [r2, #4]
+ 673              		.loc 1 576 31 view .LVU187
+ 674 010c 33FF2FE1 		blx	r3
+ 675              	.LVL57:
+ 676              		.loc 1 576 31 view .LVU188
+ 677              	.LBE4:
+ 577:../generate/system/r_devlink_wrapper.c ****             }
+ 578:../generate/system/r_devlink_wrapper.c **** 
+ 579:../generate/system/r_devlink_wrapper.c ****             if (DRV_ERROR == open_result)
+ 678              		.loc 1 579 13 is_stmt 1 view .LVU189
+ 679              		.loc 1 579 16 is_stmt 0 view .LVU190
+ 680 0110 010070E3 		cmn	r0, #1
+ 681 0114 1600001A 		bne	.L37
+ 682              	.LVL58:
+ 683              	.L41:
+ 580:../generate/system/r_devlink_wrapper.c ****             {
+ 581:../generate/system/r_devlink_wrapper.c ****                 /* Device failed to open */
+ 582:../generate/system/r_devlink_wrapper.c ****                 memset (&gs_filestream[local_handle], 0x00, sizeof(st_stream_t));
+ 684              		.loc 1 582 17 is_stmt 1 view .LVU191
+ 685              		.loc 1 582 25 is_stmt 0 view .LVU192
+ 686 0118 000000E3 		movw	r0, #:lower16:.LANCHOR0
+ 687 011c 000040E3 		movt	r0, #:upper16:.LANCHOR0
+ 688              		.loc 1 582 17 view .LVU193
+ 689 0120 2020A0E3 		mov	r2, #32
+ 690 0124 0010A0E3 		mov	r1, #0
+ 691 0128 840280E0 		add	r0, r0, r4, lsl #5
+ 692 012c FEFFFFEB 		bl	memset
+ 693              	.LVL59:
+ 583:../generate/system/r_devlink_wrapper.c **** 
+ 584:../generate/system/r_devlink_wrapper.c ****                 /* NULL signifies that the driver is not loaded */
+ 585:../generate/system/r_devlink_wrapper.c ****                 gs_filestream[local_handle].p_device_driver = NULL;
+ 694              		.loc 1 585 17 is_stmt 1 view .LVU194
+ 695 0130 0040E0E3 		mvn	r4, #0
+ 696              	.LVL60:
+ 697              		.loc 1 585 17 is_stmt 0 view .LVU195
+ 698 0134 0E0000EA 		b	.L37
+ 699              	.LVL61:
+ 700              	.L42:
+ 701              	.LBB5:
+ 557:../generate/system/r_devlink_wrapper.c ****                 {
+ 702              		.loc 1 557 22 is_stmt 1 view .LVU196
+ 557:../generate/system/r_devlink_wrapper.c ****                 {
+ 703              		.loc 1 557 25 is_stmt 0 view .LVU197
+ 704 0138 010015E3 		tst	r5, #1
+ 705 013c 0500000A 		beq	.L44
+ 559:../generate/system/r_devlink_wrapper.c ****                 }
+ 706              		.loc 1 559 21 is_stmt 1 view .LVU198
+ 559:../generate/system/r_devlink_wrapper.c ****                 }
+ 707              		.loc 1 559 40 is_stmt 0 view .LVU199
+ 708 0140 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 709 0144 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 710 0148 843283E0 		add	r3, r3, r4, lsl #5
+ 711 014c 0810A0E3 		mov	r1, #8
+ 712 0150 141083E5 		str	r1, [r3, #20]
+ 713 0154 DFFFFFEA 		b	.L43
+ 714              	.L44:
+ 565:../generate/system/r_devlink_wrapper.c ****                 }
+ 715              		.loc 1 565 21 is_stmt 1 view .LVU200
+ 565:../generate/system/r_devlink_wrapper.c ****                 }
+ 716              		.loc 1 565 40 is_stmt 0 view .LVU201
+ 717 0158 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 718 015c 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 719 0160 843283E0 		add	r3, r3, r4, lsl #5
+ 720 0164 0410A0E3 		mov	r1, #4
+ 721 0168 141083E5 		str	r1, [r3, #20]
+ 722 016c D9FFFFEA 		b	.L43
+ 723              	.LVL62:
+ 724              	.L47:
+ 565:../generate/system/r_devlink_wrapper.c ****                 }
+ 725              		.loc 1 565 40 view .LVU202
+ 726              	.LBE5:
+ 727              	.LBE3:
+ 728              	.LBE2:
+ 504:../generate/system/r_devlink_wrapper.c ****     int_t local_handle;
+ 729              		.loc 1 504 11 view .LVU203
+ 730 0170 0040E0E3 		mvn	r4, #0
+ 731              	.LVL63:
+ 586:../generate/system/r_devlink_wrapper.c ****             }
+ 587:../generate/system/r_devlink_wrapper.c ****             else
+ 588:../generate/system/r_devlink_wrapper.c ****             {
+ 589:../generate/system/r_devlink_wrapper.c ****                 /* Device opened successfully assign the handle */
+ 590:../generate/system/r_devlink_wrapper.c ****                 handle = local_handle;
+ 591:../generate/system/r_devlink_wrapper.c ****             }
+ 592:../generate/system/r_devlink_wrapper.c ****         }
+ 593:../generate/system/r_devlink_wrapper.c ****     }
+ 594:../generate/system/r_devlink_wrapper.c **** 
+ 595:../generate/system/r_devlink_wrapper.c ****     return (handle);
+ 732              		.loc 1 595 5 is_stmt 1 view .LVU204
+ 733              	.L37:
+ 596:../generate/system/r_devlink_wrapper.c **** }
+ 734              		.loc 1 596 1 is_stmt 0 view .LVU205
+ 735 0174 0400A0E1 		mov	r0, r4
+ 736 0178 28D08DE2 		add	sp, sp, #40
+ 737              		.cfi_def_cfa_offset 16
+ 738              		@ sp needed
+ 739 017c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 740              		.loc 1 596 1 view .LVU206
+ 741              		.cfi_endproc
+ 742              	.LFE18:
+ 744              		.section	.text.direct_close,"ax",%progbits
+ 745              		.align	2
+ 746              		.global	direct_close
+ 747              		.syntax unified
+ 748              		.arm
+ 749              		.fpu neon
+ 751              	direct_close:
+ 752              	.LVL64:
+ 753              	.LFB19:
+ 597:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 598:../generate/system/r_devlink_wrapper.c ****  End of function direct_open
+ 599:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 600:../generate/system/r_devlink_wrapper.c **** 
+ 601:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 602:../generate/system/r_devlink_wrapper.c ****  * Function Name: direct_close
+ 603:../generate/system/r_devlink_wrapper.c ****  * Description  : devlink direct api close driver function, closes the driver and frees any resourc
+ 604:../generate/system/r_devlink_wrapper.c ****  * Arguments    : [IN] handle - The index to the driver to close taken from the gs_filestream
+ 605:../generate/system/r_devlink_wrapper.c ****  * Return Value : 0 for success, DRV_ERROR on error
+ 606:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 607:../generate/system/r_devlink_wrapper.c **** int_t direct_close(int_t handle)
+ 608:../generate/system/r_devlink_wrapper.c **** {
+ 754              		.loc 1 608 1 is_stmt 1 view -0
+ 755              		.cfi_startproc
+ 756              		@ args = 0, pretend = 0, frame = 0
+ 757              		@ frame_needed = 0, uses_anonymous_args = 0
+ 758              		.loc 1 608 1 is_stmt 0 view .LVU208
+ 759 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 760              		.cfi_def_cfa_offset 16
+ 761              		.cfi_offset 4, -16
+ 762              		.cfi_offset 5, -12
+ 763              		.cfi_offset 6, -8
+ 764              		.cfi_offset 14, -4
+ 765 0004 0050A0E1 		mov	r5, r0
+ 609:../generate/system/r_devlink_wrapper.c ****     int_t res;
+ 766              		.loc 1 609 5 is_stmt 1 view .LVU209
+ 610:../generate/system/r_devlink_wrapper.c **** 
+ 611:../generate/system/r_devlink_wrapper.c ****     res = check_valid_handle (handle);
+ 767              		.loc 1 611 5 view .LVU210
+ 768              		.loc 1 611 11 is_stmt 0 view .LVU211
+ 769 0008 FEFFFFEB 		bl	check_valid_handle
+ 770              	.LVL65:
+ 771              		.loc 1 611 11 view .LVU212
+ 772 000c 0040A0E1 		mov	r4, r0
+ 773              	.LVL66:
+ 612:../generate/system/r_devlink_wrapper.c **** 
+ 613:../generate/system/r_devlink_wrapper.c ****     if (DRV_ERROR != res)
+ 774              		.loc 1 613 5 is_stmt 1 view .LVU213
+ 775              		.loc 1 613 8 is_stmt 0 view .LVU214
+ 776 0010 010070E3 		cmn	r0, #1
+ 777 0014 0A00000A 		beq	.L49
+ 778              	.LBB6:
+ 614:../generate/system/r_devlink_wrapper.c ****     {
+ 615:../generate/system/r_devlink_wrapper.c ****         st_stream_ptr_t pstream = get_device_stream_from_handle (handle);
+ 779              		.loc 1 615 9 is_stmt 1 view .LVU215
+ 780              		.loc 1 615 35 is_stmt 0 view .LVU216
+ 781 0018 0500A0E1 		mov	r0, r5
+ 782              	.LVL67:
+ 783              		.loc 1 615 35 view .LVU217
+ 784 001c FEFFFFEB 		bl	get_device_stream_from_handle
+ 785              	.LVL68:
+ 616:../generate/system/r_devlink_wrapper.c **** 
+ 617:../generate/system/r_devlink_wrapper.c ****         /* driver has closed successfully, release the resource in the devlink (st_stream_t) table 
+ 618:../generate/system/r_devlink_wrapper.c ****         gs_filestream[handle].p_device_driver->close (pstream);
+ 786              		.loc 1 618 9 is_stmt 1 view .LVU218
+ 787              		.loc 1 618 30 is_stmt 0 view .LVU219
+ 788 0020 006000E3 		movw	r6, #:lower16:.LANCHOR0
+ 789 0024 006040E3 		movt	r6, #:upper16:.LANCHOR0
+ 790 0028 853296E7 		ldr	r3, [r6, r5, lsl #5]
+ 791              		.loc 1 618 46 view .LVU220
+ 792 002c 083093E5 		ldr	r3, [r3, #8]
+ 793              		.loc 1 618 9 view .LVU221
+ 794 0030 33FF2FE1 		blx	r3
+ 795              	.LVL69:
+ 619:../generate/system/r_devlink_wrapper.c ****         memset (&gs_filestream[handle], 0x00, sizeof(st_stream_t));
+ 796              		.loc 1 619 9 is_stmt 1 view .LVU222
+ 797 0034 2020A0E3 		mov	r2, #32
+ 798 0038 0010A0E3 		mov	r1, #0
+ 799 003c 850286E0 		add	r0, r6, r5, lsl #5
+ 800 0040 FEFFFFEB 		bl	memset
+ 801              	.LVL70:
+ 620:../generate/system/r_devlink_wrapper.c **** 
+ 621:../generate/system/r_devlink_wrapper.c ****         /* Table entry set to NULL to signify no driver loaded */
+ 622:../generate/system/r_devlink_wrapper.c ****         gs_filestream[handle].p_device_driver = NULL;
+ 802              		.loc 1 622 9 view .LVU223
+ 803              	.LBE6:
+ 623:../generate/system/r_devlink_wrapper.c ****     }
+ 624:../generate/system/r_devlink_wrapper.c ****     return (res);
+ 804              		.loc 1 624 5 view .LVU224
+ 805              	.L49:
+ 625:../generate/system/r_devlink_wrapper.c **** }
+ 806              		.loc 1 625 1 is_stmt 0 view .LVU225
+ 807 0044 0400A0E1 		mov	r0, r4
+ 808 0048 7080BDE8 		pop	{r4, r5, r6, pc}
+ 809              		.cfi_endproc
+ 810              	.LFE19:
+ 812              		.section	.text.direct_read,"ax",%progbits
+ 813              		.align	2
+ 814              		.global	direct_read
+ 815              		.syntax unified
+ 816              		.arm
+ 817              		.fpu neon
+ 819              	direct_read:
+ 820              	.LVL71:
+ 821              	.LFB20:
+ 626:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 627:../generate/system/r_devlink_wrapper.c ****  End of function direct_close
+ 628:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 629:../generate/system/r_devlink_wrapper.c **** 
+ 630:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 631:../generate/system/r_devlink_wrapper.c ****  * Function Name: direct_read
+ 632:../generate/system/r_devlink_wrapper.c ****  * Description  : devlink direct api read data driver function, reads from the driver
+ 633:../generate/system/r_devlink_wrapper.c ****  * Arguments    : [IN]  handle - The file index
+ 634:../generate/system/r_devlink_wrapper.c ****  *                [IN]  count - The number of characters to read
+ 635:../generate/system/r_devlink_wrapper.c ****  *                [OUT] buff_ptr - The pointer to the buffer
+ 636:../generate/system/r_devlink_wrapper.c ****  * Return Value : Number of characters read, -1 on error
+ 637:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 638:../generate/system/r_devlink_wrapper.c **** int_t direct_read(int handle, uint8_t *buff_ptr, uint32_t count)
+ 639:../generate/system/r_devlink_wrapper.c **** {
+ 822              		.loc 1 639 1 is_stmt 1 view -0
+ 823              		.cfi_startproc
+ 824              		@ args = 0, pretend = 0, frame = 0
+ 825              		@ frame_needed = 0, uses_anonymous_args = 0
+ 826              		.loc 1 639 1 is_stmt 0 view .LVU227
+ 827 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 828              		.cfi_def_cfa_offset 16
+ 829              		.cfi_offset 4, -16
+ 830              		.cfi_offset 5, -12
+ 831              		.cfi_offset 6, -8
+ 832              		.cfi_offset 14, -4
+ 833 0004 0040A0E1 		mov	r4, r0
+ 834 0008 0150A0E1 		mov	r5, r1
+ 835 000c 0260A0E1 		mov	r6, r2
+ 640:../generate/system/r_devlink_wrapper.c ****     int_t res;
+ 836              		.loc 1 640 5 is_stmt 1 view .LVU228
+ 641:../generate/system/r_devlink_wrapper.c **** 
+ 642:../generate/system/r_devlink_wrapper.c ****     res = check_valid_handle (handle);
+ 837              		.loc 1 642 5 view .LVU229
+ 838              		.loc 1 642 11 is_stmt 0 view .LVU230
+ 839 0010 FEFFFFEB 		bl	check_valid_handle
+ 840              	.LVL72:
+ 643:../generate/system/r_devlink_wrapper.c **** 
+ 644:../generate/system/r_devlink_wrapper.c ****     if (DRV_ERROR == res)
+ 841              		.loc 1 644 5 is_stmt 1 view .LVU231
+ 842              		.loc 1 644 8 is_stmt 0 view .LVU232
+ 843 0014 010070E3 		cmn	r0, #1
+ 844 0018 7080BD08 		popeq	{r4, r5, r6, pc}
+ 645:../generate/system/r_devlink_wrapper.c ****     {
+ 646:../generate/system/r_devlink_wrapper.c ****         return res;
+ 647:../generate/system/r_devlink_wrapper.c ****     }
+ 648:../generate/system/r_devlink_wrapper.c **** 
+ 649:../generate/system/r_devlink_wrapper.c ****     res = DRV_ERROR;
+ 845              		.loc 1 649 5 is_stmt 1 view .LVU233
+ 846              	.LVL73:
+ 650:../generate/system/r_devlink_wrapper.c **** 
+ 651:../generate/system/r_devlink_wrapper.c ****     /* File open check */
+ 652:../generate/system/r_devlink_wrapper.c ****     if (gs_filestream[handle].p_device_driver)
+ 847              		.loc 1 652 5 view .LVU234
+ 848              		.loc 1 652 30 is_stmt 0 view .LVU235
+ 849 001c 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 850 0020 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 851 0024 841293E7 		ldr	r1, [r3, r4, lsl #5]
+ 852              		.loc 1 652 8 view .LVU236
+ 853 0028 000051E3 		cmp	r1, #0
+ 854 002c 0F00000A 		beq	.L54
+ 855              	.LBB7:
+ 653:../generate/system/r_devlink_wrapper.c ****     {
+ 654:../generate/system/r_devlink_wrapper.c ****         st_stream_t * p_stream = &gs_filestream[handle];
+ 856              		.loc 1 654 9 is_stmt 1 view .LVU237
+ 857              		.loc 1 654 23 is_stmt 0 view .LVU238
+ 858 0030 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 859 0034 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 860 0038 840283E0 		add	r0, r3, r4, lsl #5
+ 861              	.LVL74:
+ 655:../generate/system/r_devlink_wrapper.c **** 
+ 656:../generate/system/r_devlink_wrapper.c ****         /* File access rights check */
+ 657:../generate/system/r_devlink_wrapper.c ****         if ((p_stream->file_flag == O_RDONLY) || (p_stream->file_flag == O_RDWR))
+ 862              		.loc 1 657 9 is_stmt 1 view .LVU239
+ 863              		.loc 1 657 22 is_stmt 0 view .LVU240
+ 864 003c 182090E5 		ldr	r2, [r0, #24]
+ 865              		.loc 1 657 47 view .LVU241
+ 866 0040 020052E3 		cmp	r2, #2
+ 867 0044 0030A013 		movne	r3, #0
+ 868 0048 0130A003 		moveq	r3, #1
+ 869 004c 000052E3 		cmp	r2, #0
+ 870 0050 0130A003 		moveq	r3, #1
+ 871              		.loc 1 657 12 view .LVU242
+ 872 0054 000053E3 		cmp	r3, #0
+ 873 0058 0600000A 		beq	.L55
+ 658:../generate/system/r_devlink_wrapper.c ****         {
+ 659:../generate/system/r_devlink_wrapper.c ****             res = p_stream->p_device_driver->read (p_stream, buff_ptr, count);
+ 874              		.loc 1 659 13 is_stmt 1 view .LVU243
+ 875              		.loc 1 659 44 is_stmt 0 view .LVU244
+ 876 005c 0C3091E5 		ldr	r3, [r1, #12]
+ 877              		.loc 1 659 19 view .LVU245
+ 878 0060 0620A0E1 		mov	r2, r6
+ 879 0064 0510A0E1 		mov	r1, r5
+ 880 0068 33FF2FE1 		blx	r3
+ 881              	.LVL75:
+ 882              		.loc 1 659 19 view .LVU246
+ 883 006c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 884              	.LVL76:
+ 885              	.L54:
+ 886              		.loc 1 659 19 view .LVU247
+ 887              	.LBE7:
+ 649:../generate/system/r_devlink_wrapper.c **** 
+ 888              		.loc 1 649 9 view .LVU248
+ 889 0070 0000E0E3 		mvn	r0, #0
+ 890 0074 7080BDE8 		pop	{r4, r5, r6, pc}
+ 891              	.LVL77:
+ 892              	.L55:
+ 649:../generate/system/r_devlink_wrapper.c **** 
+ 893              		.loc 1 649 9 view .LVU249
+ 894 0078 0000E0E3 		mvn	r0, #0
+ 895              	.LVL78:
+ 660:../generate/system/r_devlink_wrapper.c ****         }
+ 661:../generate/system/r_devlink_wrapper.c ****     }
+ 662:../generate/system/r_devlink_wrapper.c **** 
+ 663:../generate/system/r_devlink_wrapper.c ****     return (res);
+ 664:../generate/system/r_devlink_wrapper.c **** }
+ 896              		.loc 1 664 1 view .LVU250
+ 897 007c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 898              		.cfi_endproc
+ 899              	.LFE20:
+ 901              		.section	.text.direct_write,"ax",%progbits
+ 902              		.align	2
+ 903              		.global	direct_write
+ 904              		.syntax unified
+ 905              		.arm
+ 906              		.fpu neon
+ 908              	direct_write:
+ 909              	.LVL79:
+ 910              	.LFB21:
+ 665:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 666:../generate/system/r_devlink_wrapper.c ****  End of function direct_read
+ 667:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 668:../generate/system/r_devlink_wrapper.c **** 
+ 669:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 670:../generate/system/r_devlink_wrapper.c ****  * Function Name: direct_write
+ 671:../generate/system/r_devlink_wrapper.c ****  * Description  : devlink direct api write data driver function, writes to the driver
+ 672:../generate/system/r_devlink_wrapper.c ****  * Arguments    : [IN]  handle - The file index
+ 673:../generate/system/r_devlink_wrapper.c ****  *                [IN]  buff_ptr - The pointer to the buffer
+ 674:../generate/system/r_devlink_wrapper.c ****  *                [IN]  count - The number of characters to read
+ 675:../generate/system/r_devlink_wrapper.c ****  * Return Value : Number of characters read, -1 on error
+ 676:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 677:../generate/system/r_devlink_wrapper.c **** int_t direct_write(int handle, uint8_t *buff_ptr, uint32_t count)
+ 678:../generate/system/r_devlink_wrapper.c **** {
+ 911              		.loc 1 678 1 is_stmt 1 view -0
+ 912              		.cfi_startproc
+ 913              		@ args = 0, pretend = 0, frame = 0
+ 914              		@ frame_needed = 0, uses_anonymous_args = 0
+ 915              		.loc 1 678 1 is_stmt 0 view .LVU252
+ 916 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 917              		.cfi_def_cfa_offset 16
+ 918              		.cfi_offset 4, -16
+ 919              		.cfi_offset 5, -12
+ 920              		.cfi_offset 6, -8
+ 921              		.cfi_offset 14, -4
+ 922 0004 0040A0E1 		mov	r4, r0
+ 923 0008 0150A0E1 		mov	r5, r1
+ 924 000c 0260A0E1 		mov	r6, r2
+ 679:../generate/system/r_devlink_wrapper.c ****     int_t res;
+ 925              		.loc 1 679 5 is_stmt 1 view .LVU253
+ 680:../generate/system/r_devlink_wrapper.c **** 
+ 681:../generate/system/r_devlink_wrapper.c ****     res = check_valid_handle (handle);
+ 926              		.loc 1 681 5 view .LVU254
+ 927              		.loc 1 681 11 is_stmt 0 view .LVU255
+ 928 0010 FEFFFFEB 		bl	check_valid_handle
+ 929              	.LVL80:
+ 682:../generate/system/r_devlink_wrapper.c **** 
+ 683:../generate/system/r_devlink_wrapper.c ****     if (DRV_ERROR == res)
+ 930              		.loc 1 683 5 is_stmt 1 view .LVU256
+ 931              		.loc 1 683 8 is_stmt 0 view .LVU257
+ 932 0014 010070E3 		cmn	r0, #1
+ 933 0018 7080BD08 		popeq	{r4, r5, r6, pc}
+ 684:../generate/system/r_devlink_wrapper.c ****     {
+ 685:../generate/system/r_devlink_wrapper.c ****         return res;
+ 686:../generate/system/r_devlink_wrapper.c ****     }
+ 687:../generate/system/r_devlink_wrapper.c **** 
+ 688:../generate/system/r_devlink_wrapper.c ****     res = DRV_ERROR;
+ 934              		.loc 1 688 5 is_stmt 1 view .LVU258
+ 935              	.LVL81:
+ 689:../generate/system/r_devlink_wrapper.c **** 
+ 690:../generate/system/r_devlink_wrapper.c ****     /* File open check */
+ 691:../generate/system/r_devlink_wrapper.c ****     if (gs_filestream[handle].p_device_driver)
+ 936              		.loc 1 691 5 view .LVU259
+ 937              		.loc 1 691 30 is_stmt 0 view .LVU260
+ 938 001c 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 939 0020 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 940 0024 842293E7 		ldr	r2, [r3, r4, lsl #5]
+ 941              		.loc 1 691 8 view .LVU261
+ 942 0028 000052E3 		cmp	r2, #0
+ 943 002c 0C00000A 		beq	.L60
+ 944              	.LBB8:
+ 692:../generate/system/r_devlink_wrapper.c ****     {
+ 693:../generate/system/r_devlink_wrapper.c ****         st_stream_t * p_stream = &gs_filestream[handle];
+ 945              		.loc 1 693 9 is_stmt 1 view .LVU262
+ 946              		.loc 1 693 23 is_stmt 0 view .LVU263
+ 947 0030 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 948 0034 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 949 0038 840283E0 		add	r0, r3, r4, lsl #5
+ 950              	.LVL82:
+ 694:../generate/system/r_devlink_wrapper.c **** 
+ 695:../generate/system/r_devlink_wrapper.c ****         /* File access rights check */
+ 696:../generate/system/r_devlink_wrapper.c ****         if ((p_stream->file_flag & O_WRONLY) || (p_stream->file_flag == O_RDWR))
+ 951              		.loc 1 696 9 is_stmt 1 view .LVU264
+ 952              		.loc 1 696 22 is_stmt 0 view .LVU265
+ 953 003c 183090E5 		ldr	r3, [r0, #24]
+ 954              		.loc 1 696 12 view .LVU266
+ 955 0040 010013E3 		tst	r3, #1
+ 956 0044 0100001A 		bne	.L59
+ 957              		.loc 1 696 46 discriminator 1 view .LVU267
+ 958 0048 020053E3 		cmp	r3, #2
+ 959 004c 0600001A 		bne	.L61
+ 960              	.L59:
+ 697:../generate/system/r_devlink_wrapper.c ****         {
+ 698:../generate/system/r_devlink_wrapper.c ****             res = p_stream->p_device_driver->write (p_stream, buff_ptr, count);
+ 961              		.loc 1 698 13 is_stmt 1 view .LVU268
+ 962              		.loc 1 698 44 is_stmt 0 view .LVU269
+ 963 0050 103092E5 		ldr	r3, [r2, #16]
+ 964              		.loc 1 698 19 view .LVU270
+ 965 0054 0620A0E1 		mov	r2, r6
+ 966 0058 0510A0E1 		mov	r1, r5
+ 967 005c 33FF2FE1 		blx	r3
+ 968              	.LVL83:
+ 969              		.loc 1 698 19 view .LVU271
+ 970 0060 7080BDE8 		pop	{r4, r5, r6, pc}
+ 971              	.LVL84:
+ 972              	.L60:
+ 973              		.loc 1 698 19 view .LVU272
+ 974              	.LBE8:
+ 688:../generate/system/r_devlink_wrapper.c **** 
+ 975              		.loc 1 688 9 view .LVU273
+ 976 0064 0000E0E3 		mvn	r0, #0
+ 977 0068 7080BDE8 		pop	{r4, r5, r6, pc}
+ 978              	.LVL85:
+ 979              	.L61:
+ 688:../generate/system/r_devlink_wrapper.c **** 
+ 980              		.loc 1 688 9 view .LVU274
+ 981 006c 0000E0E3 		mvn	r0, #0
+ 982              	.LVL86:
+ 699:../generate/system/r_devlink_wrapper.c ****         }
+ 700:../generate/system/r_devlink_wrapper.c ****     }
+ 701:../generate/system/r_devlink_wrapper.c **** 
+ 702:../generate/system/r_devlink_wrapper.c ****     return (res);
+ 703:../generate/system/r_devlink_wrapper.c **** }
+ 983              		.loc 1 703 1 view .LVU275
+ 984 0070 7080BDE8 		pop	{r4, r5, r6, pc}
+ 985              		.cfi_endproc
+ 986              	.LFE21:
+ 988              		.section	.text.direct_control,"ax",%progbits
+ 989              		.align	2
+ 990              		.global	direct_control
+ 991              		.syntax unified
+ 992              		.arm
+ 993              		.fpu neon
+ 995              	direct_control:
+ 996              	.LVL87:
+ 997              	.LFB22:
+ 704:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 705:../generate/system/r_devlink_wrapper.c ****  End of function direct_write
+ 706:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 707:../generate/system/r_devlink_wrapper.c **** 
+ 708:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 709:../generate/system/r_devlink_wrapper.c ****  * Function Name: direct_control
+ 710:../generate/system/r_devlink_wrapper.c ****  * Description  : devlink direct api write data driver function, writes to the driver
+ 711:../generate/system/r_devlink_wrapper.c ****  * Arguments    : [IN]  handle - The file index
+ 712:../generate/system/r_devlink_wrapper.c ****  *                [IN]  ctlCode - The control code selected
+ 713:../generate/system/r_devlink_wrapper.c ****  *                [IN]  pCtlStruct - The pointer to the control structures associated with the cont
+ 714:../generate/system/r_devlink_wrapper.c ****  * Return Value : Number of characters read, -1 on error
+ 715:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 716:../generate/system/r_devlink_wrapper.c **** int_t direct_control(int handle, uint32_t ctlCode, void *pCtlStruct)
+ 717:../generate/system/r_devlink_wrapper.c **** {
+ 998              		.loc 1 717 1 is_stmt 1 view -0
+ 999              		.cfi_startproc
+ 1000              		@ args = 0, pretend = 0, frame = 0
+ 1001              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1002              		.loc 1 717 1 is_stmt 0 view .LVU277
+ 1003 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 1004              		.cfi_def_cfa_offset 16
+ 1005              		.cfi_offset 4, -16
+ 1006              		.cfi_offset 5, -12
+ 1007              		.cfi_offset 6, -8
+ 1008              		.cfi_offset 14, -4
+ 1009 0004 0040A0E1 		mov	r4, r0
+ 1010 0008 0160A0E1 		mov	r6, r1
+ 1011 000c 0250A0E1 		mov	r5, r2
+ 718:../generate/system/r_devlink_wrapper.c ****     int_t res;
+ 1012              		.loc 1 718 5 is_stmt 1 view .LVU278
+ 719:../generate/system/r_devlink_wrapper.c **** 
+ 720:../generate/system/r_devlink_wrapper.c ****     res = check_valid_handle (handle);
+ 1013              		.loc 1 720 5 view .LVU279
+ 1014              		.loc 1 720 11 is_stmt 0 view .LVU280
+ 1015 0010 FEFFFFEB 		bl	check_valid_handle
+ 1016              	.LVL88:
+ 721:../generate/system/r_devlink_wrapper.c **** 
+ 722:../generate/system/r_devlink_wrapper.c ****     if (DRV_ERROR != res)
+ 1017              		.loc 1 722 5 is_stmt 1 view .LVU281
+ 1018              		.loc 1 722 8 is_stmt 0 view .LVU282
+ 1019 0014 010070E3 		cmn	r0, #1
+ 1020 0018 7080BD08 		popeq	{r4, r5, r6, pc}
+ 723:../generate/system/r_devlink_wrapper.c ****     {
+ 724:../generate/system/r_devlink_wrapper.c ****         /* File open check */
+ 725:../generate/system/r_devlink_wrapper.c ****         if (gs_filestream[handle].p_device_driver)
+ 1021              		.loc 1 725 9 is_stmt 1 view .LVU283
+ 1022              		.loc 1 725 34 is_stmt 0 view .LVU284
+ 1023 001c 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 1024 0020 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 1025 0024 843293E7 		ldr	r3, [r3, r4, lsl #5]
+ 1026              		.loc 1 725 12 view .LVU285
+ 1027 0028 000053E3 		cmp	r3, #0
+ 1028 002c 7080BD08 		popeq	{r4, r5, r6, pc}
+ 1029              	.LBB9:
+ 726:../generate/system/r_devlink_wrapper.c ****         {
+ 727:../generate/system/r_devlink_wrapper.c ****             st_stream_t * p_stream = &gs_filestream[handle];
+ 1030              		.loc 1 727 13 is_stmt 1 view .LVU286
+ 1031              		.loc 1 727 27 is_stmt 0 view .LVU287
+ 1032 0030 000000E3 		movw	r0, #:lower16:.LANCHOR0
+ 1033              	.LVL89:
+ 1034              		.loc 1 727 27 view .LVU288
+ 1035 0034 000040E3 		movt	r0, #:upper16:.LANCHOR0
+ 1036              	.LVL90:
+ 728:../generate/system/r_devlink_wrapper.c ****             res = p_stream->p_device_driver->control (p_stream, ctlCode, pCtlStruct);
+ 1037              		.loc 1 728 13 is_stmt 1 view .LVU289
+ 1038              		.loc 1 728 44 is_stmt 0 view .LVU290
+ 1039 0038 143093E5 		ldr	r3, [r3, #20]
+ 1040              		.loc 1 728 19 view .LVU291
+ 1041 003c 0520A0E1 		mov	r2, r5
+ 1042 0040 0610A0E1 		mov	r1, r6
+ 1043 0044 840280E0 		add	r0, r0, r4, lsl #5
+ 1044              	.LVL91:
+ 1045              		.loc 1 728 19 view .LVU292
+ 1046 0048 33FF2FE1 		blx	r3
+ 1047              	.LVL92:
+ 1048              		.loc 1 728 19 view .LVU293
+ 1049              	.LBE9:
+ 729:../generate/system/r_devlink_wrapper.c ****         }
+ 730:../generate/system/r_devlink_wrapper.c ****     }
+ 731:../generate/system/r_devlink_wrapper.c ****     return (res);
+ 1050              		.loc 1 731 5 is_stmt 1 view .LVU294
+ 732:../generate/system/r_devlink_wrapper.c **** }
+ 1051              		.loc 1 732 1 is_stmt 0 view .LVU295
+ 1052 004c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 1053              		.cfi_endproc
+ 1054              	.LFE22:
+ 1056              		.section	.text.direct_get_version,"ax",%progbits
+ 1057              		.align	2
+ 1058              		.global	direct_get_version
+ 1059              		.syntax unified
+ 1060              		.arm
+ 1061              		.fpu neon
+ 1063              	direct_get_version:
+ 1064              	.LVL93:
+ 1065              	.LFB23:
+ 733:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 734:../generate/system/r_devlink_wrapper.c ****  End of function direct_control
+ 735:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 736:../generate/system/r_devlink_wrapper.c **** 
+ 737:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 738:../generate/system/r_devlink_wrapper.c ****  * Function Name: direct_get_version
+ 739:../generate/system/r_devlink_wrapper.c ****  * Description  : devlink direct api version function, retrieve the driver version number.
+ 740:../generate/system/r_devlink_wrapper.c ****  * Arguments    : [IN]  p_driver_name - Pointer to the file name (NULL terminated)
+ 741:../generate/system/r_devlink_wrapper.c ****  *                [OUT] info - Pointer to the version_info structure
+ 742:../generate/system/r_devlink_wrapper.c ****  * Return Value : 0 for success -1 on error
+ 743:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 744:../generate/system/r_devlink_wrapper.c **** int_t direct_get_version(const char *p_driver_name, st_ver_info_t *info)
+ 745:../generate/system/r_devlink_wrapper.c **** {
+ 1066              		.loc 1 745 1 is_stmt 1 view -0
+ 1067              		.cfi_startproc
+ 1068              		@ args = 0, pretend = 0, frame = 40
+ 1069              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1070              		.loc 1 745 1 is_stmt 0 view .LVU297
+ 1071 0000 10402DE9 		push	{r4, lr}
+ 1072              		.cfi_def_cfa_offset 8
+ 1073              		.cfi_offset 4, -8
+ 1074              		.cfi_offset 14, -4
+ 1075 0004 28D04DE2 		sub	sp, sp, #40
+ 1076              		.cfi_def_cfa_offset 48
+ 1077 0008 0030A0E1 		mov	r3, r0
+ 1078 000c 0140A0E1 		mov	r4, r1
+ 746:../generate/system/r_devlink_wrapper.c ****     e_err_code_t res = DRV_ERROR;
+ 1079              		.loc 1 746 5 is_stmt 1 view .LVU298
+ 1080              	.LVL94:
+ 747:../generate/system/r_devlink_wrapper.c ****     char_t link_name[32];
+ 1081              		.loc 1 747 5 view .LVU299
+ 748:../generate/system/r_devlink_wrapper.c **** 
+ 749:../generate/system/r_devlink_wrapper.c ****     /* pre-fix the driver ID onto the device_name allowing direct and stdio calls to share code */
+ 750:../generate/system/r_devlink_wrapper.c ****     sprintf (link_name, "%s%s", DEVICE_INDENTIFIER, p_driver_name);
+ 1082              		.loc 1 750 5 view .LVU300
+ 1083 0010 002000E3 		movw	r2, #:lower16:.LC0
+ 1084 0014 002040E3 		movt	r2, #:upper16:.LC0
+ 1085 0018 001000E3 		movw	r1, #:lower16:.LC1
+ 1086              	.LVL95:
+ 1087              		.loc 1 750 5 is_stmt 0 view .LVU301
+ 1088 001c 001040E3 		movt	r1, #:upper16:.LC1
+ 1089 0020 08008DE2 		add	r0, sp, #8
+ 1090              	.LVL96:
+ 1091              		.loc 1 750 5 view .LVU302
+ 1092 0024 FEFFFFEB 		bl	sprintf
+ 1093              	.LVL97:
+ 751:../generate/system/r_devlink_wrapper.c **** 
+ 752:../generate/system/r_devlink_wrapper.c ****     char_t * p_link_name = get_device_name (link_name);
+ 1094              		.loc 1 752 5 is_stmt 1 view .LVU303
+ 1095              		.loc 1 752 28 is_stmt 0 view .LVU304
+ 1096 0028 08008DE2 		add	r0, sp, #8
+ 1097 002c FEFFFFEB 		bl	get_device_name
+ 1098              	.LVL98:
+ 753:../generate/system/r_devlink_wrapper.c **** 
+ 754:../generate/system/r_devlink_wrapper.c ****     /* Check to see if this driver is a driver and not something else */
+ 755:../generate/system/r_devlink_wrapper.c ****     if (p_link_name)
+ 1099              		.loc 1 755 5 is_stmt 1 view .LVU305
+ 1100              		.loc 1 755 8 is_stmt 0 view .LVU306
+ 1101 0030 000050E3 		cmp	r0, #0
+ 1102              		.loc 1 755 8 view .LVU307
+ 1103 0034 0C00000A 		beq	.L69
+ 1104              	.LBB10:
+ 756:../generate/system/r_devlink_wrapper.c ****     {
+ 757:../generate/system/r_devlink_wrapper.c ****         char_t * p_stream_name;
+ 1105              		.loc 1 757 9 is_stmt 1 view .LVU308
+ 758:../generate/system/r_devlink_wrapper.c ****         uint32_t sc_index;
+ 1106              		.loc 1 758 9 view .LVU309
+ 759:../generate/system/r_devlink_wrapper.c **** 
+ 760:../generate/system/r_devlink_wrapper.c ****         st_r_driver_t * p_device_driver = dev_get_pointer (p_link_name, &p_stream_name, &sc_index);
+ 1107              		.loc 1 760 9 view .LVU310
+ 1108              		.loc 1 760 43 is_stmt 0 view .LVU311
+ 1109 0038 04208DE2 		add	r2, sp, #4
+ 1110 003c 0D10A0E1 		mov	r1, sp
+ 1111 0040 FEFFFFEB 		bl	dev_get_pointer
+ 1112              	.LVL99:
+ 761:../generate/system/r_devlink_wrapper.c **** 
+ 762:../generate/system/r_devlink_wrapper.c ****         /* NULL signifies that the driver is not loaded so do not call */
+ 763:../generate/system/r_devlink_wrapper.c ****         if (NULL != p_device_driver)
+ 1113              		.loc 1 763 9 is_stmt 1 view .LVU312
+ 1114              		.loc 1 763 12 is_stmt 0 view .LVU313
+ 1115 0044 000050E3 		cmp	r0, #0
+ 1116              		.loc 1 763 12 view .LVU314
+ 1117 0048 0500000A 		beq	.L70
+ 764:../generate/system/r_devlink_wrapper.c ****         {
+ 765:../generate/system/r_devlink_wrapper.c ****             /*  R_OS_SysWaitAccess();  */
+ 766:../generate/system/r_devlink_wrapper.c **** 
+ 767:../generate/system/r_devlink_wrapper.c ****             /* Driver may not be open so must cast st_stream_ptr_t to NULL */
+ 768:../generate/system/r_devlink_wrapper.c ****             res = p_device_driver->get_version (NULL, info);
+ 1118              		.loc 1 768 13 is_stmt 1 view .LVU315
+ 1119              		.loc 1 768 34 is_stmt 0 view .LVU316
+ 1120 004c 183090E5 		ldr	r3, [r0, #24]
+ 1121              		.loc 1 768 19 view .LVU317
+ 1122 0050 0410A0E1 		mov	r1, r4
+ 1123 0054 0000A0E3 		mov	r0, #0
+ 1124              	.LVL100:
+ 1125              		.loc 1 768 19 view .LVU318
+ 1126 0058 33FF2FE1 		blx	r3
+ 1127              	.LVL101:
+ 1128              		.loc 1 768 17 view .LVU319
+ 1129 005c 7000AFE6 		sxtb	r0, r0
+ 1130              	.LVL102:
+ 1131              		.loc 1 768 17 view .LVU320
+ 1132 0060 020000EA 		b	.L67
+ 1133              	.LVL103:
+ 1134              	.L70:
+ 1135              		.loc 1 768 17 view .LVU321
+ 1136              	.LBE10:
+ 746:../generate/system/r_devlink_wrapper.c ****     char_t link_name[32];
+ 1137              		.loc 1 746 18 view .LVU322
+ 1138 0064 0000E0E3 		mvn	r0, #0
+ 1139              	.LVL104:
+ 746:../generate/system/r_devlink_wrapper.c ****     char_t link_name[32];
+ 1140              		.loc 1 746 18 view .LVU323
+ 1141 0068 000000EA 		b	.L67
+ 1142              	.LVL105:
+ 1143              	.L69:
+ 746:../generate/system/r_devlink_wrapper.c ****     char_t link_name[32];
+ 1144              		.loc 1 746 18 view .LVU324
+ 1145 006c 0000E0E3 		mvn	r0, #0
+ 1146              	.LVL106:
+ 1147              	.L67:
+ 769:../generate/system/r_devlink_wrapper.c **** 
+ 770:../generate/system/r_devlink_wrapper.c ****             /*  R_OS_SysReleaseAccess();  */
+ 771:../generate/system/r_devlink_wrapper.c ****         }
+ 772:../generate/system/r_devlink_wrapper.c ****     }
+ 773:../generate/system/r_devlink_wrapper.c ****     return (res);
+ 1148              		.loc 1 773 5 is_stmt 1 view .LVU325
+ 774:../generate/system/r_devlink_wrapper.c **** }
+ 1149              		.loc 1 774 1 is_stmt 0 view .LVU326
+ 1150 0070 28D08DE2 		add	sp, sp, #40
+ 1151              		.cfi_def_cfa_offset 8
+ 1152              		@ sp needed
+ 1153 0074 1080BDE8 		pop	{r4, pc}
+ 1154              		.loc 1 774 1 view .LVU327
+ 1155              		.cfi_endproc
+ 1156              	.LFE23:
+ 1158              		.section	.text.low_open,"ax",%progbits
+ 1159              		.align	2
+ 1160              		.global	low_open
+ 1161              		.syntax unified
+ 1162              		.arm
+ 1163              		.fpu neon
+ 1165              	low_open:
+ 1166              	.LVL107:
+ 1167              	.LFB24:
+ 775:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+ 776:../generate/system/r_devlink_wrapper.c ****  End of function direct_get_version
+ 777:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+ 778:../generate/system/r_devlink_wrapper.c **** 
+ 779:../generate/system/r_devlink_wrapper.c **** #if R_USE_ANSI_STDIO_MODE_CFG
+ 780:../generate/system/r_devlink_wrapper.c **** /* Enable STDIO interface */
+ 781:../generate/system/r_devlink_wrapper.c **** 
+ 782:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 783:../generate/system/r_devlink_wrapper.c ****  * Function Name: low_open
+ 784:../generate/system/r_devlink_wrapper.c ****  * Description  : ANSI library low level open function
+ 785:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  pszFileName - Pointer to the file name
+ 786:../generate/system/r_devlink_wrapper.c ****  *                IN  file_flag - Passed on to open function
+ 787:../generate/system/r_devlink_wrapper.c ****  * Return Value : File number or -1 on error
+ 788:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+ 789:../generate/system/r_devlink_wrapper.c **** int_t low_open(char *pszFileName, int file_flag)
+ 790:../generate/system/r_devlink_wrapper.c **** {
+ 1168              		.loc 1 790 1 is_stmt 1 view -0
+ 1169              		.cfi_startproc
+ 1170              		@ args = 0, pretend = 0, frame = 8
+ 1171              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1172              		.loc 1 790 1 is_stmt 0 view .LVU329
+ 1173 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 1174              		.cfi_def_cfa_offset 16
+ 1175              		.cfi_offset 4, -16
+ 1176              		.cfi_offset 5, -12
+ 1177              		.cfi_offset 6, -8
+ 1178              		.cfi_offset 14, -4
+ 1179 0004 08D04DE2 		sub	sp, sp, #8
+ 1180              		.cfi_def_cfa_offset 24
+ 1181 0008 0060A0E1 		mov	r6, r0
+ 1182 000c 0150A0E1 		mov	r5, r1
+ 791:../generate/system/r_devlink_wrapper.c ****     int_t handle = DRV_ERROR;
+ 1183              		.loc 1 791 5 is_stmt 1 view .LVU330
+ 1184              	.LVL108:
+ 792:../generate/system/r_devlink_wrapper.c ****     int_t local_handle;
+ 1185              		.loc 1 792 5 view .LVU331
+ 793:../generate/system/r_devlink_wrapper.c ****     int_t open_result = DRV_ERROR;
+ 1186              		.loc 1 793 5 view .LVU332
+ 794:../generate/system/r_devlink_wrapper.c **** 
+ 795:../generate/system/r_devlink_wrapper.c ****     /*  R_OS_SysWaitAccess();  */
+ 796:../generate/system/r_devlink_wrapper.c **** 
+ 797:../generate/system/r_devlink_wrapper.c ****     /* Get the fist available file number */
+ 798:../generate/system/r_devlink_wrapper.c ****     local_handle = get_first_free_call_stdio_handle (pszFileName);
+ 1187              		.loc 1 798 5 view .LVU333
+ 1188              		.loc 1 798 20 is_stmt 0 view .LVU334
+ 1189 0010 FEFFFFEB 		bl	get_first_free_call_stdio_handle
+ 1190              	.LVL109:
+ 1191              		.loc 1 798 20 view .LVU335
+ 1192 0014 0040A0E1 		mov	r4, r0
+ 1193              	.LVL110:
+ 799:../generate/system/r_devlink_wrapper.c ****     if (DRV_ERROR != local_handle)
+ 1194              		.loc 1 799 5 is_stmt 1 view .LVU336
+ 1195              		.loc 1 799 8 is_stmt 0 view .LVU337
+ 1196 0018 010070E3 		cmn	r0, #1
+ 1197 001c 4700000A 		beq	.L73
+ 1198              	.LBB11:
+ 800:../generate/system/r_devlink_wrapper.c ****     {
+ 801:../generate/system/r_devlink_wrapper.c ****         /* First look for a device */
+ 802:../generate/system/r_devlink_wrapper.c ****         char_t * p_link_name = get_device_name (pszFileName);
+ 1199              		.loc 1 802 9 is_stmt 1 view .LVU338
+ 1200              		.loc 1 802 32 is_stmt 0 view .LVU339
+ 1201 0020 0600A0E1 		mov	r0, r6
+ 1202              	.LVL111:
+ 1203              		.loc 1 802 32 view .LVU340
+ 1204 0024 FEFFFFEB 		bl	get_device_name
+ 1205              	.LVL112:
+ 803:../generate/system/r_devlink_wrapper.c **** 
+ 804:../generate/system/r_devlink_wrapper.c ****         /* Initialise the driver pointer */
+ 805:../generate/system/r_devlink_wrapper.c ****         gs_filestream[local_handle].p_device_driver = &gs_no_driver;
+ 1206              		.loc 1 805 9 is_stmt 1 view .LVU341
+ 1207              		.loc 1 805 53 is_stmt 0 view .LVU342
+ 1208 0028 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 1209 002c 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 1210 0030 002000E3 		movw	r2, #:lower16:.LANCHOR2
+ 1211 0034 002040E3 		movt	r2, #:upper16:.LANCHOR2
+ 1212 0038 842283E7 		str	r2, [r3, r4, lsl #5]
+ 806:../generate/system/r_devlink_wrapper.c **** 
+ 807:../generate/system/r_devlink_wrapper.c ****         /* Check to see if this is a device driver not a file */
+ 808:../generate/system/r_devlink_wrapper.c ****         if (p_link_name)
+ 1213              		.loc 1 808 9 is_stmt 1 view .LVU343
+ 1214              		.loc 1 808 12 is_stmt 0 view .LVU344
+ 1215 003c 000050E3 		cmp	r0, #0
+ 1216              		.loc 1 808 12 view .LVU345
+ 1217 0040 0C00000A 		beq	.L74
+ 1218              	.LBB12:
+ 809:../generate/system/r_devlink_wrapper.c ****         {
+ 810:../generate/system/r_devlink_wrapper.c ****             char_t * p_stream_name;
+ 1219              		.loc 1 810 13 is_stmt 1 view .LVU346
+ 811:../generate/system/r_devlink_wrapper.c ****             uint32_t sc_index;
+ 1220              		.loc 1 811 13 view .LVU347
+ 812:../generate/system/r_devlink_wrapper.c **** 
+ 813:../generate/system/r_devlink_wrapper.c ****             st_r_driver_t * p_device_driver = dev_get_pointer (p_link_name, &p_stream_name, &sc_ind
+ 1221              		.loc 1 813 13 view .LVU348
+ 1222              		.loc 1 813 47 is_stmt 0 view .LVU349
+ 1223 0044 04208DE2 		add	r2, sp, #4
+ 1224 0048 0D10A0E1 		mov	r1, sp
+ 1225 004c FEFFFFEB 		bl	dev_get_pointer
+ 1226              	.LVL113:
+ 814:../generate/system/r_devlink_wrapper.c **** 
+ 815:../generate/system/r_devlink_wrapper.c ****             if (p_device_driver)
+ 1227              		.loc 1 815 13 is_stmt 1 view .LVU350
+ 1228              		.loc 1 815 16 is_stmt 0 view .LVU351
+ 1229 0050 000050E3 		cmp	r0, #0
+ 1230              		.loc 1 815 16 view .LVU352
+ 1231 0054 0700000A 		beq	.L74
+ 816:../generate/system/r_devlink_wrapper.c ****             {
+ 817:../generate/system/r_devlink_wrapper.c ****                 gs_filestream[local_handle].p_stream_name = p_stream_name;
+ 1232              		.loc 1 817 17 is_stmt 1 view .LVU353
+ 1233              		.loc 1 817 59 is_stmt 0 view .LVU354
+ 1234 0058 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 1235 005c 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 1236 0060 842283E0 		add	r2, r3, r4, lsl #5
+ 1237 0064 00109DE5 		ldr	r1, [sp]
+ 1238 0068 081082E5 		str	r1, [r2, #8]
+ 818:../generate/system/r_devlink_wrapper.c ****                 gs_filestream[local_handle].p_device_driver = p_device_driver;
+ 1239              		.loc 1 818 17 is_stmt 1 view .LVU355
+ 1240              		.loc 1 818 61 is_stmt 0 view .LVU356
+ 1241 006c 840283E7 		str	r0, [r3, r4, lsl #5]
+ 819:../generate/system/r_devlink_wrapper.c ****                 gs_filestream[local_handle].sc_config_index = sc_index;
+ 1242              		.loc 1 819 17 is_stmt 1 view .LVU357
+ 1243              		.loc 1 819 61 is_stmt 0 view .LVU358
+ 1244 0070 04309DE5 		ldr	r3, [sp, #4]
+ 1245 0074 1C30C2E5 		strb	r3, [r2, #28]
+ 1246              	.LVL114:
+ 1247              	.L74:
+ 1248              		.loc 1 819 61 view .LVU359
+ 1249              	.LBE12:
+ 820:../generate/system/r_devlink_wrapper.c ****             }
+ 821:../generate/system/r_devlink_wrapper.c ****             else
+ 822:../generate/system/r_devlink_wrapper.c ****             {
+ 823:../generate/system/r_devlink_wrapper.c ****                 open_result = DRV_ERROR;
+ 824:../generate/system/r_devlink_wrapper.c ****             }
+ 825:../generate/system/r_devlink_wrapper.c ****         }
+ 826:../generate/system/r_devlink_wrapper.c **** 
+ 827:../generate/system/r_devlink_wrapper.c **** #if INCLUDE_FILE_SYSTEM
+ 828:../generate/system/r_devlink_wrapper.c ****         /* If it was not a device look for a file */
+ 829:../generate/system/r_devlink_wrapper.c ****         if ((gs_filestream[local_handle].p_device_driver == NULL)
+ 830:../generate/system/r_devlink_wrapper.c ****                 || (gs_filestream[local_handle].p_device_driver == (&gs_no_driver)))
+ 831:../generate/system/r_devlink_wrapper.c ****         {
+ 832:../generate/system/r_devlink_wrapper.c ****             st_stream_ptr_t pStream = &gs_filestream[local_handle];
+ 833:../generate/system/r_devlink_wrapper.c ****             st_r_driver_t* p_device_driver;
+ 834:../generate/system/r_devlink_wrapper.c **** 
+ 835:../generate/system/r_devlink_wrapper.c ****             /* Set the file number for access to _File if required */
+ 836:../generate/system/r_devlink_wrapper.c ****             pStream->file_number = local_handle;
+ 837:../generate/system/r_devlink_wrapper.c **** 
+ 838:../generate/system/r_devlink_wrapper.c ****             /* Try to load a driver for this file */
+ 839:../generate/system/r_devlink_wrapper.c ****             p_device_driver = fileLoadDriver(pStream, pszFileName, file_flag);
+ 840:../generate/system/r_devlink_wrapper.c ****             if (p_device_driver)
+ 841:../generate/system/r_devlink_wrapper.c ****             {
+ 842:../generate/system/r_devlink_wrapper.c **** 
+ 843:../generate/system/r_devlink_wrapper.c ****                 /* Set the driver */
+ 844:../generate/system/r_devlink_wrapper.c ****                 pStream->p_device_driver = p_device_driver;
+ 845:../generate/system/r_devlink_wrapper.c **** 
+ 846:../generate/system/r_devlink_wrapper.c ****             }
+ 847:../generate/system/r_devlink_wrapper.c ****         }
+ 848:../generate/system/r_devlink_wrapper.c **** #endif
+ 849:../generate/system/r_devlink_wrapper.c **** 
+ 850:../generate/system/r_devlink_wrapper.c ****         /* If we found a device or a file then open it */
+ 851:../generate/system/r_devlink_wrapper.c ****         if ((gs_filestream[local_handle].p_device_driver)
+ 1250              		.loc 1 851 9 is_stmt 1 view .LVU360
+ 1251              		.loc 1 851 41 is_stmt 0 view .LVU361
+ 1252 0078 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 1253 007c 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 1254 0080 842293E7 		ldr	r2, [r3, r4, lsl #5]
+ 1255              		.loc 1 851 12 view .LVU362
+ 1256 0084 000052E3 		cmp	r2, #0
+ 1257 0088 2C00000A 		beq	.L73
+ 852:../generate/system/r_devlink_wrapper.c ****                 && ((&gs_no_driver) != gs_filestream[local_handle].p_device_driver))
+ 1258              		.loc 1 852 17 view .LVU363
+ 1259 008c 003000E3 		movw	r3, #:lower16:.LANCHOR2
+ 1260 0090 003040E3 		movt	r3, #:upper16:.LANCHOR2
+ 1261 0094 030052E1 		cmp	r2, r3
+ 1262 0098 2800000A 		beq	.L73
+ 1263              	.LBB13:
+ 853:../generate/system/r_devlink_wrapper.c ****         {
+ 854:../generate/system/r_devlink_wrapper.c ****             st_stream_ptr_t pstream = &gs_filestream[local_handle];
+ 1264              		.loc 1 854 13 is_stmt 1 view .LVU364
+ 1265              		.loc 1 854 29 is_stmt 0 view .LVU365
+ 1266 009c 000000E3 		movw	r0, #:lower16:.LANCHOR0
+ 1267 00a0 000040E3 		movt	r0, #:upper16:.LANCHOR0
+ 1268 00a4 840280E0 		add	r0, r0, r4, lsl #5
+ 1269              	.LVL115:
+ 855:../generate/system/r_devlink_wrapper.c **** 
+ 856:../generate/system/r_devlink_wrapper.c ****             pstream->file_number = local_handle;
+ 1270              		.loc 1 856 13 is_stmt 1 view .LVU366
+ 1271              		.loc 1 856 34 is_stmt 0 view .LVU367
+ 1272 00a8 104080E5 		str	r4, [r0, #16]
+ 857:../generate/system/r_devlink_wrapper.c **** 
+ 858:../generate/system/r_devlink_wrapper.c ****             /* Check for read and write */
+ 859:../generate/system/r_devlink_wrapper.c ****             if (file_flag & O_RDWR)
+ 1273              		.loc 1 859 13 is_stmt 1 view .LVU368
+ 1274              		.loc 1 859 16 is_stmt 0 view .LVU369
+ 1275 00ac 020015E3 		tst	r5, #2
+ 1276 00b0 1400000A 		beq	.L76
+ 860:../generate/system/r_devlink_wrapper.c ****             {
+ 861:../generate/system/r_devlink_wrapper.c ****                 pstream->file_mode = (__SRD | __SWR);
+ 1277              		.loc 1 861 17 is_stmt 1 view .LVU370
+ 1278              		.loc 1 861 36 is_stmt 0 view .LVU371
+ 1279 00b4 0C10A0E3 		mov	r1, #12
+ 1280 00b8 141080E5 		str	r1, [r0, #20]
+ 1281              	.L77:
+ 862:../generate/system/r_devlink_wrapper.c ****             }
+ 863:../generate/system/r_devlink_wrapper.c **** 
+ 864:../generate/system/r_devlink_wrapper.c ****             /* Check for write only */
+ 865:../generate/system/r_devlink_wrapper.c ****             else if (file_flag & (O_WRONLY))
+ 866:../generate/system/r_devlink_wrapper.c ****             {
+ 867:../generate/system/r_devlink_wrapper.c ****                 pstream->file_mode = __SWR;
+ 868:../generate/system/r_devlink_wrapper.c ****             }
+ 869:../generate/system/r_devlink_wrapper.c ****             else
+ 870:../generate/system/r_devlink_wrapper.c ****             {
+ 871:../generate/system/r_devlink_wrapper.c ****                 /* If a open is requested with unrecognised flags
+ 872:../generate/system/r_devlink_wrapper.c ****                  * such as 'rb', grant read only to allow  level
+ 873:../generate/system/r_devlink_wrapper.c ****                  * of functionality.
+ 874:../generate/system/r_devlink_wrapper.c ****                  */
+ 875:../generate/system/r_devlink_wrapper.c ****                 /* Always grant read only mode */
+ 876:../generate/system/r_devlink_wrapper.c ****                 pstream->file_mode = __SRD;
+ 877:../generate/system/r_devlink_wrapper.c ****             }
+ 878:../generate/system/r_devlink_wrapper.c **** 
+ 879:../generate/system/r_devlink_wrapper.c ****             /* Check for create & add write */
+ 880:../generate/system/r_devlink_wrapper.c ****             if (file_flag & O_CREAT)
+ 1282              		.loc 1 880 13 is_stmt 1 view .LVU372
+ 1283              		.loc 1 880 16 is_stmt 0 view .LVU373
+ 1284 00bc 020C15E3 		tst	r5, #512
+ 1285 00c0 0500000A 		beq	.L79
+ 881:../generate/system/r_devlink_wrapper.c ****             {
+ 882:../generate/system/r_devlink_wrapper.c ****                 pstream->file_mode |= __SWR;
+ 1286              		.loc 1 882 17 is_stmt 1 view .LVU374
+ 1287              		.loc 1 882 36 is_stmt 0 view .LVU375
+ 1288 00c4 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 1289 00c8 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 1290 00cc 843283E0 		add	r3, r3, r4, lsl #5
+ 1291 00d0 141093E5 		ldr	r1, [r3, #20]
+ 1292 00d4 081081E3 		orr	r1, r1, #8
+ 1293 00d8 141083E5 		str	r1, [r3, #20]
+ 1294              	.L79:
+ 883:../generate/system/r_devlink_wrapper.c ****             }
+ 884:../generate/system/r_devlink_wrapper.c ****             pstream->file_flag = file_flag;
+ 1295              		.loc 1 884 13 is_stmt 1 view .LVU376
+ 1296              		.loc 1 884 32 is_stmt 0 view .LVU377
+ 1297 00dc 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 1298 00e0 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 1299 00e4 843283E0 		add	r3, r3, r4, lsl #5
+ 1300 00e8 185083E5 		str	r5, [r3, #24]
+ 885:../generate/system/r_devlink_wrapper.c **** 
+ 886:../generate/system/r_devlink_wrapper.c ****             open_result = pstream->p_device_driver->open (pstream);
+ 1301              		.loc 1 886 13 is_stmt 1 view .LVU378
+ 1302              		.loc 1 886 51 is_stmt 0 view .LVU379
+ 1303 00ec 043092E5 		ldr	r3, [r2, #4]
+ 1304              		.loc 1 886 27 view .LVU380
+ 1305 00f0 33FF2FE1 		blx	r3
+ 1306              	.LVL116:
+ 1307              		.loc 1 886 27 view .LVU381
+ 1308              	.LBE13:
+ 1309              	.LBE11:
+ 887:../generate/system/r_devlink_wrapper.c ****         }
+ 888:../generate/system/r_devlink_wrapper.c ****     }
+ 889:../generate/system/r_devlink_wrapper.c **** 
+ 890:../generate/system/r_devlink_wrapper.c ****     if (DRV_ERROR == open_result)
+ 1310              		.loc 1 890 5 is_stmt 1 view .LVU382
+ 1311              		.loc 1 890 8 is_stmt 0 view .LVU383
+ 1312 00f4 010070E3 		cmn	r0, #1
+ 1313 00f8 1000000A 		beq	.L73
+ 1314              	.LVL117:
+ 1315              	.L72:
+ 891:../generate/system/r_devlink_wrapper.c ****     {
+ 892:../generate/system/r_devlink_wrapper.c ****         /* Device failed to open */
+ 893:../generate/system/r_devlink_wrapper.c ****         memset (&gs_filestream[local_handle], 0x00, sizeof(st_stream_t));
+ 894:../generate/system/r_devlink_wrapper.c **** 
+ 895:../generate/system/r_devlink_wrapper.c ****         /* NULL signifies that the driver is not loaded */
+ 896:../generate/system/r_devlink_wrapper.c ****         gs_filestream[local_handle].p_device_driver = NULL;
+ 897:../generate/system/r_devlink_wrapper.c ****     }
+ 898:../generate/system/r_devlink_wrapper.c ****     else
+ 899:../generate/system/r_devlink_wrapper.c ****     {
+ 900:../generate/system/r_devlink_wrapper.c ****         /* Device opened successfully assign the handle */
+ 901:../generate/system/r_devlink_wrapper.c ****         handle = local_handle;
+ 902:../generate/system/r_devlink_wrapper.c ****     }
+ 903:../generate/system/r_devlink_wrapper.c **** 
+ 904:../generate/system/r_devlink_wrapper.c ****     /*  R_OS_SysReleaseAccess();  */
+ 905:../generate/system/r_devlink_wrapper.c **** 
+ 906:../generate/system/r_devlink_wrapper.c ****     return (handle);
+ 907:../generate/system/r_devlink_wrapper.c **** }
+ 1316              		.loc 1 907 1 view .LVU384
+ 1317 00fc 0400A0E1 		mov	r0, r4
+ 1318 0100 08D08DE2 		add	sp, sp, #8
+ 1319              		.cfi_remember_state
+ 1320              		.cfi_def_cfa_offset 16
+ 1321              		@ sp needed
+ 1322 0104 7080BDE8 		pop	{r4, r5, r6, pc}
+ 1323              	.LVL118:
+ 1324              	.L76:
+ 1325              		.cfi_restore_state
+ 1326              	.LBB15:
+ 1327              	.LBB14:
+ 865:../generate/system/r_devlink_wrapper.c ****             {
+ 1328              		.loc 1 865 18 is_stmt 1 view .LVU385
+ 865:../generate/system/r_devlink_wrapper.c ****             {
+ 1329              		.loc 1 865 21 is_stmt 0 view .LVU386
+ 1330 0108 010015E3 		tst	r5, #1
+ 1331 010c 0500000A 		beq	.L78
+ 867:../generate/system/r_devlink_wrapper.c ****             }
+ 1332              		.loc 1 867 17 is_stmt 1 view .LVU387
+ 867:../generate/system/r_devlink_wrapper.c ****             }
+ 1333              		.loc 1 867 36 is_stmt 0 view .LVU388
+ 1334 0110 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 1335 0114 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 1336 0118 843283E0 		add	r3, r3, r4, lsl #5
+ 1337 011c 0810A0E3 		mov	r1, #8
+ 1338 0120 141083E5 		str	r1, [r3, #20]
+ 1339 0124 E4FFFFEA 		b	.L77
+ 1340              	.L78:
+ 876:../generate/system/r_devlink_wrapper.c ****             }
+ 1341              		.loc 1 876 17 is_stmt 1 view .LVU389
+ 876:../generate/system/r_devlink_wrapper.c ****             }
+ 1342              		.loc 1 876 36 is_stmt 0 view .LVU390
+ 1343 0128 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 1344 012c 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 1345 0130 843283E0 		add	r3, r3, r4, lsl #5
+ 1346 0134 0410A0E3 		mov	r1, #4
+ 1347 0138 141083E5 		str	r1, [r3, #20]
+ 1348 013c DEFFFFEA 		b	.L77
+ 1349              	.LVL119:
+ 1350              	.L73:
+ 876:../generate/system/r_devlink_wrapper.c ****             }
+ 1351              		.loc 1 876 36 view .LVU391
+ 1352              	.LBE14:
+ 1353              	.LBE15:
+ 893:../generate/system/r_devlink_wrapper.c **** 
+ 1354              		.loc 1 893 9 is_stmt 1 view .LVU392
+ 893:../generate/system/r_devlink_wrapper.c **** 
+ 1355              		.loc 1 893 17 is_stmt 0 view .LVU393
+ 1356 0140 000000E3 		movw	r0, #:lower16:.LANCHOR0
+ 1357 0144 000040E3 		movt	r0, #:upper16:.LANCHOR0
+ 893:../generate/system/r_devlink_wrapper.c **** 
+ 1358              		.loc 1 893 9 view .LVU394
+ 1359 0148 2020A0E3 		mov	r2, #32
+ 1360 014c 0010A0E3 		mov	r1, #0
+ 1361 0150 840280E0 		add	r0, r0, r4, lsl #5
+ 1362 0154 FEFFFFEB 		bl	memset
+ 1363              	.LVL120:
+ 896:../generate/system/r_devlink_wrapper.c ****     }
+ 1364              		.loc 1 896 9 is_stmt 1 view .LVU395
+ 791:../generate/system/r_devlink_wrapper.c ****     int_t local_handle;
+ 1365              		.loc 1 791 11 is_stmt 0 view .LVU396
+ 1366 0158 0040E0E3 		mvn	r4, #0
+ 1367              	.LVL121:
+ 906:../generate/system/r_devlink_wrapper.c **** }
+ 1368              		.loc 1 906 5 is_stmt 1 view .LVU397
+ 906:../generate/system/r_devlink_wrapper.c **** }
+ 1369              		.loc 1 906 12 is_stmt 0 view .LVU398
+ 1370 015c E6FFFFEA 		b	.L72
+ 1371              		.cfi_endproc
+ 1372              	.LFE24:
+ 1374              		.section	.text.low_close,"ax",%progbits
+ 1375              		.align	2
+ 1376              		.global	low_close
+ 1377              		.syntax unified
+ 1378              		.arm
+ 1379              		.fpu neon
+ 1381              	low_close:
+ 1382              	.LVL122:
+ 1383              	.LFB25:
+ 908:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 909:../generate/system/r_devlink_wrapper.c ****  End of function low_open
+ 910:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+ 911:../generate/system/r_devlink_wrapper.c **** 
+ 912:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 913:../generate/system/r_devlink_wrapper.c ****  * Function Name: low_close
+ 914:../generate/system/r_devlink_wrapper.c ****  * Description  : ANSI library low level close function
+ 915:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  file_number - The file number to close
+ 916:../generate/system/r_devlink_wrapper.c ****  * Return Value : 0 for success, -1 on error
+ 917:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+ 918:../generate/system/r_devlink_wrapper.c **** int_t low_close(int_t file_number)
+ 919:../generate/system/r_devlink_wrapper.c **** {
+ 1384              		.loc 1 919 1 is_stmt 1 view -0
+ 1385              		.cfi_startproc
+ 1386              		@ args = 0, pretend = 0, frame = 0
+ 1387              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1388              		.loc 1 919 1 is_stmt 0 view .LVU400
+ 1389 0000 10402DE9 		push	{r4, lr}
+ 1390              		.cfi_def_cfa_offset 8
+ 1391              		.cfi_offset 4, -8
+ 1392              		.cfi_offset 14, -4
+ 920:../generate/system/r_devlink_wrapper.c ****     return direct_close ((file_number));
+ 1393              		.loc 1 920 5 is_stmt 1 view .LVU401
+ 1394              		.loc 1 920 12 is_stmt 0 view .LVU402
+ 1395 0004 FEFFFFEB 		bl	direct_close
+ 1396              	.LVL123:
+ 921:../generate/system/r_devlink_wrapper.c **** }
+ 1397              		.loc 1 921 1 view .LVU403
+ 1398 0008 1080BDE8 		pop	{r4, pc}
+ 1399              		.cfi_endproc
+ 1400              	.LFE25:
+ 1402              		.section	.text.low_read,"ax",%progbits
+ 1403              		.align	2
+ 1404              		.global	low_read
+ 1405              		.syntax unified
+ 1406              		.arm
+ 1407              		.fpu neon
+ 1409              	low_read:
+ 1410              	.LVL124:
+ 1411              	.LFB26:
+ 922:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 923:../generate/system/r_devlink_wrapper.c ****  End of function low_close
+ 924:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+ 925:../generate/system/r_devlink_wrapper.c **** 
+ 926:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 927:../generate/system/r_devlink_wrapper.c ****  * Function Name: low_read
+ 928:../generate/system/r_devlink_wrapper.c ****  * Description  : ANSI library low level read function
+ 929:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  file_number - The file index
+ 930:../generate/system/r_devlink_wrapper.c ****  *                IN  pbyBuffer - The pointer to the buffer
+ 931:../generate/system/r_devlink_wrapper.c ****  *                IN  iCount - The number of characters to read
+ 932:../generate/system/r_devlink_wrapper.c ****  * Return Value : Number of characters read, -1 on error
+ 933:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+ 934:../generate/system/r_devlink_wrapper.c **** int_t low_read(int file_number, uint8_t *pbyBuffer, uint32_t iCount)
+ 935:../generate/system/r_devlink_wrapper.c **** {
+ 1412              		.loc 1 935 1 is_stmt 1 view -0
+ 1413              		.cfi_startproc
+ 1414              		@ args = 0, pretend = 0, frame = 0
+ 1415              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1416              		.loc 1 935 1 is_stmt 0 view .LVU405
+ 1417 0000 10402DE9 		push	{r4, lr}
+ 1418              		.cfi_def_cfa_offset 8
+ 1419              		.cfi_offset 4, -8
+ 1420              		.cfi_offset 14, -4
+ 936:../generate/system/r_devlink_wrapper.c ****     return direct_read ((file_number), pbyBuffer, iCount);
+ 1421              		.loc 1 936 5 is_stmt 1 view .LVU406
+ 1422              		.loc 1 936 12 is_stmt 0 view .LVU407
+ 1423 0004 FEFFFFEB 		bl	direct_read
+ 1424              	.LVL125:
+ 937:../generate/system/r_devlink_wrapper.c **** }
+ 1425              		.loc 1 937 1 view .LVU408
+ 1426 0008 1080BDE8 		pop	{r4, pc}
+ 1427              		.cfi_endproc
+ 1428              	.LFE26:
+ 1430              		.section	.text.low_write,"ax",%progbits
+ 1431              		.align	2
+ 1432              		.global	low_write
+ 1433              		.syntax unified
+ 1434              		.arm
+ 1435              		.fpu neon
+ 1437              	low_write:
+ 1438              	.LVL126:
+ 1439              	.LFB27:
+ 938:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 939:../generate/system/r_devlink_wrapper.c ****  End of function low_read
+ 940:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+ 941:../generate/system/r_devlink_wrapper.c **** 
+ 942:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 943:../generate/system/r_devlink_wrapper.c ****  * Function Name: low_write
+ 944:../generate/system/r_devlink_wrapper.c ****  * Description  : ANSI library low level read function
+ 945:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  file_number - The file index
+ 946:../generate/system/r_devlink_wrapper.c ****  *                IN  pbyBuffer - The pointer to the buffer
+ 947:../generate/system/r_devlink_wrapper.c ****  *                IN  iCount - The number of characters to write
+ 948:../generate/system/r_devlink_wrapper.c ****  * Return Value : Number of characters written, -1 on error
+ 949:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+ 950:../generate/system/r_devlink_wrapper.c **** int_t low_write(int file_number, uint8_t *pbyBuffer, uint32_t iCount)
+ 951:../generate/system/r_devlink_wrapper.c **** {
+ 1440              		.loc 1 951 1 is_stmt 1 view -0
+ 1441              		.cfi_startproc
+ 1442              		@ args = 0, pretend = 0, frame = 0
+ 1443              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1444              		.loc 1 951 1 is_stmt 0 view .LVU410
+ 1445 0000 10402DE9 		push	{r4, lr}
+ 1446              		.cfi_def_cfa_offset 8
+ 1447              		.cfi_offset 4, -8
+ 1448              		.cfi_offset 14, -4
+ 952:../generate/system/r_devlink_wrapper.c ****     return (direct_write ((file_number), pbyBuffer, iCount));
+ 1449              		.loc 1 952 5 is_stmt 1 view .LVU411
+ 1450              		.loc 1 952 13 is_stmt 0 view .LVU412
+ 1451 0004 FEFFFFEB 		bl	direct_write
+ 1452              	.LVL127:
+ 953:../generate/system/r_devlink_wrapper.c **** }
+ 1453              		.loc 1 953 1 view .LVU413
+ 1454 0008 1080BDE8 		pop	{r4, pc}
+ 1455              		.cfi_endproc
+ 1456              	.LFE27:
+ 1458              		.section	.text.control,"ax",%progbits
+ 1459              		.align	2
+ 1460              		.global	control
+ 1461              		.syntax unified
+ 1462              		.arm
+ 1463              		.fpu neon
+ 1465              	control:
+ 1466              	.LVL128:
+ 1467              	.LFB28:
+ 954:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 955:../generate/system/r_devlink_wrapper.c ****  End of function low_write
+ 956:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+ 957:../generate/system/r_devlink_wrapper.c **** 
+ 958:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 959:../generate/system/r_devlink_wrapper.c ****  * Function Name: control (NOT ANSI)
+ 960:../generate/system/r_devlink_wrapper.c ****  * Description  : Function to perform a device control provided by a control code.
+ 961:../generate/system/r_devlink_wrapper.c ****  *                This is not a standard ANSI function. It is provided as an extension
+ 962:../generate/system/r_devlink_wrapper.c ****  *                to the ANSI architecture.
+ 963:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  file_number - The file number to control
+ 964:../generate/system/r_devlink_wrapper.c ****  *                IN  ctlCode - The device specific control code
+ 965:../generate/system/r_devlink_wrapper.c ****  *                IN  pCtlStruct - Pointer to the control structure
+ 966:../generate/system/r_devlink_wrapper.c ****  * Return Value : 0 for success -1 on error
+ 967:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+ 968:../generate/system/r_devlink_wrapper.c **** int_t control(int file_number, uint32_t ctlCode, void *pCtlStruct)
+ 969:../generate/system/r_devlink_wrapper.c **** {
+ 1468              		.loc 1 969 1 is_stmt 1 view -0
+ 1469              		.cfi_startproc
+ 1470              		@ args = 0, pretend = 0, frame = 0
+ 1471              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1472              		.loc 1 969 1 is_stmt 0 view .LVU415
+ 1473 0000 10402DE9 		push	{r4, lr}
+ 1474              		.cfi_def_cfa_offset 8
+ 1475              		.cfi_offset 4, -8
+ 1476              		.cfi_offset 14, -4
+ 970:../generate/system/r_devlink_wrapper.c ****     return (direct_control ((file_number), ctlCode, pCtlStruct));
+ 1477              		.loc 1 970 5 is_stmt 1 view .LVU416
+ 1478              		.loc 1 970 13 is_stmt 0 view .LVU417
+ 1479 0004 FEFFFFEB 		bl	direct_control
+ 1480              	.LVL129:
+ 971:../generate/system/r_devlink_wrapper.c **** }
+ 1481              		.loc 1 971 1 view .LVU418
+ 1482 0008 1080BDE8 		pop	{r4, pc}
+ 1483              		.cfi_endproc
+ 1484              	.LFE28:
+ 1486              		.section	.text.get_version,"ax",%progbits
+ 1487              		.align	2
+ 1488              		.global	get_version
+ 1489              		.syntax unified
+ 1490              		.arm
+ 1491              		.fpu neon
+ 1493              	get_version:
+ 1494              	.LVL130:
+ 1495              	.LFB29:
+ 972:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 973:../generate/system/r_devlink_wrapper.c ****  End of function  control
+ 974:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+ 975:../generate/system/r_devlink_wrapper.c **** 
+ 976:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 977:../generate/system/r_devlink_wrapper.c ****  * Function Name: get_version (NOT ANSI)
+ 978:../generate/system/r_devlink_wrapper.c ****  * Description  : Function to retrieve the driver version number.
+ 979:../generate/system/r_devlink_wrapper.c ****  *                This is not a standard ANSI function. It is provided as an extension
+ 980:../generate/system/r_devlink_wrapper.c ****  *                to the ANSI architecture.
+ 981:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  file_number - The file number to control
+ 982:../generate/system/r_devlink_wrapper.c ****  *                IN  pCtlStruct - Pointer to the version_info structure
+ 983:../generate/system/r_devlink_wrapper.c ****  * Return Value : 0 for success -1 on error
+ 984:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+ 985:../generate/system/r_devlink_wrapper.c **** int_t get_version(const char *p_driver_name, st_ver_info_t *info)
+ 986:../generate/system/r_devlink_wrapper.c **** {
+ 1496              		.loc 1 986 1 is_stmt 1 view -0
+ 1497              		.cfi_startproc
+ 1498              		@ args = 0, pretend = 0, frame = 0
+ 1499              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1500              		.loc 1 986 1 is_stmt 0 view .LVU420
+ 1501 0000 10402DE9 		push	{r4, lr}
+ 1502              		.cfi_def_cfa_offset 8
+ 1503              		.cfi_offset 4, -8
+ 1504              		.cfi_offset 14, -4
+ 987:../generate/system/r_devlink_wrapper.c ****     return (direct_get_version (p_driver_name, info));
+ 1505              		.loc 1 987 5 is_stmt 1 view .LVU421
+ 1506              		.loc 1 987 13 is_stmt 0 view .LVU422
+ 1507 0004 FEFFFFEB 		bl	direct_get_version
+ 1508              	.LVL131:
+ 988:../generate/system/r_devlink_wrapper.c **** }
+ 1509              		.loc 1 988 1 view .LVU423
+ 1510 0008 1080BDE8 		pop	{r4, pc}
+ 1511              		.cfi_endproc
+ 1512              	.LFE29:
+ 1514              		.section	.text.low_lseek,"ax",%progbits
+ 1515              		.align	2
+ 1516              		.global	low_lseek
+ 1517              		.syntax unified
+ 1518              		.arm
+ 1519              		.fpu neon
+ 1521              	low_lseek:
+ 1522              	.LVL132:
+ 1523              	.LFB30:
+ 989:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 990:../generate/system/r_devlink_wrapper.c ****  End of function  get_version
+ 991:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+ 992:../generate/system/r_devlink_wrapper.c **** 
+ 993:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+ 994:../generate/system/r_devlink_wrapper.c ****  * Function Name: low_lseek
+ 995:../generate/system/r_devlink_wrapper.c ****  * Description  : ANSI library low level seek function
+ 996:../generate/system/r_devlink_wrapper.c ****  * Arguments    : IN  file_number - The file index
+ 997:../generate/system/r_devlink_wrapper.c ****  *                IN  lOffset - The offset
+ 998:../generate/system/r_devlink_wrapper.c ****  *                IN  iBase - The base
+ 999:../generate/system/r_devlink_wrapper.c ****  * Return Value : The offset in bytes to the current file position or -1 on error
+1000:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+1001:../generate/system/r_devlink_wrapper.c **** int_t low_lseek(int file_number, uint32_t lOffset, int iBase)
+1002:../generate/system/r_devlink_wrapper.c **** {
+ 1524              		.loc 1 1002 1 is_stmt 1 view -0
+ 1525              		.cfi_startproc
+ 1526              		@ args = 0, pretend = 0, frame = 16
+ 1527              		@ frame_needed = 0, uses_anonymous_args = 0
+1003:../generate/system/r_devlink_wrapper.c ****     /* File number range check */
+1004:../generate/system/r_devlink_wrapper.c ****     if ((file_number < 0) || ((FOPEN_MAX - 1) < file_number))
+ 1528              		.loc 1 1004 5 view .LVU425
+ 1529              		.loc 1 1004 8 is_stmt 0 view .LVU426
+ 1530 0000 130050E3 		cmp	r0, #19
+ 1531 0004 1B00008A 		bhi	.L95
+1005:../generate/system/r_devlink_wrapper.c ****     {
+1006:../generate/system/r_devlink_wrapper.c ****         return (-1L);
+1007:../generate/system/r_devlink_wrapper.c ****     }
+1008:../generate/system/r_devlink_wrapper.c **** 
+1009:../generate/system/r_devlink_wrapper.c ****     /* File open check */
+1010:../generate/system/r_devlink_wrapper.c ****     if (gs_filestream[file_number].p_device_driver)
+ 1532              		.loc 1 1010 5 is_stmt 1 view .LVU427
+ 1533              		.loc 1 1010 35 is_stmt 0 view .LVU428
+ 1534 0008 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 1535 000c 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 1536 0010 80C293E7 		ldr	ip, [r3, r0, lsl #5]
+ 1537              		.loc 1 1010 8 view .LVU429
+ 1538 0014 00005CE3 		cmp	ip, #0
+ 1539 0018 1800000A 		beq	.L96
+1002:../generate/system/r_devlink_wrapper.c ****     /* File number range check */
+ 1540              		.loc 1 1002 1 view .LVU430
+ 1541 001c 10402DE9 		push	{r4, lr}
+ 1542              		.cfi_def_cfa_offset 8
+ 1543              		.cfi_offset 4, -8
+ 1544              		.cfi_offset 14, -4
+ 1545 0020 10D04DE2 		sub	sp, sp, #16
+ 1546              		.cfi_def_cfa_offset 24
+ 1547              	.LBB16:
+1011:../generate/system/r_devlink_wrapper.c ****     {
+1012:../generate/system/r_devlink_wrapper.c ****         st_stream_ptr_t pstream = &gs_filestream[file_number];
+ 1548              		.loc 1 1012 9 is_stmt 1 view .LVU431
+ 1549              		.loc 1 1012 25 is_stmt 0 view .LVU432
+ 1550 0024 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 1551 0028 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 1552              	.LVL133:
+1013:../generate/system/r_devlink_wrapper.c ****         FILESEEK file_seek;
+ 1553              		.loc 1 1013 9 is_stmt 1 view .LVU433
+1014:../generate/system/r_devlink_wrapper.c ****         file_seek.lOffset = (signed) lOffset;
+ 1554              		.loc 1 1014 9 view .LVU434
+ 1555              		.loc 1 1014 27 is_stmt 0 view .LVU435
+ 1556 002c 04108DE5 		str	r1, [sp, #4]
+1015:../generate/system/r_devlink_wrapper.c ****         file_seek.iBase = iBase;
+ 1557              		.loc 1 1015 9 is_stmt 1 view .LVU436
+ 1558              		.loc 1 1015 25 is_stmt 0 view .LVU437
+ 1559 0030 08208DE5 		str	r2, [sp, #8]
+1016:../generate/system/r_devlink_wrapper.c ****         file_seek.lResult = 0L;
+ 1560              		.loc 1 1016 9 is_stmt 1 view .LVU438
+ 1561              		.loc 1 1016 27 is_stmt 0 view .LVU439
+ 1562 0034 0020A0E3 		mov	r2, #0
+ 1563              	.LVL134:
+ 1564              		.loc 1 1016 27 view .LVU440
+ 1565 0038 0C208DE5 		str	r2, [sp, #12]
+1017:../generate/system/r_devlink_wrapper.c ****         if ((pstream->p_device_driver->control (pstream, CTL_FILE_SEEK, &file_seek)) && (0L == file
+ 1566              		.loc 1 1017 9 is_stmt 1 view .LVU441
+ 1567              		.loc 1 1017 38 is_stmt 0 view .LVU442
+ 1568 003c 14409CE5 		ldr	r4, [ip, #20]
+ 1569              		.loc 1 1017 14 view .LVU443
+ 1570 0040 04208DE2 		add	r2, sp, #4
+ 1571 0044 0010A0E3 		mov	r1, #0
+ 1572              	.LVL135:
+ 1573              		.loc 1 1017 14 view .LVU444
+ 1574 0048 0F1742E3 		movt	r1, 9999
+ 1575 004c 800283E0 		add	r0, r3, r0, lsl #5
+ 1576              	.LVL136:
+ 1577              		.loc 1 1017 14 view .LVU445
+ 1578 0050 34FF2FE1 		blx	r4
+ 1579              	.LVL137:
+ 1580              		.loc 1 1017 12 view .LVU446
+ 1581 0054 000050E3 		cmp	r0, #0
+ 1582 0058 0300000A 		beq	.L94
+ 1583              		.loc 1 1017 105 discriminator 1 view .LVU447
+ 1584 005c 0C309DE5 		ldr	r3, [sp, #12]
+ 1585              		.loc 1 1017 86 discriminator 1 view .LVU448
+ 1586 0060 000053E3 		cmp	r3, #0
+1018:../generate/system/r_devlink_wrapper.c ****         {
+1019:../generate/system/r_devlink_wrapper.c ****             file_seek.lResult = (-1L );
+ 1587              		.loc 1 1019 13 is_stmt 1 view .LVU449
+ 1588              		.loc 1 1019 31 is_stmt 0 view .LVU450
+ 1589 0064 0030E003 		mvneq	r3, #0
+ 1590 0068 0C308D05 		streq	r3, [sp, #12]
+ 1591              	.L94:
+1020:../generate/system/r_devlink_wrapper.c ****         }
+1021:../generate/system/r_devlink_wrapper.c ****         return file_seek.lResult;
+ 1592              		.loc 1 1021 9 is_stmt 1 view .LVU451
+ 1593              		.loc 1 1021 25 is_stmt 0 view .LVU452
+ 1594 006c 0C009DE5 		ldr	r0, [sp, #12]
+ 1595              	.LBE16:
+1022:../generate/system/r_devlink_wrapper.c ****     }
+1023:../generate/system/r_devlink_wrapper.c ****     return -1L;
+1024:../generate/system/r_devlink_wrapper.c **** }
+ 1596              		.loc 1 1024 1 view .LVU453
+ 1597 0070 10D08DE2 		add	sp, sp, #16
+ 1598              		.cfi_def_cfa_offset 8
+ 1599              		@ sp needed
+ 1600 0074 1080BDE8 		pop	{r4, pc}
+ 1601              	.LVL138:
+ 1602              	.L95:
+ 1603              		.cfi_def_cfa_offset 0
+ 1604              		.cfi_restore 4
+ 1605              		.cfi_restore 14
+1006:../generate/system/r_devlink_wrapper.c ****     }
+ 1606              		.loc 1 1006 16 view .LVU454
+ 1607 0078 0000E0E3 		mvn	r0, #0
+ 1608              	.LVL139:
+1006:../generate/system/r_devlink_wrapper.c ****     }
+ 1609              		.loc 1 1006 16 view .LVU455
+ 1610 007c 1EFF2FE1 		bx	lr
+ 1611              	.LVL140:
+ 1612              	.L96:
+1023:../generate/system/r_devlink_wrapper.c **** }
+ 1613              		.loc 1 1023 12 view .LVU456
+ 1614 0080 0000E0E3 		mvn	r0, #0
+ 1615              	.LVL141:
+ 1616              		.loc 1 1024 1 view .LVU457
+ 1617 0084 1EFF2FE1 		bx	lr
+ 1618              		.cfi_endproc
+ 1619              	.LFE30:
+ 1621              		.section	.text.R_DEVLINK_Init,"ax",%progbits
+ 1622              		.align	2
+ 1623              		.global	R_DEVLINK_Init
+ 1624              		.syntax unified
+ 1625              		.arm
+ 1626              		.fpu neon
+ 1628              	R_DEVLINK_Init:
+ 1629              	.LFB31:
+1025:../generate/system/r_devlink_wrapper.c **** /******************************************************************************
+1026:../generate/system/r_devlink_wrapper.c ****  End of function low_lseek
+1027:../generate/system/r_devlink_wrapper.c ****  ******************************************************************************/
+1028:../generate/system/r_devlink_wrapper.c **** 
+1029:../generate/system/r_devlink_wrapper.c **** #endif /* R_USE_ANSI_STDIO_MODE_CFG */
+1030:../generate/system/r_devlink_wrapper.c **** 
+1031:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+1032:../generate/system/r_devlink_wrapper.c ****  * Function Name: R_DEVLINK_Init
+1033:../generate/system/r_devlink_wrapper.c ****  * Description  : Initialisation function
+1034:../generate/system/r_devlink_wrapper.c ****  * Arguments    : none
+1035:../generate/system/r_devlink_wrapper.c ****  * Return Value : none
+1036:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+1037:../generate/system/r_devlink_wrapper.c **** void R_DEVLINK_Init(void)
+1038:../generate/system/r_devlink_wrapper.c **** {
+ 1630              		.loc 1 1038 1 is_stmt 1 view -0
+ 1631              		.cfi_startproc
+ 1632              		@ args = 0, pretend = 0, frame = 0
+ 1633              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1634 0000 10402DE9 		push	{r4, lr}
+ 1635              		.cfi_def_cfa_offset 8
+ 1636              		.cfi_offset 4, -8
+ 1637              		.cfi_offset 14, -4
+1039:../generate/system/r_devlink_wrapper.c ****     /* Initialise the devlink tables */
+1040:../generate/system/r_devlink_wrapper.c ****     memset (gs_filestream, 0, sizeof(gs_filestream));
+ 1638              		.loc 1 1040 5 view .LVU459
+ 1639 0004 2A2DA0E3 		mov	r2, #2688
+ 1640 0008 0010A0E3 		mov	r1, #0
+ 1641 000c 000000E3 		movw	r0, #:lower16:.LANCHOR0
+ 1642 0010 000040E3 		movt	r0, #:upper16:.LANCHOR0
+ 1643 0014 FEFFFFEB 		bl	memset
+ 1644              	.LVL142:
+1041:../generate/system/r_devlink_wrapper.c **** }
+ 1645              		.loc 1 1041 1 is_stmt 0 view .LVU460
+ 1646 0018 1080BDE8 		pop	{r4, pc}
+ 1647              		.cfi_endproc
+ 1648              	.LFE31:
+ 1650              		.section	.text.R_DEVLINK_FilePtrDescriptor,"ax",%progbits
+ 1651              		.align	2
+ 1652              		.global	R_DEVLINK_FilePtrDescriptor
+ 1653              		.syntax unified
+ 1654              		.arm
+ 1655              		.fpu neon
+ 1657              	R_DEVLINK_FilePtrDescriptor:
+ 1658              	.LVL143:
+ 1659              	.LFB32:
+1042:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+1043:../generate/system/r_devlink_wrapper.c ****  End of function R_DEVLINK_Init
+1044:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+1045:../generate/system/r_devlink_wrapper.c **** 
+1046:../generate/system/r_devlink_wrapper.c **** /**************************************************************************************************
+1047:../generate/system/r_devlink_wrapper.c ****  Function Name: R_DEVLINK_FilePtrDescriptor
+1048:../generate/system/r_devlink_wrapper.c ****  Description:   Function to convert a file pointer into a file descriptor
+1049:../generate/system/r_devlink_wrapper.c ****  Arguments:     IN  pFile - Pointer to the file stream;
+1050:../generate/system/r_devlink_wrapper.c ****  Return value:  The file descriptor
+1051:../generate/system/r_devlink_wrapper.c ****  **************************************************************************************************
+1052:../generate/system/r_devlink_wrapper.c **** int_t R_DEVLINK_FilePtrDescriptor(FILE *pFile)
+1053:../generate/system/r_devlink_wrapper.c **** {
+ 1660              		.loc 1 1053 1 is_stmt 1 view -0
+ 1661              		.cfi_startproc
+ 1662              		@ args = 0, pretend = 0, frame = 0
+ 1663              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1664              		@ link register save eliminated.
+1054:../generate/system/r_devlink_wrapper.c ****     int_t result = (-1);
+ 1665              		.loc 1 1054 5 view .LVU462
+1055:../generate/system/r_devlink_wrapper.c ****     if (pFile)
+ 1666              		.loc 1 1055 5 view .LVU463
+ 1667              		.loc 1 1055 8 is_stmt 0 view .LVU464
+ 1668 0000 000050E3 		cmp	r0, #0
+ 1669              		.loc 1 1055 8 view .LVU465
+ 1670 0004 0100000A 		beq	.L105
+ 1671              	.LBB17:
+1056:../generate/system/r_devlink_wrapper.c ****     {
+1057:../generate/system/r_devlink_wrapper.c ****         /* defined in reent.h as struct __sFILE */
+1058:../generate/system/r_devlink_wrapper.c ****         struct __sFILE *p_internal = (struct __sFILE *) pFile;
+ 1672              		.loc 1 1058 9 is_stmt 1 view .LVU466
+ 1673              	.LVL144:
+1059:../generate/system/r_devlink_wrapper.c **** 
+1060:../generate/system/r_devlink_wrapper.c ****         /* defined in reent.h short _file; fileno, if Unix descriptor, else -1 */
+1061:../generate/system/r_devlink_wrapper.c ****         result = (int_t) p_internal->_file;
+ 1674              		.loc 1 1061 9 view .LVU467
+ 1675              		.loc 1 1061 36 is_stmt 0 view .LVU468
+ 1676 0008 FE00D0E1 		ldrsh	r0, [r0, #14]
+ 1677              	.LVL145:
+ 1678              		.loc 1 1061 36 view .LVU469
+ 1679 000c 1EFF2FE1 		bx	lr
+ 1680              	.LVL146:
+ 1681              	.L105:
+ 1682              		.loc 1 1061 36 view .LVU470
+ 1683              	.LBE17:
+1054:../generate/system/r_devlink_wrapper.c ****     if (pFile)
+ 1684              		.loc 1 1054 11 view .LVU471
+ 1685 0010 0000E0E3 		mvn	r0, #0
+ 1686              	.LVL147:
+1062:../generate/system/r_devlink_wrapper.c ****     }
+1063:../generate/system/r_devlink_wrapper.c ****     return (result);
+ 1687              		.loc 1 1063 5 is_stmt 1 view .LVU472
+1064:../generate/system/r_devlink_wrapper.c **** }
+ 1688              		.loc 1 1064 1 is_stmt 0 view .LVU473
+ 1689 0014 1EFF2FE1 		bx	lr
+ 1690              		.cfi_endproc
+ 1691              	.LFE32:
+ 1693              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 1694              		.align	2
+ 1695              	.LC2:
+ 1696 0000 4E6F2044 		.ascii	"No Device Driver\000"
+ 1696      65766963 
+ 1696      65204472 
+ 1696      69766572 
+ 1696      00
+ 1697 0011 000000   		.align	2
+ 1698              	.LC3:
+ 1699 0014 63706700 		.ascii	"cpg\000"
+ 1700              		.align	2
+ 1701              	.LC4:
+ 1702 0018 6770696F 		.ascii	"gpio\000"
+ 1702      00
+ 1703 001d 000000   		.align	2
+ 1704              	.LC5:
+ 1705 0020 72696963 		.ascii	"riic1\000"
+ 1705      3100
+ 1706 0026 0000     		.align	2
+ 1707              	.LC6:
+ 1708 0028 73736966 		.ascii	"ssif3\000"
+ 1708      3300
+ 1709 002e 0000     		.align	2
+ 1710              	.LC7:
+ 1711 0030 73636966 		.ascii	"scifa4\000"
+ 1711      613400
+ 1712 0037 00       		.align	2
+ 1713              	.LC8:
+ 1714 0038 646D615F 		.ascii	"dma_ssif_wr\000"
+ 1714      73736966 
+ 1714      5F777200 
+ 1715              		.align	2
+ 1716              	.LC9:
+ 1717 0044 646D615F 		.ascii	"dma_ssif_rd\000"
+ 1717      73736966 
+ 1717      5F726400 
+ 1718              		.align	2
+ 1719              	.LC10:
+ 1720 0050 6F73746D 		.ascii	"ostm_reserved\000"
+ 1720      5F726573 
+ 1720      65727665 
+ 1720      6400
+ 1721 005e 0000     		.align	2
+ 1722              	.LC11:
+ 1723 0060 72756E74 		.ascii	"runtime_stats_timer\000"
+ 1723      696D655F 
+ 1723      73746174 
+ 1723      735F7469 
+ 1723      6D657200 
+ 1724              		.align	2
+ 1725              	.LC12:
+ 1726 0074 73746469 		.ascii	"stdin\000"
+ 1726      6E00
+ 1727 007a 0000     		.align	2
+ 1728              	.LC13:
+ 1729 007c 7374646F 		.ascii	"stdout\000"
+ 1729      757400
+ 1730 0083 00       		.align	2
+ 1731              	.LC14:
+ 1732 0084 73746465 		.ascii	"stderr\000"
+ 1732      727200
+ 1733              		.section	.bss.gs_filestream,"aw",%nobits
+ 1734              		.align	2
+ 1735              		.set	.LANCHOR0,. + 0
+ 1738              	gs_filestream:
+ 1739 0000 00000000 		.space	2688
+ 1739      00000000 
+ 1739      00000000 
+ 1739      00000000 
+ 1739      00000000 
+ 1740              		.section	.data.gs_no_driver,"aw"
+ 1741              		.align	2
+ 1742              		.set	.LANCHOR2,. + 0
+ 1745              	gs_no_driver:
+ 1746 0000 00000000 		.word	.LC2
+ 1747 0004 00000000 		.word	no_dev_open
+ 1748 0008 00000000 		.word	no_dev_close
+ 1749 000c 00000000 		.word	no_dev_read
+ 1750 0010 00000000 		.word	no_dev_write
+ 1751 0014 00000000 		.word	no_dev_control
+ 1752 0018 00000000 		.word	no_dev_get_version
+ 1753              		.section	.rodata.gs_mount_table,"a"
+ 1754              		.align	2
+ 1755              		.set	.LANCHOR1,. + 0
+ 1758              	gs_mount_table:
+ 1759 0000 14000000 		.word	.LC3
+ 1760 0004 00000000 		.word	g_cpg_driver
+ 1761 0008 00000000 		.word	0
+ 1762 000c 18000000 		.word	.LC4
+ 1763 0010 00000000 		.word	g_gpio_driver
+ 1764 0014 00000000 		.word	0
+ 1765 0018 20000000 		.word	.LC5
+ 1766 001c 00000000 		.word	g_riic_driver
+ 1767 0020 00000000 		.word	0
+ 1768 0024 28000000 		.word	.LC6
+ 1769 0028 00000000 		.word	g_ssif_driver
+ 1770 002c 00000000 		.word	0
+ 1771 0030 30000000 		.word	.LC7
+ 1772 0034 00000000 		.word	g_scifa_driver
+ 1773 0038 00000000 		.word	0
+ 1774 003c 38000000 		.word	.LC8
+ 1775 0040 00000000 		.word	g_dmac_driver
+ 1776 0044 00000000 		.word	0
+ 1777 0048 44000000 		.word	.LC9
+ 1778 004c 00000000 		.word	g_dmac_driver
+ 1779 0050 01000000 		.word	1
+ 1780 0054 50000000 		.word	.LC10
+ 1781 0058 00000000 		.word	g_ostm_driver
+ 1782 005c 00000000 		.word	0
+ 1783 0060 60000000 		.word	.LC11
+ 1784 0064 00000000 		.word	g_ostm_driver
+ 1785 0068 01000000 		.word	1
+ 1786 006c 74000000 		.word	.LC12
+ 1787 0070 00000000 		.word	g_scifa_driver
+ 1788 0074 00000000 		.word	0
+ 1789 0078 7C000000 		.word	.LC13
+ 1790 007c 00000000 		.word	g_scifa_driver
+ 1791 0080 00000000 		.word	0
+ 1792 0084 84000000 		.word	.LC14
+ 1793 0088 00000000 		.word	g_scifa_driver
+ 1794 008c 00000000 		.word	0
+ 1795              		.text
+ 1796              	.Letext0:
+ 1797              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 1798              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1799              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1800              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1801              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1802              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1803              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1804              		.file 9 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1805              		.file 10 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1806              		.file 11 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1807              		.file 12 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_
+ 1808              		.file 13 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/dr
+ 1809              		.file 14 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1810              		.file 15 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_
+ 1811              		.file 16 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/os_abstractio
+ 1812              		.file 17 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/de
+ 1813              		.file 18 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_cpg
+ 1814              		.file 19 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/iodefi
+ 1815              		.file 20 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_gpi
+ 1816              		.file 21 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1817              		.file 22 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1818              		.file 23 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1819              		.file 24 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1820              		.file 25 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1821              		.file 26 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1822              		.file 27 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_int
+ 1823              		.file 28 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1824              		.file 29 "C:\\Users\\ryota\\e2_studio\\workspace\\rza2m_ssif_sample_freertos_gcc\\generate\\sc_dri
+ 1825              		.file 30 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 1826              		.file 31 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/configuration
+ 1827              		.file 32 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1828              		.file 33 "<built-in>"
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_devlink_wrapper.c
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:17     .text.get_first_free_direct_handle:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:25     .text.get_first_free_direct_handle:00000000 get_first_free_direct_handle
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1735   .bss.gs_filestream:00000000 .LANCHOR0
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:75     .text.get_first_free_call_stdio_handle:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:80     .text.get_first_free_call_stdio_handle:00000000 get_first_free_call_stdio_handle
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:129    .text.get_device_stream_from_handle:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:134    .text.get_device_stream_from_handle:00000000 get_device_stream_from_handle
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:179    .text.check_valid_handle:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:184    .text.check_valid_handle:00000000 check_valid_handle
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:229    .text.no_dev_open:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:235    .text.no_dev_open:00000000 no_dev_open
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:254    .text.no_dev_close:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:260    .text.no_dev_close:00000000 no_dev_close
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:275    .text.no_dev_read:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:281    .text.no_dev_read:00000000 no_dev_read
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:302    .text.no_dev_write:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:308    .text.no_dev_write:00000000 no_dev_write
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:329    .text.no_dev_control:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:335    .text.no_dev_control:00000000 no_dev_control
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:356    .text.no_dev_get_version:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:362    .text.no_dev_get_version:00000000 no_dev_get_version
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:382    .rodata.get_device_name.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:383    .rodata.get_device_name.str1.4:00000000 .LC0
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:386    .text.get_device_name:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:391    .text.get_device_name:00000000 get_device_name
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:432    .text.dev_get_pointer:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:437    .text.dev_get_pointer:00000000 dev_get_pointer
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1755   .rodata.gs_mount_table:00000000 .LANCHOR1
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:515    .rodata.direct_open.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:516    .rodata.direct_open.str1.4:00000000 .LC1
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:519    .text.direct_open:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:525    .text.direct_open:00000000 direct_open
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1742   .data.gs_no_driver:00000000 .LANCHOR2
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:745    .text.direct_close:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:751    .text.direct_close:00000000 direct_close
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:813    .text.direct_read:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:819    .text.direct_read:00000000 direct_read
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:902    .text.direct_write:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:908    .text.direct_write:00000000 direct_write
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:989    .text.direct_control:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:995    .text.direct_control:00000000 direct_control
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1057   .text.direct_get_version:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1063   .text.direct_get_version:00000000 direct_get_version
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1159   .text.low_open:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1165   .text.low_open:00000000 low_open
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1375   .text.low_close:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1381   .text.low_close:00000000 low_close
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1403   .text.low_read:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1409   .text.low_read:00000000 low_read
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1431   .text.low_write:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1437   .text.low_write:00000000 low_write
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1459   .text.control:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1465   .text.control:00000000 control
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1487   .text.get_version:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1493   .text.get_version:00000000 get_version
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1515   .text.low_lseek:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1521   .text.low_lseek:00000000 low_lseek
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1622   .text.R_DEVLINK_Init:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1628   .text.R_DEVLINK_Init:00000000 R_DEVLINK_Init
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1651   .text.R_DEVLINK_FilePtrDescriptor:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1657   .text.R_DEVLINK_FilePtrDescriptor:00000000 R_DEVLINK_FilePtrDescriptor
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1694   .rodata.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1734   .bss.gs_filestream:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1738   .bss.gs_filestream:00000000 gs_filestream
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1741   .data.gs_no_driver:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1745   .data.gs_no_driver:00000000 gs_no_driver
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1754   .rodata.gs_mount_table:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\ccKnFKmv.s:1758   .rodata.gs_mount_table:00000000 gs_mount_table
+                           .group:00000000 wm4.0.3d5c910ebb40df6df78b28e37cd67f3d
+                           .group:00000000 wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d
+                           .group:00000000 wm4.newlib.h.18.1c9fedb6b3cd797cff253cc0fd593ef2
+                           .group:00000000 wm4.ieeefp.h.77.3f06799abf5dd88bdddee084775a1223
+                           .group:00000000 wm4.features.h.22.fad1cec3bc7ff06488171438dbdcfd02
+                           .group:00000000 wm4.config.h.224.c701144a7b0518c6ee9b9b5465b79f81
+                           .group:00000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:00000000 wm4.stddef.h.39.144cf5ddcd53cbfdac30259dc1a6c87f
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.155.3588ebfdd1e8c7ede80509bb9c3b8009
+                           .group:00000000 wm4._default_types.h.6.959254cf5f09734ea7516c89e8bb21bd
+                           .group:00000000 wm4._types.h.127.34941de1b2539d59d5cac00e0dd27a45
+                           .group:00000000 wm4.reent.h.17.e292bf8b0bec6c96e131a54347145a30
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4.reent.h.77.dcd6129ff07fe81bd5636db29abe53b2
+                           .group:00000000 wm4.cdefs.h.49.6260d97adb8d27534cbdc0f868b8ea87
+                           .group:00000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:00000000 wm4.stddef.h.155.ba788add86a0e365f264484f110c3c29
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:00000000 wm4.types.h.40.8b6acba56cefbb11746718204edc8f5e
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4._endian.h.31.65a10590763c3dde1ac4a7f66d7d4891
+                           .group:00000000 wm4.endian.h.9.49f3a4695c1b61e8a0808de3c4a106cb
+                           .group:00000000 wm4._timeval.h.32.bec3221fa7a9bb0bdde696c9c57e47d2
+                           .group:00000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:00000000 wm4.select.h.19.97ca6fd0c752a0f3b6719fd314d361e6
+                           .group:00000000 wm4.types.h.51.5571ec98f267d17d3c670b7a3ba33afa
+                           .group:00000000 wm4.sched.h.22.c60982713a5c428609783c78f9c78d95
+                           .group:00000000 wm4._pthreadtypes.h.36.fcee9961c35163dde6267ef772ad1972
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.81.932d0c162786b883f622b8d05c120c78
+                           .group:00000000 wm4._default_fcntl.h.6.791f38f41eee7843f224ce48f47caa9b
+                           .group:00000000 wm4.time.h.8.db4619001f026d0b4874c029fef0e91f
+                           .group:00000000 wm4.time.h.2.4581ce0ffb6627cfc02162c94bf846c9
+                           .group:00000000 wm4.time.h.25.e44726f8f6b03ec08e4e0835a2fcc2b7
+                           .group:00000000 wm4.stat.h.54.5a9b823658423102e7a8de4ed089eedc
+                           .group:00000000 wm4.fcntl.h.9.9336f33d7f5028f694c75e6e224e0cf7
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.math.h.13.97100c05caf9f40dd9f5a3cda48ccc01
+                           .group:00000000 wm4.r_typedefs.h.38.e90d9de5300d9ae020e5db8c5af88b3e
+                           .group:00000000 wm4.driver.h.34.180df73e0731406f5e50150641059ede
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.56.f4862cfbf4363a1db01842d5bdf72c18
+                           .group:00000000 wm4.reent.h.91.b3ea049ebc5486622b61409b78486f84
+                           .group:00000000 wm4.r_devlink_wrapper.h.72.ad1de4c851513efa3aed0532ebca7ca2
+                           .group:00000000 wm4.r_startup_config.h.28.41a2bd9676f9208cac4163ceb2eb9006
+                           .group:00000000 wm4.r_compiler_abstraction_api.h.26.bb21b39b83806cb7bb8838b6f825dcff
+                           .group:00000000 wm4.r_os_abstraction_api.h.60.0331cc3a2f471de784d61b225d2e9127
+                           .group:00000000 wm4.compiler_settings.h.55.412db3588640e7e83336e77c1cd11233
+                           .group:00000000 wm4.r_cpg_lld_rza2m.h.34.816a72e040903fdc81e9bc59d78d8604
+                           .group:00000000 wm4.r_cpg_drv_api.h.32.34aa4048b9b772326079abd0eac5b571
+                           .group:00000000 wm4.adc_iodefine.h.29.14c6f50dce37432a7d004e4b1ce33da7
+                           .group:00000000 wm4.bsc_iodefine.h.29.9281d1f3639266933964d6d0c2d42c4f
+                           .group:00000000 wm4.ceu_iodefine.h.29.2a669d0b46fdde030a50db9e3c307fbf
+                           .group:00000000 wm4.cpg_iodefine.h.29.d6fdc9cb4798723afd88b251d64c2ce2
+                           .group:00000000 wm4.csi2link_iodefine.h.29.221c4531636a409f24d307b16341ada8
+                           .group:00000000 wm4.dmac_iodefine.h.29.578fccc2cc1da886ec95a029bf874f01
+                           .group:00000000 wm4.drpk_iodefine.h.29.580eb8588a2b2d43d2726fbe791e513f
+                           .group:00000000 wm4.drw_iodefine.h.29.df30f4a4a34a79f6a86c4df91353dffe
+                           .group:00000000 wm4.edmac_iodefine.h.29.33e8759349004a722f42f5429c1353f6
+                           .group:00000000 wm4.eptpc_iodefine.h.29.74d8f9fab0f5549b56097fb9e937dde8
+                           .group:00000000 wm4.etherc_iodefine.h.29.14602750383a574f1c21f994ad33a366
+                           .group:00000000 wm4.gpio_iodefine.h.29.3d0b021c56839cee4ae5149903684e4b
+                           .group:00000000 wm4.gpt_iodefine.h.29.557ead75d7b0585b898d3898b64c7f87
+                           .group:00000000 wm4.hyper_iodefine.h.29.000caadbb74d881e97db55b39b432154
+                           .group:00000000 wm4.imr_iodefine.h.29.77c022f017e711c4d51cc0145db1dad3
+                           .group:00000000 wm4.intc_iodefine.h.29.b68f5799a35a7495d63b4cd458e1ba57
+                           .group:00000000 wm4.irda_iodefine.h.29.37e67bd2005173d68a74d1cc937d8444
+                           .group:00000000 wm4.jcu_iodefine.h.29.3aca452908962e7a7ccf26164751feda
+                           .group:00000000 wm4.lvds_iodefine.h.29.c11cbe1900e5209c8dcc76c2336c16bc
+                           .group:00000000 wm4.mtu_iodefine.h.29.5498fb974bb53caf05aa143c2deec781
+                           .group:00000000 wm4.nandc_iodefine.h.29.e0b343306750f017ee86e169ad98efe9
+                           .group:00000000 wm4.octa_iodefine.h.29.4cb0d62e4b9633e173858000dc1c626c
+                           .group:00000000 wm4.ostm_iodefine.h.29.6914f7e330a1cf0008b34219adcdfed4
+                           .group:00000000 wm4.pl_iodefine.h.29.abbb6d725aed990aa8343242bfe31416
+                           .group:00000000 wm4.pmg_iodefine.h.29.8bcfbc4771a6f9b7dd4d6f504427219e
+                           .group:00000000 wm4.poeg_iodefine.h.29.0d8e258d10986260cbc70cfb8c0ef273
+                           .group:00000000 wm4.poe_iodefine.h.29.fe74e55e7b6b4afbe3596c74ba035e98
+                           .group:00000000 wm4.prr_iodefine.h.29.c1f15576f7a27b9c83aa3b40f5b2f988
+                           .group:00000000 wm4.ptpedmac_iodefine.h.29.cd24a93374ce35cebc41e26889d619ef
+                           .group:00000000 wm4.rcanfd_iodefine.h.29.532dd48b82fcb61d63538aba4b6f1289
+                           .group:00000000 wm4.rcan_iodefine.h.29.a47a89db1b35c12b54af48fa1956acba
+                           .group:00000000 wm4.riic_iodefine.h.29.f96943d49800d297612c4af3bba5c943
+                           .group:00000000 wm4.rspi_iodefine.h.29.7efa041fe34a7d27db66a7b337879dfe
+                           .group:00000000 wm4.rtc_iodefine.h.29.6dc76be5ca3df69cecb5a81d06cc46b5
+                           .group:00000000 wm4.scifa_iodefine.h.29.b04ccd664d71baaf31c75761c45b9c4d
+                           .group:00000000 wm4.scim_iodefine.h.29.87d0760abf94446b00d826c797bf0ff2
+                           .group:00000000 wm4.sdmmc_iodefine.h.29.e67e9815445e8057a3262d1566bea0db
+                           .group:00000000 wm4.spdif_iodefine.h.29.59f5d70150fa200a4d8ee50be1ee34c8
+                           .group:00000000 wm4.spibsc_iodefine.h.29.f4930f8b8da1140200204513a363c76f
+                           .group:00000000 wm4.sprite_iodefine.h.29.55796d1fa083a2457fea4ece974a192e
+                           .group:00000000 wm4.ssif_iodefine.h.29.054ec6d95f487f631f16aee39c85c47a
+                           .group:00000000 wm4.usb_iodefine.h.29.6dc44ea388ba227e8fdcfb33c315887b
+                           .group:00000000 wm4.vdc_iodefine.h.29.db282ded1f052d8567fbbd3b61ce8f7a
+                           .group:00000000 wm4.vin_iodefine.h.29.9b392e5601347d53e64be3272934e170
+                           .group:00000000 wm4.wdt_iodefine.h.29.ed07bb44b797072f8c28b41c64fdca30
+                           .group:00000000 wm4.r_gpio_lld_rza2m.h.35.96c370653fb2c866d018d89b2befa42a
+                           .group:00000000 wm4.r_gpio_drv_api.h.82.65cb5059c23a4e3e6bc10574003162e6
+                           .group:00000000 wm4.r_rza2m_riic_lld_cfg.h.34.420dadece52c9d581310a82d03ef7a9c
+                           .group:00000000 wm4.r_rza2m_riic_lld_api.h.36.fbae5305df069aab4ee8737f6b4cc155
+                           .group:00000000 wm4.r_riic_drv_api.h.81.8cfa166374387345d2e15a569d3903b9
+                           .group:00000000 wm4.r_ssif_hld_cfg.h.77.494484d2b35f901d21e5a4a443023f99
+                           .group:00000000 wm4.r_ssif_lld_aioif.h.68.0b414c2cd636b66d5d3dd6df4fbb9396
+                           .group:00000000 wm4.r_rza2_ssif_lld.h.71.c3a11c781f996c42386d956f84748ee5
+                           .group:00000000 wm4.r_rza2_ssif_lld_cfg.h.35.613780c59f37c9d9d2b6c16dc6fd3003
+                           .group:00000000 wm4.r_ssif_drv_api.h.83.0f339aeb2852e6aeb06bb4a8f8fef094
+                           .group:00000000 wm4.r_rza2_scifa_lld_cfg.h.36.61e814bf2acbefb3a77603b0f9c69f70
+                           .group:00000000 wm4.r_rza2_scifa_lld_api.h.40.f15aca924d8f4510909a605ba9e2cfc9
+                           .group:00000000 wm4.r_intc_lld_rza2m.h.35.148dee33e6a963828fdce2545668b517
+                           .group:00000000 wm4.r_rza2_scifa_lld.h.43.012a3fef11a37869f92df11b17f0b8cf
+                           .group:00000000 wm4.r_scifa_drv_api.h.86.1d7685ff783320507ac59dff595e881d
+                           .group:00000000 wm4.syslimits.h.38.a5cadcb164df32bfe95032c693331b67
+                           .group:00000000 wm4.limits.h.9.70fb0ada6f71b16202a66baaa6d8ea70
+                           .group:00000000 wm4.limits.h.60.56a1ae353e2028a24298ec6463b8b593
+                           .group:00000000 wm4.r_dmac_lld_cfg_rza2m.h.35.50e14b1855eac36f6b7e2eaf57bda29c
+                           .group:00000000 wm4.r_dmac_drv_api.h.38.3f633d0a672a1c8d5076ce5415151888
+                           .group:00000000 wm4.r_ostm_lld_rza2m.h.66.272f829b409763a94e47858c6b6cb517
+                           .group:00000000 wm4.r_ostm_drv_api.h.51.adcd0e7bd4841f6d7c67e44f00650c60
+                           .group:00000000 wm4.application_cfg.h.34.5933f86187a4e016c22c12e023d46cf0
+
+UNDEFINED SYMBOLS
+strstr
+strcmp
+sprintf
+memset
+g_cpg_driver
+g_gpio_driver
+g_riic_driver
+g_ssif_driver
+g_scifa_driver
+g_dmac_driver
+g_ostm_driver

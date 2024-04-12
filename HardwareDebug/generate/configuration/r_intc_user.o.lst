@@ -1,0 +1,432 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_intc_user.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.Userdef_INTC_Pre_Interrupt,"ax",%progbits
+  17              		.align	2
+  18              		.global	Userdef_INTC_Pre_Interrupt
+  19              		.arch armv7-a
+  20              		.arch_extension mp
+  21              		.arch_extension sec
+  22              		.syntax unified
+  23              		.arm
+  24              		.fpu neon
+  26              	Userdef_INTC_Pre_Interrupt:
+  27              	.LVL0:
+  28              	.LFB3:
+  29              		.file 1 "../generate/configuration/r_intc_user.c"
+   1:../generate/configuration/r_intc_user.c **** /**************************************************************************************************
+   2:../generate/configuration/r_intc_user.c ****  * DISCLAIMER
+   3:../generate/configuration/r_intc_user.c ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:../generate/configuration/r_intc_user.c ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:../generate/configuration/r_intc_user.c ****  * applicable laws, including copyright laws.
+   6:../generate/configuration/r_intc_user.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:../generate/configuration/r_intc_user.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:../generate/configuration/r_intc_user.c ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:../generate/configuration/r_intc_user.c ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:../generate/configuration/r_intc_user.c ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:../generate/configuration/r_intc_user.c ****  * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DA
+  12:../generate/configuration/r_intc_user.c ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:../generate/configuration/r_intc_user.c ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:../generate/configuration/r_intc_user.c ****  * following link:
+  15:../generate/configuration/r_intc_user.c ****  * http://www.renesas.com/disclaimer
+  16:../generate/configuration/r_intc_user.c ****  *
+  17:../generate/configuration/r_intc_user.c ****  * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  18:../generate/configuration/r_intc_user.c ****  **************************************************************************************************
+  19:../generate/configuration/r_intc_user.c **** /**************************************************************************************************
+  20:../generate/configuration/r_intc_user.c ****  * File Name   : r_intc_user.c
+  21:../generate/configuration/r_intc_user.c ****  * Description : INTC driver (User modifiable code)
+  22:../generate/configuration/r_intc_user.c ****  **************************************************************************************************
+  23:../generate/configuration/r_intc_user.c **** 
+  24:../generate/configuration/r_intc_user.c **** /**************************************************************************************************
+  25:../generate/configuration/r_intc_user.c ****  Includes   <System Includes> , "Project Includes"
+  26:../generate/configuration/r_intc_user.c ****  **************************************************************************************************
+  27:../generate/configuration/r_intc_user.c **** #include "r_typedefs.h"
+  28:../generate/configuration/r_intc_user.c **** #include "compiler_settings.h"
+  29:../generate/configuration/r_intc_user.c **** #include "r_compiler_abstraction_api.h"
+  30:../generate/configuration/r_intc_user.c **** #include "r_intc_drv_api.h"
+  31:../generate/configuration/r_intc_user.c **** #include "iodefine.h"
+  32:../generate/configuration/r_intc_user.c **** 
+  33:../generate/configuration/r_intc_user.c **** /**************************************************************************************************
+  34:../generate/configuration/r_intc_user.c ****  Private (static) variables and functions
+  35:../generate/configuration/r_intc_user.c ****  **************************************************************************************************
+  36:../generate/configuration/r_intc_user.c **** 
+  37:../generate/configuration/r_intc_user.c **** /**************************************************************************************************
+  38:../generate/configuration/r_intc_user.c ****  * Function Name: Userdef_INTC_Pre_Interrupt
+  39:../generate/configuration/r_intc_user.c ****  * Description  : This function is the user-defined function called by the
+  40:../generate/configuration/r_intc_user.c ****  *              : INTC driver. Write the processing to be executed
+  41:../generate/configuration/r_intc_user.c ****  *              : before registered interrupt function is called
+  42:../generate/configuration/r_intc_user.c ****  * Arguments    : e_r_drv_intc_intid_t int_id    : Interrupt ID
+  43:../generate/configuration/r_intc_user.c ****  * Return Value : INTC_SUCCESS        : Success
+  44:../generate/configuration/r_intc_user.c ****  **************************************************************************************************
+  45:../generate/configuration/r_intc_user.c **** e_r_drv_intc_err_t Userdef_INTC_Pre_Interrupt(e_r_drv_intc_intid_t int_id)
+  46:../generate/configuration/r_intc_user.c **** {
+  30              		.loc 1 46 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  47:../generate/configuration/r_intc_user.c ****     e_r_drv_intc_err_t err;
+  35              		.loc 1 47 5 view .LVU1
+  48:../generate/configuration/r_intc_user.c ****     err = INTC_SUCCESS;
+  36              		.loc 1 48 5 view .LVU2
+  49:../generate/configuration/r_intc_user.c **** 
+  50:../generate/configuration/r_intc_user.c ****     /* int_id not used */
+  51:../generate/configuration/r_intc_user.c ****     UNUSED_PARAM(int_id);
+  37              		.loc 1 51 5 view .LVU3
+  52:../generate/configuration/r_intc_user.c **** 
+  53:../generate/configuration/r_intc_user.c ****     /* Do Nothing */
+  54:../generate/configuration/r_intc_user.c **** 
+  55:../generate/configuration/r_intc_user.c ****     return err;
+  38              		.loc 1 55 5 view .LVU4
+  56:../generate/configuration/r_intc_user.c **** }
+  39              		.loc 1 56 1 is_stmt 0 view .LVU5
+  40 0000 0000A0E3 		mov	r0, #0
+  41              	.LVL1:
+  42              		.loc 1 56 1 view .LVU6
+  43 0004 1EFF2FE1 		bx	lr
+  44              		.cfi_endproc
+  45              	.LFE3:
+  47              		.section	.text.Userdef_INTC_Post_Interrupt,"ax",%progbits
+  48              		.align	2
+  49              		.global	Userdef_INTC_Post_Interrupt
+  50              		.syntax unified
+  51              		.arm
+  52              		.fpu neon
+  54              	Userdef_INTC_Post_Interrupt:
+  55              	.LVL2:
+  56              	.LFB4:
+  57:../generate/configuration/r_intc_user.c **** /**************************************************************************************************
+  58:../generate/configuration/r_intc_user.c ****  * End of function Userdef_INTC_Pre_Interrupt
+  59:../generate/configuration/r_intc_user.c ****  **************************************************************************************************
+  60:../generate/configuration/r_intc_user.c **** 
+  61:../generate/configuration/r_intc_user.c **** 
+  62:../generate/configuration/r_intc_user.c **** /**************************************************************************************************
+  63:../generate/configuration/r_intc_user.c ****  * Function Name: Userdef_INTC_Post_Interrupt
+  64:../generate/configuration/r_intc_user.c ****  * Description  : This function is the user-defined function called by the
+  65:../generate/configuration/r_intc_user.c ****  *              : INTC driver. Write the processing to be executed
+  66:../generate/configuration/r_intc_user.c ****  *              : after registered interrupt function is called
+  67:../generate/configuration/r_intc_user.c ****  * Arguments    : e_r_drv_intc_intid_t int_id    : Interrupt ID
+  68:../generate/configuration/r_intc_user.c ****  * Return Value : INTC_SUCCESS        : Success
+  69:../generate/configuration/r_intc_user.c ****  **************************************************************************************************
+  70:../generate/configuration/r_intc_user.c **** e_r_drv_intc_err_t Userdef_INTC_Post_Interrupt(e_r_drv_intc_intid_t int_id)
+  71:../generate/configuration/r_intc_user.c **** {
+  57              		.loc 1 71 1 is_stmt 1 view -0
+  58              		.cfi_startproc
+  59              		@ args = 0, pretend = 0, frame = 0
+  60              		@ frame_needed = 0, uses_anonymous_args = 0
+  61              		@ link register save eliminated.
+  72:../generate/configuration/r_intc_user.c ****     e_r_drv_intc_err_t err;
+  62              		.loc 1 72 5 view .LVU8
+  73:../generate/configuration/r_intc_user.c ****     err = INTC_SUCCESS;
+  63              		.loc 1 73 5 view .LVU9
+  74:../generate/configuration/r_intc_user.c **** 
+  75:../generate/configuration/r_intc_user.c ****     /* int_id not used */
+  76:../generate/configuration/r_intc_user.c ****     UNUSED_PARAM(int_id);
+  64              		.loc 1 76 5 view .LVU10
+  77:../generate/configuration/r_intc_user.c **** 
+  78:../generate/configuration/r_intc_user.c ****     /* Do Nothing */
+  79:../generate/configuration/r_intc_user.c **** 
+  80:../generate/configuration/r_intc_user.c ****     return err;
+  65              		.loc 1 80 5 view .LVU11
+  81:../generate/configuration/r_intc_user.c **** }
+  66              		.loc 1 81 1 is_stmt 0 view .LVU12
+  67 0000 0000A0E3 		mov	r0, #0
+  68              	.LVL3:
+  69              		.loc 1 81 1 view .LVU13
+  70 0004 1EFF2FE1 		bx	lr
+  71              		.cfi_endproc
+  72              	.LFE4:
+  74              		.section	.text.Userdef_INTC_UndefId,"ax",%progbits
+  75              		.align	2
+  76              		.global	Userdef_INTC_UndefId
+  77              		.syntax unified
+  78              		.arm
+  79              		.fpu neon
+  81              	Userdef_INTC_UndefId:
+  82              	.LFB5:
+  82:../generate/configuration/r_intc_user.c **** /**************************************************************************************************
+  83:../generate/configuration/r_intc_user.c ****  * End of function Userdef_INTC_Post_Interrupt
+  84:../generate/configuration/r_intc_user.c ****  **************************************************************************************************
+  85:../generate/configuration/r_intc_user.c **** 
+  86:../generate/configuration/r_intc_user.c **** /**************************************************************************************************
+  87:../generate/configuration/r_intc_user.c ****  * Function Name: Userdef_INTC_UndefId
+  88:../generate/configuration/r_intc_user.c ****  * Description  : This function is the user-defined function called by the
+  89:../generate/configuration/r_intc_user.c ****  *              : INTC driver. Write the processing to be executed
+  90:../generate/configuration/r_intc_user.c ****  *              : when an unsupported interrupt ID is received.
+  91:../generate/configuration/r_intc_user.c ****  * Arguments    : e_r_drv_intc_intid_t int_id    : Interrupt ID
+  92:../generate/configuration/r_intc_user.c ****  * Return Value : INTC_SUCCESS        : Success
+  93:../generate/configuration/r_intc_user.c ****  **************************************************************************************************
+  94:../generate/configuration/r_intc_user.c **** e_r_drv_intc_err_t Userdef_INTC_UndefId(e_r_drv_intc_intid_t int_id)
+  95:../generate/configuration/r_intc_user.c **** {
+  83              		.loc 1 95 1 is_stmt 1 view -0
+  84              		.cfi_startproc
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88              	.LVL4:
+  89              	.L4:
+  96:../generate/configuration/r_intc_user.c ****     e_r_drv_intc_err_t err;
+  97:../generate/configuration/r_intc_user.c ****     err = INTC_SUCCESS;
+  98:../generate/configuration/r_intc_user.c **** 
+  99:../generate/configuration/r_intc_user.c ****     /* int_id not used */
+ 100:../generate/configuration/r_intc_user.c ****     UNUSED_PARAM(int_id);
+  90              		.loc 1 100 5 discriminator 1 view .LVU15
+ 101:../generate/configuration/r_intc_user.c **** 
+ 102:../generate/configuration/r_intc_user.c ****     /* Execute processing when receiving interrupt ID which is not supported */
+ 103:../generate/configuration/r_intc_user.c ****     while (1)
+  91              		.loc 1 103 5 discriminator 1 view .LVU16
+ 104:../generate/configuration/r_intc_user.c ****     {
+ 105:../generate/configuration/r_intc_user.c ****         /* Spin here forever.. */
+ 106:../generate/configuration/r_intc_user.c ****         R_COMPILER_Nop();
+  92              		.loc 1 106 9 discriminator 1 view .LVU17
+  93              	.LBB6:
+  94              	.LBI6:
+  95              		.file 2 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc/r
+   1:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** /**************************************************************************************************
+   2:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * DISCLAIMER
+   3:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * applicable laws, including copyright laws.
+   6:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES
+  12:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * following link:
+  15:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * http://www.renesas.com/disclaimer
+  16:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  *
+  17:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+  18:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  **************************************************************************************************
+  19:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** /**************************************************************************************************
+  20:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * File Name    : r_compiler_abstraction_api.h
+  21:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Description  : Provides a common API for frequently used compiler specific operations
+  22:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  **************************************************************************************************
+  23:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** #include  "r_typedefs.h"
+  24:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** 
+  25:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** #ifndef SRC_PRV_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_
+  26:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** #define SRC_PRV_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_
+  27:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** 
+  28:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** /* Macro is used to declare linkage to a function as weak so that it can be overridden by a normall
+  29:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Update this when using a different compiler. */
+  30:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** #define R_COMPILER_WEAK __attribute__((weak))
+  31:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** 
+  32:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** #define R_COMPILER_INLINE static inline
+  33:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** 
+  34:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** extern void __enable_irq (void);
+  35:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** extern uint32_t __disable_irq (void);
+  36:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** extern void __enable_fiq (void);
+  37:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** extern void __disable_fiq (void);
+  38:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** 
+  39:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** /**************************************************************************************************
+  40:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Function Name: R_COMPILER_Nop
+  41:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Description  : Abstracting a compiler No Operation opcode into a C function. Update this when us
+  42:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  *                compiler.
+  43:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  * Return Value : None.
+  44:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****  **************************************************************************************************
+  45:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h **** R_COMPILER_INLINE void R_COMPILER_Nop (void)
+  96              		.loc 2 45 24 discriminator 1 view .LVU18
+  97              	.LBB7:
+  46:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****     {
+  47:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****         __asm volatile ("nop");
+  98              		.loc 2 47 9 discriminator 1 view .LVU19
+  99              		.syntax divided
+ 100              	@ 47 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc/r_com
+ 101 0000 00F020E3 		nop
+ 102              	@ 0 "" 2
+ 103              		.arm
+ 104              		.syntax unified
+ 105 0004 FDFFFFEA 		b	.L4
+ 106              	.LBE7:
+ 107              	.LBE6:
+ 108              		.cfi_endproc
+ 109              	.LFE5:
+ 111              		.section	.text.Userdef_INTC_UnregisteredID,"ax",%progbits
+ 112              		.align	2
+ 113              		.global	Userdef_INTC_UnregisteredID
+ 114              		.syntax unified
+ 115              		.arm
+ 116              		.fpu neon
+ 118              	Userdef_INTC_UnregisteredID:
+ 119              	.LVL5:
+ 120              	.LFB6:
+ 107:../generate/configuration/r_intc_user.c ****     }
+ 108:../generate/configuration/r_intc_user.c **** 
+ 109:../generate/configuration/r_intc_user.c ****     return err;
+ 110:../generate/configuration/r_intc_user.c **** }
+ 111:../generate/configuration/r_intc_user.c **** /**************************************************************************************************
+ 112:../generate/configuration/r_intc_user.c ****  * End of function Userdef_INTC_UndefId
+ 113:../generate/configuration/r_intc_user.c ****  **************************************************************************************************
+ 114:../generate/configuration/r_intc_user.c **** 
+ 115:../generate/configuration/r_intc_user.c **** /**************************************************************************************************
+ 116:../generate/configuration/r_intc_user.c ****  * Function Name: Userdef_INTC_UnregisteredID
+ 117:../generate/configuration/r_intc_user.c ****  * Description  : This function is the user-defined function called by the
+ 118:../generate/configuration/r_intc_user.c ****  *              : INTC driver. Write the processing to be executed
+ 119:../generate/configuration/r_intc_user.c ****  *              : when interrupt ID who never registered by R_INTC_RegistIntFunc
+ 120:../generate/configuration/r_intc_user.c ****  *              : is received.
+ 121:../generate/configuration/r_intc_user.c ****  * Arguments    : e_r_drv_intc_intid_t int_id    : Interrupt ID
+ 122:../generate/configuration/r_intc_user.c ****  * Return Value : INTC_SUCCESS        : Success
+ 123:../generate/configuration/r_intc_user.c ****  **************************************************************************************************
+ 124:../generate/configuration/r_intc_user.c **** e_r_drv_intc_err_t Userdef_INTC_UnregisteredID(e_r_drv_intc_intid_t int_id)
+ 125:../generate/configuration/r_intc_user.c **** {
+ 121              		.loc 1 125 1 view -0
+ 122              		.cfi_startproc
+ 123              		@ args = 0, pretend = 0, frame = 0
+ 124              		@ frame_needed = 0, uses_anonymous_args = 0
+ 125              		.loc 1 125 1 is_stmt 0 view .LVU21
+ 126 0000 10402DE9 		push	{r4, lr}
+ 127              		.cfi_def_cfa_offset 8
+ 128              		.cfi_offset 4, -8
+ 129              		.cfi_offset 14, -4
+ 126:../generate/configuration/r_intc_user.c ****     e_r_drv_intc_err_t err;
+ 130              		.loc 1 126 5 is_stmt 1 view .LVU22
+ 127:../generate/configuration/r_intc_user.c ****     err = INTC_SUCCESS;
+ 131              		.loc 1 127 5 view .LVU23
+ 132              	.LVL6:
+ 128:../generate/configuration/r_intc_user.c **** 
+ 129:../generate/configuration/r_intc_user.c ****     /* int_id not used */
+ 130:../generate/configuration/r_intc_user.c ****     UNUSED_PARAM(int_id);
+ 133              		.loc 1 130 5 view .LVU24
+ 131:../generate/configuration/r_intc_user.c **** 
+ 132:../generate/configuration/r_intc_user.c ****     /* Execute processing when receiving interrupt ID whicn handler is not registered */
+ 133:../generate/configuration/r_intc_user.c ****     __disable_irq();
+ 134              		.loc 1 133 5 view .LVU25
+ 135 0004 FEFFFFEB 		bl	__disable_irq
+ 136              	.LVL7:
+ 137              	.L6:
+ 134:../generate/configuration/r_intc_user.c **** 
+ 135:../generate/configuration/r_intc_user.c ****     while (1)
+ 138              		.loc 1 135 5 discriminator 1 view .LVU26
+ 136:../generate/configuration/r_intc_user.c ****     {
+ 137:../generate/configuration/r_intc_user.c ****         /* Spin here forever.. */
+ 138:../generate/configuration/r_intc_user.c ****         R_COMPILER_Nop();
+ 139              		.loc 1 138 9 discriminator 1 view .LVU27
+ 140              	.LBB8:
+ 141              	.LBI8:
+  45:C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc\r_compiler_abstraction_api.h ****     {
+ 142              		.loc 2 45 24 discriminator 1 view .LVU28
+ 143              	.LBB9:
+ 144              		.loc 2 47 9 discriminator 1 view .LVU29
+ 145              		.syntax divided
+ 146              	@ 47 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/compiler/inc/r_com
+ 147 0008 00F020E3 		nop
+ 148              	@ 0 "" 2
+ 149              		.arm
+ 150              		.syntax unified
+ 151 000c FDFFFFEA 		b	.L6
+ 152              	.LBE9:
+ 153              	.LBE8:
+ 154              		.cfi_endproc
+ 155              	.LFE6:
+ 157              		.text
+ 158              	.Letext0:
+ 159              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 160              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 161              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 162              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 163              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 164              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 165              		.file 9 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 166              		.file 10 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_
+ 167              		.file 11 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/dr
+ 168              		.file 12 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/os_abstractio
+ 169              		.file 13 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_int
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_intc_user.c
+C:\Users\ryota\AppData\Local\Temp\ccA11hFe.s:17     .text.Userdef_INTC_Pre_Interrupt:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccA11hFe.s:26     .text.Userdef_INTC_Pre_Interrupt:00000000 Userdef_INTC_Pre_Interrupt
+C:\Users\ryota\AppData\Local\Temp\ccA11hFe.s:48     .text.Userdef_INTC_Post_Interrupt:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccA11hFe.s:54     .text.Userdef_INTC_Post_Interrupt:00000000 Userdef_INTC_Post_Interrupt
+C:\Users\ryota\AppData\Local\Temp\ccA11hFe.s:75     .text.Userdef_INTC_UndefId:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccA11hFe.s:81     .text.Userdef_INTC_UndefId:00000000 Userdef_INTC_UndefId
+C:\Users\ryota\AppData\Local\Temp\ccA11hFe.s:112    .text.Userdef_INTC_UnregisteredID:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccA11hFe.s:118    .text.Userdef_INTC_UnregisteredID:00000000 Userdef_INTC_UnregisteredID
+                           .group:00000000 wm4.0.3d5c910ebb40df6df78b28e37cd67f3d
+                           .group:00000000 wm4.stddef.h.39.144cf5ddcd53cbfdac30259dc1a6c87f
+                           .group:00000000 wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d
+                           .group:00000000 wm4.features.h.33.318b64d71e0957639cfb30f1db1f7ec8
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.newlib.h.8.7cb3972cd43265932d4782d5eb589854
+                           .group:00000000 wm4.ieeefp.h.77.3f06799abf5dd88bdddee084775a1223
+                           .group:00000000 wm4.config.h.224.c701144a7b0518c6ee9b9b5465b79f81
+                           .group:00000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.155.3588ebfdd1e8c7ede80509bb9c3b8009
+                           .group:00000000 wm4._types.h.127.34941de1b2539d59d5cac00e0dd27a45
+                           .group:00000000 wm4.reent.h.17.e292bf8b0bec6c96e131a54347145a30
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4.reent.h.77.dcd6129ff07fe81bd5636db29abe53b2
+                           .group:00000000 wm4.cdefs.h.49.6260d97adb8d27534cbdc0f868b8ea87
+                           .group:00000000 wm4.math.h.13.97100c05caf9f40dd9f5a3cda48ccc01
+                           .group:00000000 wm4.r_typedefs.h.38.e90d9de5300d9ae020e5db8c5af88b3e
+                           .group:00000000 wm4.r_startup_config.h.28.41a2bd9676f9208cac4163ceb2eb9006
+                           .group:00000000 wm4.r_compiler_abstraction_api.h.26.bb21b39b83806cb7bb8838b6f825dcff
+                           .group:00000000 wm4.driver.h.34.180df73e0731406f5e50150641059ede
+                           .group:00000000 wm4.r_os_abstraction_api.h.60.0331cc3a2f471de784d61b225d2e9127
+                           .group:00000000 wm4.compiler_settings.h.55.412db3588640e7e83336e77c1cd11233
+                           .group:00000000 wm4.r_intc_lld_rza2m.h.35.148dee33e6a963828fdce2545668b517
+                           .group:00000000 wm4.adc_iodefine.h.29.14c6f50dce37432a7d004e4b1ce33da7
+                           .group:00000000 wm4.bsc_iodefine.h.29.9281d1f3639266933964d6d0c2d42c4f
+                           .group:00000000 wm4.ceu_iodefine.h.29.2a669d0b46fdde030a50db9e3c307fbf
+                           .group:00000000 wm4.cpg_iodefine.h.29.d6fdc9cb4798723afd88b251d64c2ce2
+                           .group:00000000 wm4.csi2link_iodefine.h.29.221c4531636a409f24d307b16341ada8
+                           .group:00000000 wm4.dmac_iodefine.h.29.578fccc2cc1da886ec95a029bf874f01
+                           .group:00000000 wm4.drpk_iodefine.h.29.580eb8588a2b2d43d2726fbe791e513f
+                           .group:00000000 wm4.drw_iodefine.h.29.df30f4a4a34a79f6a86c4df91353dffe
+                           .group:00000000 wm4.edmac_iodefine.h.29.33e8759349004a722f42f5429c1353f6
+                           .group:00000000 wm4.eptpc_iodefine.h.29.74d8f9fab0f5549b56097fb9e937dde8
+                           .group:00000000 wm4.etherc_iodefine.h.29.14602750383a574f1c21f994ad33a366
+                           .group:00000000 wm4.gpio_iodefine.h.29.3d0b021c56839cee4ae5149903684e4b
+                           .group:00000000 wm4.gpt_iodefine.h.29.557ead75d7b0585b898d3898b64c7f87
+                           .group:00000000 wm4.hyper_iodefine.h.29.000caadbb74d881e97db55b39b432154
+                           .group:00000000 wm4.imr_iodefine.h.29.77c022f017e711c4d51cc0145db1dad3
+                           .group:00000000 wm4.intc_iodefine.h.29.b68f5799a35a7495d63b4cd458e1ba57
+                           .group:00000000 wm4.irda_iodefine.h.29.37e67bd2005173d68a74d1cc937d8444
+                           .group:00000000 wm4.jcu_iodefine.h.29.3aca452908962e7a7ccf26164751feda
+                           .group:00000000 wm4.lvds_iodefine.h.29.c11cbe1900e5209c8dcc76c2336c16bc
+                           .group:00000000 wm4.mtu_iodefine.h.29.5498fb974bb53caf05aa143c2deec781
+                           .group:00000000 wm4.nandc_iodefine.h.29.e0b343306750f017ee86e169ad98efe9
+                           .group:00000000 wm4.octa_iodefine.h.29.4cb0d62e4b9633e173858000dc1c626c
+                           .group:00000000 wm4.ostm_iodefine.h.29.6914f7e330a1cf0008b34219adcdfed4
+                           .group:00000000 wm4.pl_iodefine.h.29.abbb6d725aed990aa8343242bfe31416
+                           .group:00000000 wm4.pmg_iodefine.h.29.8bcfbc4771a6f9b7dd4d6f504427219e
+                           .group:00000000 wm4.poeg_iodefine.h.29.0d8e258d10986260cbc70cfb8c0ef273
+                           .group:00000000 wm4.poe_iodefine.h.29.fe74e55e7b6b4afbe3596c74ba035e98
+                           .group:00000000 wm4.prr_iodefine.h.29.c1f15576f7a27b9c83aa3b40f5b2f988
+                           .group:00000000 wm4.ptpedmac_iodefine.h.29.cd24a93374ce35cebc41e26889d619ef
+                           .group:00000000 wm4.rcanfd_iodefine.h.29.532dd48b82fcb61d63538aba4b6f1289
+                           .group:00000000 wm4.rcan_iodefine.h.29.a47a89db1b35c12b54af48fa1956acba
+                           .group:00000000 wm4.riic_iodefine.h.29.f96943d49800d297612c4af3bba5c943
+                           .group:00000000 wm4.rspi_iodefine.h.29.7efa041fe34a7d27db66a7b337879dfe
+                           .group:00000000 wm4.rtc_iodefine.h.29.6dc76be5ca3df69cecb5a81d06cc46b5
+                           .group:00000000 wm4.scifa_iodefine.h.29.b04ccd664d71baaf31c75761c45b9c4d
+                           .group:00000000 wm4.scim_iodefine.h.29.87d0760abf94446b00d826c797bf0ff2
+                           .group:00000000 wm4.sdmmc_iodefine.h.29.e67e9815445e8057a3262d1566bea0db
+                           .group:00000000 wm4.spdif_iodefine.h.29.59f5d70150fa200a4d8ee50be1ee34c8
+                           .group:00000000 wm4.spibsc_iodefine.h.29.f4930f8b8da1140200204513a363c76f
+                           .group:00000000 wm4.sprite_iodefine.h.29.55796d1fa083a2457fea4ece974a192e
+                           .group:00000000 wm4.ssif_iodefine.h.29.054ec6d95f487f631f16aee39c85c47a
+                           .group:00000000 wm4.usb_iodefine.h.29.6dc44ea388ba227e8fdcfb33c315887b
+                           .group:00000000 wm4.vdc_iodefine.h.29.db282ded1f052d8567fbbd3b61ce8f7a
+                           .group:00000000 wm4.vin_iodefine.h.29.9b392e5601347d53e64be3272934e170
+                           .group:00000000 wm4.wdt_iodefine.h.29.ed07bb44b797072f8c28b41c64fdca30
+
+UNDEFINED SYMBOLS
+__disable_irq

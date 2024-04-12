@@ -1,0 +1,1120 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_ssif_lld_int.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.SSIF_ERI_Handler,"ax",%progbits
+  17              		.align	2
+  18              		.arch armv7-a
+  19              		.arch_extension mp
+  20              		.arch_extension sec
+  21              		.syntax unified
+  22              		.arm
+  23              		.fpu neon
+  25              	SSIF_ERI_Handler:
+  26              	.LVL0:
+  27              	.LFB14:
+  28              		.file 1 "../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c"
+   1:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+   2:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * DISCLAIMER
+   3:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * This software is supplied by Renesas Electronics Corporation and is only
+   4:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * intended for use with Renesas products. No other uses are authorized. This
+   5:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * software is owned by Renesas Electronics Corporation and is protected under
+   6:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * all applicable laws, including copyright laws.
+   7:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * Renesas reserves the right, without notice, to make changes to this software
+  17:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * and to discontinue the availability of this software. By using this software,
+  18:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * you agree to the additional terms and conditions found by accessing the
+  19:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * following link:
+  20:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * http://www.renesas.com/disclaimer
+  21:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * Copyright (C) 2013-2017 Renesas Electronics Corporation. All rights reserved.
+  22:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *******************************************************************************/
+  23:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+  24:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+  25:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * File Name   : r_ssif_lld_int.c
+  26:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * $Rev: 8404 $
+  27:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * $Date:: 2018-06-13 14:09:40 +0100#$
+  28:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * Description : SSIF driver interrupt functions
+  29:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** ******************************************************************************/
+  30:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+  31:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+  32:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** Includes <System Includes>, "Project Includes"
+  33:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *******************************************************************************/
+  34:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** #include "r_rza2_ssif_lld.h"
+  35:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** #include "r_ssif_hld_cfg.h"
+  36:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** #include "r_intc_lld_rza2m.h"
+  37:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** #include "iodefine.h"
+  38:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** #include "iobitmask.h"
+  39:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** #include "rza_io_regrw.h"
+  40:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+  41:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+  42:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** Typedef definitions
+  43:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *******************************************************************************/
+  44:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+  45:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+  46:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+  47:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** Macro definitions
+  48:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *******************************************************************************/
+  49:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+  50:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+  51:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+  52:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** Private global variables and functions
+  53:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *******************************************************************************/
+  54:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+  55:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /******************************************************************************
+  56:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****  Function prototypes
+  57:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****  *****************************************************************************/
+  58:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+  59:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** static void SSIF_ERI0_Handler(uint32_t int_sense);
+  60:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** static void SSIF_ERI1_Handler(uint32_t int_sense);
+  61:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** static void SSIF_ERI2_Handler(uint32_t int_sense);
+  62:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** static void SSIF_ERI3_Handler(uint32_t int_sense);
+  63:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+  64:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** static void SSIF_ERI_Handler(const uint32_t ssif_ch);
+  65:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+  66:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /******************************************************************************
+  67:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * Function Name: SSIF_InterruptInit
+  68:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @brief         Initialize interrupt setting for SSIF channel.
+  69:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *
+  70:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *                Description:<br>
+  71:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *                Enable interrupt and register interrupt handler.
+  72:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @param[in]     ssif_ch    :SSIF channel
+  73:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @param[in]     int_level  :GIC priority level of interrupt
+  74:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @retval        none
+  75:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** ******************************************************************************/
+  76:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** void SSIF_InterruptInit(const uint32_t ssif_ch, const uint8_t int_level)
+  77:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** {
+  78:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     uint32_t ret;
+  79:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+  80:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     switch (ssif_ch)
+  81:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     {
+  82:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_0: 
+  83:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             ret = R_INTC_RegistIntFunc(INTC_ID_SSIF_INT_SSIF_INT_REQ_0, &SSIF_ERI0_Handler);
+  84:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+  85:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             {
+  86:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****                 /* NON_NOTICE_ASSERT: Illegal IRQ number */
+  87:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             }
+  88:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_SetPriority(INTC_ID_SSIF_INT_SSIF_INT_REQ_0, int_level);
+  89:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_Enable(INTC_ID_SSIF_INT_SSIF_INT_REQ_0);
+  90:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+  91:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_1:
+  92:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             ret = R_INTC_RegistIntFunc(INTC_ID_SSIF_INT_SSIF_INT_REQ_1, &SSIF_ERI1_Handler);
+  93:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+  94:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             {
+  95:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****                 /* NON_NOTICE_ASSERT: Illegal IRQ number */
+  96:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             }
+  97:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_SetPriority(INTC_ID_SSIF_INT_SSIF_INT_REQ_1, int_level);
+  98:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_Enable(INTC_ID_SSIF_INT_SSIF_INT_REQ_1);
+  99:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 100:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_2:
+ 101:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             ret = R_INTC_RegistIntFunc(INTC_ID_SSIF_INT_SSIF_INT_REQ_2, &SSIF_ERI2_Handler);
+ 102:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 103:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             {
+ 104:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****                 /* NON_NOTICE_ASSERT: Illegal IRQ number */
+ 105:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             }
+ 106:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_SetPriority(INTC_ID_SSIF_INT_SSIF_INT_REQ_2, int_level);
+ 107:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_Enable(INTC_ID_SSIF_INT_SSIF_INT_REQ_2);
+ 108:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 109:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_3:
+ 110:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             ret = R_INTC_RegistIntFunc(INTC_ID_SSIF_INT_SSIF_INT_REQ_3, &SSIF_ERI3_Handler);
+ 111:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 112:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             {
+ 113:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****                 /* NON_NOTICE_ASSERT: Illegal IRQ number */
+ 114:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             }
+ 115:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_SetPriority(INTC_ID_SSIF_INT_SSIF_INT_REQ_3, int_level);
+ 116:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_Enable(INTC_ID_SSIF_INT_SSIF_INT_REQ_3);
+ 117:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 118:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         default:
+ 119:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             /* NON_NOTICE_ASSERT: Illegal channel number */
+ 120:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 121:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     }
+ 122:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 123:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 124:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 125:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+ 126:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****  End of function SSIF_InterruptInit
+ 127:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****  ******************************************************************************/
+ 128:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 129:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /******************************************************************************
+ 130:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * Function Name: SSIF_InterruptShutdown
+ 131:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @brief         Uninitialize interrupt setting for SSIF channel.
+ 132:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *
+ 133:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *                Description:<br>
+ 134:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *                Disable interrupt and unregister interrupt handler
+ 135:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @param[in]     ssif_ch    :SSIF channel
+ 136:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @retval        none
+ 137:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** ******************************************************************************/
+ 138:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** void SSIF_InterruptShutdown(const uint32_t ssif_ch)
+ 139:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** {
+ 140:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     switch (ssif_ch)
+ 141:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     {
+ 142:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_0:
+ 143:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_Disable(INTC_ID_SSIF_INT_SSIF_INT_REQ_0);
+ 144:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 145:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_1:
+ 146:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_Disable(INTC_ID_SSIF_INT_SSIF_INT_REQ_1);
+ 147:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 148:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_2:
+ 149:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_Disable(INTC_ID_SSIF_INT_SSIF_INT_REQ_2);
+ 150:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 151:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_3:
+ 152:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_Disable(INTC_ID_SSIF_INT_SSIF_INT_REQ_3);
+ 153:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 154:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         /* ->IPA R3.5.2 : There is nothing to do when unusual conditons. */
+ 155:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         default:
+ 156:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             /* NON_NOTICE_ASSERT: Illegal channel number */
+ 157:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 158:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         /* <-IPA R3.5.2 */
+ 159:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     }
+ 160:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 161:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 162:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+ 163:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****  End of function SSIF_InterruptShutdown
+ 164:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****  ******************************************************************************/
+ 165:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 166:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /******************************************************************************
+ 167:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * Function Name: SSIF_EnableErrorInterrupt
+ 168:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @brief         Enable the SSIF channel error interrupt
+ 169:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *
+ 170:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *                Description:<br>
+ 171:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *
+ 172:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @param[in]     ssif_ch    :SSIF channel
+ 173:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @retval        none
+ 174:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** ******************************************************************************/
+ 175:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** void SSIF_EnableErrorInterrupt(const uint32_t ssif_ch)
+ 176:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** {
+ 177:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     /* clear error status */
+ 178:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     RZA_IO_RegWrite_32((volatile uint32_t *) &g_ssireg[ssif_ch]->SSISR.LONG, (uint32_t) 0, IOREG_NO
+ 179:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     IOREG_NONMASK_ACCESS);
+ 180:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 181:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     /* enable error interrupt */
+ 182:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     RZA_IO_RegWrite_32((volatile uint32_t *) &g_ssireg[ssif_ch]->SSICR.LONG, (uint32_t) 1, SSIF_SSI
+ 183:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_TUIEN);
+ 184:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     RZA_IO_RegWrite_32((volatile uint32_t *) &g_ssireg[ssif_ch]->SSICR.LONG, (uint32_t) 1, SSIF_SSI
+ 185:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_TOIEN);
+ 186:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     RZA_IO_RegWrite_32((volatile uint32_t *) &g_ssireg[ssif_ch]->SSICR.LONG, (uint32_t) 1, SSIF_SSI
+ 187:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_RUIEN);
+ 188:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     RZA_IO_RegWrite_32((volatile uint32_t *) &g_ssireg[ssif_ch]->SSICR.LONG, (uint32_t) 1, SSIF_SSI
+ 189:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_ROIEN);
+ 190:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 191:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 192:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+ 193:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****  End of function SSIF_EnableErrorInterrupt
+ 194:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****  ******************************************************************************/
+ 195:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 196:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /******************************************************************************
+ 197:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * Function Name: SSIF_DisableErrorInterrupt
+ 198:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @brief         Disable the SSIF channel error interrupt
+ 199:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *
+ 200:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *                Description:<br>
+ 201:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *
+ 202:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @param[in]     ssif_ch    :SSIF channel
+ 203:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @retval        none
+ 204:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** ******************************************************************************/
+ 205:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** void SSIF_DisableErrorInterrupt(const uint32_t ssif_ch)
+ 206:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** {
+ 207:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     /* disable error interrupt */
+ 208:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     RZA_IO_RegWrite_32((volatile uint32_t *) &g_ssireg[ssif_ch]->SSICR.LONG, (uint32_t) 0, SSIF_SSI
+ 209:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_TUIEN);
+ 210:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     RZA_IO_RegWrite_32((volatile uint32_t *) &g_ssireg[ssif_ch]->SSICR.LONG, (uint32_t) 0, SSIF_SSI
+ 211:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_TOIEN);
+ 212:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     RZA_IO_RegWrite_32((volatile uint32_t *) &g_ssireg[ssif_ch]->SSICR.LONG, (uint32_t) 0, SSIF_SSI
+ 213:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_RUIEN);
+ 214:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     RZA_IO_RegWrite_32((volatile uint32_t *) &g_ssireg[ssif_ch]->SSICR.LONG, (uint32_t) 0, SSIF_SSI
+ 215:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_ROIEN);
+ 216:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 217:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 218:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+ 219:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****  End of function SSIF_DisableErrorInterrupt
+ 220:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****  ******************************************************************************/
+ 221:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 222:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /******************************************************************************
+ 223:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * Function Name: SSIF_ERI<n>_Handler
+ 224:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @brief         SSIF error interrupt handler per channel
+ 225:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *
+ 226:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *                Description:<br>
+ 227:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *
+ 228:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @param         none
+ 229:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @retval        none
+ 230:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** ******************************************************************************/
+ 231:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 232:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** static void SSIF_ERI0_Handler(uint32_t int_sense)
+ 233:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** {
+ 234:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     UNUSED_PARAM(int_sense);
+ 235:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_ERI_Handler(SSIF_CHNUM_0);
+ 236:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 237:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 238:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 239:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** static void SSIF_ERI1_Handler(uint32_t int_sense)
+ 240:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** {
+ 241:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     UNUSED_PARAM(int_sense);
+ 242:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_ERI_Handler(SSIF_CHNUM_1);
+ 243:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 244:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 245:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 246:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** static void SSIF_ERI2_Handler(uint32_t int_sense)
+ 247:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** {
+ 248:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     UNUSED_PARAM(int_sense);
+ 249:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_ERI_Handler(SSIF_CHNUM_2);
+ 250:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 251:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 252:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 253:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** static void SSIF_ERI3_Handler(uint32_t int_sense)
+ 254:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** {
+ 255:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     UNUSED_PARAM(int_sense);
+ 256:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_ERI_Handler(SSIF_CHNUM_3);
+ 257:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 258:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 259:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+ 260:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****  End of function SSIF_ERI0_Handler
+ 261:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****  ******************************************************************************/
+ 262:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 263:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /******************************************************************************
+ 264:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * Function Name: SSIF_ERI_Handler
+ 265:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @brief         SSIF error interrupt handler common function
+ 266:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *
+ 267:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *                Description:<br>
+ 268:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** *
+ 269:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @param[in]     ssif_ch    :SSIF channel
+ 270:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** * @retval        none
+ 271:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** ******************************************************************************/
+ 272:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** static void SSIF_ERI_Handler(const uint32_t ssif_ch)
+ 273:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** {
+  29              		.loc 1 273 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 273 1 is_stmt 0 view .LVU1
+  34 0000 10402DE9 		push	{r4, lr}
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 14, -4
+ 274:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 	uint32_t	ssisr_sts;
+  38              		.loc 1 274 2 is_stmt 1 view .LVU2
+ 275:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 276:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     ssif_info_ch_t* const p_info_ch = &g_ssif_info_drv.info_ch[ssif_ch];
+  39              		.loc 1 276 5 view .LVU3
+  40              		.loc 1 276 27 is_stmt 0 view .LVU4
+  41 0004 003000E3 		movw	r3, #:lower16:g_ssif_info_drv
+  42 0008 003040E3 		movt	r3, #:upper16:g_ssif_info_drv
+  43 000c 803383E0 		add	r3, r3, r0, lsl #7
+  44 0010 044083E2 		add	r4, r3, #4
+  45              	.LVL1:
+ 277:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 278:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     ssisr_sts = RZA_IO_RegRead_32((volatile uint32_t *) &g_ssireg[p_info_ch->channel]->SSISR.LONG, 
+  46              		.loc 1 278 5 is_stmt 1 view .LVU5
+  47              		.loc 1 278 76 is_stmt 0 view .LVU6
+  48 0014 042093E5 		ldr	r2, [r3, #4]
+  49              		.loc 1 278 66 view .LVU7
+  50 0018 003000E3 		movw	r3, #:lower16:g_ssireg
+  51 001c 003040E3 		movt	r3, #:upper16:g_ssireg
+  52 0020 020193E7 		ldr	r0, [r3, r2, lsl #2]
+  53              	.LVL2:
+  54              		.loc 1 278 17 view .LVU8
+  55 0024 0020E0E3 		mvn	r2, #0
+  56 0028 0010A0E3 		mov	r1, #0
+  57 002c 040080E2 		add	r0, r0, #4
+  58 0030 FEFFFFEB 		bl	RZA_IO_RegRead_32
+  59              	.LVL3:
+ 279:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     IOREG_NONMASK_ACCESS);
+ 280:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 281:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     if (0u != (ssisr_sts & SSIF_SR_INT_ERR_MASK))
+  60              		.loc 1 281 5 is_stmt 1 view .LVU9
+  61              		.loc 1 281 8 is_stmt 0 view .LVU10
+  62 0034 0F0310E3 		tst	r0, #1006632960
+  63 0038 1080BD08 		popeq	{r4, pc}
+ 282:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     {
+ 283:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         /* Restart or Callback */
+ 284:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         R_SSIF_ErrorRecovery(p_info_ch);
+  64              		.loc 1 284 9 is_stmt 1 view .LVU11
+  65 003c 0400A0E1 		mov	r0, r4
+  66              	.LVL4:
+  67              		.loc 1 284 9 is_stmt 0 view .LVU12
+  68 0040 FEFFFFEB 		bl	R_SSIF_ErrorRecovery
+  69              	.LVL5:
+ 285:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     }
+ 286:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+  70              		.loc 1 286 5 is_stmt 1 view .LVU13
+ 287:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+  71              		.loc 1 287 1 is_stmt 0 view .LVU14
+  72 0044 1080BDE8 		pop	{r4, pc}
+  73              		.cfi_endproc
+  74              	.LFE14:
+  76              		.section	.text.SSIF_ERI3_Handler,"ax",%progbits
+  77              		.align	2
+  78              		.syntax unified
+  79              		.arm
+  80              		.fpu neon
+  82              	SSIF_ERI3_Handler:
+  83              	.LVL6:
+  84              	.LFB13:
+ 254:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     UNUSED_PARAM(int_sense);
+  85              		.loc 1 254 1 is_stmt 1 view -0
+  86              		.cfi_startproc
+  87              		@ args = 0, pretend = 0, frame = 0
+  88              		@ frame_needed = 0, uses_anonymous_args = 0
+ 254:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     UNUSED_PARAM(int_sense);
+  89              		.loc 1 254 1 is_stmt 0 view .LVU16
+  90 0000 10402DE9 		push	{r4, lr}
+  91              		.cfi_def_cfa_offset 8
+  92              		.cfi_offset 4, -8
+  93              		.cfi_offset 14, -4
+ 255:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_ERI_Handler(SSIF_CHNUM_3);
+  94              		.loc 1 255 5 is_stmt 1 view .LVU17
+ 256:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+  95              		.loc 1 256 5 view .LVU18
+  96 0004 0300A0E3 		mov	r0, #3
+  97              	.LVL7:
+ 256:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+  98              		.loc 1 256 5 is_stmt 0 view .LVU19
+  99 0008 FEFFFFEB 		bl	SSIF_ERI_Handler
+ 100              	.LVL8:
+ 257:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 101              		.loc 1 257 5 is_stmt 1 view .LVU20
+ 258:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+ 102              		.loc 1 258 1 is_stmt 0 view .LVU21
+ 103 000c 1080BDE8 		pop	{r4, pc}
+ 104              		.cfi_endproc
+ 105              	.LFE13:
+ 107              		.section	.text.SSIF_ERI2_Handler,"ax",%progbits
+ 108              		.align	2
+ 109              		.syntax unified
+ 110              		.arm
+ 111              		.fpu neon
+ 113              	SSIF_ERI2_Handler:
+ 114              	.LVL9:
+ 115              	.LFB12:
+ 247:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     UNUSED_PARAM(int_sense);
+ 116              		.loc 1 247 1 is_stmt 1 view -0
+ 117              		.cfi_startproc
+ 118              		@ args = 0, pretend = 0, frame = 0
+ 119              		@ frame_needed = 0, uses_anonymous_args = 0
+ 247:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     UNUSED_PARAM(int_sense);
+ 120              		.loc 1 247 1 is_stmt 0 view .LVU23
+ 121 0000 10402DE9 		push	{r4, lr}
+ 122              		.cfi_def_cfa_offset 8
+ 123              		.cfi_offset 4, -8
+ 124              		.cfi_offset 14, -4
+ 248:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_ERI_Handler(SSIF_CHNUM_2);
+ 125              		.loc 1 248 5 is_stmt 1 view .LVU24
+ 249:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 126              		.loc 1 249 5 view .LVU25
+ 127 0004 0200A0E3 		mov	r0, #2
+ 128              	.LVL10:
+ 249:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 129              		.loc 1 249 5 is_stmt 0 view .LVU26
+ 130 0008 FEFFFFEB 		bl	SSIF_ERI_Handler
+ 131              	.LVL11:
+ 250:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 132              		.loc 1 250 5 is_stmt 1 view .LVU27
+ 251:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 133              		.loc 1 251 1 is_stmt 0 view .LVU28
+ 134 000c 1080BDE8 		pop	{r4, pc}
+ 135              		.cfi_endproc
+ 136              	.LFE12:
+ 138              		.section	.text.SSIF_ERI1_Handler,"ax",%progbits
+ 139              		.align	2
+ 140              		.syntax unified
+ 141              		.arm
+ 142              		.fpu neon
+ 144              	SSIF_ERI1_Handler:
+ 145              	.LVL12:
+ 146              	.LFB11:
+ 240:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     UNUSED_PARAM(int_sense);
+ 147              		.loc 1 240 1 is_stmt 1 view -0
+ 148              		.cfi_startproc
+ 149              		@ args = 0, pretend = 0, frame = 0
+ 150              		@ frame_needed = 0, uses_anonymous_args = 0
+ 240:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     UNUSED_PARAM(int_sense);
+ 151              		.loc 1 240 1 is_stmt 0 view .LVU30
+ 152 0000 10402DE9 		push	{r4, lr}
+ 153              		.cfi_def_cfa_offset 8
+ 154              		.cfi_offset 4, -8
+ 155              		.cfi_offset 14, -4
+ 241:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_ERI_Handler(SSIF_CHNUM_1);
+ 156              		.loc 1 241 5 is_stmt 1 view .LVU31
+ 242:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 157              		.loc 1 242 5 view .LVU32
+ 158 0004 0100A0E3 		mov	r0, #1
+ 159              	.LVL13:
+ 242:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 160              		.loc 1 242 5 is_stmt 0 view .LVU33
+ 161 0008 FEFFFFEB 		bl	SSIF_ERI_Handler
+ 162              	.LVL14:
+ 243:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 163              		.loc 1 243 5 is_stmt 1 view .LVU34
+ 244:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 164              		.loc 1 244 1 is_stmt 0 view .LVU35
+ 165 000c 1080BDE8 		pop	{r4, pc}
+ 166              		.cfi_endproc
+ 167              	.LFE11:
+ 169              		.section	.text.SSIF_ERI0_Handler,"ax",%progbits
+ 170              		.align	2
+ 171              		.syntax unified
+ 172              		.arm
+ 173              		.fpu neon
+ 175              	SSIF_ERI0_Handler:
+ 176              	.LVL15:
+ 177              	.LFB10:
+ 233:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     UNUSED_PARAM(int_sense);
+ 178              		.loc 1 233 1 is_stmt 1 view -0
+ 179              		.cfi_startproc
+ 180              		@ args = 0, pretend = 0, frame = 0
+ 181              		@ frame_needed = 0, uses_anonymous_args = 0
+ 233:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     UNUSED_PARAM(int_sense);
+ 182              		.loc 1 233 1 is_stmt 0 view .LVU37
+ 183 0000 10402DE9 		push	{r4, lr}
+ 184              		.cfi_def_cfa_offset 8
+ 185              		.cfi_offset 4, -8
+ 186              		.cfi_offset 14, -4
+ 234:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_ERI_Handler(SSIF_CHNUM_0);
+ 187              		.loc 1 234 5 is_stmt 1 view .LVU38
+ 235:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 188              		.loc 1 235 5 view .LVU39
+ 189 0004 0000A0E3 		mov	r0, #0
+ 190              	.LVL16:
+ 235:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     return;
+ 191              		.loc 1 235 5 is_stmt 0 view .LVU40
+ 192 0008 FEFFFFEB 		bl	SSIF_ERI_Handler
+ 193              	.LVL17:
+ 236:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 194              		.loc 1 236 5 is_stmt 1 view .LVU41
+ 237:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 195              		.loc 1 237 1 is_stmt 0 view .LVU42
+ 196 000c 1080BDE8 		pop	{r4, pc}
+ 197              		.cfi_endproc
+ 198              	.LFE10:
+ 200              		.section	.text.SSIF_InterruptInit,"ax",%progbits
+ 201              		.align	2
+ 202              		.global	SSIF_InterruptInit
+ 203              		.syntax unified
+ 204              		.arm
+ 205              		.fpu neon
+ 207              	SSIF_InterruptInit:
+ 208              	.LVL18:
+ 209              	.LFB6:
+  77:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     uint32_t ret;
+ 210              		.loc 1 77 1 is_stmt 1 view -0
+ 211              		.cfi_startproc
+ 212              		@ args = 0, pretend = 0, frame = 0
+ 213              		@ frame_needed = 0, uses_anonymous_args = 0
+  77:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     uint32_t ret;
+ 214              		.loc 1 77 1 is_stmt 0 view .LVU44
+ 215 0000 10402DE9 		push	{r4, lr}
+ 216              		.cfi_def_cfa_offset 8
+ 217              		.cfi_offset 4, -8
+ 218              		.cfi_offset 14, -4
+ 219 0004 0140A0E1 		mov	r4, r1
+  78:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** 
+ 220              		.loc 1 78 5 is_stmt 1 view .LVU45
+  80:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     {
+ 221              		.loc 1 80 5 view .LVU46
+ 222 0008 030050E3 		cmp	r0, #3
+ 223 000c 00F19F97 		ldrls	pc, [pc, r0, asl #2]
+ 224 0010 2A0000EA 		b	.L12
+ 225              	.L15:
+ 226 0014 24000000 		.word	.L18
+ 227 0018 4C000000 		.word	.L17
+ 228 001c 74000000 		.word	.L16
+ 229 0020 9C000000 		.word	.L14
+ 230              	.L18:
+  83:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 231              		.loc 1 83 13 view .LVU47
+  83:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 232              		.loc 1 83 19 is_stmt 0 view .LVU48
+ 233 0024 001000E3 		movw	r1, #:lower16:SSIF_ERI0_Handler
+ 234              	.LVL19:
+  83:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 235              		.loc 1 83 19 view .LVU49
+ 236 0028 001040E3 		movt	r1, #:upper16:SSIF_ERI0_Handler
+ 237 002c FC00A0E3 		mov	r0, #252
+ 238              	.LVL20:
+  83:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 239              		.loc 1 83 19 view .LVU50
+ 240 0030 FEFFFFEB 		bl	R_INTC_RegistIntFunc
+ 241              	.LVL21:
+  84:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             {
+ 242              		.loc 1 84 13 is_stmt 1 view .LVU51
+  87:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_SetPriority(INTC_ID_SSIF_INT_SSIF_INT_REQ_0, int_level);
+ 243              		.loc 1 87 13 view .LVU52
+  88:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_Enable(INTC_ID_SSIF_INT_SSIF_INT_REQ_0);
+ 244              		.loc 1 88 13 view .LVU53
+ 245 0034 0410A0E1 		mov	r1, r4
+ 246 0038 FC00A0E3 		mov	r0, #252
+ 247 003c FEFFFFEB 		bl	R_INTC_SetPriority
+ 248              	.LVL22:
+  89:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 249              		.loc 1 89 13 view .LVU54
+ 250 0040 FC00A0E3 		mov	r0, #252
+ 251 0044 FEFFFFEB 		bl	R_INTC_Enable
+ 252              	.LVL23:
+  90:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_1:
+ 253              		.loc 1 90 13 view .LVU55
+ 254 0048 1080BDE8 		pop	{r4, pc}
+ 255              	.LVL24:
+ 256              	.L17:
+  92:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 257              		.loc 1 92 13 view .LVU56
+  92:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 258              		.loc 1 92 19 is_stmt 0 view .LVU57
+ 259 004c 001000E3 		movw	r1, #:lower16:SSIF_ERI1_Handler
+ 260              	.LVL25:
+  92:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 261              		.loc 1 92 19 view .LVU58
+ 262 0050 001040E3 		movt	r1, #:upper16:SSIF_ERI1_Handler
+ 263 0054 FF00A0E3 		mov	r0, #255
+ 264              	.LVL26:
+  92:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 265              		.loc 1 92 19 view .LVU59
+ 266 0058 FEFFFFEB 		bl	R_INTC_RegistIntFunc
+ 267              	.LVL27:
+  93:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             {
+ 268              		.loc 1 93 13 is_stmt 1 view .LVU60
+  96:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_SetPriority(INTC_ID_SSIF_INT_SSIF_INT_REQ_1, int_level);
+ 269              		.loc 1 96 13 view .LVU61
+  97:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_Enable(INTC_ID_SSIF_INT_SSIF_INT_REQ_1);
+ 270              		.loc 1 97 13 view .LVU62
+ 271 005c 0410A0E1 		mov	r1, r4
+ 272 0060 FF00A0E3 		mov	r0, #255
+ 273 0064 FEFFFFEB 		bl	R_INTC_SetPriority
+ 274              	.LVL28:
+  98:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 275              		.loc 1 98 13 view .LVU63
+ 276 0068 FF00A0E3 		mov	r0, #255
+ 277 006c FEFFFFEB 		bl	R_INTC_Enable
+ 278              	.LVL29:
+  99:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_2:
+ 279              		.loc 1 99 13 view .LVU64
+ 280 0070 1080BDE8 		pop	{r4, pc}
+ 281              	.LVL30:
+ 282              	.L16:
+ 101:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 283              		.loc 1 101 13 view .LVU65
+ 101:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 284              		.loc 1 101 19 is_stmt 0 view .LVU66
+ 285 0074 001000E3 		movw	r1, #:lower16:SSIF_ERI2_Handler
+ 286              	.LVL31:
+ 101:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 287              		.loc 1 101 19 view .LVU67
+ 288 0078 001040E3 		movt	r1, #:upper16:SSIF_ERI2_Handler
+ 289 007c 020100E3 		movw	r0, #258
+ 290              	.LVL32:
+ 101:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 291              		.loc 1 101 19 view .LVU68
+ 292 0080 FEFFFFEB 		bl	R_INTC_RegistIntFunc
+ 293              	.LVL33:
+ 102:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             {
+ 294              		.loc 1 102 13 is_stmt 1 view .LVU69
+ 105:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_SetPriority(INTC_ID_SSIF_INT_SSIF_INT_REQ_2, int_level);
+ 295              		.loc 1 105 13 view .LVU70
+ 106:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_Enable(INTC_ID_SSIF_INT_SSIF_INT_REQ_2);
+ 296              		.loc 1 106 13 view .LVU71
+ 297 0084 0410A0E1 		mov	r1, r4
+ 298 0088 020100E3 		movw	r0, #258
+ 299 008c FEFFFFEB 		bl	R_INTC_SetPriority
+ 300              	.LVL34:
+ 107:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 301              		.loc 1 107 13 view .LVU72
+ 302 0090 020100E3 		movw	r0, #258
+ 303 0094 FEFFFFEB 		bl	R_INTC_Enable
+ 304              	.LVL35:
+ 108:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_3:
+ 305              		.loc 1 108 13 view .LVU73
+ 306 0098 1080BDE8 		pop	{r4, pc}
+ 307              	.LVL36:
+ 308              	.L14:
+ 110:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 309              		.loc 1 110 13 view .LVU74
+ 110:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 310              		.loc 1 110 19 is_stmt 0 view .LVU75
+ 311 009c 001000E3 		movw	r1, #:lower16:SSIF_ERI3_Handler
+ 312              	.LVL37:
+ 110:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 313              		.loc 1 110 19 view .LVU76
+ 314 00a0 001040E3 		movt	r1, #:upper16:SSIF_ERI3_Handler
+ 315 00a4 410FA0E3 		mov	r0, #260
+ 316              	.LVL38:
+ 110:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             if (INTC_SUCCESS != ret)
+ 317              		.loc 1 110 19 view .LVU77
+ 318 00a8 FEFFFFEB 		bl	R_INTC_RegistIntFunc
+ 319              	.LVL39:
+ 111:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             {
+ 320              		.loc 1 111 13 is_stmt 1 view .LVU78
+ 114:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_SetPriority(INTC_ID_SSIF_INT_SSIF_INT_REQ_3, int_level);
+ 321              		.loc 1 114 13 view .LVU79
+ 115:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             R_INTC_Enable(INTC_ID_SSIF_INT_SSIF_INT_REQ_3);
+ 322              		.loc 1 115 13 view .LVU80
+ 323 00ac 0410A0E1 		mov	r1, r4
+ 324 00b0 410FA0E3 		mov	r0, #260
+ 325 00b4 FEFFFFEB 		bl	R_INTC_SetPriority
+ 326              	.LVL40:
+ 116:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 327              		.loc 1 116 13 view .LVU81
+ 328 00b8 410FA0E3 		mov	r0, #260
+ 329 00bc FEFFFFEB 		bl	R_INTC_Enable
+ 330              	.LVL41:
+ 117:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         default:
+ 331              		.loc 1 117 13 view .LVU82
+ 123:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 332              		.loc 1 123 5 view .LVU83
+ 333              	.L12:
+ 124:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+ 334              		.loc 1 124 1 is_stmt 0 view .LVU84
+ 335 00c0 1080BDE8 		pop	{r4, pc}
+ 336              		.cfi_endproc
+ 337              	.LFE6:
+ 339              		.section	.text.SSIF_InterruptShutdown,"ax",%progbits
+ 340              		.align	2
+ 341              		.global	SSIF_InterruptShutdown
+ 342              		.syntax unified
+ 343              		.arm
+ 344              		.fpu neon
+ 346              	SSIF_InterruptShutdown:
+ 347              	.LVL42:
+ 348              	.LFB7:
+ 139:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     switch (ssif_ch)
+ 349              		.loc 1 139 1 is_stmt 1 view -0
+ 350              		.cfi_startproc
+ 351              		@ args = 0, pretend = 0, frame = 0
+ 352              		@ frame_needed = 0, uses_anonymous_args = 0
+ 139:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     switch (ssif_ch)
+ 353              		.loc 1 139 1 is_stmt 0 view .LVU86
+ 354 0000 10402DE9 		push	{r4, lr}
+ 355              		.cfi_def_cfa_offset 8
+ 356              		.cfi_offset 4, -8
+ 357              		.cfi_offset 14, -4
+ 140:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     {
+ 358              		.loc 1 140 5 is_stmt 1 view .LVU87
+ 359 0004 030050E3 		cmp	r0, #3
+ 360 0008 00F19F97 		ldrls	pc, [pc, r0, asl #2]
+ 361 000c 0E0000EA 		b	.L20
+ 362              	.L23:
+ 363 0010 20000000 		.word	.L26
+ 364 0014 2C000000 		.word	.L25
+ 365 0018 38000000 		.word	.L24
+ 366 001c 44000000 		.word	.L22
+ 367              	.L26:
+ 143:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 368              		.loc 1 143 13 view .LVU88
+ 369 0020 FC00A0E3 		mov	r0, #252
+ 370              	.LVL43:
+ 143:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 371              		.loc 1 143 13 is_stmt 0 view .LVU89
+ 372 0024 FEFFFFEB 		bl	R_INTC_Disable
+ 373              	.LVL44:
+ 144:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_1:
+ 374              		.loc 1 144 13 is_stmt 1 view .LVU90
+ 375 0028 1080BDE8 		pop	{r4, pc}
+ 376              	.LVL45:
+ 377              	.L25:
+ 146:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 378              		.loc 1 146 13 view .LVU91
+ 379 002c FF00A0E3 		mov	r0, #255
+ 380              	.LVL46:
+ 146:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 381              		.loc 1 146 13 is_stmt 0 view .LVU92
+ 382 0030 FEFFFFEB 		bl	R_INTC_Disable
+ 383              	.LVL47:
+ 147:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_2:
+ 384              		.loc 1 147 13 is_stmt 1 view .LVU93
+ 385 0034 1080BDE8 		pop	{r4, pc}
+ 386              	.LVL48:
+ 387              	.L24:
+ 149:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 388              		.loc 1 149 13 view .LVU94
+ 389 0038 020100E3 		movw	r0, #258
+ 390              	.LVL49:
+ 149:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 391              		.loc 1 149 13 is_stmt 0 view .LVU95
+ 392 003c FEFFFFEB 		bl	R_INTC_Disable
+ 393              	.LVL50:
+ 150:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         case SSIF_CHNUM_3:
+ 394              		.loc 1 150 13 is_stmt 1 view .LVU96
+ 395 0040 1080BDE8 		pop	{r4, pc}
+ 396              	.LVL51:
+ 397              	.L22:
+ 152:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 398              		.loc 1 152 13 view .LVU97
+ 399 0044 410FA0E3 		mov	r0, #260
+ 400              	.LVL52:
+ 152:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****             break;
+ 401              		.loc 1 152 13 is_stmt 0 view .LVU98
+ 402 0048 FEFFFFEB 		bl	R_INTC_Disable
+ 403              	.LVL53:
+ 153:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****         /* ->IPA R3.5.2 : There is nothing to do when unusual conditons. */
+ 404              		.loc 1 153 13 is_stmt 1 view .LVU99
+ 160:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 405              		.loc 1 160 5 view .LVU100
+ 406              	.L20:
+ 161:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+ 407              		.loc 1 161 1 is_stmt 0 view .LVU101
+ 408 004c 1080BDE8 		pop	{r4, pc}
+ 409              		.cfi_endproc
+ 410              	.LFE7:
+ 412              		.section	.text.SSIF_EnableErrorInterrupt,"ax",%progbits
+ 413              		.align	2
+ 414              		.global	SSIF_EnableErrorInterrupt
+ 415              		.syntax unified
+ 416              		.arm
+ 417              		.fpu neon
+ 419              	SSIF_EnableErrorInterrupt:
+ 420              	.LVL54:
+ 421              	.LFB8:
+ 176:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     /* clear error status */
+ 422              		.loc 1 176 1 is_stmt 1 view -0
+ 423              		.cfi_startproc
+ 424              		@ args = 0, pretend = 0, frame = 0
+ 425              		@ frame_needed = 0, uses_anonymous_args = 0
+ 176:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     /* clear error status */
+ 426              		.loc 1 176 1 is_stmt 0 view .LVU103
+ 427 0000 10402DE9 		push	{r4, lr}
+ 428              		.cfi_def_cfa_offset 8
+ 429              		.cfi_offset 4, -8
+ 430              		.cfi_offset 14, -4
+ 178:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     IOREG_NONMASK_ACCESS);
+ 431              		.loc 1 178 5 is_stmt 1 view .LVU104
+ 178:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     IOREG_NONMASK_ACCESS);
+ 432              		.loc 1 178 55 is_stmt 0 view .LVU105
+ 433 0004 003000E3 		movw	r3, #:lower16:g_ssireg
+ 434 0008 003040E3 		movt	r3, #:upper16:g_ssireg
+ 435 000c 004193E7 		ldr	r4, [r3, r0, lsl #2]
+ 178:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     IOREG_NONMASK_ACCESS);
+ 436              		.loc 1 178 5 view .LVU106
+ 437 0010 0030E0E3 		mvn	r3, #0
+ 438 0014 0020A0E3 		mov	r2, #0
+ 439 0018 0210A0E1 		mov	r1, r2
+ 440 001c 040084E2 		add	r0, r4, #4
+ 441              	.LVL55:
+ 178:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     IOREG_NONMASK_ACCESS);
+ 442              		.loc 1 178 5 view .LVU107
+ 443 0020 FEFFFFEB 		bl	RZA_IO_RegWrite_32
+ 444              	.LVL56:
+ 182:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_TUIEN);
+ 445              		.loc 1 182 5 is_stmt 1 view .LVU108
+ 446 0024 0232A0E3 		mov	r3, #536870912
+ 447 0028 1D20A0E3 		mov	r2, #29
+ 448 002c 0110A0E3 		mov	r1, #1
+ 449 0030 0400A0E1 		mov	r0, r4
+ 450 0034 FEFFFFEB 		bl	RZA_IO_RegWrite_32
+ 451              	.LVL57:
+ 184:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_TOIEN);
+ 452              		.loc 1 184 5 view .LVU109
+ 453 0038 0132A0E3 		mov	r3, #268435456
+ 454 003c 1C20A0E3 		mov	r2, #28
+ 455 0040 0110A0E3 		mov	r1, #1
+ 456 0044 0400A0E1 		mov	r0, r4
+ 457 0048 FEFFFFEB 		bl	RZA_IO_RegWrite_32
+ 458              	.LVL58:
+ 186:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_RUIEN);
+ 459              		.loc 1 186 5 view .LVU110
+ 460 004c 0233A0E3 		mov	r3, #134217728
+ 461 0050 1B20A0E3 		mov	r2, #27
+ 462 0054 0110A0E3 		mov	r1, #1
+ 463 0058 0400A0E1 		mov	r0, r4
+ 464 005c FEFFFFEB 		bl	RZA_IO_RegWrite_32
+ 465              	.LVL59:
+ 188:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_ROIEN);
+ 466              		.loc 1 188 5 view .LVU111
+ 467 0060 0133A0E3 		mov	r3, #67108864
+ 468 0064 1A20A0E3 		mov	r2, #26
+ 469 0068 0110A0E3 		mov	r1, #1
+ 470 006c 0400A0E1 		mov	r0, r4
+ 471 0070 FEFFFFEB 		bl	RZA_IO_RegWrite_32
+ 472              	.LVL60:
+ 190:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 473              		.loc 1 190 5 view .LVU112
+ 191:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+ 474              		.loc 1 191 1 is_stmt 0 view .LVU113
+ 475 0074 1080BDE8 		pop	{r4, pc}
+ 476              		.cfi_endproc
+ 477              	.LFE8:
+ 479              		.section	.text.SSIF_DisableErrorInterrupt,"ax",%progbits
+ 480              		.align	2
+ 481              		.global	SSIF_DisableErrorInterrupt
+ 482              		.syntax unified
+ 483              		.arm
+ 484              		.fpu neon
+ 486              	SSIF_DisableErrorInterrupt:
+ 487              	.LVL61:
+ 488              	.LFB9:
+ 206:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     /* disable error interrupt */
+ 489              		.loc 1 206 1 is_stmt 1 view -0
+ 490              		.cfi_startproc
+ 491              		@ args = 0, pretend = 0, frame = 0
+ 492              		@ frame_needed = 0, uses_anonymous_args = 0
+ 206:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     /* disable error interrupt */
+ 493              		.loc 1 206 1 is_stmt 0 view .LVU115
+ 494 0000 10402DE9 		push	{r4, lr}
+ 495              		.cfi_def_cfa_offset 8
+ 496              		.cfi_offset 4, -8
+ 497              		.cfi_offset 14, -4
+ 208:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_TUIEN);
+ 498              		.loc 1 208 5 is_stmt 1 view .LVU116
+ 208:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_TUIEN);
+ 499              		.loc 1 208 55 is_stmt 0 view .LVU117
+ 500 0004 003000E3 		movw	r3, #:lower16:g_ssireg
+ 501 0008 003040E3 		movt	r3, #:upper16:g_ssireg
+ 502 000c 004193E7 		ldr	r4, [r3, r0, lsl #2]
+ 208:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_TUIEN);
+ 503              		.loc 1 208 5 view .LVU118
+ 504 0010 0232A0E3 		mov	r3, #536870912
+ 505 0014 1D20A0E3 		mov	r2, #29
+ 506 0018 0010A0E3 		mov	r1, #0
+ 507 001c 0400A0E1 		mov	r0, r4
+ 508              	.LVL62:
+ 208:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_TUIEN);
+ 509              		.loc 1 208 5 view .LVU119
+ 510 0020 FEFFFFEB 		bl	RZA_IO_RegWrite_32
+ 511              	.LVL63:
+ 210:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_TOIEN);
+ 512              		.loc 1 210 5 is_stmt 1 view .LVU120
+ 513 0024 0132A0E3 		mov	r3, #268435456
+ 514 0028 1C20A0E3 		mov	r2, #28
+ 515 002c 0010A0E3 		mov	r1, #0
+ 516 0030 0400A0E1 		mov	r0, r4
+ 517 0034 FEFFFFEB 		bl	RZA_IO_RegWrite_32
+ 518              	.LVL64:
+ 212:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_RUIEN);
+ 519              		.loc 1 212 5 view .LVU121
+ 520 0038 0233A0E3 		mov	r3, #134217728
+ 521 003c 1B20A0E3 		mov	r2, #27
+ 522 0040 0010A0E3 		mov	r1, #0
+ 523 0044 0400A0E1 		mov	r0, r4
+ 524 0048 FEFFFFEB 		bl	RZA_IO_RegWrite_32
+ 525              	.LVL65:
+ 214:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c ****     SSIF_SSICR_ROIEN);
+ 526              		.loc 1 214 5 view .LVU122
+ 527 004c 0133A0E3 		mov	r3, #67108864
+ 528 0050 1A20A0E3 		mov	r2, #26
+ 529 0054 0010A0E3 		mov	r1, #0
+ 530 0058 0400A0E1 		mov	r0, r4
+ 531 005c FEFFFFEB 		bl	RZA_IO_RegWrite_32
+ 532              	.LVL66:
+ 216:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** }
+ 533              		.loc 1 216 5 view .LVU123
+ 217:../generate/sc_drivers/r_ssif/src/lld/r_ssif_lld_int.c **** /*******************************************************************************
+ 534              		.loc 1 217 1 is_stmt 0 view .LVU124
+ 535 0060 1080BDE8 		pop	{r4, pc}
+ 536              		.cfi_endproc
+ 537              	.LFE9:
+ 539              		.text
+ 540              	.Letext0:
+ 541              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 542              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 543              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 544              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 545              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 546              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 547              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 548              		.file 9 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_t
+ 549              		.file 10 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 550              		.file 11 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 551              		.file 12 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/dr
+ 552              		.file 13 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/os_abstractio
+ 553              		.file 14 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 554              		.file 15 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 555              		.file 16 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/sc_drivers/r_
+ 556              		.file 17 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/iodefi
+ 557              		.file 18 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/drivers/r_int
+ 558              		.file 19 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/rz
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_ssif_lld_int.c
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:17     .text.SSIF_ERI_Handler:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:25     .text.SSIF_ERI_Handler:00000000 SSIF_ERI_Handler
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:77     .text.SSIF_ERI3_Handler:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:82     .text.SSIF_ERI3_Handler:00000000 SSIF_ERI3_Handler
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:108    .text.SSIF_ERI2_Handler:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:113    .text.SSIF_ERI2_Handler:00000000 SSIF_ERI2_Handler
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:139    .text.SSIF_ERI1_Handler:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:144    .text.SSIF_ERI1_Handler:00000000 SSIF_ERI1_Handler
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:170    .text.SSIF_ERI0_Handler:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:175    .text.SSIF_ERI0_Handler:00000000 SSIF_ERI0_Handler
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:201    .text.SSIF_InterruptInit:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:207    .text.SSIF_InterruptInit:00000000 SSIF_InterruptInit
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:226    .text.SSIF_InterruptInit:00000014 $d
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:233    .text.SSIF_InterruptInit:00000024 $a
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:340    .text.SSIF_InterruptShutdown:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:346    .text.SSIF_InterruptShutdown:00000000 SSIF_InterruptShutdown
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:363    .text.SSIF_InterruptShutdown:00000010 $d
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:369    .text.SSIF_InterruptShutdown:00000020 $a
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:413    .text.SSIF_EnableErrorInterrupt:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:419    .text.SSIF_EnableErrorInterrupt:00000000 SSIF_EnableErrorInterrupt
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:480    .text.SSIF_DisableErrorInterrupt:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccarmaC4.s:486    .text.SSIF_DisableErrorInterrupt:00000000 SSIF_DisableErrorInterrupt
+                           .group:00000000 wm4.0.3d5c910ebb40df6df78b28e37cd67f3d
+                           .group:00000000 wm4.stddef.h.39.144cf5ddcd53cbfdac30259dc1a6c87f
+                           .group:00000000 wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d
+                           .group:00000000 wm4.features.h.33.318b64d71e0957639cfb30f1db1f7ec8
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.newlib.h.8.7cb3972cd43265932d4782d5eb589854
+                           .group:00000000 wm4.ieeefp.h.77.3f06799abf5dd88bdddee084775a1223
+                           .group:00000000 wm4.config.h.224.c701144a7b0518c6ee9b9b5465b79f81
+                           .group:00000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.155.3588ebfdd1e8c7ede80509bb9c3b8009
+                           .group:00000000 wm4._types.h.127.34941de1b2539d59d5cac00e0dd27a45
+                           .group:00000000 wm4.reent.h.17.e292bf8b0bec6c96e131a54347145a30
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4.reent.h.77.dcd6129ff07fe81bd5636db29abe53b2
+                           .group:00000000 wm4.cdefs.h.49.6260d97adb8d27534cbdc0f868b8ea87
+                           .group:00000000 wm4.math.h.13.97100c05caf9f40dd9f5a3cda48ccc01
+                           .group:00000000 wm4.r_typedefs.h.38.e90d9de5300d9ae020e5db8c5af88b3e
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4.stddef.h.155.ba788add86a0e365f264484f110c3c29
+                           .group:00000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:00000000 wm4.types.h.40.8b6acba56cefbb11746718204edc8f5e
+                           .group:00000000 wm4._endian.h.31.65a10590763c3dde1ac4a7f66d7d4891
+                           .group:00000000 wm4.endian.h.9.49f3a4695c1b61e8a0808de3c4a106cb
+                           .group:00000000 wm4._timeval.h.32.bec3221fa7a9bb0bdde696c9c57e47d2
+                           .group:00000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:00000000 wm4.select.h.19.97ca6fd0c752a0f3b6719fd314d361e6
+                           .group:00000000 wm4.types.h.51.5571ec98f267d17d3c670b7a3ba33afa
+                           .group:00000000 wm4.sched.h.22.c60982713a5c428609783c78f9c78d95
+                           .group:00000000 wm4._pthreadtypes.h.36.fcee9961c35163dde6267ef772ad1972
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.81.932d0c162786b883f622b8d05c120c78
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.56.f4862cfbf4363a1db01842d5bdf72c18
+                           .group:00000000 wm4.reent.h.91.b3ea049ebc5486622b61409b78486f84
+                           .group:00000000 wm4._default_fcntl.h.6.791f38f41eee7843f224ce48f47caa9b
+                           .group:00000000 wm4.time.h.8.db4619001f026d0b4874c029fef0e91f
+                           .group:00000000 wm4.time.h.2.4581ce0ffb6627cfc02162c94bf846c9
+                           .group:00000000 wm4.time.h.25.0e6a0fdbc9955f5707ed54246ed2e089
+                           .group:00000000 wm4.time.h.162.85256a1e684b58f061361067da714e0e
+                           .group:00000000 wm4.stat.h.54.5a9b823658423102e7a8de4ed089eedc
+                           .group:00000000 wm4.fcntl.h.9.9336f33d7f5028f694c75e6e224e0cf7
+                           .group:00000000 wm4.driver.h.34.180df73e0731406f5e50150641059ede
+                           .group:00000000 wm4.r_devlink_wrapper.h.72.ad1de4c851513efa3aed0532ebca7ca2
+                           .group:00000000 wm4.r_os_abstraction_api.h.60.0331cc3a2f471de784d61b225d2e9127
+                           .group:00000000 wm4.r_ssif_hld_cfg.h.77.494484d2b35f901d21e5a4a443023f99
+                           .group:00000000 wm4.r_startup_config.h.28.41a2bd9676f9208cac4163ceb2eb9006
+                           .group:00000000 wm4.r_compiler_abstraction_api.h.26.bb21b39b83806cb7bb8838b6f825dcff
+                           .group:00000000 wm4.compiler_settings.h.55.412db3588640e7e83336e77c1cd11233
+                           .group:00000000 wm4.r_ssif_lld_aioif.h.68.0b414c2cd636b66d5d3dd6df4fbb9396
+                           .group:00000000 wm4.r_rza2_ssif_lld.h.71.c3a11c781f996c42386d956f84748ee5
+                           .group:00000000 wm4.r_intc_lld_rza2m.h.35.148dee33e6a963828fdce2545668b517
+                           .group:00000000 wm4.adc_iodefine.h.29.14c6f50dce37432a7d004e4b1ce33da7
+                           .group:00000000 wm4.bsc_iodefine.h.29.9281d1f3639266933964d6d0c2d42c4f
+                           .group:00000000 wm4.ceu_iodefine.h.29.2a669d0b46fdde030a50db9e3c307fbf
+                           .group:00000000 wm4.cpg_iodefine.h.29.d6fdc9cb4798723afd88b251d64c2ce2
+                           .group:00000000 wm4.csi2link_iodefine.h.29.221c4531636a409f24d307b16341ada8
+                           .group:00000000 wm4.dmac_iodefine.h.29.578fccc2cc1da886ec95a029bf874f01
+                           .group:00000000 wm4.drpk_iodefine.h.29.580eb8588a2b2d43d2726fbe791e513f
+                           .group:00000000 wm4.drw_iodefine.h.29.df30f4a4a34a79f6a86c4df91353dffe
+                           .group:00000000 wm4.edmac_iodefine.h.29.33e8759349004a722f42f5429c1353f6
+                           .group:00000000 wm4.eptpc_iodefine.h.29.74d8f9fab0f5549b56097fb9e937dde8
+                           .group:00000000 wm4.etherc_iodefine.h.29.14602750383a574f1c21f994ad33a366
+                           .group:00000000 wm4.gpio_iodefine.h.29.3d0b021c56839cee4ae5149903684e4b
+                           .group:00000000 wm4.gpt_iodefine.h.29.557ead75d7b0585b898d3898b64c7f87
+                           .group:00000000 wm4.hyper_iodefine.h.29.000caadbb74d881e97db55b39b432154
+                           .group:00000000 wm4.imr_iodefine.h.29.77c022f017e711c4d51cc0145db1dad3
+                           .group:00000000 wm4.intc_iodefine.h.29.b68f5799a35a7495d63b4cd458e1ba57
+                           .group:00000000 wm4.irda_iodefine.h.29.37e67bd2005173d68a74d1cc937d8444
+                           .group:00000000 wm4.jcu_iodefine.h.29.3aca452908962e7a7ccf26164751feda
+                           .group:00000000 wm4.lvds_iodefine.h.29.c11cbe1900e5209c8dcc76c2336c16bc
+                           .group:00000000 wm4.mtu_iodefine.h.29.5498fb974bb53caf05aa143c2deec781
+                           .group:00000000 wm4.nandc_iodefine.h.29.e0b343306750f017ee86e169ad98efe9
+                           .group:00000000 wm4.octa_iodefine.h.29.4cb0d62e4b9633e173858000dc1c626c
+                           .group:00000000 wm4.ostm_iodefine.h.29.6914f7e330a1cf0008b34219adcdfed4
+                           .group:00000000 wm4.pl_iodefine.h.29.abbb6d725aed990aa8343242bfe31416
+                           .group:00000000 wm4.pmg_iodefine.h.29.8bcfbc4771a6f9b7dd4d6f504427219e
+                           .group:00000000 wm4.poeg_iodefine.h.29.0d8e258d10986260cbc70cfb8c0ef273
+                           .group:00000000 wm4.poe_iodefine.h.29.fe74e55e7b6b4afbe3596c74ba035e98
+                           .group:00000000 wm4.prr_iodefine.h.29.c1f15576f7a27b9c83aa3b40f5b2f988
+                           .group:00000000 wm4.ptpedmac_iodefine.h.29.cd24a93374ce35cebc41e26889d619ef
+                           .group:00000000 wm4.rcanfd_iodefine.h.29.532dd48b82fcb61d63538aba4b6f1289
+                           .group:00000000 wm4.rcan_iodefine.h.29.a47a89db1b35c12b54af48fa1956acba
+                           .group:00000000 wm4.riic_iodefine.h.29.f96943d49800d297612c4af3bba5c943
+                           .group:00000000 wm4.rspi_iodefine.h.29.7efa041fe34a7d27db66a7b337879dfe
+                           .group:00000000 wm4.rtc_iodefine.h.29.6dc76be5ca3df69cecb5a81d06cc46b5
+                           .group:00000000 wm4.scifa_iodefine.h.29.b04ccd664d71baaf31c75761c45b9c4d
+                           .group:00000000 wm4.scim_iodefine.h.29.87d0760abf94446b00d826c797bf0ff2
+                           .group:00000000 wm4.sdmmc_iodefine.h.29.e67e9815445e8057a3262d1566bea0db
+                           .group:00000000 wm4.spdif_iodefine.h.29.59f5d70150fa200a4d8ee50be1ee34c8
+                           .group:00000000 wm4.spibsc_iodefine.h.29.f4930f8b8da1140200204513a363c76f
+                           .group:00000000 wm4.sprite_iodefine.h.29.55796d1fa083a2457fea4ece974a192e
+                           .group:00000000 wm4.ssif_iodefine.h.29.054ec6d95f487f631f16aee39c85c47a
+                           .group:00000000 wm4.usb_iodefine.h.29.6dc44ea388ba227e8fdcfb33c315887b
+                           .group:00000000 wm4.vdc_iodefine.h.29.db282ded1f052d8567fbbd3b61ce8f7a
+                           .group:00000000 wm4.vin_iodefine.h.29.9b392e5601347d53e64be3272934e170
+                           .group:00000000 wm4.wdt_iodefine.h.29.ed07bb44b797072f8c28b41c64fdca30
+                           .group:00000000 wm4.iobitmask.h.29.773e8f8428b0c21e1206a8c47a6d3927
+                           .group:00000000 wm4.adc_iobitmask.h.29.48ba2821c8a4fc20022447ad9316d399
+                           .group:00000000 wm4.bsc_iobitmask.h.29.115d15c4ad4b48e00598dcd62d33c637
+                           .group:00000000 wm4.ceu_iobitmask.h.29.413b5b68bb3c2148786493166a57173e
+                           .group:00000000 wm4.cpg_iobitmask.h.29.128911f0454a5339c74031b8d73e8fed
+                           .group:00000000 wm4.csi2link_iobitmask.h.29.701c130cb17627664fe7c147084057cf
+                           .group:00000000 wm4.dmac_iobitmask.h.29.98850e876107975c53dc0bb8ebb53eb5
+                           .group:00000000 wm4.drpk_iobitmask.h.29.167e7cf6b1feb4d38b8903a46d8c35ac
+                           .group:00000000 wm4.drw_iobitmask.h.29.71d46f2244f6e7ae6117fe6c41c5567d
+                           .group:00000000 wm4.edmac_iobitmask.h.29.4e406d859155ba914663e1cf61cad89a
+                           .group:00000000 wm4.eptpc_iobitmask.h.29.64bcd0a67db3a886572992ae6da8898c
+                           .group:00000000 wm4.etherc_iobitmask.h.29.07b13cb10c426023658e5c51f952b6de
+                           .group:00000000 wm4.gpio_iobitmask.h.29.ea8c1464682eb61f2d0763b97ed530f9
+                           .group:00000000 wm4.gpt_iobitmask.h.29.94173800a704c5ba32e348ba97cd23cf
+                           .group:00000000 wm4.hyper_iobitmask.h.29.f09febbc7b835674abe34ae75f3c700d
+                           .group:00000000 wm4.imr2_iobitmask.h.29.fff702c4c9409266054e806327fa236b
+                           .group:00000000 wm4.intc_iobitmask.h.29.6d3be2e47bf3d7eb7e91eeddcab863af
+                           .group:00000000 wm4.irda_iobitmask.h.29.6f43dde454e599a1d4a8be2978ac9459
+                           .group:00000000 wm4.jcu_iobitmask.h.29.9fd48851a81ff31733aa19b29e4846ad
+                           .group:00000000 wm4.lvds_iobitmask.h.29.4a6f69c8911426fa05f0b05eab5f5e15
+                           .group:00000000 wm4.mtu_iobitmask.h.29.0dfead439d92d73e6bac91e937399f90
+                           .group:00000000 wm4.nandc_iobitmask.h.29.26dc88335e3fd43a64a25f5ba82d9db4
+                           .group:00000000 wm4.octa_iobitmask.h.29.75dc3e3c70ac86c7551744de3991f583
+                           .group:00000000 wm4.ostm_iobitmask.h.29.38ee9f4e1711e17bd3f38545ba631cde
+                           .group:00000000 wm4.pl310_iobitmask.h.29.c1ef5625c0a9d67f24e89fe2fd7e4886
+                           .group:00000000 wm4.pmg_iobitmask.h.29.d20cb8352080a58cf6cbf526935d968e
+                           .group:00000000 wm4.poe3_iobitmask.h.29.3a3444cc2dbf606e2370573e16d57254
+                           .group:00000000 wm4.poeg_iobitmask.h.29.5601eb8cf1161926d683c0720340f85d
+                           .group:00000000 wm4.prr_iobitmask.h.29.52f8479a52e2236c122b5956e4bdbfce
+                           .group:00000000 wm4.ptpedmac_iobitmask.h.29.494dcb2240ebba7fa20d0c2ab02007f7
+                           .group:00000000 wm4.rcanfd_iobitmask.h.29.d172f89cbc4f253e32a4e10346bdc9f6
+                           .group:00000000 wm4.rcan_iobitmask.h.29.c6f8b9b62e8fdc007f8b5f40c1f7e95d
+                           .group:00000000 wm4.riic_iobitmask.h.29.faa52a36e584704b50a2c22ab62c84de
+                           .group:00000000 wm4.rspi_iobitmask.h.29.2e257f44186c83ca40dbb0db2548623b
+                           .group:00000000 wm4.rtc_iobitmask.h.29.2c82d3237997f1de7d2ac9d93855f3da
+                           .group:00000000 wm4.scifa_iobitmask.h.29.c7af830569e0d6a26f3d66e3adc293d7
+                           .group:00000000 wm4.scim_iobitmask.h.29.3b5e9d8b03a11c94acd93de96d2037f6
+                           .group:00000000 wm4.sdmmc_iobitmask.h.29.21d47a25c0df1ed3d24cd6232ec3b4e7
+                           .group:00000000 wm4.spdif_iobitmask.h.29.c16f83f628828ab24aa2b72615b93e69
+                           .group:00000000 wm4.spibsc_iobitmask.h.29.8ade4a581f57cd5b82569a69eb5f0d67
+                           .group:00000000 wm4.sprite_iobitmask.h.29.82888597faf7ebb3bc86b5f1018a2253
+                           .group:00000000 wm4.ssif_iobitmask.h.29.482529b431f1ad627a02168620c61eee
+                           .group:00000000 wm4.usb_iobitmask.h.29.aae4dfd463dfdd120bf5855c9dc97483
+                           .group:00000000 wm4.vdc6_iobitmask.h.29.3ce0a3f9d2209ce71e4fec48b4ecb79a
+                           .group:00000000 wm4.vin_iobitmask.h.29.576a1d6e4b2cf6cbd353044865e437f2
+                           .group:00000000 wm4.wdt_iobitmask.h.29.c612db09eac33fb3da8d8aaee67287a9
+                           .group:00000000 wm4.rza_io_regrw.h.33.07c1ee176b41ade23637426c80e4b86a
+
+UNDEFINED SYMBOLS
+g_ssif_info_drv
+g_ssireg
+RZA_IO_RegRead_32
+R_SSIF_ErrorRecovery
+R_INTC_RegistIntFunc
+R_INTC_SetPriority
+R_INTC_Enable
+R_INTC_Disable
+RZA_IO_RegWrite_32

@@ -1,0 +1,2146 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"syscalls_gcc.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.findslot,"ax",%progbits
+  17              		.align	2
+  18              		.arch armv7-a
+  19              		.arch_extension mp
+  20              		.arch_extension sec
+  21              		.syntax unified
+  22              		.arm
+  23              		.fpu neon
+  25              	findslot:
+  26              	.LVL0:
+  27              	.LFB25:
+  28              		.file 1 "../generate/os_abstraction/src/syscalls_gcc.c"
+   1:../generate/os_abstraction/src/syscalls_gcc.c **** /*******************************************************************************
+   2:../generate/os_abstraction/src/syscalls_gcc.c **** * DISCLAIMER
+   3:../generate/os_abstraction/src/syscalls_gcc.c **** * This software is supplied by Renesas Electronics Corporation and is only
+   4:../generate/os_abstraction/src/syscalls_gcc.c **** * intended for use with Renesas products. No other uses are authorized. This
+   5:../generate/os_abstraction/src/syscalls_gcc.c **** * software is owned by Renesas Electronics Corporation and is protected under
+   6:../generate/os_abstraction/src/syscalls_gcc.c **** * all applicable laws, including copyright laws.
+   7:../generate/os_abstraction/src/syscalls_gcc.c **** * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:../generate/os_abstraction/src/syscalls_gcc.c **** * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:../generate/os_abstraction/src/syscalls_gcc.c **** * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:../generate/os_abstraction/src/syscalls_gcc.c **** * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:../generate/os_abstraction/src/syscalls_gcc.c **** * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:../generate/os_abstraction/src/syscalls_gcc.c **** * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:../generate/os_abstraction/src/syscalls_gcc.c **** * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:../generate/os_abstraction/src/syscalls_gcc.c **** * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:../generate/os_abstraction/src/syscalls_gcc.c **** * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:../generate/os_abstraction/src/syscalls_gcc.c **** * Renesas reserves the right, without notice, to make changes to this software
+  17:../generate/os_abstraction/src/syscalls_gcc.c **** * and to discontinue the availability of this software. By using this software,
+  18:../generate/os_abstraction/src/syscalls_gcc.c **** * you agree to the additional terms and conditions found by accessing the
+  19:../generate/os_abstraction/src/syscalls_gcc.c **** * following link:
+  20:../generate/os_abstraction/src/syscalls_gcc.c **** * http://www.renesas.com/disclaimer
+  21:../generate/os_abstraction/src/syscalls_gcc.c **** * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  22:../generate/os_abstraction/src/syscalls_gcc.c **** *******************************************************************************/
+  23:../generate/os_abstraction/src/syscalls_gcc.c **** /*******************************************************************************
+  24:../generate/os_abstraction/src/syscalls_gcc.c **** * File Name : syscalls.c
+  25:../generate/os_abstraction/src/syscalls_gcc.c **** * Description :
+  26:../generate/os_abstraction/src/syscalls_gcc.c **** ******************************************************************************/
+  27:../generate/os_abstraction/src/syscalls_gcc.c **** /* Support files for GNU libc.  Files in the system namespace go here.
+  28:../generate/os_abstraction/src/syscalls_gcc.c ****    Files in the C namespace (ie those that do not start with an
+  29:../generate/os_abstraction/src/syscalls_gcc.c ****    underscore) go in .c.  */
+  30:../generate/os_abstraction/src/syscalls_gcc.c **** 
+  31:../generate/os_abstraction/src/syscalls_gcc.c **** #ifndef __ARMCC_VERSION
+  32:../generate/os_abstraction/src/syscalls_gcc.c **** #if defined(__GNUC__)
+  33:../generate/os_abstraction/src/syscalls_gcc.c **** 
+  34:../generate/os_abstraction/src/syscalls_gcc.c **** #include <_ansi.h>
+  35:../generate/os_abstraction/src/syscalls_gcc.c **** #include <sys/types.h>
+  36:../generate/os_abstraction/src/syscalls_gcc.c **** #include <sys/stat.h>
+  37:../generate/os_abstraction/src/syscalls_gcc.c **** #include <sys/fcntl.h>
+  38:../generate/os_abstraction/src/syscalls_gcc.c **** #include <stdio.h>
+  39:../generate/os_abstraction/src/syscalls_gcc.c **** #include <time.h>
+  40:../generate/os_abstraction/src/syscalls_gcc.c **** #include <sys/time.h>
+  41:../generate/os_abstraction/src/syscalls_gcc.c **** #include <sys/times.h>
+  42:../generate/os_abstraction/src/syscalls_gcc.c **** #include <errno.h>
+  43:../generate/os_abstraction/src/syscalls_gcc.c **** #include <reent.h>
+  44:../generate/os_abstraction/src/syscalls_gcc.c **** #include <signal.h>
+  45:../generate/os_abstraction/src/syscalls_gcc.c **** #include <unistd.h>
+  46:../generate/os_abstraction/src/syscalls_gcc.c **** #include <sys/wait.h>
+  47:../generate/os_abstraction/src/syscalls_gcc.c **** #include "swi.h"
+  48:../generate/os_abstraction/src/syscalls_gcc.c **** 
+  49:../generate/os_abstraction/src/syscalls_gcc.c **** #include "r_typedefs.h"
+  50:../generate/os_abstraction/src/syscalls_gcc.c **** #include "r_devlink_wrapper.h"
+  51:../generate/os_abstraction/src/syscalls_gcc.c **** #include "r_os_abstraction_config.h"
+  52:../generate/os_abstraction/src/syscalls_gcc.c **** 
+  53:../generate/os_abstraction/src/syscalls_gcc.c **** #ifndef _PARAMS // using toolchain 9.3.1.20200408 or later
+  54:../generate/os_abstraction/src/syscalls_gcc.c **** #define _PARAMS(paramlist)		paramlist
+  55:../generate/os_abstraction/src/syscalls_gcc.c **** extern void *memset (struct stat *, int, unsigned int);
+  56:../generate/os_abstraction/src/syscalls_gcc.c **** 
+  57:../generate/os_abstraction/src/syscalls_gcc.c **** #else // using toolchain 6.3.1.20170620 or earlier
+  58:../generate/os_abstraction/src/syscalls_gcc.c **** extern void memset (struct stat *, int, unsigned int);
+  59:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+  60:../generate/os_abstraction/src/syscalls_gcc.c **** 
+  61:../generate/os_abstraction/src/syscalls_gcc.c **** #ifndef _EXFUN
+  62:../generate/os_abstraction/src/syscalls_gcc.c **** #define	_EXFUN(name, proto)		name proto
+  63:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+  64:../generate/os_abstraction/src/syscalls_gcc.c **** 
+  65:../generate/os_abstraction/src/syscalls_gcc.c **** /* Forward prototypes.  */
+  66:../generate/os_abstraction/src/syscalls_gcc.c **** int     _system     _PARAMS ((const char *));
+  67:../generate/os_abstraction/src/syscalls_gcc.c **** int     _rename     _PARAMS ((const char *, const char *));
+  68:../generate/os_abstraction/src/syscalls_gcc.c **** int     _isatty		_PARAMS ((int));
+  69:../generate/os_abstraction/src/syscalls_gcc.c **** clock_t _times		_PARAMS ((struct tms *));
+  70:../generate/os_abstraction/src/syscalls_gcc.c **** int     _gettimeofday	_PARAMS ((struct timeval *, void *));
+  71:../generate/os_abstraction/src/syscalls_gcc.c **** void    _raise 		_PARAMS ((void));
+  72:../generate/os_abstraction/src/syscalls_gcc.c **** int     _unlink		_PARAMS ((const char *));
+  73:../generate/os_abstraction/src/syscalls_gcc.c **** int     _link 		_PARAMS ((void));
+  74:../generate/os_abstraction/src/syscalls_gcc.c **** int     _stat 		_PARAMS ((const char *, struct stat *));
+  75:../generate/os_abstraction/src/syscalls_gcc.c **** int     _fstat 		_PARAMS ((int, struct stat *));
+  76:../generate/os_abstraction/src/syscalls_gcc.c **** caddr_t _sbrk		_PARAMS ((int));
+  77:../generate/os_abstraction/src/syscalls_gcc.c **** int     _getpid		_PARAMS ((int));
+  78:../generate/os_abstraction/src/syscalls_gcc.c **** int     _kill		_PARAMS ((int, int));
+  79:../generate/os_abstraction/src/syscalls_gcc.c **** void    _exit		_PARAMS ((int));
+  80:../generate/os_abstraction/src/syscalls_gcc.c **** int     _close		_PARAMS ((int));
+  81:../generate/os_abstraction/src/syscalls_gcc.c **** int     _swiclose	_PARAMS ((int));
+  82:../generate/os_abstraction/src/syscalls_gcc.c **** int     _open		_PARAMS ((const char *, int, ...));
+  83:../generate/os_abstraction/src/syscalls_gcc.c **** int     _swiopen	_PARAMS ((const char *, int));
+  84:../generate/os_abstraction/src/syscalls_gcc.c **** int     _write 		_PARAMS ((int, char *, int));
+  85:../generate/os_abstraction/src/syscalls_gcc.c **** int     _swiwrite	_PARAMS ((int, char *, int));
+  86:../generate/os_abstraction/src/syscalls_gcc.c **** int     _lseek		_PARAMS ((int, int, int));
+  87:../generate/os_abstraction/src/syscalls_gcc.c **** int     _swilseek	_PARAMS ((int, int, int));
+  88:../generate/os_abstraction/src/syscalls_gcc.c **** int     _read		_PARAMS ((int, char *, int));
+  89:../generate/os_abstraction/src/syscalls_gcc.c **** int     _swiread	_PARAMS ((int, char *, int));
+  90:../generate/os_abstraction/src/syscalls_gcc.c **** void    initialise_monitor_handles _PARAMS ((void));
+  91:../generate/os_abstraction/src/syscalls_gcc.c **** 
+  92:../generate/os_abstraction/src/syscalls_gcc.c **** static int	wrap		_PARAMS ((int));
+  93:../generate/os_abstraction/src/syscalls_gcc.c **** static int	error		_PARAMS ((int));
+  94:../generate/os_abstraction/src/syscalls_gcc.c **** static int	get_errno	_PARAMS ((void));
+  95:../generate/os_abstraction/src/syscalls_gcc.c **** static int	remap_handle	_PARAMS ((int));
+  96:../generate/os_abstraction/src/syscalls_gcc.c **** static int 	findslot	_PARAMS ((int));
+  97:../generate/os_abstraction/src/syscalls_gcc.c **** 
+  98:../generate/os_abstraction/src/syscalls_gcc.c **** /* Register name faking - works in collusion with the linker.  */
+  99:../generate/os_abstraction/src/syscalls_gcc.c **** register char * stack_ptr asm ("sp");
+ 100:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 101:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 102:../generate/os_abstraction/src/syscalls_gcc.c **** /* following is copied from libc/stdio/local.h to check std streams */
+ 103:../generate/os_abstraction/src/syscalls_gcc.c **** extern void   _EXFUN(__sinit,(struct _reent *));
+ 104:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 105:../generate/os_abstraction/src/syscalls_gcc.c **** #define CHECK_INIT(ptr) \
+ 106:../generate/os_abstraction/src/syscalls_gcc.c ****   do						\
+ 107:../generate/os_abstraction/src/syscalls_gcc.c ****     {						\
+ 108:../generate/os_abstraction/src/syscalls_gcc.c ****       if ((ptr) && !(ptr)->__sdidinit)		\
+ 109:../generate/os_abstraction/src/syscalls_gcc.c **** 	__sinit (ptr);				\
+ 110:../generate/os_abstraction/src/syscalls_gcc.c ****     }						\
+ 111:../generate/os_abstraction/src/syscalls_gcc.c ****   while (0)
+ 112:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 113:../generate/os_abstraction/src/syscalls_gcc.c **** /* Adjust our internal handles to stay away from std* handles.  */
+ 114:../generate/os_abstraction/src/syscalls_gcc.c **** #define FILE_HANDLE_OFFSET (0x00)
+ 115:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 116:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 117:../generate/os_abstraction/src/syscalls_gcc.c **** static int monitor_stdin;
+ 118:../generate/os_abstraction/src/syscalls_gcc.c **** static int monitor_stdout;
+ 119:../generate/os_abstraction/src/syscalls_gcc.c **** static int monitor_stderr;
+ 120:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 121:../generate/os_abstraction/src/syscalls_gcc.c **** /* Struct used to keep track of the file position, just so we
+ 122:../generate/os_abstraction/src/syscalls_gcc.c ****    can implement fseek(fh,x,SEEK_CUR).  */
+ 123:../generate/os_abstraction/src/syscalls_gcc.c **** typedef struct
+ 124:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 125:../generate/os_abstraction/src/syscalls_gcc.c ****   int handle;
+ 126:../generate/os_abstraction/src/syscalls_gcc.c ****   int pos;
+ 127:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 128:../generate/os_abstraction/src/syscalls_gcc.c **** poslog;
+ 129:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 130:../generate/os_abstraction/src/syscalls_gcc.c **** #define MAX_OPEN_FILES 20
+ 131:../generate/os_abstraction/src/syscalls_gcc.c **** static poslog openfiles [MAX_OPEN_FILES];
+ 132:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 133:../generate/os_abstraction/src/syscalls_gcc.c **** static int
+ 134:../generate/os_abstraction/src/syscalls_gcc.c **** findslot (int fh)
+ 135:../generate/os_abstraction/src/syscalls_gcc.c **** {
+  29              		.loc 1 135 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  34              		.loc 1 135 1 is_stmt 0 view .LVU1
+  35 0000 0020A0E1 		mov	r2, r0
+ 136:../generate/os_abstraction/src/syscalls_gcc.c ****   int i;
+  36              		.loc 1 136 3 is_stmt 1 view .LVU2
+ 137:../generate/os_abstraction/src/syscalls_gcc.c ****   for (i = 0; i < MAX_OPEN_FILES; i ++)
+  37              		.loc 1 137 3 view .LVU3
+  38              	.LVL1:
+  39              		.loc 1 137 10 is_stmt 0 view .LVU4
+  40 0004 0000A0E3 		mov	r0, #0
+  41              	.LVL2:
+  42              	.L2:
+  43              		.loc 1 137 15 is_stmt 1 discriminator 1 view .LVU5
+  44              		.loc 1 137 3 is_stmt 0 discriminator 1 view .LVU6
+  45 0008 130050E3 		cmp	r0, #19
+  46 000c 1EFF2FC1 		bxgt	lr
+ 138:../generate/os_abstraction/src/syscalls_gcc.c ****     if (openfiles[i].handle == fh)
+  47              		.loc 1 138 5 is_stmt 1 view .LVU7
+  48              		.loc 1 138 21 is_stmt 0 view .LVU8
+  49 0010 003000E3 		movw	r3, #:lower16:.LANCHOR0
+  50 0014 003040E3 		movt	r3, #:upper16:.LANCHOR0
+  51 0018 803193E7 		ldr	r3, [r3, r0, lsl #3]
+  52              		.loc 1 138 8 view .LVU9
+  53 001c 020053E1 		cmp	r3, r2
+  54 0020 1EFF2F01 		bxeq	lr
+ 137:../generate/os_abstraction/src/syscalls_gcc.c ****   for (i = 0; i < MAX_OPEN_FILES; i ++)
+  55              		.loc 1 137 35 is_stmt 1 discriminator 2 view .LVU10
+ 137:../generate/os_abstraction/src/syscalls_gcc.c ****   for (i = 0; i < MAX_OPEN_FILES; i ++)
+  56              		.loc 1 137 37 is_stmt 0 discriminator 2 view .LVU11
+  57 0024 010080E2 		add	r0, r0, #1
+  58              	.LVL3:
+ 137:../generate/os_abstraction/src/syscalls_gcc.c ****   for (i = 0; i < MAX_OPEN_FILES; i ++)
+  59              		.loc 1 137 37 discriminator 2 view .LVU12
+  60 0028 F6FFFFEA 		b	.L2
+  61              		.cfi_endproc
+  62              	.LFE25:
+  64              		.section	.text.get_errno,"ax",%progbits
+  65              		.align	2
+  66              		.syntax unified
+  67              		.arm
+  68              		.fpu neon
+  70              	get_errno:
+  71              	.LFB28:
+ 139:../generate/os_abstraction/src/syscalls_gcc.c ****       break;
+ 140:../generate/os_abstraction/src/syscalls_gcc.c ****   return i;
+ 141:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 142:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 143:../generate/os_abstraction/src/syscalls_gcc.c **** /* Function to convert std(in|out|err) handles to internal versions.  */
+ 144:../generate/os_abstraction/src/syscalls_gcc.c **** static int
+ 145:../generate/os_abstraction/src/syscalls_gcc.c **** remap_handle (int fh)
+ 146:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 147:../generate/os_abstraction/src/syscalls_gcc.c ****   CHECK_INIT(_REENT);
+ 148:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 149:../generate/os_abstraction/src/syscalls_gcc.c ****   if (fh == STDIN_FILENO)
+ 150:../generate/os_abstraction/src/syscalls_gcc.c ****     return monitor_stdin;
+ 151:../generate/os_abstraction/src/syscalls_gcc.c ****   if (fh == STDOUT_FILENO)
+ 152:../generate/os_abstraction/src/syscalls_gcc.c ****     return monitor_stdout;
+ 153:../generate/os_abstraction/src/syscalls_gcc.c ****   if (fh == STDERR_FILENO)
+ 154:../generate/os_abstraction/src/syscalls_gcc.c ****     return monitor_stderr;
+ 155:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 156:../generate/os_abstraction/src/syscalls_gcc.c ****   return fh - FILE_HANDLE_OFFSET;
+ 157:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 158:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 159:../generate/os_abstraction/src/syscalls_gcc.c **** void
+ 160:../generate/os_abstraction/src/syscalls_gcc.c **** initialise_monitor_handles (void)
+ 161:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 162:../generate/os_abstraction/src/syscalls_gcc.c ****   int i;
+ 163:../generate/os_abstraction/src/syscalls_gcc.c ****   int fh;
+ 164:../generate/os_abstraction/src/syscalls_gcc.c ****   char * name;
+ 165:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 166:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 167:../generate/os_abstraction/src/syscalls_gcc.c ****   int volatile block[3];
+ 168:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 169:../generate/os_abstraction/src/syscalls_gcc.c ****   name = "\\\\.\\stdin";
+ 170:../generate/os_abstraction/src/syscalls_gcc.c ****   fh = low_open(name, O_RDWR);    /* Reserve file handle for devlink */  
+ 171:../generate/os_abstraction/src/syscalls_gcc.c ****   block[0] = (int) ":tt";
+ 172:../generate/os_abstraction/src/syscalls_gcc.c ****   block[2] = 3;     /* length of filename */
+ 173:../generate/os_abstraction/src/syscalls_gcc.c ****   block[1] = 0;     /* mode "r" */
+ 174:../generate/os_abstraction/src/syscalls_gcc.c ****   monitor_stdin = do_AngelSWI (AngelSWI_Reason_Open, (void *) block);
+ 175:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 176:../generate/os_abstraction/src/syscalls_gcc.c ****   block[0] = (int) ":tt";
+ 177:../generate/os_abstraction/src/syscalls_gcc.c ****   block[2] = 3;     /* length of filename */
+ 178:../generate/os_abstraction/src/syscalls_gcc.c ****   block[1] = 4;     /* mode "w" */
+ 179:../generate/os_abstraction/src/syscalls_gcc.c ****   monitor_stdout = monitor_stderr = do_AngelSWI (AngelSWI_Reason_Open, (void *) block);
+ 180:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 181:../generate/os_abstraction/src/syscalls_gcc.c ****   name = "\\\\.\\stdin";
+ 182:../generate/os_abstraction/src/syscalls_gcc.c ****   fh = low_open(name, O_RDWR);    /* Reserve file handle for devlink */
+ 183:../generate/os_abstraction/src/syscalls_gcc.c ****   name = "\\\\.\\stdout";
+ 184:../generate/os_abstraction/src/syscalls_gcc.c ****   fh = low_open(name, O_WRONLY);  /* Reserve file handle for devlink */
+ 185:../generate/os_abstraction/src/syscalls_gcc.c ****   name = "\\\\.\\stderr";
+ 186:../generate/os_abstraction/src/syscalls_gcc.c ****   fh = low_open(name, O_WRONLY);  /* Reserve file handle for devlink */
+ 187:../generate/os_abstraction/src/syscalls_gcc.c **** #else
+ 188:../generate/os_abstraction/src/syscalls_gcc.c ****   name = "\\\\.\\stdin";
+ 189:../generate/os_abstraction/src/syscalls_gcc.c ****   fh = low_open(name, O_RDWR);
+ 190:../generate/os_abstraction/src/syscalls_gcc.c ****   monitor_stdin = fh;
+ 191:../generate/os_abstraction/src/syscalls_gcc.c ****   name = "\\\\.\\stdout";
+ 192:../generate/os_abstraction/src/syscalls_gcc.c ****   fh = low_open(name, O_WRONLY);
+ 193:../generate/os_abstraction/src/syscalls_gcc.c ****   monitor_stdout = fh;
+ 194:../generate/os_abstraction/src/syscalls_gcc.c ****   name = "\\\\.\\stderr";
+ 195:../generate/os_abstraction/src/syscalls_gcc.c ****   fh = low_open(name, O_WRONLY);
+ 196:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 197:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 198:../generate/os_abstraction/src/syscalls_gcc.c ****   for (i = 0; i < MAX_OPEN_FILES; i ++)
+ 199:../generate/os_abstraction/src/syscalls_gcc.c ****     openfiles[i].handle = -1;
+ 200:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 201:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[0].handle = monitor_stdin;
+ 202:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[0].pos = 0;
+ 203:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[1].handle = monitor_stdout;
+ 204:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[1].pos = 0;
+ 205:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[2].handle = monitor_stdout;
+ 206:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[2].pos = 0;
+ 207:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 208:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 209:../generate/os_abstraction/src/syscalls_gcc.c **** static int
+ 210:../generate/os_abstraction/src/syscalls_gcc.c **** get_errno (void)
+ 211:../generate/os_abstraction/src/syscalls_gcc.c **** {
+  72              		.loc 1 211 1 is_stmt 1 view -0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76              		@ link register save eliminated.
+ 212:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 213:../generate/os_abstraction/src/syscalls_gcc.c ****   return do_AngelSWI (AngelSWI_Reason_Errno, NULL);
+ 214:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 215:../generate/os_abstraction/src/syscalls_gcc.c **** }
+  77              		.loc 1 215 1 view .LVU14
+  78 0000 1EFF2FE1 		bx	lr
+  79              		.cfi_endproc
+  80              	.LFE28:
+  82              		.section	.text.error,"ax",%progbits
+  83              		.align	2
+  84              		.syntax unified
+  85              		.arm
+  86              		.fpu neon
+  88              	error:
+  89              	.LVL4:
+  90              	.LFB29:
+ 216:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 217:../generate/os_abstraction/src/syscalls_gcc.c **** static int
+ 218:../generate/os_abstraction/src/syscalls_gcc.c **** error (int result)
+ 219:../generate/os_abstraction/src/syscalls_gcc.c **** {
+  91              		.loc 1 219 1 view -0
+  92              		.cfi_startproc
+  93              		@ args = 0, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95              		.loc 1 219 1 is_stmt 0 view .LVU16
+  96 0000 70402DE9 		push	{r4, r5, r6, lr}
+  97              		.cfi_def_cfa_offset 16
+  98              		.cfi_offset 4, -16
+  99              		.cfi_offset 5, -12
+ 100              		.cfi_offset 6, -8
+ 101              		.cfi_offset 14, -4
+ 102 0004 0040A0E1 		mov	r4, r0
+ 220:../generate/os_abstraction/src/syscalls_gcc.c ****   errno = get_errno ();
+ 103              		.loc 1 220 3 is_stmt 1 view .LVU17
+ 104 0008 FEFFFFEB 		bl	__errno
+ 105              	.LVL5:
+ 106              		.loc 1 220 3 is_stmt 0 view .LVU18
+ 107 000c 0050A0E1 		mov	r5, r0
+ 108              		.loc 1 220 11 view .LVU19
+ 109 0010 FEFFFFEB 		bl	get_errno
+ 110              	.LVL6:
+ 111              		.loc 1 220 9 view .LVU20
+ 112 0014 000085E5 		str	r0, [r5]
+ 221:../generate/os_abstraction/src/syscalls_gcc.c ****   return result;
+ 113              		.loc 1 221 3 is_stmt 1 view .LVU21
+ 222:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 114              		.loc 1 222 1 is_stmt 0 view .LVU22
+ 115 0018 0400A0E1 		mov	r0, r4
+ 116 001c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 117              		.cfi_endproc
+ 118              	.LFE29:
+ 120              		.section	.text.wrap,"ax",%progbits
+ 121              		.align	2
+ 122              		.syntax unified
+ 123              		.arm
+ 124              		.fpu neon
+ 126              	wrap:
+ 127              	.LVL7:
+ 128              	.LFB30:
+ 223:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 224:../generate/os_abstraction/src/syscalls_gcc.c **** static int
+ 225:../generate/os_abstraction/src/syscalls_gcc.c **** wrap (int result)
+ 226:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 129              		.loc 1 226 1 is_stmt 1 view -0
+ 130              		.cfi_startproc
+ 131              		@ args = 0, pretend = 0, frame = 0
+ 132              		@ frame_needed = 0, uses_anonymous_args = 0
+ 227:../generate/os_abstraction/src/syscalls_gcc.c ****   if (result == -1)
+ 133              		.loc 1 227 3 view .LVU24
+ 134              		.loc 1 227 6 is_stmt 0 view .LVU25
+ 135 0000 010070E3 		cmn	r0, #1
+ 136 0004 1EFF2F11 		bxne	lr
+ 226:../generate/os_abstraction/src/syscalls_gcc.c ****   if (result == -1)
+ 137              		.loc 1 226 1 view .LVU26
+ 138 0008 10402DE9 		push	{r4, lr}
+ 139              		.cfi_def_cfa_offset 8
+ 140              		.cfi_offset 4, -8
+ 141              		.cfi_offset 14, -4
+ 228:../generate/os_abstraction/src/syscalls_gcc.c ****     return error (-1);
+ 142              		.loc 1 228 5 is_stmt 1 view .LVU27
+ 143              		.loc 1 228 12 is_stmt 0 view .LVU28
+ 144 000c FEFFFFEB 		bl	error
+ 145              	.LVL8:
+ 229:../generate/os_abstraction/src/syscalls_gcc.c ****   return result;
+ 230:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 146              		.loc 1 230 1 view .LVU29
+ 147 0010 1080BDE8 		pop	{r4, pc}
+ 148              		.cfi_endproc
+ 149              	.LFE30:
+ 151              		.section	.text.remap_handle,"ax",%progbits
+ 152              		.align	2
+ 153              		.syntax unified
+ 154              		.arm
+ 155              		.fpu neon
+ 157              	remap_handle:
+ 158              	.LVL9:
+ 159              	.LFB26:
+ 146:../generate/os_abstraction/src/syscalls_gcc.c ****   CHECK_INIT(_REENT);
+ 160              		.loc 1 146 1 is_stmt 1 view -0
+ 161              		.cfi_startproc
+ 162              		@ args = 0, pretend = 0, frame = 0
+ 163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 146:../generate/os_abstraction/src/syscalls_gcc.c ****   CHECK_INIT(_REENT);
+ 164              		.loc 1 146 1 is_stmt 0 view .LVU31
+ 165 0000 10402DE9 		push	{r4, lr}
+ 166              		.cfi_def_cfa_offset 8
+ 167              		.cfi_offset 4, -8
+ 168              		.cfi_offset 14, -4
+ 169 0004 0040A0E1 		mov	r4, r0
+ 147:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 170              		.loc 1 147 3 is_stmt 1 view .LVU32
+ 147:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 171              		.loc 1 147 3 view .LVU33
+ 172 0008 003000E3 		movw	r3, #:lower16:_impure_ptr
+ 173 000c 003040E3 		movt	r3, #:upper16:_impure_ptr
+ 174 0010 000093E5 		ldr	r0, [r3]
+ 175              	.LVL10:
+ 147:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 176              		.loc 1 147 3 is_stmt 0 view .LVU34
+ 177 0014 000050E3 		cmp	r0, #0
+ 178 0018 0200000A 		beq	.L15
+ 147:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 179              		.loc 1 147 3 discriminator 1 view .LVU35
+ 180 001c 383090E5 		ldr	r3, [r0, #56]
+ 181 0020 000053E3 		cmp	r3, #0
+ 182 0024 0700000A 		beq	.L21
+ 183              	.L15:
+ 147:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 184              		.loc 1 147 3 is_stmt 1 discriminator 5 view .LVU36
+ 149:../generate/os_abstraction/src/syscalls_gcc.c ****     return monitor_stdin;
+ 185              		.loc 1 149 3 discriminator 5 view .LVU37
+ 149:../generate/os_abstraction/src/syscalls_gcc.c ****     return monitor_stdin;
+ 186              		.loc 1 149 6 is_stmt 0 discriminator 5 view .LVU38
+ 187 0028 000054E3 		cmp	r4, #0
+ 188 002c 0700000A 		beq	.L22
+ 151:../generate/os_abstraction/src/syscalls_gcc.c ****     return monitor_stdout;
+ 189              		.loc 1 151 3 is_stmt 1 view .LVU39
+ 151:../generate/os_abstraction/src/syscalls_gcc.c ****     return monitor_stdout;
+ 190              		.loc 1 151 6 is_stmt 0 view .LVU40
+ 191 0030 010054E3 		cmp	r4, #1
+ 192 0034 0900000A 		beq	.L23
+ 153:../generate/os_abstraction/src/syscalls_gcc.c ****     return monitor_stderr;
+ 193              		.loc 1 153 3 is_stmt 1 view .LVU41
+ 153:../generate/os_abstraction/src/syscalls_gcc.c ****     return monitor_stderr;
+ 194              		.loc 1 153 6 is_stmt 0 view .LVU42
+ 195 0038 020054E3 		cmp	r4, #2
+ 196 003c 0B00000A 		beq	.L19
+ 156:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 197              		.loc 1 156 13 view .LVU43
+ 198 0040 0400A0E1 		mov	r0, r4
+ 199 0044 1080BDE8 		pop	{r4, pc}
+ 200              	.L21:
+ 147:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 201              		.loc 1 147 3 is_stmt 1 discriminator 3 view .LVU44
+ 202 0048 FEFFFFEB 		bl	__sinit
+ 203              	.LVL11:
+ 204 004c F5FFFFEA 		b	.L15
+ 205              	.L22:
+ 150:../generate/os_abstraction/src/syscalls_gcc.c ****   if (fh == STDOUT_FILENO)
+ 206              		.loc 1 150 5 view .LVU45
+ 150:../generate/os_abstraction/src/syscalls_gcc.c ****   if (fh == STDOUT_FILENO)
+ 207              		.loc 1 150 12 is_stmt 0 view .LVU46
+ 208 0050 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 209 0054 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 210 0058 000093E5 		ldr	r0, [r3]
+ 211 005c 1080BDE8 		pop	{r4, pc}
+ 212              	.L23:
+ 152:../generate/os_abstraction/src/syscalls_gcc.c ****   if (fh == STDERR_FILENO)
+ 213              		.loc 1 152 5 is_stmt 1 view .LVU47
+ 152:../generate/os_abstraction/src/syscalls_gcc.c ****   if (fh == STDERR_FILENO)
+ 214              		.loc 1 152 12 is_stmt 0 view .LVU48
+ 215 0060 003000E3 		movw	r3, #:lower16:.LANCHOR2
+ 216 0064 003040E3 		movt	r3, #:upper16:.LANCHOR2
+ 217 0068 000093E5 		ldr	r0, [r3]
+ 218 006c 1080BDE8 		pop	{r4, pc}
+ 219              	.L19:
+ 154:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 220              		.loc 1 154 12 view .LVU49
+ 221 0070 0000A0E3 		mov	r0, #0
+ 157:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 222              		.loc 1 157 1 view .LVU50
+ 223 0074 1080BDE8 		pop	{r4, pc}
+ 224              		.cfi_endproc
+ 225              	.LFE26:
+ 227              		.section	.rodata.initialise_monitor_handles.str1.4,"aMS",%progbits,1
+ 228              		.align	2
+ 229              	.LC0:
+ 230 0000 5C5C2E5C 		.ascii	"\\\\.\\stdin\000"
+ 230      73746469 
+ 230      6E00
+ 231 000a 0000     		.align	2
+ 232              	.LC1:
+ 233 000c 5C5C2E5C 		.ascii	"\\\\.\\stdout\000"
+ 233      7374646F 
+ 233      757400
+ 234 0017 00       		.align	2
+ 235              	.LC2:
+ 236 0018 5C5C2E5C 		.ascii	"\\\\.\\stderr\000"
+ 236      73746465 
+ 236      727200
+ 237              		.section	.text.initialise_monitor_handles,"ax",%progbits
+ 238              		.align	2
+ 239              		.global	initialise_monitor_handles
+ 240              		.syntax unified
+ 241              		.arm
+ 242              		.fpu neon
+ 244              	initialise_monitor_handles:
+ 245              	.LFB27:
+ 161:../generate/os_abstraction/src/syscalls_gcc.c ****   int i;
+ 246              		.loc 1 161 1 is_stmt 1 view -0
+ 247              		.cfi_startproc
+ 248              		@ args = 0, pretend = 0, frame = 0
+ 249              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250 0000 10402DE9 		push	{r4, lr}
+ 251              		.cfi_def_cfa_offset 8
+ 252              		.cfi_offset 4, -8
+ 253              		.cfi_offset 14, -4
+ 162:../generate/os_abstraction/src/syscalls_gcc.c ****   int fh;
+ 254              		.loc 1 162 3 view .LVU52
+ 163:../generate/os_abstraction/src/syscalls_gcc.c ****   char * name;
+ 255              		.loc 1 163 3 view .LVU53
+ 164:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 256              		.loc 1 164 3 view .LVU54
+ 188:../generate/os_abstraction/src/syscalls_gcc.c ****   fh = low_open(name, O_RDWR);
+ 257              		.loc 1 188 3 view .LVU55
+ 258              	.LVL12:
+ 189:../generate/os_abstraction/src/syscalls_gcc.c ****   monitor_stdin = fh;
+ 259              		.loc 1 189 3 view .LVU56
+ 189:../generate/os_abstraction/src/syscalls_gcc.c ****   monitor_stdin = fh;
+ 260              		.loc 1 189 8 is_stmt 0 view .LVU57
+ 261 0004 0210A0E3 		mov	r1, #2
+ 262 0008 000000E3 		movw	r0, #:lower16:.LC0
+ 263 000c 000040E3 		movt	r0, #:upper16:.LC0
+ 264 0010 FEFFFFEB 		bl	low_open
+ 265              	.LVL13:
+ 190:../generate/os_abstraction/src/syscalls_gcc.c ****   name = "\\\\.\\stdout";
+ 266              		.loc 1 190 3 is_stmt 1 view .LVU58
+ 190:../generate/os_abstraction/src/syscalls_gcc.c ****   name = "\\\\.\\stdout";
+ 267              		.loc 1 190 17 is_stmt 0 view .LVU59
+ 268 0014 003000E3 		movw	r3, #:lower16:.LANCHOR1
+ 269 0018 003040E3 		movt	r3, #:upper16:.LANCHOR1
+ 270 001c 000083E5 		str	r0, [r3]
+ 191:../generate/os_abstraction/src/syscalls_gcc.c ****   fh = low_open(name, O_WRONLY);
+ 271              		.loc 1 191 3 is_stmt 1 view .LVU60
+ 272              	.LVL14:
+ 192:../generate/os_abstraction/src/syscalls_gcc.c ****   monitor_stdout = fh;
+ 273              		.loc 1 192 3 view .LVU61
+ 192:../generate/os_abstraction/src/syscalls_gcc.c ****   monitor_stdout = fh;
+ 274              		.loc 1 192 8 is_stmt 0 view .LVU62
+ 275 0020 0110A0E3 		mov	r1, #1
+ 276 0024 000000E3 		movw	r0, #:lower16:.LC1
+ 277              	.LVL15:
+ 192:../generate/os_abstraction/src/syscalls_gcc.c ****   monitor_stdout = fh;
+ 278              		.loc 1 192 8 view .LVU63
+ 279 0028 000040E3 		movt	r0, #:upper16:.LC1
+ 280 002c FEFFFFEB 		bl	low_open
+ 281              	.LVL16:
+ 193:../generate/os_abstraction/src/syscalls_gcc.c ****   name = "\\\\.\\stderr";
+ 282              		.loc 1 193 3 is_stmt 1 view .LVU64
+ 193:../generate/os_abstraction/src/syscalls_gcc.c ****   name = "\\\\.\\stderr";
+ 283              		.loc 1 193 18 is_stmt 0 view .LVU65
+ 284 0030 003000E3 		movw	r3, #:lower16:.LANCHOR2
+ 285 0034 003040E3 		movt	r3, #:upper16:.LANCHOR2
+ 286 0038 000083E5 		str	r0, [r3]
+ 194:../generate/os_abstraction/src/syscalls_gcc.c ****   fh = low_open(name, O_WRONLY);
+ 287              		.loc 1 194 3 is_stmt 1 view .LVU66
+ 288              	.LVL17:
+ 195:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 289              		.loc 1 195 3 view .LVU67
+ 195:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 290              		.loc 1 195 8 is_stmt 0 view .LVU68
+ 291 003c 0110A0E3 		mov	r1, #1
+ 292 0040 000000E3 		movw	r0, #:lower16:.LC2
+ 293              	.LVL18:
+ 195:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 294              		.loc 1 195 8 view .LVU69
+ 295 0044 000040E3 		movt	r0, #:upper16:.LC2
+ 296 0048 FEFFFFEB 		bl	low_open
+ 297              	.LVL19:
+ 198:../generate/os_abstraction/src/syscalls_gcc.c ****     openfiles[i].handle = -1;
+ 298              		.loc 1 198 3 is_stmt 1 view .LVU70
+ 198:../generate/os_abstraction/src/syscalls_gcc.c ****     openfiles[i].handle = -1;
+ 299              		.loc 1 198 10 is_stmt 0 view .LVU71
+ 300 004c 0030A0E3 		mov	r3, #0
+ 198:../generate/os_abstraction/src/syscalls_gcc.c ****     openfiles[i].handle = -1;
+ 301              		.loc 1 198 3 view .LVU72
+ 302 0050 040000EA 		b	.L25
+ 303              	.LVL20:
+ 304              	.L26:
+ 199:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 305              		.loc 1 199 5 is_stmt 1 discriminator 3 view .LVU73
+ 199:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 306              		.loc 1 199 25 is_stmt 0 discriminator 3 view .LVU74
+ 307 0054 002000E3 		movw	r2, #:lower16:.LANCHOR0
+ 308 0058 002040E3 		movt	r2, #:upper16:.LANCHOR0
+ 309 005c 0010E0E3 		mvn	r1, #0
+ 310 0060 831182E7 		str	r1, [r2, r3, lsl #3]
+ 198:../generate/os_abstraction/src/syscalls_gcc.c ****     openfiles[i].handle = -1;
+ 311              		.loc 1 198 35 is_stmt 1 discriminator 3 view .LVU75
+ 198:../generate/os_abstraction/src/syscalls_gcc.c ****     openfiles[i].handle = -1;
+ 312              		.loc 1 198 37 is_stmt 0 discriminator 3 view .LVU76
+ 313 0064 013083E2 		add	r3, r3, #1
+ 314              	.LVL21:
+ 315              	.L25:
+ 198:../generate/os_abstraction/src/syscalls_gcc.c ****     openfiles[i].handle = -1;
+ 316              		.loc 1 198 15 is_stmt 1 discriminator 1 view .LVU77
+ 198:../generate/os_abstraction/src/syscalls_gcc.c ****     openfiles[i].handle = -1;
+ 317              		.loc 1 198 3 is_stmt 0 discriminator 1 view .LVU78
+ 318 0068 130053E3 		cmp	r3, #19
+ 319 006c F8FFFFDA 		ble	.L26
+ 201:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[0].pos = 0;
+ 320              		.loc 1 201 3 is_stmt 1 view .LVU79
+ 201:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[0].pos = 0;
+ 321              		.loc 1 201 23 is_stmt 0 view .LVU80
+ 322 0070 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 323              	.LVL22:
+ 201:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[0].pos = 0;
+ 324              		.loc 1 201 23 view .LVU81
+ 325 0074 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 326 0078 002000E3 		movw	r2, #:lower16:.LANCHOR1
+ 327 007c 002040E3 		movt	r2, #:upper16:.LANCHOR1
+ 328 0080 002092E5 		ldr	r2, [r2]
+ 329 0084 002083E5 		str	r2, [r3]
+ 202:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[1].handle = monitor_stdout;
+ 330              		.loc 1 202 3 is_stmt 1 view .LVU82
+ 202:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[1].handle = monitor_stdout;
+ 331              		.loc 1 202 20 is_stmt 0 view .LVU83
+ 332 0088 0020A0E3 		mov	r2, #0
+ 333 008c 042083E5 		str	r2, [r3, #4]
+ 203:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[1].pos = 0;
+ 334              		.loc 1 203 3 is_stmt 1 view .LVU84
+ 203:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[1].pos = 0;
+ 335              		.loc 1 203 23 is_stmt 0 view .LVU85
+ 336 0090 001000E3 		movw	r1, #:lower16:.LANCHOR2
+ 337 0094 001040E3 		movt	r1, #:upper16:.LANCHOR2
+ 338 0098 001091E5 		ldr	r1, [r1]
+ 339 009c 081083E5 		str	r1, [r3, #8]
+ 204:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[2].handle = monitor_stdout;
+ 340              		.loc 1 204 3 is_stmt 1 view .LVU86
+ 204:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[2].handle = monitor_stdout;
+ 341              		.loc 1 204 20 is_stmt 0 view .LVU87
+ 342 00a0 0C2083E5 		str	r2, [r3, #12]
+ 205:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[2].pos = 0;
+ 343              		.loc 1 205 3 is_stmt 1 view .LVU88
+ 205:../generate/os_abstraction/src/syscalls_gcc.c ****   openfiles[2].pos = 0;
+ 344              		.loc 1 205 23 is_stmt 0 view .LVU89
+ 345 00a4 101083E5 		str	r1, [r3, #16]
+ 206:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 346              		.loc 1 206 3 is_stmt 1 view .LVU90
+ 206:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 347              		.loc 1 206 20 is_stmt 0 view .LVU91
+ 348 00a8 142083E5 		str	r2, [r3, #20]
+ 207:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 349              		.loc 1 207 1 view .LVU92
+ 350 00ac 1080BDE8 		pop	{r4, pc}
+ 351              		.cfi_endproc
+ 352              	.LFE27:
+ 354              		.section	.text._swiread,"ax",%progbits
+ 355              		.align	2
+ 356              		.global	_swiread
+ 357              		.syntax unified
+ 358              		.arm
+ 359              		.fpu neon
+ 361              	_swiread:
+ 362              	.LVL23:
+ 363              	.LFB31:
+ 231:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 232:../generate/os_abstraction/src/syscalls_gcc.c **** /* Returns # chars not! written.  */
+ 233:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 234:../generate/os_abstraction/src/syscalls_gcc.c **** _swiread (int file,
+ 235:../generate/os_abstraction/src/syscalls_gcc.c **** 	  char * ptr,
+ 236:../generate/os_abstraction/src/syscalls_gcc.c **** 	  int len)
+ 237:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 364              		.loc 1 237 1 is_stmt 1 view -0
+ 365              		.cfi_startproc
+ 366              		@ args = 0, pretend = 0, frame = 0
+ 367              		@ frame_needed = 0, uses_anonymous_args = 0
+ 368              		@ link register save eliminated.
+ 238:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 239:../generate/os_abstraction/src/syscalls_gcc.c ****   int fh = remap_handle (file);
+ 240:../generate/os_abstraction/src/syscalls_gcc.c ****   int block[3];
+ 241:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 242:../generate/os_abstraction/src/syscalls_gcc.c ****   block[0] = fh;
+ 243:../generate/os_abstraction/src/syscalls_gcc.c ****   block[1] = (int) ptr;
+ 244:../generate/os_abstraction/src/syscalls_gcc.c ****   block[2] = len;
+ 245:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 246:../generate/os_abstraction/src/syscalls_gcc.c ****   return do_AngelSWI (AngelSWI_Reason_Read, block);
+ 247:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 248:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 369              		.loc 1 248 1 view .LVU94
+ 370              	.LVL24:
+ 371              		.loc 1 248 1 is_stmt 0 view .LVU95
+ 372 0000 1EFF2FE1 		bx	lr
+ 373              		.cfi_endproc
+ 374              	.LFE31:
+ 376              		.section	.text._read,"ax",%progbits
+ 377              		.align	2
+ 378              		.weak	_read
+ 379              		.syntax unified
+ 380              		.arm
+ 381              		.fpu neon
+ 383              	_read:
+ 384              	.LVL25:
+ 385              	.LFB32:
+ 249:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 250:../generate/os_abstraction/src/syscalls_gcc.c **** int __attribute__((weak))
+ 251:../generate/os_abstraction/src/syscalls_gcc.c **** _read (int file,
+ 252:../generate/os_abstraction/src/syscalls_gcc.c ****        char * ptr,
+ 253:../generate/os_abstraction/src/syscalls_gcc.c ****        int len)
+ 254:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 386              		.loc 1 254 1 is_stmt 1 view -0
+ 387              		.cfi_startproc
+ 388              		@ args = 0, pretend = 0, frame = 0
+ 389              		@ frame_needed = 0, uses_anonymous_args = 0
+ 390              		.loc 1 254 1 is_stmt 0 view .LVU97
+ 391 0000 10402DE9 		push	{r4, lr}
+ 392              		.cfi_def_cfa_offset 8
+ 393              		.cfi_offset 4, -8
+ 394              		.cfi_offset 14, -4
+ 255:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 256:../generate/os_abstraction/src/syscalls_gcc.c ****   if ((file == STDIN_FILENO) || (file == STDOUT_FILENO) || (file == STDERR_FILENO))
+ 257:../generate/os_abstraction/src/syscalls_gcc.c ****   {
+ 258:../generate/os_abstraction/src/syscalls_gcc.c ****     int slot = findslot (remap_handle (file));
+ 259:../generate/os_abstraction/src/syscalls_gcc.c ****     int x = _swiread (file, ptr, len);
+ 260:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 261:../generate/os_abstraction/src/syscalls_gcc.c ****     if (x < 0)
+ 262:../generate/os_abstraction/src/syscalls_gcc.c ****       return error (-1);
+ 263:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 264:../generate/os_abstraction/src/syscalls_gcc.c ****     if (slot != MAX_OPEN_FILES)
+ 265:../generate/os_abstraction/src/syscalls_gcc.c ****       openfiles [slot].pos += len - x;
+ 266:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 267:../generate/os_abstraction/src/syscalls_gcc.c ****     /* x == len is not an error, at least if we want feof() to work.  */
+ 268:../generate/os_abstraction/src/syscalls_gcc.c ****     return len - x;
+ 269:../generate/os_abstraction/src/syscalls_gcc.c ****   }
+ 270:../generate/os_abstraction/src/syscalls_gcc.c ****   else
+ 271:../generate/os_abstraction/src/syscalls_gcc.c ****   {
+ 272:../generate/os_abstraction/src/syscalls_gcc.c ****     int_t   i = low_read(file, (uint8_t*)ptr, (uint32_t)len);
+ 273:../generate/os_abstraction/src/syscalls_gcc.c ****     return wrap(i);
+ 274:../generate/os_abstraction/src/syscalls_gcc.c ****   }
+ 275:../generate/os_abstraction/src/syscalls_gcc.c **** #else
+ 276:../generate/os_abstraction/src/syscalls_gcc.c ****   int_t   i = low_read(file, (uint8_t*)ptr, (uint32_t)len);
+ 395              		.loc 1 276 3 is_stmt 1 view .LVU98
+ 396              		.loc 1 276 15 is_stmt 0 view .LVU99
+ 397 0004 FEFFFFEB 		bl	low_read
+ 398              	.LVL26:
+ 277:../generate/os_abstraction/src/syscalls_gcc.c ****   return wrap(i);
+ 399              		.loc 1 277 3 is_stmt 1 view .LVU100
+ 400              		.loc 1 277 10 is_stmt 0 view .LVU101
+ 401 0008 FEFFFFEB 		bl	wrap
+ 402              	.LVL27:
+ 278:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 279:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 403              		.loc 1 279 1 view .LVU102
+ 404 000c 1080BDE8 		pop	{r4, pc}
+ 405              		.cfi_endproc
+ 406              	.LFE32:
+ 408              		.section	.text._swilseek,"ax",%progbits
+ 409              		.align	2
+ 410              		.global	_swilseek
+ 411              		.syntax unified
+ 412              		.arm
+ 413              		.fpu neon
+ 415              	_swilseek:
+ 416              	.LVL28:
+ 417              	.LFB33:
+ 280:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 281:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 282:../generate/os_abstraction/src/syscalls_gcc.c **** _swilseek (int file,
+ 283:../generate/os_abstraction/src/syscalls_gcc.c **** 	   int ptr,
+ 284:../generate/os_abstraction/src/syscalls_gcc.c **** 	   int dir)
+ 285:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 418              		.loc 1 285 1 is_stmt 1 view -0
+ 419              		.cfi_startproc
+ 420              		@ args = 0, pretend = 0, frame = 0
+ 421              		@ frame_needed = 0, uses_anonymous_args = 0
+ 422              		.loc 1 285 1 is_stmt 0 view .LVU104
+ 423 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 424              		.cfi_def_cfa_offset 16
+ 425              		.cfi_offset 4, -16
+ 426              		.cfi_offset 5, -12
+ 427              		.cfi_offset 6, -8
+ 428              		.cfi_offset 14, -4
+ 429 0004 0140A0E1 		mov	r4, r1
+ 430 0008 0250A0E1 		mov	r5, r2
+ 286:../generate/os_abstraction/src/syscalls_gcc.c ****   int res = 0;
+ 431              		.loc 1 286 3 is_stmt 1 view .LVU105
+ 432              	.LVL29:
+ 287:../generate/os_abstraction/src/syscalls_gcc.c ****   int fh = remap_handle (file);
+ 433              		.loc 1 287 3 view .LVU106
+ 434              		.loc 1 287 12 is_stmt 0 view .LVU107
+ 435 000c FEFFFFEB 		bl	remap_handle
+ 436              	.LVL30:
+ 288:../generate/os_abstraction/src/syscalls_gcc.c ****   int slot = findslot (fh);
+ 437              		.loc 1 288 3 is_stmt 1 view .LVU108
+ 438              		.loc 1 288 14 is_stmt 0 view .LVU109
+ 439 0010 FEFFFFEB 		bl	findslot
+ 440              	.LVL31:
+ 289:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 290:../generate/os_abstraction/src/syscalls_gcc.c ****   int block[2];
+ 291:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 292:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 293:../generate/os_abstraction/src/syscalls_gcc.c ****   if (dir == SEEK_CUR)
+ 441              		.loc 1 293 3 is_stmt 1 view .LVU110
+ 442              		.loc 1 293 6 is_stmt 0 view .LVU111
+ 443 0014 010055E3 		cmp	r5, #1
+ 444 0018 0600000A 		beq	.L36
+ 445              	.LVL32:
+ 446              	.L32:
+ 294:../generate/os_abstraction/src/syscalls_gcc.c ****     {
+ 295:../generate/os_abstraction/src/syscalls_gcc.c ****       if (slot == MAX_OPEN_FILES)
+ 296:../generate/os_abstraction/src/syscalls_gcc.c **** 	return -1;
+ 297:../generate/os_abstraction/src/syscalls_gcc.c ****       ptr = openfiles[slot].pos + ptr;
+ 298:../generate/os_abstraction/src/syscalls_gcc.c ****       dir = SEEK_SET;
+ 299:../generate/os_abstraction/src/syscalls_gcc.c ****     }
+ 300:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 301:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 302:../generate/os_abstraction/src/syscalls_gcc.c ****   if (dir == SEEK_END)
+ 303:../generate/os_abstraction/src/syscalls_gcc.c ****     {
+ 304:../generate/os_abstraction/src/syscalls_gcc.c ****       block[0] = fh;
+ 305:../generate/os_abstraction/src/syscalls_gcc.c ****       ptr += do_AngelSWI (AngelSWI_Reason_FLen, block);
+ 306:../generate/os_abstraction/src/syscalls_gcc.c ****     }
+ 307:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 308:../generate/os_abstraction/src/syscalls_gcc.c ****   /* This code only does absolute seeks.  */
+ 309:../generate/os_abstraction/src/syscalls_gcc.c ****   block[0] = remap_handle (file);
+ 310:../generate/os_abstraction/src/syscalls_gcc.c ****   block[1] = ptr;
+ 311:../generate/os_abstraction/src/syscalls_gcc.c ****   res = do_AngelSWI (AngelSWI_Reason_Seek, block);
+ 312:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 313:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 314:../generate/os_abstraction/src/syscalls_gcc.c ****   if (slot != MAX_OPEN_FILES && res == 0)
+ 447              		.loc 1 314 3 is_stmt 1 view .LVU112
+ 448              		.loc 1 314 6 is_stmt 0 view .LVU113
+ 449 001c 140050E3 		cmp	r0, #20
+ 315:../generate/os_abstraction/src/syscalls_gcc.c ****     openfiles[slot].pos = ptr;
+ 450              		.loc 1 315 5 is_stmt 1 view .LVU114
+ 451              		.loc 1 315 25 is_stmt 0 view .LVU115
+ 452 0020 00300013 		movwne	r3, #:lower16:.LANCHOR0
+ 453 0024 00304013 		movtne	r3, #:upper16:.LANCHOR0
+ 454 0028 80018310 		addne	r0, r3, r0, lsl #3
+ 455              	.LVL33:
+ 456              		.loc 1 315 25 view .LVU116
+ 457 002c 04408015 		strne	r4, [r0, #4]
+ 458              	.LVL34:
+ 459              	.L33:
+ 316:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 317:../generate/os_abstraction/src/syscalls_gcc.c ****   /* This is expected to return the position in the file.  */
+ 318:../generate/os_abstraction/src/syscalls_gcc.c ****   return res == 0 ? ptr : -1;
+ 319:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 460              		.loc 1 319 1 view .LVU117
+ 461 0030 0400A0E1 		mov	r0, r4
+ 462 0034 7080BDE8 		pop	{r4, r5, r6, pc}
+ 463              	.LVL35:
+ 464              	.L36:
+ 295:../generate/os_abstraction/src/syscalls_gcc.c **** 	return -1;
+ 465              		.loc 1 295 7 is_stmt 1 view .LVU118
+ 295:../generate/os_abstraction/src/syscalls_gcc.c **** 	return -1;
+ 466              		.loc 1 295 10 is_stmt 0 view .LVU119
+ 467 0038 140050E3 		cmp	r0, #20
+ 468 003c 0500000A 		beq	.L34
+ 297:../generate/os_abstraction/src/syscalls_gcc.c ****       dir = SEEK_SET;
+ 469              		.loc 1 297 7 is_stmt 1 view .LVU120
+ 297:../generate/os_abstraction/src/syscalls_gcc.c ****       dir = SEEK_SET;
+ 470              		.loc 1 297 28 is_stmt 0 view .LVU121
+ 471 0040 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 472 0044 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 473 0048 803183E0 		add	r3, r3, r0, lsl #3
+ 474 004c 043093E5 		ldr	r3, [r3, #4]
+ 297:../generate/os_abstraction/src/syscalls_gcc.c ****       dir = SEEK_SET;
+ 475              		.loc 1 297 11 view .LVU122
+ 476 0050 034084E0 		add	r4, r4, r3
+ 477              	.LVL36:
+ 298:../generate/os_abstraction/src/syscalls_gcc.c ****     }
+ 478              		.loc 1 298 7 is_stmt 1 view .LVU123
+ 298:../generate/os_abstraction/src/syscalls_gcc.c ****     }
+ 479              		.loc 1 298 7 is_stmt 0 view .LVU124
+ 480 0054 F0FFFFEA 		b	.L32
+ 481              	.LVL37:
+ 482              	.L34:
+ 296:../generate/os_abstraction/src/syscalls_gcc.c ****       ptr = openfiles[slot].pos + ptr;
+ 483              		.loc 1 296 9 view .LVU125
+ 484 0058 0040E0E3 		mvn	r4, #0
+ 485              	.LVL38:
+ 296:../generate/os_abstraction/src/syscalls_gcc.c ****       ptr = openfiles[slot].pos + ptr;
+ 486              		.loc 1 296 9 view .LVU126
+ 487 005c F3FFFFEA 		b	.L33
+ 488              		.cfi_endproc
+ 489              	.LFE33:
+ 491              		.section	.text._lseek,"ax",%progbits
+ 492              		.align	2
+ 493              		.global	_lseek
+ 494              		.syntax unified
+ 495              		.arm
+ 496              		.fpu neon
+ 498              	_lseek:
+ 499              	.LVL39:
+ 500              	.LFB34:
+ 320:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 321:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 322:../generate/os_abstraction/src/syscalls_gcc.c **** _lseek (int file,
+ 323:../generate/os_abstraction/src/syscalls_gcc.c **** 	int ptr,
+ 324:../generate/os_abstraction/src/syscalls_gcc.c **** 	int dir)
+ 325:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 501              		.loc 1 325 1 is_stmt 1 view -0
+ 502              		.cfi_startproc
+ 503              		@ args = 0, pretend = 0, frame = 0
+ 504              		@ frame_needed = 0, uses_anonymous_args = 0
+ 505              		.loc 1 325 1 is_stmt 0 view .LVU128
+ 506 0000 10402DE9 		push	{r4, lr}
+ 507              		.cfi_def_cfa_offset 8
+ 508              		.cfi_offset 4, -8
+ 509              		.cfi_offset 14, -4
+ 326:../generate/os_abstraction/src/syscalls_gcc.c ****   return wrap (_swilseek (file, ptr, dir));
+ 510              		.loc 1 326 3 is_stmt 1 view .LVU129
+ 511              		.loc 1 326 10 is_stmt 0 view .LVU130
+ 512 0004 FEFFFFEB 		bl	_swilseek
+ 513              	.LVL40:
+ 514              		.loc 1 326 10 view .LVU131
+ 515 0008 FEFFFFEB 		bl	wrap
+ 516              	.LVL41:
+ 327:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 517              		.loc 1 327 1 view .LVU132
+ 518 000c 1080BDE8 		pop	{r4, pc}
+ 519              		.cfi_endproc
+ 520              	.LFE34:
+ 522              		.section	.text._swiwrite,"ax",%progbits
+ 523              		.align	2
+ 524              		.global	_swiwrite
+ 525              		.syntax unified
+ 526              		.arm
+ 527              		.fpu neon
+ 529              	_swiwrite:
+ 530              	.LVL42:
+ 531              	.LFB35:
+ 328:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 329:../generate/os_abstraction/src/syscalls_gcc.c **** /* Returns #chars not! written.  */
+ 330:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 331:../generate/os_abstraction/src/syscalls_gcc.c **** _swiwrite (
+ 332:../generate/os_abstraction/src/syscalls_gcc.c **** 	   int    file,
+ 333:../generate/os_abstraction/src/syscalls_gcc.c **** 	   char * ptr,
+ 334:../generate/os_abstraction/src/syscalls_gcc.c **** 	   int    len)
+ 335:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 532              		.loc 1 335 1 is_stmt 1 view -0
+ 533              		.cfi_startproc
+ 534              		@ args = 0, pretend = 0, frame = 0
+ 535              		@ frame_needed = 0, uses_anonymous_args = 0
+ 536              		@ link register save eliminated.
+ 336:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 337:../generate/os_abstraction/src/syscalls_gcc.c ****   int fh = remap_handle (file);
+ 338:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 339:../generate/os_abstraction/src/syscalls_gcc.c ****   int block[3];
+ 340:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 341:../generate/os_abstraction/src/syscalls_gcc.c ****   block[0] = fh;
+ 342:../generate/os_abstraction/src/syscalls_gcc.c ****   block[1] = (int) ptr;
+ 343:../generate/os_abstraction/src/syscalls_gcc.c ****   block[2] = len;
+ 344:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 345:../generate/os_abstraction/src/syscalls_gcc.c ****   return do_AngelSWI (AngelSWI_Reason_Write, block);
+ 346:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 347:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 348:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 349:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 350:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 537              		.loc 1 350 1 view .LVU134
+ 538              	.LVL43:
+ 539              		.loc 1 350 1 is_stmt 0 view .LVU135
+ 540 0000 1EFF2FE1 		bx	lr
+ 541              		.cfi_endproc
+ 542              	.LFE35:
+ 544              		.section	.text._write,"ax",%progbits
+ 545              		.align	2
+ 546              		.weak	_write
+ 547              		.syntax unified
+ 548              		.arm
+ 549              		.fpu neon
+ 551              	_write:
+ 552              	.LVL44:
+ 553              	.LFB36:
+ 351:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 352:../generate/os_abstraction/src/syscalls_gcc.c **** int __attribute__((weak))
+ 353:../generate/os_abstraction/src/syscalls_gcc.c **** _write (int    file,
+ 354:../generate/os_abstraction/src/syscalls_gcc.c **** 	char * ptr,
+ 355:../generate/os_abstraction/src/syscalls_gcc.c **** 	int    len)
+ 356:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 554              		.loc 1 356 1 is_stmt 1 view -0
+ 555              		.cfi_startproc
+ 556              		@ args = 0, pretend = 0, frame = 0
+ 557              		@ frame_needed = 0, uses_anonymous_args = 0
+ 558              		.loc 1 356 1 is_stmt 0 view .LVU137
+ 559 0000 10402DE9 		push	{r4, lr}
+ 560              		.cfi_def_cfa_offset 8
+ 561              		.cfi_offset 4, -8
+ 562              		.cfi_offset 14, -4
+ 357:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 358:../generate/os_abstraction/src/syscalls_gcc.c ****   if ((file == STDIN_FILENO) || (file == STDOUT_FILENO) || (file == STDERR_FILENO))
+ 359:../generate/os_abstraction/src/syscalls_gcc.c ****   {
+ 360:../generate/os_abstraction/src/syscalls_gcc.c ****     int slot = findslot (remap_handle (file));
+ 361:../generate/os_abstraction/src/syscalls_gcc.c ****     int x = _swiwrite (file, ptr,len);
+ 362:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 363:../generate/os_abstraction/src/syscalls_gcc.c ****     if (x == -1 || x == len)
+ 364:../generate/os_abstraction/src/syscalls_gcc.c ****       return error (-1);
+ 365:../generate/os_abstraction/src/syscalls_gcc.c ****     
+ 366:../generate/os_abstraction/src/syscalls_gcc.c ****     if (slot != MAX_OPEN_FILES)
+ 367:../generate/os_abstraction/src/syscalls_gcc.c ****       openfiles[slot].pos += len - x;
+ 368:../generate/os_abstraction/src/syscalls_gcc.c ****     
+ 369:../generate/os_abstraction/src/syscalls_gcc.c ****     return len - x;
+ 370:../generate/os_abstraction/src/syscalls_gcc.c ****   }
+ 371:../generate/os_abstraction/src/syscalls_gcc.c ****   else
+ 372:../generate/os_abstraction/src/syscalls_gcc.c ****   {
+ 373:../generate/os_abstraction/src/syscalls_gcc.c ****     int_t i;
+ 374:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 375:../generate/os_abstraction/src/syscalls_gcc.c ****     i = low_write(file, (uint8_t*)ptr, (uint32_t)len);
+ 376:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 377:../generate/os_abstraction/src/syscalls_gcc.c ****     return wrap(i);
+ 378:../generate/os_abstraction/src/syscalls_gcc.c ****   }
+ 379:../generate/os_abstraction/src/syscalls_gcc.c **** #else
+ 380:../generate/os_abstraction/src/syscalls_gcc.c ****   int_t i;
+ 563              		.loc 1 380 3 is_stmt 1 view .LVU138
+ 381:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 382:../generate/os_abstraction/src/syscalls_gcc.c ****   i = low_write(file, (uint8_t*)ptr, (uint32_t)len);
+ 564              		.loc 1 382 3 view .LVU139
+ 565              		.loc 1 382 7 is_stmt 0 view .LVU140
+ 566 0004 FEFFFFEB 		bl	low_write
+ 567              	.LVL45:
+ 383:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 384:../generate/os_abstraction/src/syscalls_gcc.c ****   return wrap(i);
+ 568              		.loc 1 384 3 is_stmt 1 view .LVU141
+ 569              		.loc 1 384 10 is_stmt 0 view .LVU142
+ 570 0008 FEFFFFEB 		bl	wrap
+ 571              	.LVL46:
+ 385:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 386:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 572              		.loc 1 386 1 view .LVU143
+ 573 000c 1080BDE8 		pop	{r4, pc}
+ 574              		.cfi_endproc
+ 575              	.LFE36:
+ 577              		.section	.text._swiopen,"ax",%progbits
+ 578              		.align	2
+ 579              		.global	_swiopen
+ 580              		.syntax unified
+ 581              		.arm
+ 582              		.fpu neon
+ 584              	_swiopen:
+ 585              	.LVL47:
+ 586              	.LFB37:
+ 387:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 388:../generate/os_abstraction/src/syscalls_gcc.c **** extern int strlen (const char *);
+ 389:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 390:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 391:../generate/os_abstraction/src/syscalls_gcc.c **** _swiopen (const char * path,
+ 392:../generate/os_abstraction/src/syscalls_gcc.c **** 	  int          flags)
+ 393:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 587              		.loc 1 393 1 is_stmt 1 view -0
+ 588              		.cfi_startproc
+ 589              		@ args = 0, pretend = 0, frame = 0
+ 590              		@ frame_needed = 0, uses_anonymous_args = 0
+ 591              		.loc 1 393 1 is_stmt 0 view .LVU145
+ 592 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 593              		.cfi_def_cfa_offset 16
+ 594              		.cfi_offset 4, -16
+ 595              		.cfi_offset 5, -12
+ 596              		.cfi_offset 6, -8
+ 597              		.cfi_offset 14, -4
+ 598 0004 0050A0E1 		mov	r5, r0
+ 599 0008 0160A0E1 		mov	r6, r1
+ 394:../generate/os_abstraction/src/syscalls_gcc.c ****   int fh;
+ 600              		.loc 1 394 3 is_stmt 1 view .LVU146
+ 395:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 396:../generate/os_abstraction/src/syscalls_gcc.c ****   int i = findslot (-1);
+ 601              		.loc 1 396 3 view .LVU147
+ 602              		.loc 1 396 11 is_stmt 0 view .LVU148
+ 603 000c 0000E0E3 		mvn	r0, #0
+ 604              	.LVL48:
+ 605              		.loc 1 396 11 view .LVU149
+ 606 0010 FEFFFFEB 		bl	findslot
+ 607              	.LVL49:
+ 397:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 398:../generate/os_abstraction/src/syscalls_gcc.c ****   if (i == MAX_OPEN_FILES)
+ 608              		.loc 1 398 3 is_stmt 1 view .LVU150
+ 609              		.loc 1 398 6 is_stmt 0 view .LVU151
+ 610 0014 140050E3 		cmp	r0, #20
+ 611 0018 0F00000A 		beq	.L45
+ 612 001c 0040A0E1 		mov	r4, r0
+ 399:../generate/os_abstraction/src/syscalls_gcc.c ****     return -1;
+ 400:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 401:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 402:../generate/os_abstraction/src/syscalls_gcc.c ****   fh = low_open((char *)path, flags);
+ 613              		.loc 1 402 3 is_stmt 1 view .LVU152
+ 614              		.loc 1 402 8 is_stmt 0 view .LVU153
+ 615 0020 0610A0E1 		mov	r1, r6
+ 616 0024 0500A0E1 		mov	r0, r5
+ 617              	.LVL50:
+ 618              		.loc 1 402 8 view .LVU154
+ 619 0028 FEFFFFEB 		bl	low_open
+ 620              	.LVL51:
+ 403:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 404:../generate/os_abstraction/src/syscalls_gcc.c ****   if (fh >= 0)
+ 621              		.loc 1 404 3 is_stmt 1 view .LVU155
+ 622              		.loc 1 404 6 is_stmt 0 view .LVU156
+ 623 002c 000050E3 		cmp	r0, #0
+ 624              		.loc 1 404 6 view .LVU157
+ 625 0030 050000BA 		blt	.L44
+ 405:../generate/os_abstraction/src/syscalls_gcc.c ****     {
+ 406:../generate/os_abstraction/src/syscalls_gcc.c ****       openfiles[i].handle = fh;
+ 626              		.loc 1 406 7 is_stmt 1 view .LVU158
+ 627              		.loc 1 406 27 is_stmt 0 view .LVU159
+ 628 0034 003000E3 		movw	r3, #:lower16:.LANCHOR0
+ 629 0038 003040E3 		movt	r3, #:upper16:.LANCHOR0
+ 630 003c 840183E7 		str	r0, [r3, r4, lsl #3]
+ 407:../generate/os_abstraction/src/syscalls_gcc.c ****       openfiles[i].pos = 0;
+ 631              		.loc 1 407 7 is_stmt 1 view .LVU160
+ 632              		.loc 1 407 24 is_stmt 0 view .LVU161
+ 633 0040 844183E0 		add	r4, r3, r4, lsl #3
+ 634              	.LVL52:
+ 635              		.loc 1 407 24 view .LVU162
+ 636 0044 0030A0E3 		mov	r3, #0
+ 637 0048 043084E5 		str	r3, [r4, #4]
+ 638              	.L44:
+ 408:../generate/os_abstraction/src/syscalls_gcc.c ****     }
+ 409:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 410:../generate/os_abstraction/src/syscalls_gcc.c ****   return fh >= 0 ? fh + FILE_HANDLE_OFFSET : error (fh);
+ 639              		.loc 1 410 3 is_stmt 1 view .LVU163
+ 640              		.loc 1 410 44 is_stmt 0 view .LVU164
+ 641 004c 000050E3 		cmp	r0, #0
+ 642 0050 7080BDA8 		popge	{r4, r5, r6, pc}
+ 643              		.loc 1 410 46 discriminator 1 view .LVU165
+ 644 0054 FEFFFFEB 		bl	error
+ 645              	.LVL53:
+ 646              		.loc 1 410 46 discriminator 1 view .LVU166
+ 647 0058 7080BDE8 		pop	{r4, r5, r6, pc}
+ 648              	.LVL54:
+ 649              	.L45:
+ 399:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 650              		.loc 1 399 12 view .LVU167
+ 651 005c 0000E0E3 		mvn	r0, #0
+ 652              	.LVL55:
+ 411:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 653              		.loc 1 411 1 view .LVU168
+ 654 0060 7080BDE8 		pop	{r4, r5, r6, pc}
+ 655              		.cfi_endproc
+ 656              	.LFE37:
+ 658              		.section	.text._open,"ax",%progbits
+ 659              		.align	2
+ 660              		.global	_open
+ 661              		.syntax unified
+ 662              		.arm
+ 663              		.fpu neon
+ 665              	_open:
+ 666              	.LVL56:
+ 667              	.LFB38:
+ 412:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 413:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 414:../generate/os_abstraction/src/syscalls_gcc.c **** _open (const char * path,
+ 415:../generate/os_abstraction/src/syscalls_gcc.c ****        int          flags,
+ 416:../generate/os_abstraction/src/syscalls_gcc.c ****        ...)
+ 417:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 668              		.loc 1 417 1 is_stmt 1 view -0
+ 669              		.cfi_startproc
+ 670              		@ args = 4, pretend = 12, frame = 0
+ 671              		@ frame_needed = 0, uses_anonymous_args = 1
+ 672              		.loc 1 417 1 is_stmt 0 view .LVU170
+ 673 0000 0E002DE9 		push	{r1, r2, r3}
+ 674              		.cfi_def_cfa_offset 12
+ 675              		.cfi_offset 1, -12
+ 676              		.cfi_offset 2, -8
+ 677              		.cfi_offset 3, -4
+ 678 0004 04E02DE5 		str	lr, [sp, #-4]!
+ 679              		.cfi_def_cfa_offset 16
+ 680              		.cfi_offset 14, -16
+ 418:../generate/os_abstraction/src/syscalls_gcc.c ****   return wrap (_swiopen (path, flags));
+ 681              		.loc 1 418 3 is_stmt 1 view .LVU171
+ 682              		.loc 1 418 10 is_stmt 0 view .LVU172
+ 683 0008 04109DE5 		ldr	r1, [sp, #4]
+ 684 000c FEFFFFEB 		bl	_swiopen
+ 685              	.LVL57:
+ 686              		.loc 1 418 10 view .LVU173
+ 687 0010 FEFFFFEB 		bl	wrap
+ 688              	.LVL58:
+ 419:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 689              		.loc 1 419 1 view .LVU174
+ 690 0014 04E09DE4 		ldr	lr, [sp], #4
+ 691              		.cfi_restore 14
+ 692              		.cfi_def_cfa_offset 12
+ 693 0018 0CD08DE2 		add	sp, sp, #12
+ 694              		.cfi_restore 3
+ 695              		.cfi_restore 2
+ 696              		.cfi_restore 1
+ 697              		.cfi_def_cfa_offset 0
+ 698 001c 1EFF2FE1 		bx	lr
+ 699              		.cfi_endproc
+ 700              	.LFE38:
+ 702              		.section	.text._swiclose,"ax",%progbits
+ 703              		.align	2
+ 704              		.global	_swiclose
+ 705              		.syntax unified
+ 706              		.arm
+ 707              		.fpu neon
+ 709              	_swiclose:
+ 710              	.LVL59:
+ 711              	.LFB39:
+ 420:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 421:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 422:../generate/os_abstraction/src/syscalls_gcc.c **** _swiclose (int file)
+ 423:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 712              		.loc 1 423 1 is_stmt 1 view -0
+ 713              		.cfi_startproc
+ 714              		@ args = 0, pretend = 0, frame = 0
+ 715              		@ frame_needed = 0, uses_anonymous_args = 0
+ 716              		.loc 1 423 1 is_stmt 0 view .LVU176
+ 717 0000 10402DE9 		push	{r4, lr}
+ 718              		.cfi_def_cfa_offset 8
+ 719              		.cfi_offset 4, -8
+ 720              		.cfi_offset 14, -4
+ 721 0004 0040A0E1 		mov	r4, r0
+ 424:../generate/os_abstraction/src/syscalls_gcc.c ****   int res;
+ 722              		.loc 1 424 3 is_stmt 1 view .LVU177
+ 425:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 426:../generate/os_abstraction/src/syscalls_gcc.c ****   int myhan = remap_handle (file);
+ 427:../generate/os_abstraction/src/syscalls_gcc.c ****   int slot = findslot (myhan);
+ 428:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 429:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 430:../generate/os_abstraction/src/syscalls_gcc.c ****   if (slot != MAX_OPEN_FILES)
+ 431:../generate/os_abstraction/src/syscalls_gcc.c ****     openfiles[slot].handle = -1;
+ 432:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 433:../generate/os_abstraction/src/syscalls_gcc.c ****   res = low_close(myhan);
+ 434:../generate/os_abstraction/src/syscalls_gcc.c **** #else
+ 435:../generate/os_abstraction/src/syscalls_gcc.c ****   int slot = findslot (file);
+ 723              		.loc 1 435 3 view .LVU178
+ 724              		.loc 1 435 14 is_stmt 0 view .LVU179
+ 725 0008 FEFFFFEB 		bl	findslot
+ 726              	.LVL60:
+ 436:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 437:../generate/os_abstraction/src/syscalls_gcc.c ****   if (slot != MAX_OPEN_FILES)
+ 727              		.loc 1 437 3 is_stmt 1 view .LVU180
+ 728              		.loc 1 437 6 is_stmt 0 view .LVU181
+ 729 000c 140050E3 		cmp	r0, #20
+ 438:../generate/os_abstraction/src/syscalls_gcc.c ****     openfiles[slot].handle = -1;
+ 730              		.loc 1 438 5 is_stmt 1 view .LVU182
+ 731              		.loc 1 438 28 is_stmt 0 view .LVU183
+ 732 0010 00300013 		movwne	r3, #:lower16:.LANCHOR0
+ 733 0014 00304013 		movtne	r3, #:upper16:.LANCHOR0
+ 734 0018 0020E013 		mvnne	r2, #0
+ 735 001c 80218317 		strne	r2, [r3, r0, lsl #3]
+ 736              	.L50:
+ 439:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 440:../generate/os_abstraction/src/syscalls_gcc.c ****   res = low_close(file);
+ 737              		.loc 1 440 3 is_stmt 1 view .LVU184
+ 738              		.loc 1 440 9 is_stmt 0 view .LVU185
+ 739 0020 0400A0E1 		mov	r0, r4
+ 740              	.LVL61:
+ 741              		.loc 1 440 9 view .LVU186
+ 742 0024 FEFFFFEB 		bl	low_close
+ 743              	.LVL62:
+ 441:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 442:../generate/os_abstraction/src/syscalls_gcc.c ****   return res;
+ 744              		.loc 1 442 3 is_stmt 1 view .LVU187
+ 443:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 745              		.loc 1 443 1 is_stmt 0 view .LVU188
+ 746 0028 1080BDE8 		pop	{r4, pc}
+ 747              		.cfi_endproc
+ 748              	.LFE39:
+ 750              		.section	.text._close,"ax",%progbits
+ 751              		.align	2
+ 752              		.global	_close
+ 753              		.syntax unified
+ 754              		.arm
+ 755              		.fpu neon
+ 757              	_close:
+ 758              	.LVL63:
+ 759              	.LFB40:
+ 444:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 445:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 446:../generate/os_abstraction/src/syscalls_gcc.c **** _close (int file)
+ 447:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 760              		.loc 1 447 1 is_stmt 1 view -0
+ 761              		.cfi_startproc
+ 762              		@ args = 0, pretend = 0, frame = 0
+ 763              		@ frame_needed = 0, uses_anonymous_args = 0
+ 764              		.loc 1 447 1 is_stmt 0 view .LVU190
+ 765 0000 10402DE9 		push	{r4, lr}
+ 766              		.cfi_def_cfa_offset 8
+ 767              		.cfi_offset 4, -8
+ 768              		.cfi_offset 14, -4
+ 448:../generate/os_abstraction/src/syscalls_gcc.c ****   return wrap (_swiclose (file));
+ 769              		.loc 1 448 3 is_stmt 1 view .LVU191
+ 770              		.loc 1 448 10 is_stmt 0 view .LVU192
+ 771 0004 FEFFFFEB 		bl	_swiclose
+ 772              	.LVL64:
+ 773              		.loc 1 448 10 view .LVU193
+ 774 0008 FEFFFFEB 		bl	wrap
+ 775              	.LVL65:
+ 449:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 776              		.loc 1 449 1 view .LVU194
+ 777 000c 1080BDE8 		pop	{r4, pc}
+ 778              		.cfi_endproc
+ 779              	.LFE40:
+ 781              		.section	.text._kill,"ax",%progbits
+ 782              		.align	2
+ 783              		.global	_kill
+ 784              		.syntax unified
+ 785              		.arm
+ 786              		.fpu neon
+ 788              	_kill:
+ 789              	.LVL66:
+ 790              	.LFB41:
+ 450:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 451:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 452:../generate/os_abstraction/src/syscalls_gcc.c **** _kill (int pid, int sig)
+ 453:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 791              		.loc 1 453 1 is_stmt 1 view -0
+ 792              		.cfi_startproc
+ 793              		@ args = 0, pretend = 0, frame = 0
+ 794              		@ frame_needed = 0, uses_anonymous_args = 0
+ 795              		@ link register save eliminated.
+ 454:../generate/os_abstraction/src/syscalls_gcc.c ****   (void)pid; (void)sig;
+ 796              		.loc 1 454 3 view .LVU196
+ 797              		.loc 1 454 14 view .LVU197
+ 798              	.LVL67:
+ 455:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 456:../generate/os_abstraction/src/syscalls_gcc.c ****   /* Note: The pid argument is thrown away.  */
+ 457:../generate/os_abstraction/src/syscalls_gcc.c ****   switch (sig) {
+ 458:../generate/os_abstraction/src/syscalls_gcc.c **** 	  case SIGABRT:
+ 459:../generate/os_abstraction/src/syscalls_gcc.c **** 		  return do_AngelSWI (AngelSWI_Reason_ReportException,
+ 460:../generate/os_abstraction/src/syscalls_gcc.c **** 				  (void *) ADP_Stopped_RunTimeError);
+ 461:../generate/os_abstraction/src/syscalls_gcc.c **** 	  default:
+ 462:../generate/os_abstraction/src/syscalls_gcc.c **** 		  return do_AngelSWI (AngelSWI_Reason_ReportException,
+ 463:../generate/os_abstraction/src/syscalls_gcc.c **** 				  (void *) ADP_Stopped_ApplicationExit);
+ 464:../generate/os_abstraction/src/syscalls_gcc.c ****   }
+ 465:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 466:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 799              		.loc 1 466 1 is_stmt 0 view .LVU198
+ 800 0000 1EFF2FE1 		bx	lr
+ 801              		.cfi_endproc
+ 802              	.LFE41:
+ 804              		.section	.text._exit,"ax",%progbits
+ 805              		.align	2
+ 806              		.global	_exit
+ 807              		.syntax unified
+ 808              		.arm
+ 809              		.fpu neon
+ 811              	_exit:
+ 812              	.LFB42:
+ 467:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 468:../generate/os_abstraction/src/syscalls_gcc.c **** void
+ 469:../generate/os_abstraction/src/syscalls_gcc.c **** _exit (int status)
+ 470:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 813              		.loc 1 470 1 is_stmt 1 view -0
+ 814              		.cfi_startproc
+ 815              		@ Volatile: function does not return.
+ 816              		@ args = 0, pretend = 0, frame = 0
+ 817              		@ frame_needed = 0, uses_anonymous_args = 0
+ 818              		@ link register save eliminated.
+ 819              	.LVL68:
+ 820              	.L56:
+ 471:../generate/os_abstraction/src/syscalls_gcc.c ****   /* There is only one SWI for both _exit and _kill. For _exit, call
+ 472:../generate/os_abstraction/src/syscalls_gcc.c ****      the SWI with the second argument set to -1, an invalid value for
+ 473:../generate/os_abstraction/src/syscalls_gcc.c ****      signum, so that the SWI handler can distinguish the two calls.
+ 474:../generate/os_abstraction/src/syscalls_gcc.c ****      Note: The RDI implementation of _kill throws away both its
+ 475:../generate/os_abstraction/src/syscalls_gcc.c ****      arguments.  */
+ 476:../generate/os_abstraction/src/syscalls_gcc.c ****   _kill(status, -1);
+ 477:../generate/os_abstraction/src/syscalls_gcc.c ****   while(1) {};
+ 821              		.loc 1 477 3 discriminator 1 view .LVU200
+ 822              		.loc 1 477 13 discriminator 1 view .LVU201
+ 823              		.loc 1 477 8 discriminator 1 view .LVU202
+ 824 0000 FEFFFFEA 		b	.L56
+ 825              		.cfi_endproc
+ 826              	.LFE42:
+ 828              		.section	.text._getpid,"ax",%progbits
+ 829              		.align	2
+ 830              		.global	_getpid
+ 831              		.syntax unified
+ 832              		.arm
+ 833              		.fpu neon
+ 835              	_getpid:
+ 836              	.LVL69:
+ 837              	.LFB43:
+ 478:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 479:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 480:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 481:../generate/os_abstraction/src/syscalls_gcc.c **** _getpid (int n)
+ 482:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 838              		.loc 1 482 1 view -0
+ 839              		.cfi_startproc
+ 840              		@ args = 0, pretend = 0, frame = 0
+ 841              		@ frame_needed = 0, uses_anonymous_args = 0
+ 842              		@ link register save eliminated.
+ 483:../generate/os_abstraction/src/syscalls_gcc.c ****   return 1;
+ 843              		.loc 1 483 3 view .LVU204
+ 484:../generate/os_abstraction/src/syscalls_gcc.c ****   n = n;
+ 485:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 844              		.loc 1 485 1 is_stmt 0 view .LVU205
+ 845 0000 0100A0E3 		mov	r0, #1
+ 846              	.LVL70:
+ 847              		.loc 1 485 1 view .LVU206
+ 848 0004 1EFF2FE1 		bx	lr
+ 849              		.cfi_endproc
+ 850              	.LFE43:
+ 852              		.section	.text._sbrk,"ax",%progbits
+ 853              		.align	2
+ 854              		.weak	_sbrk
+ 855              		.syntax unified
+ 856              		.arm
+ 857              		.fpu neon
+ 859              	_sbrk:
+ 860              	.LVL71:
+ 861              	.LFB44:
+ 486:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 487:../generate/os_abstraction/src/syscalls_gcc.c **** caddr_t __attribute__((weak))
+ 488:../generate/os_abstraction/src/syscalls_gcc.c **** _sbrk (int incr)
+ 489:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 862              		.loc 1 489 1 is_stmt 1 view -0
+ 863              		.cfi_startproc
+ 864              		@ args = 0, pretend = 0, frame = 0
+ 865              		@ frame_needed = 0, uses_anonymous_args = 0
+ 866              		@ link register save eliminated.
+ 867              		.loc 1 489 1 is_stmt 0 view .LVU208
+ 868 0000 0030A0E1 		mov	r3, r0
+ 490:../generate/os_abstraction/src/syscalls_gcc.c ****   extern char   end asm ("__heap_start");           /* Defined by the linker.  */
+ 869              		.loc 1 490 3 is_stmt 1 view .LVU209
+ 491:../generate/os_abstraction/src/syscalls_gcc.c ****   extern char   heap_limit __asm ("__heap_end");    /* Defined by the linker.  */
+ 870              		.loc 1 491 3 view .LVU210
+ 492:../generate/os_abstraction/src/syscalls_gcc.c ****   static char * heap_end = NULL;
+ 871              		.loc 1 492 3 view .LVU211
+ 493:../generate/os_abstraction/src/syscalls_gcc.c ****   char *        prev_heap_end;
+ 872              		.loc 1 493 3 view .LVU212
+ 494:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 495:../generate/os_abstraction/src/syscalls_gcc.c ****   if (heap_end == NULL)
+ 873              		.loc 1 495 3 view .LVU213
+ 874              		.loc 1 495 16 is_stmt 0 view .LVU214
+ 875 0004 002000E3 		movw	r2, #:lower16:.LANCHOR3
+ 876 0008 002040E3 		movt	r2, #:upper16:.LANCHOR3
+ 877 000c 002092E5 		ldr	r2, [r2]
+ 878              		.loc 1 495 6 view .LVU215
+ 879 0010 000052E3 		cmp	r2, #0
+ 880 0014 0500000A 		beq	.L60
+ 881              	.L59:
+ 496:../generate/os_abstraction/src/syscalls_gcc.c ****     heap_end = & end;
+ 497:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 498:../generate/os_abstraction/src/syscalls_gcc.c ****   prev_heap_end = heap_end;
+ 882              		.loc 1 498 3 is_stmt 1 view .LVU216
+ 883              		.loc 1 498 17 is_stmt 0 view .LVU217
+ 884 0018 002000E3 		movw	r2, #:lower16:.LANCHOR3
+ 885 001c 002040E3 		movt	r2, #:upper16:.LANCHOR3
+ 886 0020 000092E5 		ldr	r0, [r2]
+ 887              	.LVL72:
+ 499:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 500:../generate/os_abstraction/src/syscalls_gcc.c ****   if (heap_end + incr > &heap_limit)
+ 888              		.loc 1 500 3 is_stmt 1 view .LVU218
+ 889              		.loc 1 500 16 is_stmt 0 view .LVU219
+ 890 0024 033080E0 		add	r3, r0, r3
+ 891              	.LVL73:
+ 501:../generate/os_abstraction/src/syscalls_gcc.c ****     {
+ 502:../generate/os_abstraction/src/syscalls_gcc.c ****       /* Some of the libstdc++-v3 tests rely upon detecting
+ 503:../generate/os_abstraction/src/syscalls_gcc.c **** 	 out of memory errors, so do not abort here.  */
+ 504:../generate/os_abstraction/src/syscalls_gcc.c **** #if 0
+ 505:../generate/os_abstraction/src/syscalls_gcc.c ****       extern void abort (void);
+ 506:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 507:../generate/os_abstraction/src/syscalls_gcc.c ****       _write (1, "_sbrk: Heap and stack collision\n", 32);
+ 508:../generate/os_abstraction/src/syscalls_gcc.c ****       
+ 509:../generate/os_abstraction/src/syscalls_gcc.c ****       abort ();
+ 510:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 511:../generate/os_abstraction/src/syscalls_gcc.c ****     }
+ 892              		.loc 1 511 5 is_stmt 1 view .LVU220
+ 512:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 513:../generate/os_abstraction/src/syscalls_gcc.c ****   heap_end += incr;
+ 893              		.loc 1 513 3 view .LVU221
+ 894              		.loc 1 513 12 is_stmt 0 view .LVU222
+ 895 0028 003082E5 		str	r3, [r2]
+ 514:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 515:../generate/os_abstraction/src/syscalls_gcc.c ****   return (caddr_t) prev_heap_end;
+ 896              		.loc 1 515 3 is_stmt 1 view .LVU223
+ 516:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 897              		.loc 1 516 1 is_stmt 0 view .LVU224
+ 898 002c 1EFF2FE1 		bx	lr
+ 899              	.LVL74:
+ 900              	.L60:
+ 496:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 901              		.loc 1 496 5 is_stmt 1 view .LVU225
+ 496:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 902              		.loc 1 496 14 is_stmt 0 view .LVU226
+ 903 0030 002000E3 		movw	r2, #:lower16:.LANCHOR3
+ 904 0034 002040E3 		movt	r2, #:upper16:.LANCHOR3
+ 905 0038 001000E3 		movw	r1, #:lower16:__heap_start
+ 906 003c 001040E3 		movt	r1, #:upper16:__heap_start
+ 907 0040 001082E5 		str	r1, [r2]
+ 908 0044 F3FFFFEA 		b	.L59
+ 909              		.cfi_endproc
+ 910              	.LFE44:
+ 912              		.section	.text._fstat,"ax",%progbits
+ 913              		.align	2
+ 914              		.global	_fstat
+ 915              		.syntax unified
+ 916              		.arm
+ 917              		.fpu neon
+ 919              	_fstat:
+ 920              	.LVL75:
+ 921              	.LFB45:
+ 517:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 518:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 519:../generate/os_abstraction/src/syscalls_gcc.c **** _fstat (int file, struct stat * st)
+ 520:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 922              		.loc 1 520 1 is_stmt 1 view -0
+ 923              		.cfi_startproc
+ 924              		@ args = 0, pretend = 0, frame = 0
+ 925              		@ frame_needed = 0, uses_anonymous_args = 0
+ 926              		.loc 1 520 1 is_stmt 0 view .LVU228
+ 927 0000 10402DE9 		push	{r4, lr}
+ 928              		.cfi_def_cfa_offset 8
+ 929              		.cfi_offset 4, -8
+ 930              		.cfi_offset 14, -4
+ 931 0004 0140A0E1 		mov	r4, r1
+ 521:../generate/os_abstraction/src/syscalls_gcc.c ****   memset (st, 0, sizeof (* st));
+ 932              		.loc 1 521 3 is_stmt 1 view .LVU229
+ 933 0008 5820A0E3 		mov	r2, #88
+ 934 000c 0010A0E3 		mov	r1, #0
+ 935              	.LVL76:
+ 936              		.loc 1 521 3 is_stmt 0 view .LVU230
+ 937 0010 0400A0E1 		mov	r0, r4
+ 938              	.LVL77:
+ 939              		.loc 1 521 3 view .LVU231
+ 940 0014 FEFFFFEB 		bl	memset
+ 941              	.LVL78:
+ 522:../generate/os_abstraction/src/syscalls_gcc.c ****   st->st_mode = S_IFCHR;
+ 942              		.loc 1 522 3 is_stmt 1 view .LVU232
+ 943              		.loc 1 522 15 is_stmt 0 view .LVU233
+ 944 0018 023AA0E3 		mov	r3, #8192
+ 945 001c 043084E5 		str	r3, [r4, #4]
+ 523:../generate/os_abstraction/src/syscalls_gcc.c ****   st->st_blksize = 1024;
+ 946              		.loc 1 523 3 is_stmt 1 view .LVU234
+ 947              		.loc 1 523 18 is_stmt 0 view .LVU235
+ 948 0020 013BA0E3 		mov	r3, #1024
+ 949 0024 483084E5 		str	r3, [r4, #72]
+ 524:../generate/os_abstraction/src/syscalls_gcc.c ****   return 0;
+ 950              		.loc 1 524 3 is_stmt 1 view .LVU236
+ 525:../generate/os_abstraction/src/syscalls_gcc.c **** //  file = file;
+ 526:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 951              		.loc 1 526 1 is_stmt 0 view .LVU237
+ 952 0028 0000A0E3 		mov	r0, #0
+ 953 002c 1080BDE8 		pop	{r4, pc}
+ 954              		.cfi_endproc
+ 955              	.LFE45:
+ 957              		.section	.text._stat,"ax",%progbits
+ 958              		.align	2
+ 959              		.global	_stat
+ 960              		.syntax unified
+ 961              		.arm
+ 962              		.fpu neon
+ 964              	_stat:
+ 965              	.LVL79:
+ 966              	.LFB46:
+ 527:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 528:../generate/os_abstraction/src/syscalls_gcc.c **** int _stat (const char *fname, struct stat *st)
+ 529:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 967              		.loc 1 529 1 is_stmt 1 view -0
+ 968              		.cfi_startproc
+ 969              		@ args = 0, pretend = 0, frame = 0
+ 970              		@ frame_needed = 0, uses_anonymous_args = 0
+ 971              		.loc 1 529 1 is_stmt 0 view .LVU239
+ 972 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 973              		.cfi_def_cfa_offset 16
+ 974              		.cfi_offset 4, -16
+ 975              		.cfi_offset 5, -12
+ 976              		.cfi_offset 6, -8
+ 977              		.cfi_offset 14, -4
+ 978 0004 0140A0E1 		mov	r4, r1
+ 530:../generate/os_abstraction/src/syscalls_gcc.c ****   int file;
+ 979              		.loc 1 530 3 is_stmt 1 view .LVU240
+ 531:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 532:../generate/os_abstraction/src/syscalls_gcc.c ****   /* The best we can do is try to open the file readonly.  If it exists,
+ 533:../generate/os_abstraction/src/syscalls_gcc.c ****      then we can guess a few things about it.  */
+ 534:../generate/os_abstraction/src/syscalls_gcc.c ****   if ((file = _open (fname, O_RDONLY)) < 0)
+ 980              		.loc 1 534 3 view .LVU241
+ 981              		.loc 1 534 15 is_stmt 0 view .LVU242
+ 982 0008 0010A0E3 		mov	r1, #0
+ 983              	.LVL80:
+ 984              		.loc 1 534 15 view .LVU243
+ 985 000c FEFFFFEB 		bl	_open
+ 986              	.LVL81:
+ 987              		.loc 1 534 6 view .LVU244
+ 988 0010 005050E2 		subs	r5, r0, #0
+ 989 0014 0B0000BA 		blt	.L65
+ 535:../generate/os_abstraction/src/syscalls_gcc.c ****     return -1;
+ 536:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 537:../generate/os_abstraction/src/syscalls_gcc.c ****   memset (st, 0, sizeof (* st));
+ 990              		.loc 1 537 3 is_stmt 1 view .LVU245
+ 991 0018 5820A0E3 		mov	r2, #88
+ 992 001c 0010A0E3 		mov	r1, #0
+ 993 0020 0400A0E1 		mov	r0, r4
+ 994              	.LVL82:
+ 995              		.loc 1 537 3 is_stmt 0 view .LVU246
+ 996 0024 FEFFFFEB 		bl	memset
+ 997              	.LVL83:
+ 538:../generate/os_abstraction/src/syscalls_gcc.c ****   st->st_mode = S_IFREG | S_IREAD;
+ 998              		.loc 1 538 3 is_stmt 1 view .LVU247
+ 999              		.loc 1 538 15 is_stmt 0 view .LVU248
+ 1000 0028 813CA0E3 		mov	r3, #33024
+ 1001 002c 043084E5 		str	r3, [r4, #4]
+ 539:../generate/os_abstraction/src/syscalls_gcc.c ****   st->st_blksize = 1024;
+ 1002              		.loc 1 539 3 is_stmt 1 view .LVU249
+ 1003              		.loc 1 539 18 is_stmt 0 view .LVU250
+ 1004 0030 013BA0E3 		mov	r3, #1024
+ 1005 0034 483084E5 		str	r3, [r4, #72]
+ 540:../generate/os_abstraction/src/syscalls_gcc.c ****   _swiclose (file); /* Not interested in the error.  */
+ 1006              		.loc 1 540 3 is_stmt 1 view .LVU251
+ 1007 0038 0500A0E1 		mov	r0, r5
+ 1008 003c FEFFFFEB 		bl	_swiclose
+ 1009              	.LVL84:
+ 541:../generate/os_abstraction/src/syscalls_gcc.c ****   return 0;
+ 1010              		.loc 1 541 3 view .LVU252
+ 1011              		.loc 1 541 10 is_stmt 0 view .LVU253
+ 1012 0040 0000A0E3 		mov	r0, #0
+ 1013 0044 7080BDE8 		pop	{r4, r5, r6, pc}
+ 1014              	.LVL85:
+ 1015              	.L65:
+ 535:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 1016              		.loc 1 535 12 view .LVU254
+ 1017 0048 0000E0E3 		mvn	r0, #0
+ 1018              	.LVL86:
+ 542:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 1019              		.loc 1 542 1 view .LVU255
+ 1020 004c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 1021              		.cfi_endproc
+ 1022              	.LFE46:
+ 1024              		.section	.text._link,"ax",%progbits
+ 1025              		.align	2
+ 1026              		.global	_link
+ 1027              		.syntax unified
+ 1028              		.arm
+ 1029              		.fpu neon
+ 1031              	_link:
+ 1032              	.LFB47:
+ 543:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 544:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 545:../generate/os_abstraction/src/syscalls_gcc.c **** _link (void)
+ 546:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 1033              		.loc 1 546 1 is_stmt 1 view -0
+ 1034              		.cfi_startproc
+ 1035              		@ args = 0, pretend = 0, frame = 0
+ 1036              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1037              		@ link register save eliminated.
+ 547:../generate/os_abstraction/src/syscalls_gcc.c ****   return -1;
+ 1038              		.loc 1 547 3 view .LVU257
+ 548:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 1039              		.loc 1 548 1 is_stmt 0 view .LVU258
+ 1040 0000 0000E0E3 		mvn	r0, #0
+ 1041 0004 1EFF2FE1 		bx	lr
+ 1042              		.cfi_endproc
+ 1043              	.LFE47:
+ 1045              		.section	.text._unlink,"ax",%progbits
+ 1046              		.align	2
+ 1047              		.global	_unlink
+ 1048              		.syntax unified
+ 1049              		.arm
+ 1050              		.fpu neon
+ 1052              	_unlink:
+ 1053              	.LVL87:
+ 1054              	.LFB48:
+ 549:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 550:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 551:../generate/os_abstraction/src/syscalls_gcc.c **** _unlink (const char *path)
+ 552:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 1055              		.loc 1 552 1 is_stmt 1 view -0
+ 1056              		.cfi_startproc
+ 1057              		@ args = 0, pretend = 0, frame = 0
+ 1058              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1059              		@ link register save eliminated.
+ 553:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 554:../generate/os_abstraction/src/syscalls_gcc.c ****   int block[2];
+ 555:../generate/os_abstraction/src/syscalls_gcc.c ****   block[0] = path;
+ 556:../generate/os_abstraction/src/syscalls_gcc.c ****   block[1] = strlen(path);
+ 557:../generate/os_abstraction/src/syscalls_gcc.c ****   return wrap (do_AngelSWI (AngelSWI_Reason_Remove, block)) ? -1 : 0;
+ 558:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 559:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 1060              		.loc 1 559 1 view .LVU260
+ 1061              	.LVL88:
+ 1062              		.loc 1 559 1 is_stmt 0 view .LVU261
+ 1063 0000 1EFF2FE1 		bx	lr
+ 1064              		.cfi_endproc
+ 1065              	.LFE48:
+ 1067              		.section	.text._raise,"ax",%progbits
+ 1068              		.align	2
+ 1069              		.global	_raise
+ 1070              		.syntax unified
+ 1071              		.arm
+ 1072              		.fpu neon
+ 1074              	_raise:
+ 1075              	.LFB49:
+ 560:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 561:../generate/os_abstraction/src/syscalls_gcc.c **** void
+ 562:../generate/os_abstraction/src/syscalls_gcc.c **** _raise (void)
+ 563:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 1076              		.loc 1 563 1 is_stmt 1 view -0
+ 1077              		.cfi_startproc
+ 1078              		@ args = 0, pretend = 0, frame = 0
+ 1079              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1080              		@ link register save eliminated.
+ 564:../generate/os_abstraction/src/syscalls_gcc.c ****   return;
+ 1081              		.loc 1 564 3 view .LVU263
+ 565:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 1082              		.loc 1 565 1 is_stmt 0 view .LVU264
+ 1083 0000 1EFF2FE1 		bx	lr
+ 1084              		.cfi_endproc
+ 1085              	.LFE49:
+ 1087              		.section	.text._gettimeofday,"ax",%progbits
+ 1088              		.align	2
+ 1089              		.global	_gettimeofday
+ 1090              		.syntax unified
+ 1091              		.arm
+ 1092              		.fpu neon
+ 1094              	_gettimeofday:
+ 1095              	.LVL89:
+ 1096              	.LFB50:
+ 566:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 567:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 568:../generate/os_abstraction/src/syscalls_gcc.c **** _gettimeofday (struct timeval * tp, void * tzvp)
+ 569:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 1097              		.loc 1 569 1 is_stmt 1 view -0
+ 1098              		.cfi_startproc
+ 1099              		@ args = 0, pretend = 0, frame = 0
+ 1100              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1101              		@ link register save eliminated.
+ 570:../generate/os_abstraction/src/syscalls_gcc.c ****   struct timezone *tzp = tzvp;
+ 1102              		.loc 1 570 3 view .LVU266
+ 571:../generate/os_abstraction/src/syscalls_gcc.c ****   if (tp)
+ 1103              		.loc 1 571 3 view .LVU267
+ 1104              		.loc 1 571 6 is_stmt 0 view .LVU268
+ 1105 0000 000050E3 		cmp	r0, #0
+ 1106              		.loc 1 571 6 view .LVU269
+ 572:../generate/os_abstraction/src/syscalls_gcc.c ****     {
+ 573:../generate/os_abstraction/src/syscalls_gcc.c ****     /* Ask the host for the seconds since the Unix epoch.  */
+ 574:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 575:../generate/os_abstraction/src/syscalls_gcc.c ****       tp->tv_sec = do_AngelSWI (AngelSWI_Reason_Time,NULL);
+ 576:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 577:../generate/os_abstraction/src/syscalls_gcc.c ****       tp->tv_usec = 0;
+ 1107              		.loc 1 577 7 is_stmt 1 view .LVU270
+ 1108              		.loc 1 577 19 is_stmt 0 view .LVU271
+ 1109 0004 0030A013 		movne	r3, #0
+ 1110 0008 08308015 		strne	r3, [r0, #8]
+ 1111              	.L71:
+ 578:../generate/os_abstraction/src/syscalls_gcc.c ****     }
+ 579:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 580:../generate/os_abstraction/src/syscalls_gcc.c ****   /* Return fixed data for the timezone.  */
+ 581:../generate/os_abstraction/src/syscalls_gcc.c ****   if (tzp)
+ 1112              		.loc 1 581 3 is_stmt 1 view .LVU272
+ 1113              		.loc 1 581 6 is_stmt 0 view .LVU273
+ 1114 000c 000051E3 		cmp	r1, #0
+ 582:../generate/os_abstraction/src/syscalls_gcc.c ****     {
+ 583:../generate/os_abstraction/src/syscalls_gcc.c ****       tzp->tz_minuteswest = 0;
+ 1115              		.loc 1 583 7 is_stmt 1 view .LVU274
+ 1116              		.loc 1 583 27 is_stmt 0 view .LVU275
+ 1117 0010 0030A013 		movne	r3, #0
+ 1118 0014 00308115 		strne	r3, [r1]
+ 584:../generate/os_abstraction/src/syscalls_gcc.c ****       tzp->tz_dsttime = 0;
+ 1119              		.loc 1 584 7 is_stmt 1 view .LVU276
+ 1120              		.loc 1 584 23 is_stmt 0 view .LVU277
+ 1121 0018 04308115 		strne	r3, [r1, #4]
+ 1122              	.L72:
+ 585:../generate/os_abstraction/src/syscalls_gcc.c ****     }
+ 586:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 587:../generate/os_abstraction/src/syscalls_gcc.c ****   return 0;
+ 1123              		.loc 1 587 3 is_stmt 1 view .LVU278
+ 588:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 1124              		.loc 1 588 1 is_stmt 0 view .LVU279
+ 1125 001c 0000A0E3 		mov	r0, #0
+ 1126              	.LVL90:
+ 1127              		.loc 1 588 1 view .LVU280
+ 1128 0020 1EFF2FE1 		bx	lr
+ 1129              		.cfi_endproc
+ 1130              	.LFE50:
+ 1132              		.section	.text._times,"ax",%progbits
+ 1133              		.align	2
+ 1134              		.global	_times
+ 1135              		.syntax unified
+ 1136              		.arm
+ 1137              		.fpu neon
+ 1139              	_times:
+ 1140              	.LVL91:
+ 1141              	.LFB51:
+ 589:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 590:../generate/os_abstraction/src/syscalls_gcc.c **** /* Return a clock that ticks at 100Hz.  */
+ 591:../generate/os_abstraction/src/syscalls_gcc.c **** clock_t 
+ 592:../generate/os_abstraction/src/syscalls_gcc.c **** _times (struct tms * tp)
+ 593:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 1142              		.loc 1 593 1 is_stmt 1 view -0
+ 1143              		.cfi_startproc
+ 1144              		@ args = 0, pretend = 0, frame = 0
+ 1145              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1146              		@ link register save eliminated.
+ 594:../generate/os_abstraction/src/syscalls_gcc.c ****   clock_t timeval = 0;
+ 1147              		.loc 1 594 3 view .LVU282
+ 595:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 596:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 597:../generate/os_abstraction/src/syscalls_gcc.c ****   timeval = do_AngelSWI (AngelSWI_Reason_Clock,NULL);
+ 598:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 599:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 600:../generate/os_abstraction/src/syscalls_gcc.c ****   if (tp)
+ 1148              		.loc 1 600 3 view .LVU283
+ 1149              		.loc 1 600 6 is_stmt 0 view .LVU284
+ 1150 0000 000050E3 		cmp	r0, #0
+ 1151              		.loc 1 600 6 view .LVU285
+ 1152 0004 0400000A 		beq	.L74
+ 601:../generate/os_abstraction/src/syscalls_gcc.c ****     {
+ 602:../generate/os_abstraction/src/syscalls_gcc.c ****       tp->tms_utime  = timeval;	/* user time */
+ 1153              		.loc 1 602 7 is_stmt 1 view .LVU286
+ 1154              		.loc 1 602 22 is_stmt 0 view .LVU287
+ 1155 0008 0030A0E3 		mov	r3, #0
+ 1156 000c 003080E5 		str	r3, [r0]
+ 603:../generate/os_abstraction/src/syscalls_gcc.c ****       tp->tms_stime  = 0;	/* system time */
+ 1157              		.loc 1 603 7 is_stmt 1 view .LVU288
+ 1158              		.loc 1 603 22 is_stmt 0 view .LVU289
+ 1159 0010 043080E5 		str	r3, [r0, #4]
+ 604:../generate/os_abstraction/src/syscalls_gcc.c ****       tp->tms_cutime = 0;	/* user time, children */
+ 1160              		.loc 1 604 7 is_stmt 1 view .LVU290
+ 1161              		.loc 1 604 22 is_stmt 0 view .LVU291
+ 1162 0014 083080E5 		str	r3, [r0, #8]
+ 605:../generate/os_abstraction/src/syscalls_gcc.c ****       tp->tms_cstime = 0;	/* system time, children */
+ 1163              		.loc 1 605 7 is_stmt 1 view .LVU292
+ 1164              		.loc 1 605 22 is_stmt 0 view .LVU293
+ 1165 0018 0C3080E5 		str	r3, [r0, #12]
+ 1166              	.L74:
+ 606:../generate/os_abstraction/src/syscalls_gcc.c ****     }
+ 607:../generate/os_abstraction/src/syscalls_gcc.c ****   
+ 608:../generate/os_abstraction/src/syscalls_gcc.c ****   return timeval;
+ 1167              		.loc 1 608 3 is_stmt 1 view .LVU294
+ 609:../generate/os_abstraction/src/syscalls_gcc.c **** };
+ 1168              		.loc 1 609 1 is_stmt 0 view .LVU295
+ 1169 001c 0000A0E3 		mov	r0, #0
+ 1170              	.LVL92:
+ 1171              		.loc 1 609 1 view .LVU296
+ 1172 0020 1EFF2FE1 		bx	lr
+ 1173              		.cfi_endproc
+ 1174              	.LFE51:
+ 1176              		.section	.text._isatty,"ax",%progbits
+ 1177              		.align	2
+ 1178              		.global	_isatty
+ 1179              		.syntax unified
+ 1180              		.arm
+ 1181              		.fpu neon
+ 1183              	_isatty:
+ 1184              	.LVL93:
+ 1185              	.LFB52:
+ 610:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 611:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 612:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 613:../generate/os_abstraction/src/syscalls_gcc.c **** _isatty (int fd)
+ 614:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 1186              		.loc 1 614 1 is_stmt 1 view -0
+ 1187              		.cfi_startproc
+ 1188              		@ args = 0, pretend = 0, frame = 0
+ 1189              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1190              		@ link register save eliminated.
+ 615:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 616:../generate/os_abstraction/src/syscalls_gcc.c ****   int fh = remap_handle (fd);
+ 617:../generate/os_abstraction/src/syscalls_gcc.c ****   return wrap (do_AngelSWI (AngelSWI_Reason_IsTTY, &fh));
+ 618:../generate/os_abstraction/src/syscalls_gcc.c **** #else
+ 619:../generate/os_abstraction/src/syscalls_gcc.c ****   if ((fd == STDIN_FILENO) || (fd == STDOUT_FILENO))
+ 1191              		.loc 1 619 3 view .LVU298
+ 1192              		.loc 1 619 6 is_stmt 0 view .LVU299
+ 1193 0000 010050E3 		cmp	r0, #1
+ 1194 0004 0100009A 		bls	.L78
+ 620:../generate/os_abstraction/src/syscalls_gcc.c ****   {
+ 621:../generate/os_abstraction/src/syscalls_gcc.c ****     return 1;
+ 622:../generate/os_abstraction/src/syscalls_gcc.c ****   }
+ 623:../generate/os_abstraction/src/syscalls_gcc.c ****   else
+ 624:../generate/os_abstraction/src/syscalls_gcc.c ****   {
+ 625:../generate/os_abstraction/src/syscalls_gcc.c ****     return 0;
+ 1195              		.loc 1 625 12 view .LVU300
+ 1196 0008 0000A0E3 		mov	r0, #0
+ 1197              	.LVL94:
+ 626:../generate/os_abstraction/src/syscalls_gcc.c ****   }
+ 627:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 628:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 1198              		.loc 1 628 1 view .LVU301
+ 1199 000c 1EFF2FE1 		bx	lr
+ 1200              	.LVL95:
+ 1201              	.L78:
+ 621:../generate/os_abstraction/src/syscalls_gcc.c ****   }
+ 1202              		.loc 1 621 12 view .LVU302
+ 1203 0010 0100A0E3 		mov	r0, #1
+ 1204              	.LVL96:
+ 621:../generate/os_abstraction/src/syscalls_gcc.c ****   }
+ 1205              		.loc 1 621 12 view .LVU303
+ 1206 0014 1EFF2FE1 		bx	lr
+ 1207              		.cfi_endproc
+ 1208              	.LFE52:
+ 1210              		.section	.text._system,"ax",%progbits
+ 1211              		.align	2
+ 1212              		.global	_system
+ 1213              		.syntax unified
+ 1214              		.arm
+ 1215              		.fpu neon
+ 1217              	_system:
+ 1218              	.LVL97:
+ 1219              	.LFB53:
+ 629:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 630:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 631:../generate/os_abstraction/src/syscalls_gcc.c **** _system (const char *s)
+ 632:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 1220              		.loc 1 632 1 is_stmt 1 view -0
+ 1221              		.cfi_startproc
+ 1222              		@ args = 0, pretend = 0, frame = 0
+ 1223              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1224              		@ link register save eliminated.
+ 633:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 634:../generate/os_abstraction/src/syscalls_gcc.c ****   int block[2];
+ 635:../generate/os_abstraction/src/syscalls_gcc.c ****   int e;
+ 636:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 637:../generate/os_abstraction/src/syscalls_gcc.c ****   /* Hmmm.  The ARM debug interface specification doesn't say whether
+ 638:../generate/os_abstraction/src/syscalls_gcc.c ****      SYS_SYSTEM does the right thing with a null argument, or assign any
+ 639:../generate/os_abstraction/src/syscalls_gcc.c ****      meaning to its return value.  Try to do something reasonable....  */
+ 640:../generate/os_abstraction/src/syscalls_gcc.c ****   if (!s)
+ 641:../generate/os_abstraction/src/syscalls_gcc.c ****     return 1;  /* maybe there is a shell available? we can hope. :-P */
+ 642:../generate/os_abstraction/src/syscalls_gcc.c ****   block[0] = s;
+ 643:../generate/os_abstraction/src/syscalls_gcc.c ****   block[1] = strlen (s);
+ 644:../generate/os_abstraction/src/syscalls_gcc.c ****   e = wrap (do_AngelSWI (AngelSWI_Reason_System, block));
+ 645:../generate/os_abstraction/src/syscalls_gcc.c ****   if ((e >= 0) && (e < 256))
+ 646:../generate/os_abstraction/src/syscalls_gcc.c ****     {
+ 647:../generate/os_abstraction/src/syscalls_gcc.c ****       /* We have to convert e, an exit status to the encoded status of
+ 648:../generate/os_abstraction/src/syscalls_gcc.c ****          the command.  To avoid hard coding the exit status, we simply
+ 649:../generate/os_abstraction/src/syscalls_gcc.c **** 	 loop until we find the right position.  */
+ 650:../generate/os_abstraction/src/syscalls_gcc.c ****       int exit_code;
+ 651:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 652:../generate/os_abstraction/src/syscalls_gcc.c ****       for (exit_code = e; e && WEXITSTATUS (e) != exit_code; e <<= 1)
+ 653:../generate/os_abstraction/src/syscalls_gcc.c **** 	continue;
+ 654:../generate/os_abstraction/src/syscalls_gcc.c ****     }
+ 655:../generate/os_abstraction/src/syscalls_gcc.c ****   return e;
+ 656:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 657:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 1225              		.loc 1 657 1 view .LVU305
+ 1226              	.LVL98:
+ 1227              		.loc 1 657 1 is_stmt 0 view .LVU306
+ 1228 0000 1EFF2FE1 		bx	lr
+ 1229              		.cfi_endproc
+ 1230              	.LFE53:
+ 1232              		.section	.text._rename,"ax",%progbits
+ 1233              		.align	2
+ 1234              		.global	_rename
+ 1235              		.syntax unified
+ 1236              		.arm
+ 1237              		.fpu neon
+ 1239              	_rename:
+ 1240              	.LVL99:
+ 1241              	.LFB54:
+ 658:../generate/os_abstraction/src/syscalls_gcc.c **** 
+ 659:../generate/os_abstraction/src/syscalls_gcc.c **** int
+ 660:../generate/os_abstraction/src/syscalls_gcc.c **** _rename (const char * oldpath, const char * newpath)
+ 661:../generate/os_abstraction/src/syscalls_gcc.c **** {
+ 1242              		.loc 1 661 1 is_stmt 1 view -0
+ 1243              		.cfi_startproc
+ 1244              		@ args = 0, pretend = 0, frame = 0
+ 1245              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1246              		@ link register save eliminated.
+ 662:../generate/os_abstraction/src/syscalls_gcc.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 663:../generate/os_abstraction/src/syscalls_gcc.c ****   int block[4];
+ 664:../generate/os_abstraction/src/syscalls_gcc.c ****   block[0] = oldpath;
+ 665:../generate/os_abstraction/src/syscalls_gcc.c ****   block[1] = strlen(oldpath);
+ 666:../generate/os_abstraction/src/syscalls_gcc.c ****   block[2] = newpath;
+ 667:../generate/os_abstraction/src/syscalls_gcc.c ****   block[3] = strlen(newpath);
+ 668:../generate/os_abstraction/src/syscalls_gcc.c ****   return wrap (do_AngelSWI (AngelSWI_Reason_Rename, block)) ? -1 : 0;
+ 669:../generate/os_abstraction/src/syscalls_gcc.c **** #endif
+ 670:../generate/os_abstraction/src/syscalls_gcc.c **** }
+ 1247              		.loc 1 670 1 view .LVU308
+ 1248              	.LVL100:
+ 1249              		.loc 1 670 1 is_stmt 0 view .LVU309
+ 1250 0000 1EFF2FE1 		bx	lr
+ 1251              		.cfi_endproc
+ 1252              	.LFE54:
+ 1254              		.section	.bss.heap_end.8709,"aw",%nobits
+ 1255              		.align	2
+ 1256              		.set	.LANCHOR3,. + 0
+ 1259              	heap_end.8709:
+ 1260 0000 00000000 		.space	4
+ 1261              		.section	.bss.monitor_stdin,"aw",%nobits
+ 1262              		.align	2
+ 1263              		.set	.LANCHOR1,. + 0
+ 1266              	monitor_stdin:
+ 1267 0000 00000000 		.space	4
+ 1268              		.section	.bss.monitor_stdout,"aw",%nobits
+ 1269              		.align	2
+ 1270              		.set	.LANCHOR2,. + 0
+ 1273              	monitor_stdout:
+ 1274 0000 00000000 		.space	4
+ 1275              		.section	.bss.openfiles,"aw",%nobits
+ 1276              		.align	2
+ 1277              		.set	.LANCHOR0,. + 0
+ 1280              	openfiles:
+ 1281 0000 00000000 		.space	160
+ 1281      00000000 
+ 1281      00000000 
+ 1281      00000000 
+ 1281      00000000 
+ 1282              		.text
+ 1283              	.Letext0:
+ 1284              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1285              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 1286              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1287              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1288              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1289              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1290              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1291              		.file 9 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1292              		.file 10 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1293              		.file 11 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1294              		.file 12 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1295              		.file 13 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1296              		.file 14 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1297              		.file 15 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1298              		.file 16 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1299              		.file 17 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1300              		.file 18 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_
+ 1301              		.file 19 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/dr
+ 1302              		.file 20 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/os_abstractio
+ 1303              		.file 21 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ 1304              		.file 22 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_
+ 1305              		.file 23 "<built-in>"
+DEFINED SYMBOLS
+                            *ABS*:00000000 syscalls_gcc.c
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:17     .text.findslot:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:25     .text.findslot:00000000 findslot
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1277   .bss.openfiles:00000000 .LANCHOR0
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:65     .text.get_errno:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:70     .text.get_errno:00000000 get_errno
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:83     .text.error:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:88     .text.error:00000000 error
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:121    .text.wrap:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:126    .text.wrap:00000000 wrap
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:152    .text.remap_handle:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:157    .text.remap_handle:00000000 remap_handle
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1263   .bss.monitor_stdin:00000000 .LANCHOR1
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1270   .bss.monitor_stdout:00000000 .LANCHOR2
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:228    .rodata.initialise_monitor_handles.str1.4:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:229    .rodata.initialise_monitor_handles.str1.4:00000000 .LC0
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:232    .rodata.initialise_monitor_handles.str1.4:0000000c .LC1
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:235    .rodata.initialise_monitor_handles.str1.4:00000018 .LC2
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:238    .text.initialise_monitor_handles:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:244    .text.initialise_monitor_handles:00000000 initialise_monitor_handles
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:355    .text._swiread:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:361    .text._swiread:00000000 _swiread
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:377    .text._read:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:383    .text._read:00000000 _read
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:409    .text._swilseek:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:415    .text._swilseek:00000000 _swilseek
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:492    .text._lseek:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:498    .text._lseek:00000000 _lseek
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:523    .text._swiwrite:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:529    .text._swiwrite:00000000 _swiwrite
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:545    .text._write:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:551    .text._write:00000000 _write
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:578    .text._swiopen:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:584    .text._swiopen:00000000 _swiopen
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:659    .text._open:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:665    .text._open:00000000 _open
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:703    .text._swiclose:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:709    .text._swiclose:00000000 _swiclose
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:751    .text._close:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:757    .text._close:00000000 _close
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:782    .text._kill:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:788    .text._kill:00000000 _kill
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:805    .text._exit:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:811    .text._exit:00000000 _exit
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:829    .text._getpid:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:835    .text._getpid:00000000 _getpid
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:853    .text._sbrk:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:859    .text._sbrk:00000000 _sbrk
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1256   .bss.heap_end.8709:00000000 .LANCHOR3
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:913    .text._fstat:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:919    .text._fstat:00000000 _fstat
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:958    .text._stat:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:964    .text._stat:00000000 _stat
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1025   .text._link:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1031   .text._link:00000000 _link
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1046   .text._unlink:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1052   .text._unlink:00000000 _unlink
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1068   .text._raise:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1074   .text._raise:00000000 _raise
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1088   .text._gettimeofday:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1094   .text._gettimeofday:00000000 _gettimeofday
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1133   .text._times:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1139   .text._times:00000000 _times
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1177   .text._isatty:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1183   .text._isatty:00000000 _isatty
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1211   .text._system:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1217   .text._system:00000000 _system
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1233   .text._rename:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1239   .text._rename:00000000 _rename
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1255   .bss.heap_end.8709:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1259   .bss.heap_end.8709:00000000 heap_end.8709
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1262   .bss.monitor_stdin:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1266   .bss.monitor_stdin:00000000 monitor_stdin
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1269   .bss.monitor_stdout:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1273   .bss.monitor_stdout:00000000 monitor_stdout
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1276   .bss.openfiles:00000000 $d
+C:\Users\ryota\AppData\Local\Temp\cc6Dzgrl.s:1280   .bss.openfiles:00000000 openfiles
+                           .group:00000000 wm4.0.3d5c910ebb40df6df78b28e37cd67f3d
+                           .group:00000000 wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d
+                           .group:00000000 wm4.newlib.h.18.1c9fedb6b3cd797cff253cc0fd593ef2
+                           .group:00000000 wm4.ieeefp.h.77.3f06799abf5dd88bdddee084775a1223
+                           .group:00000000 wm4.features.h.22.fad1cec3bc7ff06488171438dbdcfd02
+                           .group:00000000 wm4.config.h.224.c701144a7b0518c6ee9b9b5465b79f81
+                           .group:00000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:00000000 wm4._default_types.h.6.959254cf5f09734ea7516c89e8bb21bd
+                           .group:00000000 wm4.stddef.h.39.144cf5ddcd53cbfdac30259dc1a6c87f
+                           .group:00000000 wm4.cdefs.h.49.6260d97adb8d27534cbdc0f868b8ea87
+                           .group:00000000 wm4.types.h.40.8b6acba56cefbb11746718204edc8f5e
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.155.3588ebfdd1e8c7ede80509bb9c3b8009
+                           .group:00000000 wm4._types.h.127.34941de1b2539d59d5cac00e0dd27a45
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4._endian.h.31.65a10590763c3dde1ac4a7f66d7d4891
+                           .group:00000000 wm4.endian.h.9.49f3a4695c1b61e8a0808de3c4a106cb
+                           .group:00000000 wm4._timeval.h.32.bec3221fa7a9bb0bdde696c9c57e47d2
+                           .group:00000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:00000000 wm4.select.h.19.97ca6fd0c752a0f3b6719fd314d361e6
+                           .group:00000000 wm4.types.h.51.5571ec98f267d17d3c670b7a3ba33afa
+                           .group:00000000 wm4.sched.h.22.c60982713a5c428609783c78f9c78d95
+                           .group:00000000 wm4._pthreadtypes.h.36.fcee9961c35163dde6267ef772ad1972
+                           .group:00000000 wm4.reent.h.17.e292bf8b0bec6c96e131a54347145a30
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4.reent.h.77.dcd6129ff07fe81bd5636db29abe53b2
+                           .group:00000000 wm4.time.h.14.849270cc7997ccc4e05edd146e568a9f
+                           .group:00000000 wm4.stddef.h.155.ba788add86a0e365f264484f110c3c29
+                           .group:00000000 wm4.time.h.2.4581ce0ffb6627cfc02162c94bf846c9
+                           .group:00000000 wm4.time.h.25.0e6a0fdbc9955f5707ed54246ed2e089
+                           .group:00000000 wm4.time.h.162.85256a1e684b58f061361067da714e0e
+                           .group:00000000 wm4.stat.h.54.5a9b823658423102e7a8de4ed089eedc
+                           .group:00000000 wm4._default_fcntl.h.6.791f38f41eee7843f224ce48f47caa9b
+                           .group:00000000 wm4.fcntl.h.9.9336f33d7f5028f694c75e6e224e0cf7
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:00000000 wm4.stdio.h.47.1f5845210bb9053bbca9ed76fc4018da
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.81.932d0c162786b883f622b8d05c120c78
+                           .group:00000000 wm4.time.h.40.07bdef2e51e429b46276cd6f2246b78b
+                           .group:00000000 wm4.errno.h.2.ba016d646105af6cad23be83630b6a3f
+                           .group:00000000 wm4.errno.h.9.1ecd7b1049497a0ab61da0f6cbd4b0c6
+                           .group:00000000 wm4.reent.h.91.b3ea049ebc5486622b61409b78486f84
+                           .group:00000000 wm4.signal.h.4.52f6e87eb2ba3e571517621a52c855c8
+                           .group:00000000 wm4.signal.h.18.14c8d0c03fc1e06775633fad7399cfc7
+                           .group:00000000 wm4.unistd.h.2.39165d5b7784d1815ef4b0c4be6df560
+                           .group:00000000 wm4.unistd.h.170.da6e816043042c61475c2b1f58468b37
+                           .group:00000000 wm4.wait.h.2.c6881838e675605d6b0b25538f5f97e0
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.math.h.13.97100c05caf9f40dd9f5a3cda48ccc01
+                           .group:00000000 wm4.r_typedefs.h.38.e90d9de5300d9ae020e5db8c5af88b3e
+                           .group:00000000 wm4.driver.h.34.180df73e0731406f5e50150641059ede
+                           .group:00000000 wm4.r_swi_gcc.h.32.bf55f719d7780e0143985c10549f34be
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:00000000 wm4.stdlib.h.56.f4862cfbf4363a1db01842d5bdf72c18
+                           .group:00000000 wm4.r_devlink_wrapper.h.72.ad1de4c851513efa3aed0532ebca7ca2
+
+UNDEFINED SYMBOLS
+__errno
+_impure_ptr
+__sinit
+low_open
+low_read
+low_write
+low_close
+__heap_start
+memset

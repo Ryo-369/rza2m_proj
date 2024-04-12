@@ -1,0 +1,635 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"wild_compare.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.wild_char,"ax",%progbits
+  17              		.align	2
+  18              		.arch armv7-a
+  19              		.arch_extension mp
+  20              		.arch_extension sec
+  21              		.syntax unified
+  22              		.arm
+  23              		.fpu neon
+  25              	wild_char:
+  26              	.LVL0:
+  27              	.LFB1:
+  28              		.file 1 "../src/renesas/application/console/wild_compare.c"
+   1:../src/renesas/application/console/wild_compare.c **** /**************************************************************************************************
+   2:../src/renesas/application/console/wild_compare.c ****  * DISCLAIMER
+   3:../src/renesas/application/console/wild_compare.c ****  * This software is supplied by Renesas Electronics Corporation and is only
+   4:../src/renesas/application/console/wild_compare.c ****  * intended for use with Renesas products. No other uses are authorized. This
+   5:../src/renesas/application/console/wild_compare.c ****  * software is owned by Renesas Electronics Corporation and is protected under
+   6:../src/renesas/application/console/wild_compare.c ****  * all applicable laws, including copyright laws.
+   7:../src/renesas/application/console/wild_compare.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:../src/renesas/application/console/wild_compare.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:../src/renesas/application/console/wild_compare.c ****  * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:../src/renesas/application/console/wild_compare.c ****  * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:../src/renesas/application/console/wild_compare.c ****  * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:../src/renesas/application/console/wild_compare.c ****  * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:../src/renesas/application/console/wild_compare.c ****  * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:../src/renesas/application/console/wild_compare.c ****  * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:../src/renesas/application/console/wild_compare.c ****  * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:../src/renesas/application/console/wild_compare.c ****  * Renesas reserves the right, without notice, to make changes to this software
+  17:../src/renesas/application/console/wild_compare.c ****  * and to discontinue the availability of this software. By using this software,
+  18:../src/renesas/application/console/wild_compare.c ****  * you agree to the additional terms and conditions found by accessing the
+  19:../src/renesas/application/console/wild_compare.c ****  * following link:
+  20:../src/renesas/application/console/wild_compare.c ****  * http://www.renesas.com/disclaimer
+  21:../src/renesas/application/console/wild_compare.c ****  * Copyright (C) 2014 Renesas Electronics Corporation. All rights reserved.
+  22:../src/renesas/application/console/wild_compare.c ****  **************************************************************************************************
+  23:../src/renesas/application/console/wild_compare.c **** /**************************************************************************************************
+  24:../src/renesas/application/console/wild_compare.c ****  * File Name    : wild_compare.c
+  25:../src/renesas/application/console/wild_compare.c ****  * Version      : 1.01
+  26:../src/renesas/application/console/wild_compare.c ****  * Device(s)    : Renesas
+  27:../src/renesas/application/console/wild_compare.c ****  * Tool-Chain   : N/A
+  28:../src/renesas/application/console/wild_compare.c ****  * OS           : N/A
+  29:../src/renesas/application/console/wild_compare.c ****  * H/W Platform : EBK
+  30:../src/renesas/application/console/wild_compare.c ****  * Description  : Function to perform a string compare with * wild card.
+  31:../src/renesas/application/console/wild_compare.c ****  **************************************************************************************************
+  32:../src/renesas/application/console/wild_compare.c ****  * History      : DD.MM.YYYY Version Description
+  33:../src/renesas/application/console/wild_compare.c ****  *              : 04.02.2010 1.00    First Release
+  34:../src/renesas/application/console/wild_compare.c ****  *              : 10.06.2010 1.01    Updated type definitions
+  35:../src/renesas/application/console/wild_compare.c ****  *             : __#dd#__.__#mm#__.__#yyyy#__ __#ver_maj#__.__#ver_min#__ First Release
+  36:../src/renesas/application/console/wild_compare.c ****  **************************************************************************************************
+  37:../src/renesas/application/console/wild_compare.c **** 
+  38:../src/renesas/application/console/wild_compare.c **** /**************************************************************************************************
+  39:../src/renesas/application/console/wild_compare.c ****  Includes   <System Includes> , "Project Includes"
+  40:../src/renesas/application/console/wild_compare.c ****  **************************************************************************************************
+  41:../src/renesas/application/console/wild_compare.c **** #include <string.h>
+  42:../src/renesas/application/console/wild_compare.c **** #include <ctype.h>
+  43:../src/renesas/application/console/wild_compare.c **** 
+  44:../src/renesas/application/console/wild_compare.c **** #include "wild_compare.h"
+  45:../src/renesas/application/console/wild_compare.c **** #include "r_typedefs.h"
+  46:../src/renesas/application/console/wild_compare.c **** 
+  47:../src/renesas/application/console/wild_compare.c **** /**************************************************************************************************
+  48:../src/renesas/application/console/wild_compare.c ****  Function Prototypes
+  49:../src/renesas/application/console/wild_compare.c ****  **************************************************************************************************
+  50:../src/renesas/application/console/wild_compare.c **** 
+  51:../src/renesas/application/console/wild_compare.c **** static const char_t *wild_char(const char *pszString, char chNext);
+  52:../src/renesas/application/console/wild_compare.c **** 
+  53:../src/renesas/application/console/wild_compare.c **** /**************************************************************************************************
+  54:../src/renesas/application/console/wild_compare.c ****  Exported global variables and functions (to be accessed by other files)
+  55:../src/renesas/application/console/wild_compare.c ****  **************************************************************************************************
+  56:../src/renesas/application/console/wild_compare.c **** 
+  57:../src/renesas/application/console/wild_compare.c **** /**************************************************************************************************
+  58:../src/renesas/application/console/wild_compare.c ****  * Function Name: wild_compare
+  59:../src/renesas/application/console/wild_compare.c ****  * Description  : Function to check a string against a wild card string where the
+  60:../src/renesas/application/console/wild_compare.c ****  *                char '*' indicates any number of characters. The application
+  61:../src/renesas/application/console/wild_compare.c ****  *                of this is to match file names like "*.txt" in this MS demo.
+  62:../src/renesas/application/console/wild_compare.c ****  * Arguments    : IN  pszWildCard - Pointer to the string containing the wild
+  63:../src/renesas/application/console/wild_compare.c ****  *                                  card
+  64:../src/renesas/application/console/wild_compare.c ****  *                IN  pszString - Pointer to the string to compare
+  65:../src/renesas/application/console/wild_compare.c ****  * Return Value : true if the string matches the wild card string.
+  66:../src/renesas/application/console/wild_compare.c ****  **************************************************************************************************
+  67:../src/renesas/application/console/wild_compare.c **** bool_t wild_compare(const char_t * pszWildCard, const char_t * pszString)
+  68:../src/renesas/application/console/wild_compare.c **** {
+  69:../src/renesas/application/console/wild_compare.c ****     /* Check to see if the string contains the wild card */
+  70:../src/renesas/application/console/wild_compare.c ****     if (!memchr(pszWildCard, '*', strlen(pszWildCard)))
+  71:../src/renesas/application/console/wild_compare.c ****     {
+  72:../src/renesas/application/console/wild_compare.c ****         /* if it does not then do a straight case free string compare */
+  73:../src/renesas/application/console/wild_compare.c ****         while (tolower(*pszWildCard) == tolower(*pszString))
+  74:../src/renesas/application/console/wild_compare.c ****         {
+  75:../src/renesas/application/console/wild_compare.c ****             /* Check for end of string */
+  76:../src/renesas/application/console/wild_compare.c ****             if (!*pszWildCard++)
+  77:../src/renesas/application/console/wild_compare.c ****             {
+  78:../src/renesas/application/console/wild_compare.c ****                 /* Match */
+  79:../src/renesas/application/console/wild_compare.c ****                 return (true);
+  80:../src/renesas/application/console/wild_compare.c ****             }
+  81:../src/renesas/application/console/wild_compare.c **** 
+  82:../src/renesas/application/console/wild_compare.c ****             pszString++;
+  83:../src/renesas/application/console/wild_compare.c ****         }
+  84:../src/renesas/application/console/wild_compare.c **** 
+  85:../src/renesas/application/console/wild_compare.c ****         return (false);
+  86:../src/renesas/application/console/wild_compare.c ****     }
+  87:../src/renesas/application/console/wild_compare.c ****     else
+  88:../src/renesas/application/console/wild_compare.c ****     {
+  89:../src/renesas/application/console/wild_compare.c ****         while ((*pszWildCard) && (*pszString))
+  90:../src/renesas/application/console/wild_compare.c ****         {
+  91:../src/renesas/application/console/wild_compare.c ****             /* Test for the wild card */
+  92:../src/renesas/application/console/wild_compare.c ****             if ('*' == (*pszWildCard))
+  93:../src/renesas/application/console/wild_compare.c ****             {
+  94:../src/renesas/application/console/wild_compare.c ****                 /* Eat more than one */
+  95:../src/renesas/application/console/wild_compare.c ****                 while ('*' == (*pszWildCard))
+  96:../src/renesas/application/console/wild_compare.c ****                 {
+  97:../src/renesas/application/console/wild_compare.c ****                     pszWildCard++;
+  98:../src/renesas/application/console/wild_compare.c ****                 }
+  99:../src/renesas/application/console/wild_compare.c **** 
+ 100:../src/renesas/application/console/wild_compare.c ****                 /* If there are more chars in the string */
+ 101:../src/renesas/application/console/wild_compare.c ****                 if (*pszWildCard)
+ 102:../src/renesas/application/console/wild_compare.c ****                 {
+ 103:../src/renesas/application/console/wild_compare.c ****                     /* Search for the next char */
+ 104:../src/renesas/application/console/wild_compare.c ****                     pszString = wild_char(pszString, *pszWildCard);
+ 105:../src/renesas/application/console/wild_compare.c **** 
+ 106:../src/renesas/application/console/wild_compare.c ****                     /* if it does not exist then the strings don't match */
+ 107:../src/renesas/application/console/wild_compare.c ****                     if (!pszString)
+ 108:../src/renesas/application/console/wild_compare.c ****                     {
+ 109:../src/renesas/application/console/wild_compare.c ****                         return (false);
+ 110:../src/renesas/application/console/wild_compare.c ****                     }
+ 111:../src/renesas/application/console/wild_compare.c ****                 }
+ 112:../src/renesas/application/console/wild_compare.c ****                 else
+ 113:../src/renesas/application/console/wild_compare.c ****                 {
+ 114:../src/renesas/application/console/wild_compare.c ****                     if (*pszWildCard)
+ 115:../src/renesas/application/console/wild_compare.c ****                     {
+ 116:../src/renesas/application/console/wild_compare.c ****                         /* continue */
+ 117:../src/renesas/application/console/wild_compare.c ****                         break;
+ 118:../src/renesas/application/console/wild_compare.c ****                     }
+ 119:../src/renesas/application/console/wild_compare.c **** 
+ 120:../src/renesas/application/console/wild_compare.c ****                     return (true);
+ 121:../src/renesas/application/console/wild_compare.c ****                 }
+ 122:../src/renesas/application/console/wild_compare.c ****             }
+ 123:../src/renesas/application/console/wild_compare.c ****             else
+ 124:../src/renesas/application/console/wild_compare.c ****             {
+ 125:../src/renesas/application/console/wild_compare.c ****                 /* Fail if they don't match */
+ 126:../src/renesas/application/console/wild_compare.c ****                 if (tolower(*pszWildCard) != tolower(*pszString))
+ 127:../src/renesas/application/console/wild_compare.c ****                 {
+ 128:../src/renesas/application/console/wild_compare.c ****                     return (false);
+ 129:../src/renesas/application/console/wild_compare.c ****                 }
+ 130:../src/renesas/application/console/wild_compare.c ****             }
+ 131:../src/renesas/application/console/wild_compare.c **** 
+ 132:../src/renesas/application/console/wild_compare.c ****             /* Bump both pointers */
+ 133:../src/renesas/application/console/wild_compare.c ****             pszWildCard++;
+ 134:../src/renesas/application/console/wild_compare.c ****             pszString++;
+ 135:../src/renesas/application/console/wild_compare.c ****         }
+ 136:../src/renesas/application/console/wild_compare.c **** 
+ 137:../src/renesas/application/console/wild_compare.c ****         /* fail if different lengths */
+ 138:../src/renesas/application/console/wild_compare.c ****         if ((*pszWildCard) != (*pszString))
+ 139:../src/renesas/application/console/wild_compare.c ****         {
+ 140:../src/renesas/application/console/wild_compare.c ****             return (false);
+ 141:../src/renesas/application/console/wild_compare.c ****         }
+ 142:../src/renesas/application/console/wild_compare.c ****     }
+ 143:../src/renesas/application/console/wild_compare.c **** 
+ 144:../src/renesas/application/console/wild_compare.c ****     return (true);
+ 145:../src/renesas/application/console/wild_compare.c **** }
+ 146:../src/renesas/application/console/wild_compare.c **** /**************************************************************************************************
+ 147:../src/renesas/application/console/wild_compare.c ****  End of function  wild_compare
+ 148:../src/renesas/application/console/wild_compare.c ****  **************************************************************************************************
+ 149:../src/renesas/application/console/wild_compare.c **** 
+ 150:../src/renesas/application/console/wild_compare.c **** /**************************************************************************************************
+ 151:../src/renesas/application/console/wild_compare.c ****  Private global variables and functions
+ 152:../src/renesas/application/console/wild_compare.c ****  **************************************************************************************************
+ 153:../src/renesas/application/console/wild_compare.c **** 
+ 154:../src/renesas/application/console/wild_compare.c **** /**************************************************************************************************
+ 155:../src/renesas/application/console/wild_compare.c ****  * Function Name: wild_char
+ 156:../src/renesas/application/console/wild_compare.c ****  * Description  : Function to return a pointer to the next character in the
+ 157:../src/renesas/application/console/wild_compare.c ****  *                string
+ 158:../src/renesas/application/console/wild_compare.c ****  * Arguments    : IN  pszString - Pointer to the string to search
+ 159:../src/renesas/application/console/wild_compare.c ****  *                IN  chNext - The next character to look for
+ 160:../src/renesas/application/console/wild_compare.c ****  * Return Value : Pointer to the first occurrence of the next character or NULL
+ 161:../src/renesas/application/console/wild_compare.c ****  *                if not found
+ 162:../src/renesas/application/console/wild_compare.c ****  **************************************************************************************************
+ 163:../src/renesas/application/console/wild_compare.c **** static const char_t *wild_char(const char_t *pszString, char_t chNext)
+ 164:../src/renesas/application/console/wild_compare.c **** {
+  29              		.loc 1 164 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+ 165:../src/renesas/application/console/wild_compare.c ****     chNext = (char_t) tolower(chNext);
+  34              		.loc 1 165 5 view .LVU1
+  35              	.LBB2:
+  36              		.loc 1 165 23 view .LVU2
+  37              		.loc 1 165 23 view .LVU3
+  38 0000 4C309FE5 		ldr	r3, .L11
+  39 0004 0330D1E7 		ldrb	r3, [r1, r3]	@ zero_extendqisi2
+  40 0008 033003E2 		and	r3, r3, #3
+  41 000c 010053E3 		cmp	r3, #1
+  42              		.loc 1 165 23 is_stmt 0 discriminator 1 view .LVU4
+  43 0010 20108102 		addeq	r1, r1, #32
+  44              	.LVL1:
+  45              		.loc 1 165 23 discriminator 1 view .LVU5
+  46 0014 030000EA 		b	.L4
+  47              	.LVL2:
+  48              	.L6:
+  49              		.loc 1 165 23 discriminator 1 view .LVU6
+  50              	.LBE2:
+ 166:../src/renesas/application/console/wild_compare.c **** 
+ 167:../src/renesas/application/console/wild_compare.c ****     while (*pszString)
+ 168:../src/renesas/application/console/wild_compare.c ****     {
+ 169:../src/renesas/application/console/wild_compare.c ****         if (tolower(*pszString) == chNext)
+  51              		.loc 1 169 12 discriminator 4 view .LVU7
+  52 0018 7120EFE6 		uxtb	r2, r1
+  53 001c 020053E1 		cmp	r3, r2
+  54 0020 1EFF2F01 		bxeq	lr
+ 170:../src/renesas/application/console/wild_compare.c ****         {
+ 171:../src/renesas/application/console/wild_compare.c ****             return (pszString);
+ 172:../src/renesas/application/console/wild_compare.c ****         }
+ 173:../src/renesas/application/console/wild_compare.c **** 
+ 174:../src/renesas/application/console/wild_compare.c ****         pszString++;
+  55              		.loc 1 174 9 is_stmt 1 view .LVU8
+  56              		.loc 1 174 18 is_stmt 0 view .LVU9
+  57 0024 010080E2 		add	r0, r0, #1
+  58              	.LVL3:
+  59              	.L4:
+ 167:../src/renesas/application/console/wild_compare.c ****     {
+  60              		.loc 1 167 11 is_stmt 1 view .LVU10
+ 167:../src/renesas/application/console/wild_compare.c ****     {
+  61              		.loc 1 167 12 is_stmt 0 view .LVU11
+  62 0028 0030D0E5 		ldrb	r3, [r0]	@ zero_extendqisi2
+ 167:../src/renesas/application/console/wild_compare.c ****     {
+  63              		.loc 1 167 11 view .LVU12
+  64 002c 000053E3 		cmp	r3, #0
+  65 0030 0500000A 		beq	.L10
+ 169:../src/renesas/application/console/wild_compare.c ****         {
+  66              		.loc 1 169 9 is_stmt 1 view .LVU13
+  67              	.LBB3:
+ 169:../src/renesas/application/console/wild_compare.c ****         {
+  68              		.loc 1 169 13 view .LVU14
+  69              	.LVL4:
+ 169:../src/renesas/application/console/wild_compare.c ****         {
+  70              		.loc 1 169 13 view .LVU15
+  71 0034 18209FE5 		ldr	r2, .L11
+  72 0038 0220D3E7 		ldrb	r2, [r3, r2]	@ zero_extendqisi2
+  73 003c 032002E2 		and	r2, r2, #3
+  74 0040 010052E3 		cmp	r2, #1
+ 169:../src/renesas/application/console/wild_compare.c ****         {
+  75              		.loc 1 169 13 is_stmt 0 discriminator 1 view .LVU16
+  76 0044 20308302 		addeq	r3, r3, #32
+  77              	.LVL5:
+ 169:../src/renesas/application/console/wild_compare.c ****         {
+  78              		.loc 1 169 13 discriminator 1 view .LVU17
+  79 0048 F2FFFFEA 		b	.L6
+  80              	.LVL6:
+  81              	.L10:
+ 169:../src/renesas/application/console/wild_compare.c ****         {
+  82              		.loc 1 169 13 discriminator 1 view .LVU18
+  83              	.LBE3:
+ 175:../src/renesas/application/console/wild_compare.c ****     }
+ 176:../src/renesas/application/console/wild_compare.c **** 
+ 177:../src/renesas/application/console/wild_compare.c ****     return (NULL);
+  84              		.loc 1 177 12 view .LVU19
+  85 004c 0000A0E3 		mov	r0, #0
+  86              	.LVL7:
+ 178:../src/renesas/application/console/wild_compare.c **** }
+  87              		.loc 1 178 1 view .LVU20
+  88 0050 1EFF2FE1 		bx	lr
+  89              	.L12:
+  90              		.align	2
+  91              	.L11:
+  92 0054 01000000 		.word	_ctype_+1
+  93              		.cfi_endproc
+  94              	.LFE1:
+  96              		.section	.text.wild_compare,"ax",%progbits
+  97              		.align	2
+  98              		.global	wild_compare
+  99              		.syntax unified
+ 100              		.arm
+ 101              		.fpu neon
+ 103              	wild_compare:
+ 104              	.LVL8:
+ 105              	.LFB0:
+  68:../src/renesas/application/console/wild_compare.c ****     /* Check to see if the string contains the wild card */
+ 106              		.loc 1 68 1 is_stmt 1 view -0
+ 107              		.cfi_startproc
+ 108              		@ args = 0, pretend = 0, frame = 0
+ 109              		@ frame_needed = 0, uses_anonymous_args = 0
+  68:../src/renesas/application/console/wild_compare.c ****     /* Check to see if the string contains the wild card */
+ 110              		.loc 1 68 1 is_stmt 0 view .LVU22
+ 111 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 112              		.cfi_def_cfa_offset 16
+ 113              		.cfi_offset 4, -16
+ 114              		.cfi_offset 5, -12
+ 115              		.cfi_offset 6, -8
+ 116              		.cfi_offset 14, -4
+ 117 0004 0040A0E1 		mov	r4, r0
+ 118 0008 0150A0E1 		mov	r5, r1
+  70:../src/renesas/application/console/wild_compare.c ****     {
+ 119              		.loc 1 70 5 is_stmt 1 view .LVU23
+  70:../src/renesas/application/console/wild_compare.c ****     {
+ 120              		.loc 1 70 10 is_stmt 0 view .LVU24
+ 121 000c FEFFFFEB 		bl	strlen
+ 122              	.LVL9:
+  70:../src/renesas/application/console/wild_compare.c ****     {
+ 123              		.loc 1 70 10 view .LVU25
+ 124 0010 0020A0E1 		mov	r2, r0
+ 125 0014 2A10A0E3 		mov	r1, #42
+ 126 0018 0400A0E1 		mov	r0, r4
+ 127 001c FEFFFFEB 		bl	memchr
+ 128              	.LVL10:
+  70:../src/renesas/application/console/wild_compare.c ****     {
+ 129              		.loc 1 70 8 view .LVU26
+ 130 0020 000050E3 		cmp	r0, #0
+ 131 0024 2D00001A 		bne	.L15
+ 132 0028 070000EA 		b	.L14
+ 133              	.LVL11:
+ 134              	.L40:
+ 135              	.LBB4:
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 136              		.loc 1 73 16 discriminator 1 view .LVU27
+ 137 002c 200081E2 		add	r0, r1, #32
+ 138 0030 0C0000EA 		b	.L18
+ 139              	.LVL12:
+ 140              	.L20:
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 141              		.loc 1 73 16 discriminator 1 view .LVU28
+ 142              	.LBE4:
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 143              		.loc 1 73 15 discriminator 8 view .LVU29
+ 144 0034 030050E1 		cmp	r0, r3
+ 145 0038 1100001A 		bne	.L39
+  76:../src/renesas/application/console/wild_compare.c ****             {
+ 146              		.loc 1 76 13 is_stmt 1 view .LVU30
+ 147              	.LVL13:
+  76:../src/renesas/application/console/wild_compare.c ****             {
+ 148              		.loc 1 76 30 is_stmt 0 view .LVU31
+ 149 003c 014084E2 		add	r4, r4, #1
+ 150              	.LVL14:
+  76:../src/renesas/application/console/wild_compare.c ****             {
+ 151              		.loc 1 76 16 view .LVU32
+ 152 0040 000051E3 		cmp	r1, #0
+ 153 0044 3A00000A 		beq	.L32
+  82:../src/renesas/application/console/wild_compare.c ****         }
+ 154              		.loc 1 82 13 is_stmt 1 view .LVU33
+  82:../src/renesas/application/console/wild_compare.c ****         }
+ 155              		.loc 1 82 22 is_stmt 0 view .LVU34
+ 156 0048 015085E2 		add	r5, r5, #1
+ 157              	.LVL15:
+ 158              	.L14:
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 159              		.loc 1 73 15 is_stmt 1 view .LVU35
+ 160              	.LBB5:
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 161              		.loc 1 73 16 view .LVU36
+ 162 004c 0010D4E5 		ldrb	r1, [r4]	@ zero_extendqisi2
+ 163              	.LVL16:
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 164              		.loc 1 73 16 view .LVU37
+ 165 0050 FC309FE5 		ldr	r3, .L42
+ 166 0054 0330D1E7 		ldrb	r3, [r1, r3]	@ zero_extendqisi2
+ 167 0058 033003E2 		and	r3, r3, #3
+ 168 005c 010053E3 		cmp	r3, #1
+ 169 0060 F1FFFF0A 		beq	.L40
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 170              		.loc 1 73 16 is_stmt 0 discriminator 2 view .LVU38
+ 171 0064 0100A0E1 		mov	r0, r1
+ 172              	.L18:
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 173              		.loc 1 73 16 discriminator 2 view .LVU39
+ 174              	.LBE5:
+ 175              	.LBB6:
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 176              		.loc 1 73 41 is_stmt 1 discriminator 4 view .LVU40
+ 177 0068 0030D5E5 		ldrb	r3, [r5]	@ zero_extendqisi2
+ 178              	.LVL17:
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 179              		.loc 1 73 41 discriminator 4 view .LVU41
+ 180 006c E0209FE5 		ldr	r2, .L42
+ 181 0070 0220D3E7 		ldrb	r2, [r3, r2]	@ zero_extendqisi2
+ 182 0074 032002E2 		and	r2, r2, #3
+ 183 0078 010052E3 		cmp	r2, #1
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 184              		.loc 1 73 41 is_stmt 0 discriminator 5 view .LVU42
+ 185 007c 20308302 		addeq	r3, r3, #32
+ 186              	.LVL18:
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 187              		.loc 1 73 41 discriminator 5 view .LVU43
+ 188 0080 EBFFFFEA 		b	.L20
+ 189              	.LVL19:
+ 190              	.L39:
+  73:../src/renesas/application/console/wild_compare.c ****         {
+ 191              		.loc 1 73 41 discriminator 5 view .LVU44
+ 192              	.LBE6:
+  85:../src/renesas/application/console/wild_compare.c ****     }
+ 193              		.loc 1 85 16 view .LVU45
+ 194 0084 0000A0E3 		mov	r0, #0
+ 195 0088 7080BDE8 		pop	{r4, r5, r6, pc}
+ 196              	.LVL20:
+ 197              	.L24:
+  97:../src/renesas/application/console/wild_compare.c ****                 }
+ 198              		.loc 1 97 21 is_stmt 1 view .LVU46
+  97:../src/renesas/application/console/wild_compare.c ****                 }
+ 199              		.loc 1 97 32 is_stmt 0 view .LVU47
+ 200 008c 014084E2 		add	r4, r4, #1
+ 201              	.LVL21:
+ 202              	.L22:
+  95:../src/renesas/application/console/wild_compare.c ****                 {
+ 203              		.loc 1 95 23 is_stmt 1 view .LVU48
+  95:../src/renesas/application/console/wild_compare.c ****                 {
+ 204              		.loc 1 95 32 is_stmt 0 view .LVU49
+ 205 0090 0010D4E5 		ldrb	r1, [r4]	@ zero_extendqisi2
+  95:../src/renesas/application/console/wild_compare.c ****                 {
+ 206              		.loc 1 95 23 view .LVU50
+ 207 0094 2A0051E3 		cmp	r1, #42
+ 208 0098 FBFFFF0A 		beq	.L24
+ 101:../src/renesas/application/console/wild_compare.c ****                 {
+ 209              		.loc 1 101 17 is_stmt 1 view .LVU51
+ 101:../src/renesas/application/console/wild_compare.c ****                 {
+ 210              		.loc 1 101 20 is_stmt 0 view .LVU52
+ 211 009c 000051E3 		cmp	r1, #0
+ 212 00a0 2500000A 		beq	.L33
+ 104:../src/renesas/application/console/wild_compare.c **** 
+ 213              		.loc 1 104 21 is_stmt 1 view .LVU53
+ 104:../src/renesas/application/console/wild_compare.c **** 
+ 214              		.loc 1 104 33 is_stmt 0 view .LVU54
+ 215 00a4 0500A0E1 		mov	r0, r5
+ 216 00a8 FEFFFFEB 		bl	wild_char
+ 217              	.LVL22:
+ 107:../src/renesas/application/console/wild_compare.c ****                     {
+ 218              		.loc 1 107 21 is_stmt 1 view .LVU55
+ 107:../src/renesas/application/console/wild_compare.c ****                     {
+ 219              		.loc 1 107 24 is_stmt 0 view .LVU56
+ 220 00ac 005050E2 		subs	r5, r0, #0
+ 221 00b0 0800001A 		bne	.L25
+ 109:../src/renesas/application/console/wild_compare.c ****                     }
+ 222              		.loc 1 109 32 view .LVU57
+ 223 00b4 0000A0E3 		mov	r0, #0
+ 224              	.LVL23:
+ 109:../src/renesas/application/console/wild_compare.c ****                     }
+ 225              		.loc 1 109 32 view .LVU58
+ 226 00b8 7080BDE8 		pop	{r4, r5, r6, pc}
+ 227              	.LVL24:
+ 228              	.L27:
+ 229              	.LBB7:
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 230              		.loc 1 126 46 is_stmt 1 discriminator 4 view .LVU59
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 231              		.loc 1 126 46 discriminator 4 view .LVU60
+ 232 00bc 90109FE5 		ldr	r1, .L42
+ 233 00c0 0110D2E7 		ldrb	r1, [r2, r1]	@ zero_extendqisi2
+ 234 00c4 031001E2 		and	r1, r1, #3
+ 235 00c8 010051E3 		cmp	r1, #1
+ 236 00cc 1100000A 		beq	.L41
+ 237              	.LVL25:
+ 238              	.L29:
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 239              		.loc 1 126 46 is_stmt 0 discriminator 4 view .LVU61
+ 240              	.LBE7:
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 241              		.loc 1 126 20 discriminator 8 view .LVU62
+ 242 00d0 020053E1 		cmp	r3, r2
+ 243 00d4 1A00001A 		bne	.L35
+ 244              	.LVL26:
+ 245              	.L25:
+ 133:../src/renesas/application/console/wild_compare.c ****             pszString++;
+ 246              		.loc 1 133 13 is_stmt 1 view .LVU63
+ 133:../src/renesas/application/console/wild_compare.c ****             pszString++;
+ 247              		.loc 1 133 24 is_stmt 0 view .LVU64
+ 248 00d8 014084E2 		add	r4, r4, #1
+ 249              	.LVL27:
+ 134:../src/renesas/application/console/wild_compare.c ****         }
+ 250              		.loc 1 134 13 is_stmt 1 view .LVU65
+ 134:../src/renesas/application/console/wild_compare.c ****         }
+ 251              		.loc 1 134 22 is_stmt 0 view .LVU66
+ 252 00dc 015085E2 		add	r5, r5, #1
+ 253              	.LVL28:
+ 254              	.L15:
+  89:../src/renesas/application/console/wild_compare.c ****         {
+ 255              		.loc 1 89 15 is_stmt 1 view .LVU67
+  89:../src/renesas/application/console/wild_compare.c ****         {
+ 256              		.loc 1 89 17 is_stmt 0 view .LVU68
+ 257 00e0 0030D4E5 		ldrb	r3, [r4]	@ zero_extendqisi2
+  89:../src/renesas/application/console/wild_compare.c ****         {
+ 258              		.loc 1 89 15 view .LVU69
+ 259 00e4 000053E3 		cmp	r3, #0
+ 260 00e8 0C00000A 		beq	.L30
+  89:../src/renesas/application/console/wild_compare.c ****         {
+ 261              		.loc 1 89 35 discriminator 1 view .LVU70
+ 262 00ec 0020D5E5 		ldrb	r2, [r5]	@ zero_extendqisi2
+  89:../src/renesas/application/console/wild_compare.c ****         {
+ 263              		.loc 1 89 31 discriminator 1 view .LVU71
+ 264 00f0 000052E3 		cmp	r2, #0
+ 265 00f4 0900000A 		beq	.L30
+  92:../src/renesas/application/console/wild_compare.c ****             {
+ 266              		.loc 1 92 13 is_stmt 1 view .LVU72
+  92:../src/renesas/application/console/wild_compare.c ****             {
+ 267              		.loc 1 92 16 is_stmt 0 view .LVU73
+ 268 00f8 2A0053E3 		cmp	r3, #42
+ 269 00fc E3FFFF0A 		beq	.L22
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 270              		.loc 1 126 17 is_stmt 1 view .LVU74
+ 271              	.LBB8:
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 272              		.loc 1 126 21 view .LVU75
+ 273              	.LVL29:
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 274              		.loc 1 126 21 view .LVU76
+ 275 0100 4C109FE5 		ldr	r1, .L42
+ 276 0104 0110D3E7 		ldrb	r1, [r3, r1]	@ zero_extendqisi2
+ 277 0108 031001E2 		and	r1, r1, #3
+ 278 010c 010051E3 		cmp	r1, #1
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 279              		.loc 1 126 21 is_stmt 0 discriminator 1 view .LVU77
+ 280 0110 20308302 		addeq	r3, r3, #32
+ 281              	.LVL30:
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 282              		.loc 1 126 21 discriminator 1 view .LVU78
+ 283 0114 E8FFFFEA 		b	.L27
+ 284              	.LVL31:
+ 285              	.L41:
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 286              		.loc 1 126 21 discriminator 1 view .LVU79
+ 287              	.LBE8:
+ 288              	.LBB9:
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 289              		.loc 1 126 46 discriminator 5 view .LVU80
+ 290 0118 202082E2 		add	r2, r2, #32
+ 291              	.LVL32:
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 292              		.loc 1 126 46 discriminator 5 view .LVU81
+ 293 011c EBFFFFEA 		b	.L29
+ 294              	.LVL33:
+ 295              	.L30:
+ 126:../src/renesas/application/console/wild_compare.c ****                 {
+ 296              		.loc 1 126 46 discriminator 5 view .LVU82
+ 297              	.LBE9:
+ 138:../src/renesas/application/console/wild_compare.c ****         {
+ 298              		.loc 1 138 9 is_stmt 1 view .LVU83
+ 138:../src/renesas/application/console/wild_compare.c ****         {
+ 299              		.loc 1 138 32 is_stmt 0 view .LVU84
+ 300 0120 0020D5E5 		ldrb	r2, [r5]	@ zero_extendqisi2
+ 138:../src/renesas/application/console/wild_compare.c ****         {
+ 301              		.loc 1 138 12 view .LVU85
+ 302 0124 020053E1 		cmp	r3, r2
+ 303 0128 0700001A 		bne	.L36
+ 144:../src/renesas/application/console/wild_compare.c **** }
+ 304              		.loc 1 144 12 view .LVU86
+ 305 012c 0100A0E3 		mov	r0, #1
+ 306 0130 7080BDE8 		pop	{r4, r5, r6, pc}
+ 307              	.LVL34:
+ 308              	.L32:
+  79:../src/renesas/application/console/wild_compare.c ****             }
+ 309              		.loc 1 79 24 view .LVU87
+ 310 0134 0100A0E3 		mov	r0, #1
+ 311 0138 7080BDE8 		pop	{r4, r5, r6, pc}
+ 312              	.LVL35:
+ 313              	.L33:
+ 120:../src/renesas/application/console/wild_compare.c ****                 }
+ 314              		.loc 1 120 28 view .LVU88
+ 315 013c 0100A0E3 		mov	r0, #1
+ 316 0140 7080BDE8 		pop	{r4, r5, r6, pc}
+ 317              	.LVL36:
+ 318              	.L35:
+ 128:../src/renesas/application/console/wild_compare.c ****                 }
+ 319              		.loc 1 128 28 view .LVU89
+ 320 0144 0000A0E3 		mov	r0, #0
+ 321 0148 7080BDE8 		pop	{r4, r5, r6, pc}
+ 322              	.LVL37:
+ 323              	.L36:
+ 140:../src/renesas/application/console/wild_compare.c ****         }
+ 324              		.loc 1 140 20 view .LVU90
+ 325 014c 0000A0E3 		mov	r0, #0
+ 145:../src/renesas/application/console/wild_compare.c **** /**************************************************************************************************
+ 326              		.loc 1 145 1 view .LVU91
+ 327 0150 7080BDE8 		pop	{r4, r5, r6, pc}
+ 328              	.L43:
+ 329              		.align	2
+ 330              	.L42:
+ 331 0154 01000000 		.word	_ctype_+1
+ 332              		.cfi_endproc
+ 333              	.LFE0:
+ 335              		.text
+ 336              	.Letext0:
+ 337              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 338              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 339              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 340              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 341              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 342              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 343              		.file 8 "C:/Users/ryota/e2_studio/workspace/rza2m_ssif_sample_freertos_gcc/generate/system/inc/r_t
+ 344              		.file 9 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+DEFINED SYMBOLS
+                            *ABS*:00000000 wild_compare.c
+C:\Users\ryota\AppData\Local\Temp\ccwB3iqp.s:17     .text.wild_char:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccwB3iqp.s:25     .text.wild_char:00000000 wild_char
+C:\Users\ryota\AppData\Local\Temp\ccwB3iqp.s:92     .text.wild_char:00000054 $d
+C:\Users\ryota\AppData\Local\Temp\ccwB3iqp.s:97     .text.wild_compare:00000000 $a
+C:\Users\ryota\AppData\Local\Temp\ccwB3iqp.s:103    .text.wild_compare:00000000 wild_compare
+C:\Users\ryota\AppData\Local\Temp\ccwB3iqp.s:331    .text.wild_compare:00000154 $d
+                           .group:00000000 wm4.0.3d5c910ebb40df6df78b28e37cd67f3d
+                           .group:00000000 wm4._newlib_version.h.4.1ef4e12f167f8b69d7c30054be56050d
+                           .group:00000000 wm4.newlib.h.18.1c9fedb6b3cd797cff253cc0fd593ef2
+                           .group:00000000 wm4.ieeefp.h.77.3f06799abf5dd88bdddee084775a1223
+                           .group:00000000 wm4.features.h.22.fad1cec3bc7ff06488171438dbdcfd02
+                           .group:00000000 wm4.config.h.224.c701144a7b0518c6ee9b9b5465b79f81
+                           .group:00000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:00000000 wm4.stddef.h.39.144cf5ddcd53cbfdac30259dc1a6c87f
+                           .group:00000000 wm4._types.h.20.dd0d04dca3800a0d2a6129b87f3adbb2
+                           .group:00000000 wm4.stddef.h.155.3588ebfdd1e8c7ede80509bb9c3b8009
+                           .group:00000000 wm4._default_types.h.6.959254cf5f09734ea7516c89e8bb21bd
+                           .group:00000000 wm4._types.h.127.34941de1b2539d59d5cac00e0dd27a45
+                           .group:00000000 wm4.reent.h.17.e292bf8b0bec6c96e131a54347145a30
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4.reent.h.77.dcd6129ff07fe81bd5636db29abe53b2
+                           .group:00000000 wm4.cdefs.h.49.6260d97adb8d27534cbdc0f868b8ea87
+                           .group:00000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:00000000 wm4.stddef.h.155.ba788add86a0e365f264484f110c3c29
+                           .group:00000000 wm4.ctype.h.2.f79b44890b3502b730cce99e39252886
+                           .group:00000000 wm4._intsup.h.10.48bafbb683905c4daa4565a85aeeb264
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.math.h.13.97100c05caf9f40dd9f5a3cda48ccc01
+                           .group:00000000 wm4.r_typedefs.h.38.e90d9de5300d9ae020e5db8c5af88b3e
+
+UNDEFINED SYMBOLS
+_ctype_
+strlen
+memchr
