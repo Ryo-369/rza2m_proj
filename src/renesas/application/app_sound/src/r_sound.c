@@ -105,7 +105,7 @@ extern void R_CODEC_MAX9867Init(void);
  ******************************************************************************/
 typedef struct st_sound_config_t
 {
-    bool_t   initialised; /* Control structure for audio system shared between all audio applications */
+    bool_t   initialized;   /* 初期化 */
     bool_t   inuse; /* Audio system in use, audio commands must hold inuse until lock on audio is released */
     event_t  task_running; /* ensures only 1 audio task can run in the system */
 
@@ -162,17 +162,17 @@ static uint32_t sw2_status;
  ******************************************************************************/
 
 /***********************************************************************************************************************
- * Function Name: initalise_control_if
+ * Function Name: initialize_control_if
  * Description  : Checks to see that the control structure has been initailised.
  *                Multiple calls to this function will only initialise the structure once.
  * Arguments    : none
  * Return Value : none
  **********************************************************************************************************************/
-static void initalise_control_if (void)
+static void initialize_control_if (void)
 {
-    if (0 == gsp_sound_control_t->initialised)
+    if (0 == gsp_sound_control_t->initialized)
     {
-        gsp_sound_control_t->initialised = true;
+        gsp_sound_control_t->initialized = true;
         gsp_sound_control_t->inuse = false;
         gsp_sound_control_t->ul_delaytime_ms = 10;
 
@@ -184,12 +184,12 @@ static void initalise_control_if (void)
 
         R_OS_EventCreate( &gsp_sound_control_t->task_running);
 
-        printf("initalise_control_if\r\n");
+        printf("initialize_control_if\r\n");
     }
 }
 
 /***********************************************************************************************************************
- End of function initalise_control_if
+ End of function initialize_control_if
  **********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -493,7 +493,7 @@ void R_SOUND_PlaySample (FILE *p_in, FILE *p_out)
     gsp_sound_control_t = &gs_sound_t;
 
     /* initialise the control structure for this group of applications */
-    initalise_control_if();
+    initialize_control_if();
 
     if ( !gsp_sound_control_t->inuse)
     {
@@ -659,7 +659,7 @@ void R_SOUND_RecordSample (FILE *p_in, FILE *p_out)
     gsp_sound_control_t = &gs_sound_t;
 
     /* initialise the control structure for this group of applications */
-    initalise_control_if();
+    initialize_control_if();
 
     /* only run demo if audio is not in use */
     if ( !gsp_sound_control_t->inuse)
