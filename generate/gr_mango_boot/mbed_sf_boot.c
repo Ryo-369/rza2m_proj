@@ -5,14 +5,14 @@
 * @brief        RZ_A2 OctaFlash boot loader
 ******************************************************************************/
 
-#if !defined(APPLICATION_ADDR)
-    #define APPLICATION_ADDR       0x50000000
+#if !defined(MBED_BOOTLOADER_ADDR)
+    #define MBED_BOOTLOADER_ADDR       0x50000000
 #endif
 
-#if (APPLICATION_ADDR != 0x50000000)
+#if (MBED_BOOTLOADER_ADDR != 0x50000000)
 const char  * boot_loader = (char  *)0x50000000;
 
-#else /* (APPLICATION_ADDR == 0x50000000) */
+#else /* (MBED_BOOTLOADER_ADDR == 0x50000000) */
 
 #if defined  (__CC_ARM)
 #pragma arm section rodata = "BOOT_LOADER"
@@ -1899,4 +1899,4 @@ const char boot_loader[]  __attribute__ ((section(".boot_loader"), used)) =
 #pragma arm section
 #endif
 
-#endif /* APPLICATION_ADDR */
+#endif /* MBED_BOOTLOADER_ADDR */
